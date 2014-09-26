@@ -19,11 +19,12 @@ class Piece: SKShapeNode {
         lineWidth = 2.0;
         fillColor = UIColor.blueColor();
         physicsBody = SKPhysicsBody(circleOfRadius:20)
-        physicsBody?.restitution = 0.9
-        physicsBody?.linearDamping = 0.1
         physicsBody?.dynamic = true;
-        physicsBody?.mass = 10;
-        physicsBody?.friction = 0.9;
+        
+        physicsBody?.restitution = 0.5
+        physicsBody?.linearDamping = 5
+        physicsBody?.mass = 5;
+        physicsBody?.density = 10;
     }
 
     required init(coder aDecoder: NSCoder) {
