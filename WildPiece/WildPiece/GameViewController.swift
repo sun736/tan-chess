@@ -27,6 +27,8 @@ extension SKNode {
 
 class GameViewController: UIViewController {
 
+  @IBOutlet weak var toolBarContainerView: UIView!
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6246" systemVersion="14A329r" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6239"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Game View Controller-->
@@ -15,11 +17,171 @@
                     <view key="view" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xA0-8c-4Dc">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="78" id="1ml-Oa-EoS">
+                                        <variation key="heightClass=compact-widthClass=compact" constant="50"/>
+                                    </constraint>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="1ml-Oa-EoS"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="1ml-Oa-EoS"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <segue destination="5iH-hw-B51" kind="embed" id="epb-Pf-rRe"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xA0-8c-4Dc" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="topMargin" id="QZ4-Cj-Dwg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xA0-8c-4Dc" secondAttribute="trailing" id="RkM-Gm-QX7">
+                                <variation key="heightClass=compact-widthClass=compact" constant="-16"/>
+                            </constraint>
+                            <constraint firstItem="xA0-8c-4Dc" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" id="cTo-VN-JQi">
+                                <variation key="heightClass=compact-widthClass=compact" constant="-16"/>
+                            </constraint>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="xA0-8c-4Dc"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="QZ4-Cj-Dwg"/>
+                                <exclude reference="RkM-Gm-QX7"/>
+                                <exclude reference="cTo-VN-JQi"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="xA0-8c-4Dc"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="QZ4-Cj-Dwg"/>
+                                <include reference="RkM-Gm-QX7"/>
+                                <include reference="cTo-VN-JQi"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="toolBarContainerView" destination="xA0-8c-4Dc" id="g44-qc-GZA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="553.5" y="388.5"/>
+        </scene>
+        <!--Tool Bar View Controller-->
+        <scene sceneID="c8o-dr-t4j">
+            <objects>
+                <viewController id="5iH-hw-B51" customClass="WPToolBarViewController" customModule="WildPiece" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="D3w-Rg-iOw"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xn1-ld-W7m"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yQw-28-R6i">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZh-a1-Aa5" customClass="WPSliderView" customModule="WildPiece" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="V41-Yz-YXG">
+                                        <variation key="heightClass=compact-widthClass=compact" constant="25"/>
+                                    </constraint>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="V41-Yz-YXG"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="V41-Yz-YXG"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nhE-oI-CCv" customClass="WPSliderView" customModule="WildPiece" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="5dD-f7-Mud">
+                                        <variation key="heightClass=compact-widthClass=compact" constant="25"/>
+                                    </constraint>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="5dD-f7-Mud"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="5dD-f7-Mud"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jZh-a1-Aa5" firstAttribute="leading" secondItem="yQw-28-R6i" secondAttribute="leadingMargin" constant="-16" id="MHd-lc-3Ng">
+                                <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="nhE-oI-CCv" firstAttribute="width" secondItem="yQw-28-R6i" secondAttribute="width" multiplier="0.5" id="n51-3Y-kd2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nhE-oI-CCv" secondAttribute="trailing" id="pMW-R6-9id">
+                                <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="jZh-a1-Aa5" firstAttribute="top" secondItem="D3w-Rg-iOw" secondAttribute="bottom" constant="-20" id="pdk-ji-lQV">
+                                <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="nhE-oI-CCv" firstAttribute="top" secondItem="D3w-Rg-iOw" secondAttribute="bottom" id="rgY-XM-rWF"/>
+                            <constraint firstAttribute="width" secondItem="jZh-a1-Aa5" secondAttribute="width" multiplier="2" id="sr9-Dm-qob"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="jZh-a1-Aa5"/>
+                                <exclude reference="nhE-oI-CCv"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="MHd-lc-3Ng"/>
+                                <exclude reference="pdk-ji-lQV"/>
+                                <exclude reference="sr9-Dm-qob"/>
+                                <exclude reference="n51-3Y-kd2"/>
+                                <exclude reference="pMW-R6-9id"/>
+                                <exclude reference="rgY-XM-rWF"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="jZh-a1-Aa5"/>
+                                <include reference="nhE-oI-CCv"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="MHd-lc-3Ng"/>
+                                <include reference="pdk-ji-lQV"/>
+                                <include reference="sr9-Dm-qob"/>
+                                <include reference="n51-3Y-kd2"/>
+                                <include reference="pMW-R6-9id"/>
+                                <include reference="rgY-XM-rWF"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="dampingSlider" destination="nhE-oI-CCv" id="agJ-uX-3mB"/>
+                        <outlet property="massSlider" destination="jZh-a1-Aa5" id="LvP-wx-MbI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eI2-Ms-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1365" y="387"/>
         </scene>
     </scenes>
 </document>
