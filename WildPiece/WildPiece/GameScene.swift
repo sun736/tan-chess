@@ -85,7 +85,7 @@ class GameScene: SKScene {
     
     func firePull(touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         
-        var vector = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.x)
+        var vector = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
         if Double(abs(vector.dx) + abs(vector.dy)) < MIN_MOVEMENT_DISTANCE {
             return
         }
