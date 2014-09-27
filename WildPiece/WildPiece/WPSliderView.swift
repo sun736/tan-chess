@@ -15,9 +15,7 @@ class WPSliderView: UIView {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var valueLabel: UILabel!
     @IBOutlet var slider: UISlider!
-    
-    var value : Float = 0.0
-    
+        
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         NSBundle.mainBundle().loadNibNamed("WPSliderView", owner: self, options: nil)
@@ -50,15 +48,11 @@ class WPSliderView: UIView {
     }
     
     @IBAction func touchEnded(sender: AnyObject) {
-        updateValueLabel()
+        // Update the parameters
     }
     
     @IBAction func sliderDidChangeValue(sender: AnyObject) {
-        value = slider.value
+        valueLabel.text = String(format: "%.2f", slider.value)
     }
-    
-    func updateValueLabel() {
-//        valueLabel.text = "\(value)"
-        slider.value = value
-    }
+
 }
