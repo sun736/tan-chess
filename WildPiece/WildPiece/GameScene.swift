@@ -9,16 +9,14 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
-<<<<<<< HEAD
+
     let sphereObject : UInt32 = 0x01
     let worldObject : UInt32 = 0x02
-=======
+
     let MIN_MOVEMENT_DISTANCE = 50.0
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
->>>>>>> FETCH_HEAD
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -71,7 +69,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             possibleTouchNode = self // change to touched node
         }
     }
-<<<<<<< HEAD
    
     func didTwoBallCollision(node1: Piece , node2: Piece) {
         println("detected")
@@ -97,10 +94,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
-    
-=======
-    
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         
@@ -134,7 +127,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
->>>>>>> FETCH_HEAD
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
