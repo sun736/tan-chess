@@ -9,28 +9,77 @@
 import Foundation
 import SpriteKit
 
-class Piece: SKShapeNode {
-   
-    override init() {
-        super.init()
-        var _path = CGPathCreateMutable();
-        CGPathAddArc(_path, nil, 0, 0, 20, 0, CGFloat(M_PI*2), true);
-        path = _path;
-        lineWidth = 2.0;
-        fillColor = UIColor.blueColor();
-        physicsBody = SKPhysicsBody(circleOfRadius:20)
+class Piece: SKSpriteNode {
+    
+    var healthPoint : Int
+    var maxHealthPoint : Int
+    override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
+        healthPoint = 30
+        maxHealthPoint = 30
+        super.init(texture: texture,color: color,size: size)
         physicsBody?.dynamic = true;
+        physicsBody?.friction = 0.9
         
         physicsBody?.restitution = 0.5
         physicsBody?.linearDamping = 5
-        physicsBody?.mass = 5;
-        physicsBody?.density = 10;
+        physicsBody?.angularDamping = 7
+        physicsBody?.mass = 5
+        
+    }
+    
+    func deduceHealth() {
+        self.healthPoint = self.healthPoint - 10
+        if(self.healthPoint <= self.maxHealthPoint*6/10)
+        {
+            self.texture = SKTexture(imageNamed:"KingCoin_Broken")
+        }
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+class PieceKing : Piece{
+    
+    init(){
+        
+        //init(texture:nil , color: nil , size: CGSizeMake(0,0))
+        super.init(texture:SKTexture(imageNamed:"KingCoin"),color:SKColor(white: 100, alpha: 0),size:CGSizeMake(100, 100))
+        
+        physicsBody = SKPhysicsBody(circleOfRadius:50)
+        physicsBody?.mass = 20;
+        physicsBody?.linearDamping = 10
+        physicsBody?.angularDamping = 7
+        healthPoint = 50
+        maxHealthPoint = 50
+        
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+class PiecePawn : Piece{
+    
+    init(){
+        
+        //init(texture:nil , color: nil , size: CGSizeMake(0,0))
+        super.init(texture:SKTexture(imageNamed:"Coin"),color:SKColor(white: 100, alpha: 0),size:CGSizeMake(70, 70))
+        
+        physicsBody = SKPhysicsBody(circleOfRadius:35)
+        physicsBody?.mass = 2;
+        physicsBody?.linearDamping = 10
+        physicsBody?.angularDamping = 7
+
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    
-    
 }
+
