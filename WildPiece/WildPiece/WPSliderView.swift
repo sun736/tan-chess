@@ -16,6 +16,8 @@ class WPSliderView: UIView {
     @IBOutlet var valueLabel: UILabel!
     @IBOutlet var slider: UISlider!
     
+    var value : Float = 0.0
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         NSBundle.mainBundle().loadNibNamed("WPSliderView", owner: self, options: nil)
@@ -47,12 +49,16 @@ class WPSliderView: UIView {
         setConstraints()
     }
     
-    @IBAction func sliderDidChangeValue(sender: AnyObject) {
-        println(slider.value)
-        updateValueLabel(slider.value)
+    @IBAction func touchEnded(sender: AnyObject) {
+        updateValueLabel()
     }
     
-    func updateValueLabel(value: Float) {
-        valueLabel.text = "\(value)"
+    @IBAction func sliderDidChangeValue(sender: AnyObject) {
+        value = slider.value
+    }
+    
+    func updateValueLabel() {
+//        valueLabel.text = "\(value)"
+        slider.value = value
     }
 }

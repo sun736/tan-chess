@@ -45,7 +45,7 @@
                         </mask>
                     </variation>
                 </label>
-                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bPk-XT-Eei">
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" continuous="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPk-XT-Eei">
                     <rect key="frame" x="0.0" y="-15" width="118" height="31"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Avn-6X-t3L"/>
@@ -62,6 +62,8 @@
                     </variation>
                     <connections>
                         <action selector="sliderDidChangeValue:" destination="-1" eventType="valueChanged" id="tQf-Dv-Ka9"/>
+                        <action selector="touchEnded:" destination="-1" eventType="touchUpInside" id="XOy-aZ-rta"/>
+                        <action selector="touchEnded:" destination="-1" eventType="touchUpOutside" id="Y2y-c5-ev8"/>
                     </connections>
                 </slider>
             </subviews>
