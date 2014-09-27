@@ -17,20 +17,20 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6H-rY-LSk">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6H-rY-LSk">
                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4i9-hH-K8p">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4i9-hH-K8p">
                     <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="42" id="4qr-jl-66q"/>
                         <constraint firstAttribute="height" constant="21" id="FiS-nz-FzB"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                     <variation key="default">
                         <mask key="constraints">
@@ -60,6 +60,9 @@
                             <include reference="Avn-6X-t3L"/>
                         </mask>
                     </variation>
+                    <connections>
+                        <action selector="sliderDidChangeValue:" destination="-1" eventType="valueChanged" id="tQf-Dv-Ka9"/>
+                    </connections>
                 </slider>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -97,11 +100,11 @@
                 <mask key="constraints">
                     <exclude reference="IIb-c3-4H9"/>
                     <exclude reference="Vgv-GV-IKh"/>
-                    <exclude reference="D2X-N7-Lcn"/>
-                    <exclude reference="bk2-cy-cf1"/>
                     <exclude reference="6ub-Vn-6Ps"/>
                     <exclude reference="eLi-Fy-Le5"/>
                     <exclude reference="on7-Gl-dKC"/>
+                    <exclude reference="D2X-N7-Lcn"/>
+                    <exclude reference="bk2-cy-cf1"/>
                 </mask>
             </variation>
             <variation key="heightClass=compact-widthClass=compact">
@@ -113,14 +116,14 @@
                 <mask key="constraints">
                     <include reference="IIb-c3-4H9"/>
                     <include reference="Vgv-GV-IKh"/>
-                    <include reference="D2X-N7-Lcn"/>
-                    <include reference="bk2-cy-cf1"/>
                     <include reference="6ub-Vn-6Ps"/>
                     <include reference="eLi-Fy-Le5"/>
                     <include reference="on7-Gl-dKC"/>
+                    <include reference="D2X-N7-Lcn"/>
+                    <include reference="bk2-cy-cf1"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="262" y="0.5"/>
+            <point key="canvasLocation" x="262" y="106.5"/>
         </view>
     </objects>
 </document>

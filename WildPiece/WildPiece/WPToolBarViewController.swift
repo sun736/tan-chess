@@ -12,17 +12,25 @@ class WPToolBarViewController: UIViewController {
   
   @IBOutlet weak var massSlider: WPSliderView!
   @IBOutlet weak var dampingSlider: WPSliderView!
+  @IBOutlet weak var restitutionSlider: WPSliderView!
+  @IBOutlet weak var impulseSlider: WPSliderView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    massSlider.setupBasic(title: "M", minValue: 1, maxValue: 10)
-    dampingSlider.setupBasic(title: "D", minValue: 1, maxValue: 25)
     // Do any additional setup after loading the view.
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
+  }
+  
+  override func viewWillLayoutSubviews() {
+    massSlider.setupBasic(title: "M", minValue: 1, maxValue: 10)
+    dampingSlider.setupBasic(title: "D", minValue: 1, maxValue: 25)
+    restitutionSlider.setupBasic(title: "R", minValue: 0, maxValue: 1)
+    impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 1000)
+
   }
   
   

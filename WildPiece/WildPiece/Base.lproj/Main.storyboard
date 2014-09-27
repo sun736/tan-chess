@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -22,7 +23,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="78" id="1ml-Oa-EoS">
-                                        <variation key="heightClass=compact-widthClass=compact" constant="50"/>
+                                        <variation key="heightClass=compact-widthClass=compact" constant="80"/>
                                     </constraint>
                                 </constraints>
                                 <variation key="default">
@@ -39,6 +40,28 @@
                                     <segue destination="5iH-hw-B51" kind="embed" id="epb-Pf-rRe"/>
                                 </connections>
                             </containerView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kGT-ZW-oQ0">
+                                <rect key="frame" x="-25" y="-15" width="51" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="5dp-P2-SjU"/>
+                                    <constraint firstAttribute="width" constant="49" id="Qn1-9h-FQ3"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="5dp-P2-SjU"/>
+                                        <exclude reference="Qn1-9h-FQ3"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="5dp-P2-SjU"/>
+                                        <include reference="Qn1-9h-FQ3"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="switchToolBar:" destination="BV1-FR-VrT" eventType="valueChanged" id="zaF-vT-MBe"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -49,29 +72,40 @@
                             <constraint firstItem="xA0-8c-4Dc" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" id="cTo-VN-JQi">
                                 <variation key="heightClass=compact-widthClass=compact" constant="-16"/>
                             </constraint>
+                            <constraint firstItem="khH-OB-KpY" firstAttribute="top" secondItem="kGT-ZW-oQ0" secondAttribute="bottom" constant="5" id="iUR-NW-SOq"/>
+                            <constraint firstItem="kGT-ZW-oQ0" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" constant="-10" id="xdk-vU-Dd6">
+                                <variation key="heightClass=compact-widthClass=compact" constant="-11"/>
+                            </constraint>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="xA0-8c-4Dc"/>
+                                <exclude reference="kGT-ZW-oQ0"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="QZ4-Cj-Dwg"/>
                                 <exclude reference="RkM-Gm-QX7"/>
                                 <exclude reference="cTo-VN-JQi"/>
+                                <exclude reference="xdk-vU-Dd6"/>
+                                <exclude reference="iUR-NW-SOq"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=compact">
                             <mask key="subviews">
                                 <include reference="xA0-8c-4Dc"/>
+                                <include reference="kGT-ZW-oQ0"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="QZ4-Cj-Dwg"/>
                                 <include reference="RkM-Gm-QX7"/>
                                 <include reference="cTo-VN-JQi"/>
+                                <include reference="xdk-vU-Dd6"/>
+                                <include reference="iUR-NW-SOq"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="switchControl" destination="kGT-ZW-oQ0" id="tPl-K4-Gzx"/>
                         <outlet property="toolBarContainerView" destination="xA0-8c-4Dc" id="g44-qc-GZA"/>
                     </connections>
                 </viewController>
@@ -88,7 +122,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Xn1-ld-W7m"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yQw-28-R6i">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZh-a1-Aa5" customClass="WPSliderView" customModule="WildPiece" customModuleProvider="target">
@@ -96,7 +130,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="V41-Yz-YXG">
-                                        <variation key="heightClass=compact-widthClass=compact" constant="25"/>
+                                        <variation key="heightClass=compact-widthClass=compact" constant="40"/>
                                     </constraint>
                                 </constraints>
                                 <variation key="default">
@@ -115,7 +149,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="5dD-f7-Mud">
-                                        <variation key="heightClass=compact-widthClass=compact" constant="25"/>
+                                        <variation key="heightClass=compact-widthClass=compact" constant="40"/>
                                     </constraint>
                                 </constraints>
                                 <variation key="default">
@@ -129,28 +163,92 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WW8-eb-c3L" customClass="WPSliderView" customModule="WildPiece" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0aa-PN-4PN">
+                                        <variation key="heightClass=compact-widthClass=compact" constant="40"/>
+                                    </constraint>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="0aa-PN-4PN"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="0aa-PN-4PN"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dWC-3T-Oyg" customClass="WPSliderView" customModule="WildPiece" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="cpr-6L-I9o">
+                                        <variation key="heightClass=compact-widthClass=compact" constant="40"/>
+                                    </constraint>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="cpr-6L-I9o"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="cpr-6L-I9o"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="dWC-3T-Oyg" firstAttribute="trailing" secondItem="nhE-oI-CCv" secondAttribute="trailing" constant="-83" id="9kR-eC-ZV5">
+                                <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="WW8-eb-c3L" firstAttribute="height" secondItem="jZh-a1-Aa5" secondAttribute="height" id="Dox-H6-pgM"/>
+                            <constraint firstItem="WW8-eb-c3L" firstAttribute="top" secondItem="jZh-a1-Aa5" secondAttribute="bottom" constant="-3" id="GXD-X5-dNb">
+                                <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="dWC-3T-Oyg" firstAttribute="top" secondItem="nhE-oI-CCv" secondAttribute="bottom" constant="2" id="GqG-K7-nEn">
+                                <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="dWC-3T-Oyg" firstAttribute="width" secondItem="nhE-oI-CCv" secondAttribute="width" id="IRe-h6-7wy"/>
                             <constraint firstItem="jZh-a1-Aa5" firstAttribute="leading" secondItem="yQw-28-R6i" secondAttribute="leadingMargin" constant="-16" id="MHd-lc-3Ng">
+                                <variation key="heightClass=compact-widthClass=compact" constant="-16"/>
+                            </constraint>
+                            <constraint firstItem="WW8-eb-c3L" firstAttribute="width" secondItem="jZh-a1-Aa5" secondAttribute="width" id="dtV-OW-Dgu"/>
+                            <constraint firstItem="WW8-eb-c3L" firstAttribute="leading" secondItem="jZh-a1-Aa5" secondAttribute="leading" constant="1" id="ksd-7L-eUA">
                                 <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="nhE-oI-CCv" firstAttribute="width" secondItem="yQw-28-R6i" secondAttribute="width" multiplier="0.5" id="n51-3Y-kd2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nhE-oI-CCv" secondAttribute="trailing" id="pMW-R6-9id">
-                                <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
+                                <variation key="heightClass=compact-widthClass=compact" constant="-16"/>
                             </constraint>
                             <constraint firstItem="jZh-a1-Aa5" firstAttribute="top" secondItem="D3w-Rg-iOw" secondAttribute="bottom" constant="-20" id="pdk-ji-lQV">
                                 <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstItem="nhE-oI-CCv" firstAttribute="top" secondItem="D3w-Rg-iOw" secondAttribute="bottom" id="rgY-XM-rWF"/>
                             <constraint firstAttribute="width" secondItem="jZh-a1-Aa5" secondAttribute="width" multiplier="2" id="sr9-Dm-qob"/>
+                            <constraint firstItem="dWC-3T-Oyg" firstAttribute="height" secondItem="nhE-oI-CCv" secondAttribute="height" id="tCH-oc-IP1"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="jZh-a1-Aa5"/>
                                 <exclude reference="nhE-oI-CCv"/>
+                                <exclude reference="WW8-eb-c3L"/>
+                                <exclude reference="dWC-3T-Oyg"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="Dox-H6-pgM"/>
+                                <exclude reference="GXD-X5-dNb"/>
+                                <exclude reference="dtV-OW-Dgu"/>
+                                <exclude reference="ksd-7L-eUA"/>
+                                <exclude reference="9kR-eC-ZV5"/>
+                                <exclude reference="GqG-K7-nEn"/>
+                                <exclude reference="IRe-h6-7wy"/>
+                                <exclude reference="tCH-oc-IP1"/>
                                 <exclude reference="MHd-lc-3Ng"/>
                                 <exclude reference="pdk-ji-lQV"/>
                                 <exclude reference="sr9-Dm-qob"/>
@@ -163,8 +261,18 @@
                             <mask key="subviews">
                                 <include reference="jZh-a1-Aa5"/>
                                 <include reference="nhE-oI-CCv"/>
+                                <include reference="WW8-eb-c3L"/>
+                                <include reference="dWC-3T-Oyg"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="Dox-H6-pgM"/>
+                                <include reference="GXD-X5-dNb"/>
+                                <include reference="dtV-OW-Dgu"/>
+                                <include reference="ksd-7L-eUA"/>
+                                <include reference="9kR-eC-ZV5"/>
+                                <include reference="GqG-K7-nEn"/>
+                                <include reference="IRe-h6-7wy"/>
+                                <exclude reference="tCH-oc-IP1"/>
                                 <include reference="MHd-lc-3Ng"/>
                                 <include reference="pdk-ji-lQV"/>
                                 <include reference="sr9-Dm-qob"/>
@@ -176,7 +284,9 @@
                     </view>
                     <connections>
                         <outlet property="dampingSlider" destination="nhE-oI-CCv" id="agJ-uX-3mB"/>
+                        <outlet property="impulseSlider" destination="dWC-3T-Oyg" id="5aw-ue-AtS"/>
                         <outlet property="massSlider" destination="jZh-a1-Aa5" id="LvP-wx-MbI"/>
+                        <outlet property="restitutionSlider" destination="WW8-eb-c3L" id="ccq-jq-QbY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eI2-Ms-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
