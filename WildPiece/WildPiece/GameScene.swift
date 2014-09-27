@@ -10,6 +10,10 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+    let MIN_MOVEMENT_DISTANCE = 50.0
+    var possibleBeginPt: CGPoint?
+    var possibleEndPt: CGPoint?
+    var possibleTouchNode :SKNode?
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
@@ -50,9 +54,45 @@ class GameScene: SKScene {
             ball1.physicsBody?.applyImpulse(CGVectorMake(1000, 0))
             ball2.physicsBody?.applyImpulse(CGVectorMake(1000, 0))
             
+            possibleBeginPt = location
+            possibleEndPt = nil
+            possibleTouchNode = self // change to touched node
         }
     }
-   
+    
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            
+            // save end location
+            possibleEndPt = location
+        }
+        
+        // fire
+        if let actualBeginPt = possibleBeginPt {
+            if let actualEndPt = possibleEndPt {
+                if let actualTouchNode = possibleTouchNode {
+                    firePull(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
+                }
+            }
+        }
+        possibleBeginPt = nil
+        possibleEndPt = nil
+        possibleTouchNode = nil
+    }
+    
+    func firePull(touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
+        
+        var vector = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.x)
+        if Double(abs(vector.dx) + abs(vector.dy)) < MIN_MOVEMENT_DISTANCE {
+            return
+        }
+        println(String(format:"%@, %f, %f", touchNode,  Float(vector.dx), Float(vector.dy)))
+        
+    }
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
