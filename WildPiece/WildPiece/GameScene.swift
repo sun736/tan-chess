@@ -9,10 +9,10 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-
+    
     let sphereObject : UInt32 = 0x01
     let worldObject : UInt32 = 0x02
-
+    
     let MIN_MOVEMENT_DISTANCE = 50.0
     let kDISTANCE_TO_FORCE:CGFloat = -100.0
     var possibleBeginPt: CGPoint?
@@ -68,7 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.physicsWorld.contactDelegate = self
     }
-   
+    
     func didTwoBallCollision(node1: Piece , node2: Piece) {
         println("detected")
         
@@ -133,7 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let actualBeginPt = possibleBeginPt {
                 if let actualEndPt = possibleEndPt {
                     if let actualTouchNode = possibleTouchNode {
-                        pullDistanceDidChange(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
+                        pullDidChangeDistance(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
                     }
                 }
             }
@@ -146,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         possibleTouchNode = nil
     }
     
-    func pullDistanceDidChange (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
+    func pullDidChangeDistance (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         var distance = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
         if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
@@ -161,7 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
         }
-//        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
+        //        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         
         if touchNode.isKindOfClass(Piece) {
