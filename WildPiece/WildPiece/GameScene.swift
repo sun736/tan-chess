@@ -37,13 +37,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity.dy = 0
         self.physicsBody?.friction = 0.9
         
-        let kingBall = PieceKing();
+        //initialize piece
+        //King
+        let king = PieceKing();
         var location = CGPointMake(500, 200)
-        kingBall.position = location
-        kingBall.physicsBody?.categoryBitMask = sphereObject
-        kingBall.physicsBody?.contactTestBitMask = sphereObject
-        kingBall.physicsBody?.collisionBitMask = sphereObject
-        self.addChild(kingBall)
+        king.position = location
+        king.physicsBody?.categoryBitMask = sphereObject
+        king.physicsBody?.contactTestBitMask = sphereObject
+        king.physicsBody?.collisionBitMask = sphereObject
+        self.addChild(king)
+        //Pawn
+        let pawn1 = PiecePawn()
+        let pawn2 = PiecePawn()
+        var location2 = CGPointMake(200, 50)
+        pawn1.position = location2
+        pawn1.physicsBody?.categoryBitMask = sphereObject
+        pawn1.physicsBody?.contactTestBitMask = sphereObject
+        pawn1.physicsBody?.collisionBitMask = sphereObject
+        self.addChild(pawn1)
+        var location3 = CGPointMake(200, 200)
+        pawn2.position = location3
+        pawn2.physicsBody?.categoryBitMask = sphereObject
+        pawn2.physicsBody?.contactTestBitMask = sphereObject
+        pawn2.physicsBody?.collisionBitMask = sphereObject
+        self.addChild(pawn2)
         //self.addChild(myLabel)
         
         self.physicsWorld.contactDelegate = self
