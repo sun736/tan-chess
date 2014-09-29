@@ -9,10 +9,10 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-
+    
     let sphereObject : UInt32 = 0x01
     let worldObject : UInt32 = 0x02
-
+    
     let MIN_MOVEMENT_DISTANCE = 50.0
     let kDISTANCE_TO_FORCE:CGFloat = -100.0
     var possibleBeginPt: CGPoint?
@@ -28,8 +28,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Now make the edges of the screen a physics object as well
         scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
-        //scene?.physicsBody = SKPhysicsBody(rectangleOfSize: view.frame.size, center: CGPointMake(0,0));
-        
         scene?.physicsBody?.collisionBitMask = worldObject
         scene?.physicsBody?.contactTestBitMask = worldObject
         
@@ -40,34 +38,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //initialize piece
         //King
-        let king = PieceKing();
+        let king = PieceKing(collisionBitMask: sphereObject);
         var location = CGPointMake(500, 200)
         king.position = location
-        king.physicsBody?.categoryBitMask = sphereObject
-        king.physicsBody?.contactTestBitMask = sphereObject
-        king.physicsBody?.collisionBitMask = sphereObject
         self.addChild(king)
         //Pawn
-        let pawn1 = PiecePawn()
-        let pawn2 = PiecePawn()
+        let pawn1 = PiecePawn(collisionBitMask: sphereObject)
+        let pawn2 = PiecePawn(collisionBitMask: sphereObject)
         var location2 = CGPointMake(200, 50)
         pawn1.position = location2
-        pawn1.physicsBody?.categoryBitMask = sphereObject
-        pawn1.physicsBody?.contactTestBitMask = sphereObject
-        pawn1.physicsBody?.collisionBitMask = sphereObject
         self.addChild(pawn1)
         var location3 = CGPointMake(200, 200)
         pawn2.position = location3
-        pawn2.physicsBody?.categoryBitMask = sphereObject
-        pawn2.physicsBody?.contactTestBitMask = sphereObject
-        pawn2.physicsBody?.collisionBitMask = sphereObject
-        
         self.addChild(pawn2)
-        //self.addChild(myLabel)
         
         self.physicsWorld.contactDelegate = self
     }
-   
+    
     func didTwoBallCollision(node1: Piece , node2: Piece) {
         println("detected")
         
@@ -97,7 +84,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            let ball1 = PiecePawn();
             
             possibleBeginPt = location
             possibleEndPt = nil
@@ -132,7 +118,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let actualBeginPt = possibleBeginPt {
                 if let actualEndPt = possibleEndPt {
                     if let actualTouchNode = possibleTouchNode {
-                        pullDistanceDidChange(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
+                        pullDidChangeDistance(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
                     }
                 }
             }
@@ -145,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         possibleTouchNode = nil
     }
     
-    func pullDistanceDidChange (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
+    func pullDidChangeDistance (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         var distance = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
         if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
@@ -160,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
         }
-//        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
+        
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         
         if touchNode.isKindOfClass(Piece) {

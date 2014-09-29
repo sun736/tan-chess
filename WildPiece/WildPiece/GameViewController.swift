@@ -50,6 +50,9 @@ class GameViewController: UIViewController {
             
             skView.presentScene(scene)
         }
+        
+        self.switchControl.on = false
+        self.toolBarContainerView.alpha = 0.0
     }
     
     override func shouldAutorotate() -> Bool {
