@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let worldObject : UInt32 = 0x02
 
     let MIN_MOVEMENT_DISTANCE = 50.0
-    let kDISTANCE_TO_FORCE:CGFloat = -200.0
+    let kDISTANCE_TO_FORCE:CGFloat = -100.0
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
