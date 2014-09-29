@@ -27,6 +27,10 @@ class Piece: SKSpriteNode {
         
     }
     
+    func getRadius() -> CGFloat{
+        return size.height/2
+    }
+    
     func deduceHealth() {
         self.healthPoint = self.healthPoint - 10
         if(self.healthPoint <= self.maxHealthPoint*6/10)
@@ -56,6 +60,7 @@ class PieceKing : Piece{
         maxHealthPoint = 50
         
     }
+    
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

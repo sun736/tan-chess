@@ -61,6 +61,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pawn2.physicsBody?.categoryBitMask = sphereObject
         pawn2.physicsBody?.contactTestBitMask = sphereObject
         pawn2.physicsBody?.collisionBitMask = sphereObject
+        //println("Width: \(pawn2.size.width)")
+        //println("Height: \(pawn2.getRadius())")
         self.addChild(pawn2)
         //self.addChild(myLabel)
         
