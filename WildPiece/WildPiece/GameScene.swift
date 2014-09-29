@@ -14,6 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let worldObject : UInt32 = 0x02
 
     let MIN_MOVEMENT_DISTANCE = 50.0
+    let kDISTANCE_TO_FORCE:CGFloat = -200.0
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
@@ -72,18 +73,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             let ball1 = PiecePawn();
             
-            //println(location)
-            ball1.position = location
-            self.addChild(ball1)
-            ball1.physicsBody?.applyImpulse(CGVectorMake(10000, 0))
-            
-            ball1.physicsBody?.categoryBitMask = sphereObject
-            ball1.physicsBody?.contactTestBitMask = sphereObject
-            ball1.physicsBody?.collisionBitMask = sphereObject
-            
             possibleBeginPt = location
             possibleEndPt = nil
-            possibleTouchNode = self // change to touched node
+            possibleTouchNode = self.nodeAtPoint(location)
         }
     }
    
@@ -136,12 +128,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func firePull(touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         
-        var vector = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
-        if Double(abs(vector.dx) + abs(vector.dy)) < MIN_MOVEMENT_DISTANCE {
+        var distance = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
+        if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
         }
-        println(String(format:"%@, %f, %f", touchNode,  Float(vector.dx), Float(vector.dy)))
+        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
+        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         
+        if touchNode.isKindOfClass(Piece) {
+            touchNode.physicsBody?.applyImpulse(force);
+        }
     }
     
     override func update(currentTime: CFTimeInterval) {
