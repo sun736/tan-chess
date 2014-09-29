@@ -68,18 +68,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.physicsWorld.contactDelegate = self
     }
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            let ball1 = PiecePawn();
-            
-            possibleBeginPt = location
-            possibleEndPt = nil
-            possibleTouchNode = self.nodeAtPoint(location)
-        }
-    }
    
     func didTwoBallCollision(node1: Piece , node2: Piece) {
         println("detected")
@@ -106,15 +94,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            let ball1 = PiecePawn();
+            
+            possibleBeginPt = location
+            possibleEndPt = nil
+            possibleTouchNode = self.nodeAtPoint(location)
+        }
+    }
+    
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            
             // save end location
             possibleEndPt = location
         }
-        
         // fire
         if let actualBeginPt = possibleBeginPt {
             if let actualEndPt = possibleEndPt {
@@ -128,13 +126,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         possibleTouchNode = nil
     }
     
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            // notify the node to draw a force indicator
+            if let actualBeginPt = possibleBeginPt {
+                if let actualEndPt = possibleEndPt {
+                    if let actualTouchNode = possibleTouchNode {
+                        pullDistanceDidChange(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
+                    }
+                }
+            }
+        }
+    }
+    
+    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
+        possibleBeginPt = nil
+        possibleEndPt = nil
+        possibleTouchNode = nil
+    }
+    
+    func pullDistanceDidChange (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
+        var distance = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
+        if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
+            return
+        }
+        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+    }
+    
+    // called when a pull gesture is performed on a node
     func firePull(touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         
         var distance = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
         if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
         }
-        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
+//        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         
         if touchNode.isKindOfClass(Piece) {
