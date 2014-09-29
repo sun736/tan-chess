@@ -27,6 +27,12 @@ class Piece: SKSpriteNode {
         
     }
     
+    func setCollisionBitMask(collisionBitMask: UInt32) {
+        physicsBody?.categoryBitMask = collisionBitMask
+        physicsBody?.contactTestBitMask = collisionBitMask
+        physicsBody?.collisionBitMask = collisionBitMask
+    }
+    
     func getRadius() -> CGFloat{
         return size.height/2
     }
@@ -47,17 +53,19 @@ class Piece: SKSpriteNode {
 
 class PieceKing : Piece{
     
-    init(){
+    init(collisionBitMask : UInt32){
         
-        //init(texture:nil , color: nil , size: CGSizeMake(0,0))
         super.init(texture:SKTexture(imageNamed:"KingCoin"),color:SKColor(white: 100, alpha: 0),size:CGSizeMake(100, 100))
         
         physicsBody = SKPhysicsBody(circleOfRadius:50)
         physicsBody?.mass = 20;
         physicsBody?.linearDamping = 10
         physicsBody?.angularDamping = 7
+        
+        setCollisionBitMask(collisionBitMask)
         healthPoint = 50
         maxHealthPoint = 50
+        
         
     }
     
@@ -70,15 +78,16 @@ class PieceKing : Piece{
 
 class PiecePawn : Piece{
     
-    init(){
+    init(collisionBitMask : UInt32){
         
-        //init(texture:nil , color: nil , size: CGSizeMake(0,0))
         super.init(texture:SKTexture(imageNamed:"Coin"),color:SKColor(white: 100, alpha: 0),size:CGSizeMake(70, 70))
         
         physicsBody = SKPhysicsBody(circleOfRadius:35)
         physicsBody?.mass = 2;
         physicsBody?.linearDamping = 10
         physicsBody?.angularDamping = 7
+        
+        setCollisionBitMask(collisionBitMask)
 
     }
 

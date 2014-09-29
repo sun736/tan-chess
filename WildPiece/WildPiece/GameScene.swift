@@ -28,8 +28,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Now make the edges of the screen a physics object as well
         scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
-        //scene?.physicsBody = SKPhysicsBody(rectangleOfSize: view.frame.size, center: CGPointMake(0,0));
-        
         scene?.physicsBody?.collisionBitMask = worldObject
         scene?.physicsBody?.contactTestBitMask = worldObject
         
@@ -40,16 +38,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //initialize piece
         //King
-        let king = PieceKing();
+        let king = PieceKing(collisionBitMask: sphereObject);
         var location = CGPointMake(500, 200)
         king.position = location
-        king.physicsBody?.categoryBitMask = sphereObject
-        king.physicsBody?.contactTestBitMask = sphereObject
-        king.physicsBody?.collisionBitMask = sphereObject
         self.addChild(king)
         //Pawn
-        let pawn1 = PiecePawn()
-        let pawn2 = PiecePawn()
+        let pawn1 = PiecePawn(collisionBitMask: sphereObject)
+        let pawn2 = PiecePawn(collisionBitMask: sphereObject)
         var location2 = CGPointMake(200, 50)
         pawn1.position = location2
         pawn1.physicsBody?.categoryBitMask = sphereObject
@@ -58,13 +53,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(pawn1)
         var location3 = CGPointMake(200, 200)
         pawn2.position = location3
-        pawn2.physicsBody?.categoryBitMask = sphereObject
-        pawn2.physicsBody?.contactTestBitMask = sphereObject
-        pawn2.physicsBody?.collisionBitMask = sphereObject
-        //println("Width: \(pawn2.size.width)")
-        //println("Height: \(pawn2.getRadius())")
         self.addChild(pawn2)
-        //self.addChild(myLabel)
         
         self.physicsWorld.contactDelegate = self
     }
@@ -98,7 +87,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            let ball1 = PiecePawn();
             
             possibleBeginPt = location
             possibleEndPt = nil
@@ -161,7 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
         }
-        //        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
+        
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         
         if touchNode.isKindOfClass(Piece) {
