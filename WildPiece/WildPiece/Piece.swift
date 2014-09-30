@@ -14,7 +14,9 @@ class Piece: SKSpriteNode {
     var healthPoint : Int
     var maxHealthPoint : Int
     var radius : CGFloat
+    var ring : SKShapeNode?
     override init() {
+        
         healthPoint = 30
         maxHealthPoint = 30
         radius = 0

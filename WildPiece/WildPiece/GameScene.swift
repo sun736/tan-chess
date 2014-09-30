@@ -54,7 +54,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didTwoBallCollision(node1: Piece , node2: Piece) {
-        println("detected")
         
         node1.deduceHealth()
         
@@ -68,8 +67,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        println("detected 1")
+
         if (contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA?.categoryBitMask == blueSideBitMask && contact.bodyB?.categoryBitMask == blueSideBitMask ) {
+
             let node1:Piece = contact.bodyA.node as Piece
             let node2:Piece = contact.bodyB.node as Piece
             didTwoBallCollision(node1, node2: node2)
@@ -86,6 +86,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             possibleBeginPt = location
             possibleEndPt = nil
             possibleTouchNode = self.nodeAtPoint(location)
+            
+            drawRing(location)
         }
     }
     
@@ -104,6 +106,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        deleteRing()
+        
         possibleBeginPt = nil
         possibleEndPt = nil
         possibleTouchNode = nil
@@ -144,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
             return
         }
-        
+        //        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         
         if touchNode.isKindOfClass(Piece) {
@@ -154,5 +158,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+    
+    // draw a ring around the piece
+    func drawRing(location: CGPoint) {
+        let node = self.nodeAtPoint(location)
+        if node.isKindOfClass(Piece) {
+            let piece = node as Piece
+            
+            // not working in simulator
+            // var ring = Ring(piece.position, piece.getRadius())
+            // self.addChild(ring)
+            
+            let ring = SKShapeNode(circleOfRadius: piece.getRadius() + 5)
+            ring.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.6)
+            ring.strokeColor = UIColor.redColor().colorWithAlphaComponent(0.6)
+            ring.lineWidth = 1.5
+            // shape.glowWidth = 5
+            ring.position = piece.position
+            
+            if let piece = possibleTouchNode as? Piece {
+                piece.ring = ring
+            }
+            self.addChild(ring)
+        }
+    }
+    
+    func deleteRing() {
+        if let piece = possibleTouchNode as? Piece {
+            piece.ring?.removeFromParent()
+        }
     }
 }

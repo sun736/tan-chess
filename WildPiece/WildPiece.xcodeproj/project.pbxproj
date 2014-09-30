@@ -11,6 +11,7 @@
 		186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186C621319D62AA500FF3952 /* WPSliderView.swift */; };
 		186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186C621519D62BAC00FF3952 /* WPSliderView.xib */; };
 		186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186C621719D636A800FF3952 /* WPToolBarViewController.swift */; };
+		4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F021E4C19DA059D00ACBB30 /* Ring.swift */; };
 		91101BBF19D5DE7000E59AB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */; };
 		91101BC119D5DE7000E59AB4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91101BC019D5DE7000E59AB4 /* GameScene.sks */; };
 		91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BC219D5DE7000E59AB4 /* GameScene.swift */; };
@@ -37,6 +38,7 @@
 		186C621319D62AA500FF3952 /* WPSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPSliderView.swift; sourceTree = "<group>"; };
 		186C621519D62BAC00FF3952 /* WPSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WPSliderView.xib; sourceTree = "<group>"; };
 		186C621719D636A800FF3952 /* WPToolBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPToolBarViewController.swift; sourceTree = "<group>"; };
+		4F021E4C19DA059D00ACBB30 /* Ring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
 		91101BB919D5DE7000E59AB4 /* WildPiece.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildPiece.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91101BBD19D5DE7000E59AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 		91101BBB19D5DE7000E59AB4 /* WildPiece */ = {
 			isa = PBXGroup;
 			children = (
+				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
 				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
 				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
@@ -240,6 +243,7 @@
 				186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */,
 				1819134119D7515200BBEDC2 /* WPParameterHelper.swift in Sources */,
 				186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */,
+				4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */,
 				91101BC519D5DE7000E59AB4 /* GameViewController.swift in Sources */,
 				91101BBF19D5DE7000E59AB4 /* AppDelegate.swift in Sources */,
 			);
