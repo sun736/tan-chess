@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    let sphereObject : UInt32 = 0x01
+    let blueSideBitMask : UInt32 = 0x01
     let worldObject : UInt32 = 0x02
     
     let MIN_MOVEMENT_DISTANCE = 50.0
@@ -20,11 +20,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var possibleTouchNode :SKNode?
     
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!"
-        myLabel.fontSize = 65
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         
         // Now make the edges of the screen a physics object as well
         scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
@@ -35,19 +30,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.physicsWorld.gravity.dy = 0
         self.physicsBody?.friction = 0.9
-        
-        //initialize piece
+
+        //initialize pieces
         //King
-        let king = PieceKing(collisionBitMask: sphereObject);
+        let king = PieceKing(collisionBitMask: blueSideBitMask);
         var location = CGPointMake(500, 200)
+        
         king.position = location
         self.addChild(king)
         //Pawn
-        let pawn1 = PiecePawn(collisionBitMask: sphereObject)
-        let pawn2 = PiecePawn(collisionBitMask: sphereObject)
+        let pawn1 = PiecePawn(collisionBitMask: blueSideBitMask)
+        let pawn2 = PiecePawn(collisionBitMask: blueSideBitMask)
+        
         var location2 = CGPointMake(200, 50)
         pawn1.position = location2
         self.addChild(pawn1)
+        
         var location3 = CGPointMake(200, 200)
         pawn2.position = location3
         self.addChild(pawn2)
@@ -71,7 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         println("detected 1")
-        if (contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA?.categoryBitMask == sphereObject && contact.bodyB?.categoryBitMask == sphereObject ) {
+        if (contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA?.categoryBitMask == blueSideBitMask && contact.bodyB?.categoryBitMask == blueSideBitMask ) {
             let node1:Piece = contact.bodyA.node as Piece
             let node2:Piece = contact.bodyB.node as Piece
             didTwoBallCollision(node1, node2: node2)
