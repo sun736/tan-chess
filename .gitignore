@@ -2,4 +2,4 @@
 *.xcuserstate
 
 *.xcbkptlist
-WildPiece/WildPiece.xcodeproj/xcuserdata/boyxgc.xcuserdatad/
+WildPiece/WildPiece.xcodeproj/xcuserdata/*.xcuserdatad
