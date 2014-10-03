@@ -161,10 +161,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pullDidChangeDistance (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
-        var distance = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
-        if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
-            return
-        }
+        // use node's center point as start point of force
+        let centerPt = touchNode.position
+        var distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         if let piece = touchNode as? Piece {
             piece.drawArrow(force)
