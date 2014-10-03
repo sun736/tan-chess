@@ -35,7 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //initialize pieces
         //King
         let king = PieceKing(collisionBitMask: blueSideBitMask);
-        var location = CGPointMake(500, 200)
+        var location = CGPointMake(200, 500)
         
         king.position = location
         self.addChild(king)
@@ -43,7 +43,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let pawn1 = PiecePawn(collisionBitMask: blueSideBitMask)
         let pawn2 = PiecePawn(collisionBitMask: blueSideBitMask)
         
-        var location2 = CGPointMake(200, 50)
+        var location2 = CGPointMake(50, 200)
+        
         pawn1.position = location2
         self.addChild(pawn1)
         
@@ -82,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
+
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
@@ -174,7 +175,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let piece = possibleTouchNode as? Piece {
                 piece.ring = ring
             }
+
             self.addChild(ring)
+            
+            let startPosition = CGPointMake(50, 100)//location
+            var endPoition = CGPointMake(100, 300)//piece.position
+            
+            println("\(startPosition) \(endPoition)")
+            
+            let path :CGPath = Arrow.pathWithArrowFromPoint(startPosition, endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6)
+
+            let arrowLayer: CAShapeLayer = CAShapeLayer()
+            arrowLayer.path = path
+            arrowLayer.fillColor = nil
+            arrowLayer.strokeColor = UIColor.redColor().CGColor
+            arrowLayer.lineWidth = 2.0
+            self.view?.layer.addSublayer(arrowLayer)
         }
     }
     

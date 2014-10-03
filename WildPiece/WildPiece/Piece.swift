@@ -15,6 +15,7 @@ class Piece: SKSpriteNode {
     var maxHealthPoint : Int
     var radius : CGFloat
     var ring : SKShapeNode?
+
     let fadeOutWaitTime: NSTimeInterval = 0.5
     let fadeOutFadeTime: NSTimeInterval = 0.7
     
