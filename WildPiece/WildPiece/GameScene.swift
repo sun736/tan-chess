@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
+        println("Move game scene to view")
         // Now make the edges of the screen a physics object as well
         scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
         scene?.physicsBody?.collisionBitMask = worldObject
