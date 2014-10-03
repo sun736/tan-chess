@@ -10,16 +10,17 @@ import Foundation
 import SpriteKit
 
 class Piece: SKSpriteNode {
-    
+
     var healthPoint : Int
     var maxHealthPoint : Int
     var radius : CGFloat
     var ring : SKShapeNode?
-    override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
+    override init() {
+        
         healthPoint = 30
         maxHealthPoint = 30
         radius = 0
-        super.init(texture: texture,color: color,size: size)
+        super.init(texture: SKTexture(imageNamed:""),color: nil,size: CGSizeMake(0, 0))
         physicsBody?.dynamic = true;
         physicsBody?.friction = 0.9
         
@@ -40,6 +41,14 @@ class Piece: SKSpriteNode {
         return radius
     }
     
+    func BITMASK_BLUE() -> UInt32{
+        return 0x01
+    }
+    
+    func BITMASK_RED() -> UInt32{
+        return 0x02
+    }
+    
     func deduceHealth() {
         self.healthPoint = self.healthPoint - 10
         if(self.healthPoint <= self.maxHealthPoint*6/10)
@@ -56,12 +65,22 @@ class Piece: SKSpriteNode {
 
 class PieceKing : Piece{
     
+
     init(collisionBitMask : UInt32){
 
-        super.init(texture:SKTexture(imageNamed:"KingCoin"),color:SKColor(white: 100, alpha: 0),size:CGSizeMake(100, 100))
+        super.init()
         radius = 50
         healthPoint = 50
         maxHealthPoint = 50
+        if(collisionBitMask == BITMASK_BLUE())
+        {
+            texture = SKTexture(imageNamed:"KingCoin")
+        }
+        else if(collisionBitMask == BITMASK_RED())
+        {
+            texture = SKTexture(imageNamed:"KingCoin")
+        }
+        size = CGSizeMake(radius*2, radius*2)
         physicsBody = SKPhysicsBody(circleOfRadius:radius)
         physicsBody?.mass = 20;
         physicsBody?.linearDamping = 10
@@ -81,10 +100,18 @@ class PieceKing : Piece{
 class PiecePawn : Piece{
     
     init(collisionBitMask : UInt32){
-        
-        super.init(texture:SKTexture(imageNamed:"Coin"),color:SKColor(white: 100, alpha: 0),size:CGSizeMake(70, 70))
-        
+      
+        super.init()
         radius = 35
+        if(collisionBitMask == BITMASK_BLUE())
+        {
+            texture = SKTexture(imageNamed:"Coin")
+        }
+        else if(collisionBitMask == BITMASK_RED())
+        {
+            texture = SKTexture(imageNamed:"Coin")
+        }
+        size = CGSizeMake(radius*2, radius*2)
         physicsBody = SKPhysicsBody(circleOfRadius:radius)
         physicsBody?.mass = 2;
         physicsBody?.linearDamping = 10
