@@ -163,7 +163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func pullDidChangeDistance (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         // use node's center point as start point of force
         let centerPt = touchNode.position
-        var distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
+        let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         if let piece = touchNode as? Piece {
             piece.drawArrow(force)
@@ -173,14 +173,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // called when a pull gesture is performed on a node
     func firePull(touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         
-        var distance = CGVectorMake(touchEndPt.x - touchBeginPt.x, touchEndPt.y - touchBeginPt.y)
-        if Double(abs(distance.dx) + abs(distance.dy)) < MIN_MOVEMENT_DISTANCE {
-            return
-        }
-        //        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
-        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
-        
         if let piece = touchNode as? Piece {
+            let centerPt = touchNode.position
+            let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
+            // do nothing if end point lies within the node border
+            if (hypotf(Float(distance.dx), Float(distance.dy)) <= Float(piece.radius)) {
+                return
+            }
+            // println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
+            var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
             touchNode.physicsBody?.applyImpulse(force);
         }
     }
