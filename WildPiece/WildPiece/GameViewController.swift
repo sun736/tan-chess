@@ -48,7 +48,9 @@ class GameViewController: UIViewController {
             /* Set single touch */
             skView.multipleTouchEnabled = false;
             
-            skView.presentScene(scene)
+            let menuScene = MenuScene(size: scene.size)
+            
+            skView.presentScene(menuScene)
         }
         
         self.switchControl.on = false

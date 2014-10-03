@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A361c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BV1-FR-VrT">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -83,11 +83,11 @@
                                 <exclude reference="kGT-ZW-oQ0"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="iUR-NW-SOq"/>
+                                <exclude reference="xdk-vU-Dd6"/>
                                 <exclude reference="QZ4-Cj-Dwg"/>
                                 <exclude reference="RkM-Gm-QX7"/>
                                 <exclude reference="cTo-VN-JQi"/>
-                                <exclude reference="xdk-vU-Dd6"/>
-                                <exclude reference="iUR-NW-SOq"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=compact">
@@ -96,11 +96,11 @@
                                 <include reference="kGT-ZW-oQ0"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="iUR-NW-SOq"/>
+                                <include reference="xdk-vU-Dd6"/>
                                 <include reference="QZ4-Cj-Dwg"/>
                                 <include reference="RkM-Gm-QX7"/>
                                 <include reference="cTo-VN-JQi"/>
-                                <include reference="xdk-vU-Dd6"/>
-                                <include reference="iUR-NW-SOq"/>
                             </mask>
                         </variation>
                     </view>
