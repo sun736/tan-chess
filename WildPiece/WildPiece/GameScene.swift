@@ -70,18 +70,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
     }
     
-    func didTwoBallCollision(node1: Piece , node2: Piece) {
+    func didTwoBallCollision(#contacter: Piece, contactee: Piece) {
         
-        node1.deduceHealth()
+        contactee.deduceHealth()
         
-        if node1.healthPoint == 0 {
-            //node1.removeFromParent()
-            node1.fadeOut();
+        if contacter.healthPoint == 0 {
+            contacter.fadeOut();
         }
         
-        if node2.healthPoint == 0 {
-            //node2.removeFromParent()
-            node2.fadeOut()
+        if contactee.healthPoint == 0 {
+         contactee.fadeOut()
         }
     }
     
@@ -91,8 +89,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let node1:Piece = contact.bodyA.node as Piece
             let node2:Piece = contact.bodyB.node as Piece
-            didTwoBallCollision(node1, node2: node2)
-            
+            if node1.speed > node2.speed{
+                didTwoBallCollision(contacter: node1, contactee: node2)
+            } else {
+                didTwoBallCollision(contacter: node2, contactee: node1)
+            }
         }
         
     }
