@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol WPSliderViewDelegate {
+    func sliderValueDidChange(#slider: WPSliderView, didMoveToValue value : Double)
+}
+
 class WPSliderView: UIView {
     
     @IBOutlet var contentView: UIView!
@@ -15,6 +19,8 @@ class WPSliderView: UIView {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var valueLabel: UILabel!
     @IBOutlet var slider: UISlider!
+    
+    var delegate: WPSliderViewDelegate?
         
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -38,21 +44,21 @@ class WPSliderView: UIView {
         updateConstraintsIfNeeded()
     }
     
-    func setupBasic(#title : String, minValue : Float, maxValue : Float) {
+    func setupBasic(#title : String, minValue : Float, maxValue : Float, delegate: WPSliderViewDelegate?) {
         titleLabel.text = title
         slider.minimumValue = minValue
         slider.maximumValue = maxValue
         slider.value = (minValue + maxValue) / 2
         valueLabel.text = "\(slider.value)"
+        self.delegate = delegate
         setConstraints()
     }
     
     @IBAction func touchEnded(sender: AnyObject) {
-        // Update the parameters
+        delegate?.sliderValueDidChange(slider:self, didMoveToValue: Double(slider.value))
     }
     
     @IBAction func sliderDidChangeValue(sender: AnyObject) {
-        valueLabel.text = String(format: "%.2f", slider.value)
-    }
+        valueLabel.text = String(format:"%.2f", slider.value)    }
 
 }
