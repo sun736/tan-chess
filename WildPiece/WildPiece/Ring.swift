@@ -11,8 +11,8 @@ import SpriteKit
 
 class Ring: SKShapeNode {
     
-    let delta :CGFloat = 20
-    let opacity :CGFloat = 1.0
+    let delta :CGFloat = 5
+    let opacity :CGFloat = 0.6
     
     init(_ location: CGPoint, _ radius: CGFloat) {
         super.init()
@@ -20,10 +20,10 @@ class Ring: SKShapeNode {
         CGPathAddArc(path, nil, 0, 0, radius + delta, 0, CGFloat(M_PI)*2, true)
         CGPathCloseSubpath(path)
         
-        self.physicsBody = SKPhysicsBody(edgeLoopFromPath: path)
-        self.lineWidth = 1.0
-        self.strokeColor = UIColor.blueColor().colorWithAlphaComponent(opacity)
-        self.fillColor = UIColor.redColor().colorWithAlphaComponent(opacity)
+        self.path = path
+        self.lineWidth = 3
+        self.strokeColor = UIColor.redColor().colorWithAlphaComponent(opacity)
+        self.fillColor = UIColor.greenColor().colorWithAlphaComponent(opacity)
         self.position = location
     }
     

@@ -167,17 +167,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if node.isKindOfClass(Piece) {
             let piece = node as Piece
             
-            // not working in simulator
-            // var ring = Ring(piece.position, piece.getRadius())
-            // self.addChild(ring)
-            
-            let ring = SKShapeNode(circleOfRadius: piece.getRadius() + 5)
-            ring.fillColor = UIColor.greenColor().colorWithAlphaComponent(0.6)
-            ring.strokeColor = UIColor.redColor().colorWithAlphaComponent(0.6)
-            ring.lineWidth = 1.5
-            // shape.glowWidth = 5
-            ring.position = piece.position
-            
+            var ring = Ring(piece.position, piece.getRadius())
+
             if let piece = possibleTouchNode as? Piece {
                 piece.ring = ring
             }
