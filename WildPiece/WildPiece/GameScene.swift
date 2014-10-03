@@ -58,11 +58,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node1.deduceHealth()
         
         if node1.healthPoint == 0 {
-            node1.removeFromParent()
+            //node1.removeFromParent()
+            node1.fadeOut();
         }
         
         if node2.healthPoint == 0 {
-            node2.removeFromParent()
+            //node2.removeFromParent()
+            node2.fadeOut()
         }
     }
     

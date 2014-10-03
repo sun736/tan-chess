@@ -15,6 +15,9 @@ class Piece: SKSpriteNode {
     var maxHealthPoint : Int
     var radius : CGFloat
     var ring : SKShapeNode?
+    let fadeOutWaitTime: NSTimeInterval = 0.5
+    let fadeOutFadeTime: NSTimeInterval = 0.7
+    
     override init() {
         
         healthPoint = 30
@@ -55,6 +58,14 @@ class Piece: SKSpriteNode {
         {
             self.texture = SKTexture(imageNamed:"KingCoin_Broken")
         }
+    }
+    
+    func fadeOut() {
+        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
+        let fadeAction = SKAction.fadeOutWithDuration(fadeOutFadeTime)
+        let removeAction = SKAction.removeFromParent()
+        let sequence = [waitAction, fadeAction, removeAction]
+        self.runAction(SKAction.sequence(sequence))
     }
     
     required init(coder aDecoder: NSCoder) {
