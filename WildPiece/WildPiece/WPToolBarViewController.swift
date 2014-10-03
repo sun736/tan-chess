@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WPToolBarViewController: UIViewController {
+class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
     
     @IBOutlet weak var massSlider: WPSliderView!
     @IBOutlet weak var dampingSlider: WPSliderView!
@@ -17,10 +17,20 @@ class WPToolBarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        massSlider.setupBasic(title: "M", minValue: 1, maxValue: 10)
-        dampingSlider.setupBasic(title: "D", minValue: 1, maxValue: 25)
-        restitutionSlider.setupBasic(title: "R", minValue: 0, maxValue: 1)
-        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 1000)
+        massSlider.setupBasic(title: "M", minValue: 1, maxValue: 10, delegate: self)
+        dampingSlider.setupBasic(title: "D", minValue: 1, maxValue: 25, delegate: self)
+        restitutionSlider.setupBasic(title: "R", minValue: 0, maxValue: 1, delegate: self)
+        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 1000, delegate: self)
+    }
+    
+    func sliderValueDidChange(#slider : WPSliderView, didMoveToValue value : Double) {
+        switch slider {
+        case massSlider : WPParameterHelper.sharedInstance.mass = value
+        case dampingSlider : WPParameterHelper.sharedInstance.damping = value
+        case restitutionSlider : WPParameterHelper.sharedInstance.restitution = value
+        case impulseSlider : WPParameterHelper.sharedInstance.impulse = value
+        default: println("Error when setting Slider value")
+        }
     }
     
     override func didReceiveMemoryWarning() {

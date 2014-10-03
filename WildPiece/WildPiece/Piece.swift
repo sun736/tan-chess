@@ -17,8 +17,8 @@ class Piece: SKSpriteNode {
     var ring : SKShapeNode?
     var arrow: SKShapeNode?
 
-    let fadeOutWaitTime: NSTimeInterval = 0.5
-    let fadeOutFadeTime: NSTimeInterval = 0.7
+    let fadeOutWaitTime: NSTimeInterval = 0.1
+    let fadeOutFadeTime: NSTimeInterval = 0.3
     
     override init() {
         
@@ -33,6 +33,7 @@ class Piece: SKSpriteNode {
         physicsBody?.linearDamping = 5
         physicsBody?.angularDamping = 7
         physicsBody?.mass = 5
+        name = "piece"
         
     }
     
@@ -105,7 +106,7 @@ class PieceKing : Piece{
     init(collisionBitMask : UInt32){
 
         super.init()
-        radius = 50
+        radius = 30
         healthPoint = 50
         maxHealthPoint = 50
         if(collisionBitMask == BITMASK_BLUE())
@@ -138,7 +139,7 @@ class PiecePawn : Piece{
     init(collisionBitMask : UInt32){
       
         super.init()
-        radius = 35
+        radius = 20
         if(collisionBitMask == BITMASK_BLUE())
         {
             texture = SKTexture(imageNamed:"Coin")

@@ -20,10 +20,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var possibleTouchNode :SKNode?
     
     override func didMoveToView(view: SKView) {
-        
+        var yourline = SKShapeNode();
+        var pathToDraw = CGPathCreateMutable();
+        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
+        yourline.path = pathToDraw;
+        yourline.strokeColor = UIColor.blueColor()
+        self.addChild(yourline)
         println("Move game scene to view")
+        
+        //change scene background color
+        scene?.backgroundColor = UIColor.lightGrayColor()
         // Now make the edges of the screen a physics object as well
-        scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
+        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
+        
+        
         scene?.physicsBody?.collisionBitMask = worldObject
         scene?.physicsBody?.contactTestBitMask = worldObject
         
@@ -38,6 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var location = CGPointMake(200, 500)
         
         king.position = location
+        println(king.name)
         self.addChild(king)
         //Pawn
         let pawn1 = PiecePawn(collisionBitMask: blueSideBitMask)
@@ -170,8 +185,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             touchNode.physicsBody?.applyImpulse(force);
         }
     }
-    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        var pieces = scene?.children
+        var piece: AnyObject
+        
+        for node in pieces as [SKNode] {
+            if node.name == "piece" {
+                let piece = node as Piece
+                //println("x:\(piece.position.x), y:\(piece.position.y)")
+                if piece.position.x < 40 || piece.position.x > 335 {
+                    piece.fadeOut()
+                }
+                if piece.position.y < 40 || piece.position.y > 627 {
+                    piece.fadeOut()
+                }
+                
+            }
+        }
     }
 }
