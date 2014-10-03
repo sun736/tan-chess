@@ -20,7 +20,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var possibleTouchNode :SKNode?
     
     override func didMoveToView(view: SKView) {
-        
+        var yourline = SKShapeNode();
+        var pathToDraw = CGPathCreateMutable();
+        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
+        yourline.path = pathToDraw;
+        yourline.strokeColor = UIColor.blueColor()
+        self.addChild(yourline)
         println("Move game scene to view")
         
         //change scene background color
