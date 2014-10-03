@@ -12,7 +12,8 @@ import SpriteKit
 class Ring: SKShapeNode {
     
     let delta :CGFloat = 5
-    let opacity :CGFloat = 0.6
+    let opacity :CGFloat = 1
+    let color: UInt = 0x00FFFF
     
     init(_ location: CGPoint, _ radius: CGFloat) {
         super.init()
@@ -21,9 +22,8 @@ class Ring: SKShapeNode {
         CGPathCloseSubpath(path)
         
         self.path = path
-        self.lineWidth = 3
-        self.strokeColor = UIColor.redColor().colorWithAlphaComponent(opacity)
-        self.fillColor = UIColor.greenColor().colorWithAlphaComponent(opacity)
+        self.lineWidth = 2.0
+        self.strokeColor = UIColorFromRGB(color, alpha: opacity)
         self.position = location
     }
     
@@ -31,4 +31,12 @@ class Ring: SKShapeNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func UIColorFromRGB(rgbValue: UInt, alpha: CGFloat) -> UIColor {
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(alpha)
+        )
+    }
 }
