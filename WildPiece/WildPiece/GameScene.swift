@@ -180,7 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //        println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
         
-        if touchNode.isKindOfClass(Piece) {
+        if let piece = touchNode as? Piece {
             touchNode.physicsBody?.applyImpulse(force);
         }
     }
