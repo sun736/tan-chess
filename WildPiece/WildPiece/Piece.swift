@@ -89,10 +89,10 @@ class Piece: SKSpriteNode {
     
     func drawArrow(cgVector: CGVector) {
         self.removeArrow()
-        var endPoition = CGPointMake(cgVector.dx/100, cgVector.dy/100)
-        let arrowNode :SKShapeNode = Arrow(startPoint: CGPointMake(0, 0), endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6)
+        var endPoition = CGPointMake(cgVector.dx/100 + self.position.x, cgVector.dy/100 + self.position.y)
+        let arrowNode :SKShapeNode = Arrow(startPoint: self.position, endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6)
         self.arrow = arrowNode
-        self.addChild(arrowNode)
+        self.parent?.addChild(arrowNode)
     }
     
     func removeArrow() {
