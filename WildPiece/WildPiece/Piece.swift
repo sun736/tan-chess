@@ -15,6 +15,7 @@ class Piece: SKSpriteNode {
     var maxHealthPoint : Int
     var radius : CGFloat
     var ring : SKShapeNode?
+    var arrow: SKShapeNode?
 
     let fadeOutWaitTime: NSTimeInterval = 0.5
     let fadeOutFadeTime: NSTimeInterval = 0.7
@@ -73,6 +74,29 @@ class Piece: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func removeRing() {
+        self.ring?.removeFromParent()
+    }
+    
+    func drawRing() {
+        self.removeRing()
+        self.ring = Ring(CGPointMake(0, 0), getRadius())
+        if let ring = self.ring {
+            self.addChild(ring)
+        }
+    }
+    
+    func drawArrow(cgVector: CGVector) {
+        self.removeArrow()
+        var endPoition = CGPointMake(cgVector.dx/100, cgVector.dy/100)
+        let arrowNode :SKShapeNode = Arrow(startPoint: CGPointMake(0, 0), endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6)
+        self.arrow = arrowNode
+        self.addChild(arrowNode)
+    }
+    
+    func removeArrow() {
+        self.arrow?.removeFromParent()
+    }
 }
 
 class PieceKing : Piece{

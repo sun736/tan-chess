@@ -31,7 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.physicsWorld.gravity.dy = 0
         self.physicsBody?.friction = 0.9
-
+        
         //initialize pieces
         //King
         let king = PieceKing(collisionBitMask: blueSideBitMask);
@@ -71,9 +71,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-
+        
         if (contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA?.categoryBitMask == blueSideBitMask && contact.bodyB?.categoryBitMask == blueSideBitMask ) {
-
+            
             let node1:Piece = contact.bodyA.node as Piece
             let node2:Piece = contact.bodyB.node as Piece
             didTwoBallCollision(node1, node2: node2)
@@ -83,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-
+        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
@@ -91,7 +91,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             possibleEndPt = nil
             possibleTouchNode = self.nodeAtPoint(location)
             
-            drawRing(location)
+            if let piece = possibleTouchNode as? Piece {
+                piece.drawRing()
+            }
         }
     }
     
@@ -110,7 +112,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        deleteRing()
+        if let piece = possibleTouchNode as? Piece {
+            piece.removeRing()
+            piece.removeArrow()
+        }
         
         possibleBeginPt = nil
         possibleEndPt = nil
@@ -122,16 +127,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             // notify the node to draw a force indicator
             if let actualBeginPt = possibleBeginPt {
-                if let actualEndPt = possibleEndPt {
-                    if let actualTouchNode = possibleTouchNode {
-                        pullDidChangeDistance(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
-                    }
+                if let actualTouchNode = possibleTouchNode {
+                    pullDidChangeDistance(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: location)
                 }
             }
         }
     }
     
     override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
+        if let piece = possibleTouchNode as? Piece {
+            piece.removeRing()
+            piece.removeArrow()
+        }
+        
         possibleBeginPt = nil
         possibleEndPt = nil
         possibleTouchNode = nil
@@ -143,6 +151,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+        if let piece = touchNode as? Piece {
+            piece.drawArrow(force)
+        }
     }
     
     // called when a pull gesture is performed on a node
@@ -162,41 +173,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-    }
-    
-    // draw a ring around the piece
-    func drawRing(location: CGPoint) {
-        let node = self.nodeAtPoint(location)
-        if node.isKindOfClass(Piece) {
-            let piece = node as Piece
-            
-            var ring = Ring(piece.position, piece.getRadius())
-
-            if let piece = possibleTouchNode as? Piece {
-                piece.ring = ring
-            }
-
-            self.addChild(ring)
-            
-            let startPosition = CGPointMake(50, 100)//location
-            var endPoition = CGPointMake(100, 300)//piece.position
-            
-            println("\(startPosition) \(endPoition)")
-            
-            let path :CGPath = Arrow.pathWithArrowFromPoint(startPosition, endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6)
-
-            let arrowLayer: CAShapeLayer = CAShapeLayer()
-            arrowLayer.path = path
-            arrowLayer.fillColor = nil
-            arrowLayer.strokeColor = UIColor.redColor().CGColor
-            arrowLayer.lineWidth = 2.0
-            self.view?.layer.addSublayer(arrowLayer)
-        }
-    }
-    
-    func deleteRing() {
-        if let piece = possibleTouchNode as? Piece {
-            piece.ring?.removeFromParent()
-        }
     }
 }
