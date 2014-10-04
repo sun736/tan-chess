@@ -57,11 +57,13 @@ class Logic {
         state = .Unstarted
     }
     
-    class func sharedInstance() -> Logic {
-        struct Static {
-            static let instance : Logic = Logic()
+    class var sharedInstance : Logic {
+        get {
+            struct Static {
+                static let instance : Logic = Logic()
+            }
+            return Static.instance
         }
-        return Static.instance
     }
     
     func updateState() {
