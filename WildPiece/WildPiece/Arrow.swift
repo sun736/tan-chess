@@ -12,10 +12,11 @@ import SpriteKit
 class Arrow: SKShapeNode {
     let color: UInt = 0x00FFFF
     let opacity: CGFloat = 1.0
+    var maxLength: Float = 30.0
     
-    init(startPoint :CGPoint, endPoint : CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) {
+    init(startPoint :CGPoint, endPoint : CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat, parentRadius: CGFloat) {
         super.init()
-        let cgPath = self.pathWithArrowFromPoint(startPoint, endPoint: endPoint, tailWidth: tailWidth, headWidth: headWidth, headLength: headLength)
+        let cgPath = self.pathWithArrowFromPoint(startPoint, endPoint: endPoint, tailWidth: tailWidth, headWidth: headWidth, headLength: headLength, parentRadius: parentRadius)
         self.path = cgPath
         self.lineWidth = 2.0
         self.zPosition = 0
@@ -45,17 +46,32 @@ class Arrow: SKShapeNode {
         return CGAffineTransformMake(cosine, sine, -sine, cosine, startPoint.x, startPoint.y)
     }
     
-    
-    func pathWithArrowFromPoint(startPoint :CGPoint, endPoint : CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) -> CGPath {
-    
+    func pathWithArrowFromPoint(startPoint :CGPoint, endPoint : CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat, parentRadius: CGFloat) -> CGPath {
+        var startPt = startPoint
+        var endPt = endPoint
+        var outRadius = parentRadius
+        
         let xdiff: Float = Float(endPoint.x) - Float(startPoint.x)
         let ydiff: Float = Float(endPoint.y) - Float(startPoint.y)
-        let length: Float = hypotf(xdiff, ydiff)
+        let oldLength: Float = hypotf(xdiff, ydiff)
+        var length: Float = oldLength
+        
+        startPt.x = startPoint.x + CGFloat(Float(outRadius) * (xdiff)/oldLength)
+        startPt.y = startPoint.y + CGFloat(Float(outRadius) * (ydiff)/oldLength)
+        
+        if(length < 8) {
+            length = Float(8)
+        }
+        if(length > maxLength) {
+            length = maxLength
+        }
+        endPt.x = startPt.x + CGFloat(length * (xdiff)/oldLength)
+        endPt.y = startPt.y + CGFloat(length * (ydiff)/oldLength)
         
         var points = [CGPoint]()
         self.getAxisAlignedArrowPoints(&points, forLength: CGFloat(length), tailWidth: tailWidth, headWidth: headWidth, headLength: headLength)
         
-        var transform: CGAffineTransform = self.transformForStartPoint(startPoint, endPoint: endPoint, length:  CGFloat(length))
+        var transform: CGAffineTransform = self.transformForStartPoint(startPt, endPoint: endPt, length:  CGFloat(length))
         
         var cgPath: CGMutablePathRef = CGPathCreateMutable()
         CGPathAddLines(cgPath, &transform, points, 7)
@@ -63,11 +79,5 @@ class Arrow: SKShapeNode {
 
         return cgPath
     }
-    
-    func shapeNodeWithArrowFromPoint (startPoint:CGPoint, endPoint: CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat) -> SKShapeNode {
-        let cgPath = pathWithArrowFromPoint(startPoint, endPoint: endPoint, tailWidth: tailWidth, headWidth: headWidth, headLength: headLength)
-        let shape: SKShapeNode = SKShapeNode(path: cgPath)
-        shape.physicsBody = nil
-        return shape
-    }
+
 }

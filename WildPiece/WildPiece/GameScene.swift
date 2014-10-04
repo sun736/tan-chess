@@ -70,30 +70,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
     }
     
-    func didTwoBallCollision(node1: Piece , node2: Piece) {
+    func didTwoBallCollision(#contacter: Piece, contactee: Piece) {
         
-        node1.deduceHealth()
+        contactee.deduceHealth()
         
-        if node1.healthPoint == 0 {
-            //node1.removeFromParent()
-            node1.fadeOut();
+        if contacter.healthPoint == 0 {
+            contacter.fadeOut();
         }
         
-        if node2.healthPoint == 0 {
-            //node2.removeFromParent()
-            node2.fadeOut()
+        if contactee.healthPoint == 0 {
+         contactee.fadeOut()
         }
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
         
         if (contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA?.categoryBitMask == blueSideBitMask && contact.bodyB?.categoryBitMask == blueSideBitMask ) {
-            
             let node1:Piece = contact.bodyA.node as Piece
             let node2:Piece = contact.bodyB.node as Piece
-            didTwoBallCollision(node1, node2: node2)
+            /*
+            let speedNode1: Float = hypotf(Float(node1.physicsBody!.velocity.dx), Float(node1.physicsBody!.velocity.dy))
+            let speedNode2: Float = hypotf(Float(node2.physicsBody!.velocity.dx), Float(node2.physicsBody!.velocity.dy))
+            println("\(node1.texture?.description) speed: \(speedNode1)")
+            println("\(node2.texture?.description) speed: \(speedNode2)")
+            if speedNode1 > speedNode2 {
+                println("go 1")
+                didTwoBallCollision(contacter: node1, contactee: node2)
+            } else {
+                println("go 2")
+                didTwoBallCollision(contacter: node2, contactee: node1)
+            }*/
+            if node1.isContacter {
+                didTwoBallCollision(contacter: node1, contactee: node2)
+            } else {
+                didTwoBallCollision(contacter: node2, contactee: node1)
+            }
             
+            node1.drawHPRing()
+            node2.drawHPRing()
         }
+    }
+    
+    func setContacter(contacter: Piece) {
+        // set all pieces to contactee
+        var pieces = scene?.children
+        for node in pieces as [SKNode] {
+            if node.name == "piece" {
+                let piece = node as Piece
+                piece.isContacter = false
+            }
+        }
+        //set clicked piece to contacter
+        contacter.isContacter = true
         
     }
     
@@ -101,14 +129,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            
-            possibleBeginPt = location
-            possibleEndPt = nil
-            possibleTouchNode = self.nodeAtPoint(location)
-            
+            let nodes = self.nodesAtPoint(location)
+            for node in nodes {
+                if let piece = node as? Piece {
+                    
+                    possibleBeginPt = location
+                    possibleEndPt = nil
+                    possibleTouchNode = piece
+                    
+                    if let piece = possibleTouchNode as? Piece {
+                        piece.drawRing()
+                    }
+                    break
+                }
+            }
             if let piece = possibleTouchNode as? Piece {
                 piece.drawRing()
+                // temporary solution to determine contacter
+                setContacter(piece)
             }
+
         }
     }
     

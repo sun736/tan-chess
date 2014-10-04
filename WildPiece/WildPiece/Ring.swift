@@ -11,20 +11,26 @@ import SpriteKit
 
 class Ring: SKShapeNode {
     
-    let delta :CGFloat = 5
+    let delta :CGFloat = 6
     let opacity :CGFloat = 1
     let color: UInt = 0x00FFFF
+    var radius: CGFloat = 0
     
     init(_ location: CGPoint, _ radius: CGFloat) {
         super.init()
         var path = CGPathCreateMutable()
-        CGPathAddArc(path, nil, 0, 0, radius + delta, 0, CGFloat(M_PI)*2, true)
+        self.radius += radius + delta
+        CGPathAddArc(path, nil, 0, 0, self.radius, 0, CGFloat(M_PI)*2, true)
         CGPathCloseSubpath(path)
         
         self.path = path
         self.lineWidth = 2.0
         self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)
         self.position = location
+    }
+    
+    func getRadius() -> CGFloat {
+        return radius
     }
     
     required init(coder aDecoder: NSCoder) {

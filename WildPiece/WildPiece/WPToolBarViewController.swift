@@ -25,10 +25,10 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
     
     func sliderValueDidChange(#slider : WPSliderView, didMoveToValue value : Double) {
         switch slider {
-        case massSlider : WPParameterHelper.sharedInstance.mass = value
-        case dampingSlider : WPParameterHelper.sharedInstance.damping = value
-        case restitutionSlider : WPParameterHelper.sharedInstance.restitution = value
-        case impulseSlider : WPParameterHelper.sharedInstance.impulse = value
+        case massSlider : WPParameterSet.sharedInstance.mass = value
+        case dampingSlider : WPParameterSet.sharedInstance.damping = value
+        case restitutionSlider : WPParameterSet.sharedInstance.restitution = value
+        case impulseSlider : WPParameterSet.sharedInstance.impulse = value
         default: println("Error when setting Slider value")
         }
     }
