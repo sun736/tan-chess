@@ -59,6 +59,6 @@ class WPSliderView: UIView {
     }
     
     @IBAction func sliderDidChangeValue(sender: AnyObject) {
-        valueLabel.text = String(format:"%.2f", slider.value)    }
+        valueLabel.text = String(format:"%.1f", slider.value)    }
 
 }
