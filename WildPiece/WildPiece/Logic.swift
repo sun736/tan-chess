@@ -9,22 +9,6 @@
 import Foundation
 import SpriteKit
 
-typealias Player = Int
-extension Player {
-    var bitMask : UInt32 {
-        get {
-            return UInt32(self)
-        }
-    }
-    
-    // get the opponent
-    func opponent() -> Player {
-        return Player(1 - self)
-    }
-}
-// the only two players: Player(1), Player(2)
-let PLAYER1 = Player(1), PLAYER2 = Player(2)
-
 class Logic {
     
     enum GameState : Printable {
@@ -56,11 +40,8 @@ class Logic {
         }
     }
     
-    var scene: GameScene? {
-        didSet {
-            self.startGame()
-        }
-    }
+    private(set) var scene: GameScene?
+    
     private(set) var state: GameState {
         willSet {
             println("old state: \(state)")
@@ -69,6 +50,7 @@ class Logic {
             println("new state: \(state)")
         }
     }
+    
     private(set) var currentPlayer: Player?
     
     init() {
@@ -92,7 +74,7 @@ class Logic {
             if let piece = child as? Piece {
                 if let body = piece.physicsBody {
                     playerFlags |= body.categoryBitMask
-                    isMoving = hypotf(Float(body.velocity.dx), Float(body.velocity.dy)) > 0
+                    isMoving = (body.velocity.dx != 0) || (body.velocity.dy != 0)
                 }
             }
         }
@@ -108,7 +90,7 @@ class Logic {
             if !isMoving {
                 switch playerFlags {
                 case 0x01, 0x02:
-                    state = .Ended(Player(playerFlags))
+                    state = .Ended(Player.getPlayer(playerFlags))
                 case 0x03:
                     state = .Waiting(player.opponent())
                 default:
@@ -128,15 +110,15 @@ class Logic {
         }
     }
     
-    private func startGame() {
+    func startGame(gameScene : GameScene) {
         
         state = .Starting
+        self.scene = gameScene
         // initiate scene
         scene?.placePieces()
         
         // first player's turn
         state = .Waiting(PLAYER1)
-        
         
         
         

@@ -28,6 +28,7 @@
 		91101BD919D5DE7100E59AB4 /* WildPieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BD819D5DE7100E59AB4 /* WildPieceTests.swift */; };
 		91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BE219D5DF2300E59AB4 /* Piece.swift */; };
 		A23D73B019DF6C7F007383DF /* Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23D73AF19DF6C7F007383DF /* Logic.swift */; };
+		A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C8C93C19E0A8FC00C6B166 /* Player.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		91101BD819D5DE7100E59AB4 /* WildPieceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildPieceTests.swift; sourceTree = "<group>"; };
 		91101BE219D5DF2300E59AB4 /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
 		A23D73AF19DF6C7F007383DF /* Logic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logic.swift; sourceTree = "<group>"; };
+		A2C8C93C19E0A8FC00C6B166 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				A23D73AF19DF6C7F007383DF /* Logic.swift */,
+				A2C8C93C19E0A8FC00C6B166 /* Player.swift */,
 				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
 				4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */,
 				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
@@ -273,6 +276,7 @@
 				4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */,
 				91101BC519D5DE7000E59AB4 /* GameViewController.swift in Sources */,
 				91101BBF19D5DE7000E59AB4 /* AppDelegate.swift in Sources */,
+				A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */,
 				087B614E19DF1B56009694C6 /* HelpScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
