@@ -48,6 +48,8 @@ class GameViewController: UIViewController {
             /* Set single touch */
             skView.multipleTouchEnabled = false;
             
+            //init the gamescene in AppDelegata
+            
             let menuScene = MenuScene(size: scene.size)
             
             skView.presentScene(menuScene)

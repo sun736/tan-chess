@@ -40,9 +40,13 @@ class MenuScene: SKScene {
         if touchedNode.name == "startButton"
         {
             println("start")
-            var gameScene = GameScene(size: self.size)
+            // when start the game, init a new game scene
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            appDelegate.gameScene = GameScene()
+            var gameScene = appDelegate.gameScene
+            gameScene?.size = self.size
+            gameScene?.scaleMode = SKSceneScaleMode.AspectFill
             let transition = SKTransition.crossFadeWithDuration(0.3)
-            gameScene.scaleMode = SKSceneScaleMode.AspectFill
             self.scene?.view?.presentScene(gameScene, transition: transition)
         }else if touchedNode.name == "helpButton"
         {
