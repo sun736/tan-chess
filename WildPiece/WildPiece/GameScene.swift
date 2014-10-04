@@ -295,4 +295,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+    
+    func addPiece(pieceType : PieceType, player : Player, location : CGPoint) {
+        var piece = Piece.newPiece(pieceType, bitMask: player.bitMask);
+        piece.position = location
+        self.addChild(piece)
+    }
 }

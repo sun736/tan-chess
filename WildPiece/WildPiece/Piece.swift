@@ -9,12 +9,12 @@
 import Foundation
 import SpriteKit
 
+enum PieceType {
+    case King
+    case Pawn
+}
+
 class Piece: SKSpriteNode {
-    
-    enum PieceType {
-        case King
-        case Pawn
-    }
 
     var healthPoint : Int
     var maxHealthPoint : Int

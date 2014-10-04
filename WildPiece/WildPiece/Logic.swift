@@ -10,8 +10,6 @@ import Foundation
 import SpriteKit
 
 typealias Player = Int
-
-// the only two players: Player(1), Player(2)
 extension Player {
     var bitMask : UInt32 {
         get {
@@ -22,7 +20,14 @@ extension Player {
             self = Int(newValue)
         }
     }
+    
+    // get the opponent
+    func opponent() -> Player {
+        return Player(1 - self)
+    }
 }
+// the only two players: Player(1), Player(2)
+let PLAYER1 = Player(1), PLAYER2 = Player(2)
 
 class Logic {
     
@@ -112,14 +117,8 @@ class Logic {
         
         state = .Starting
         
-        var player1 = Player(1);
-        var player2 = Player(2);
-        
         
         
         
     }
-    
-    
-    
 }
