@@ -48,63 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.physicsWorld.gravity.dy = 0
         self.physicsBody?.friction = 0.9
-        
-        //Just for demo purpose
-        //initialize blue pieces
-        let blueKing = PieceKing(collisionBitMask: Piece.BITMASK_BLUE())
-        let bluePawn1 = PiecePawn(collisionBitMask: Piece.BITMASK_BLUE())
-        let bluePawn2 = PiecePawn(collisionBitMask: Piece.BITMASK_BLUE())
-        let bluePawn3 = PiecePawn(collisionBitMask: Piece.BITMASK_BLUE())
-        
-        let blueElephant1 = PieceElephant(collisionBitMask: Piece.BITMASK_BLUE())
-        let blueElephant2 = PieceElephant(collisionBitMask: Piece.BITMASK_BLUE())
-        var blueKingLocation = CGPointMake(187, 100)
-        var bluePawn1Location = CGPointMake(107, 220)
-        var bluePawn2Location = CGPointMake(267, 220)
-        var bluePawn3Location = CGPointMake(187, 220)
-        var blueElephant1Location = CGPointMake(150, 160)
-        var blueElephant2Location = CGPointMake(224, 160)
-
-        blueKing.position = blueKingLocation
-        bluePawn1.position = bluePawn1Location
-        bluePawn2.position = bluePawn2Location
-        bluePawn3.position = bluePawn3Location
-        blueElephant1.position = blueElephant1Location
-        blueElephant2.position = blueElephant2Location
-        self.addChild(blueKing)
-        self.addChild(bluePawn1)
-        self.addChild(bluePawn2)
-        self.addChild(bluePawn3)
-        self.addChild(blueElephant1)
-        self.addChild(blueElephant2)
-        
-        //initialize red pieces
-        let redKing = PieceKing(collisionBitMask: Piece.BITMASK_RED())
-        let redPawn1 = PiecePawn(collisionBitMask: Piece.BITMASK_RED())
-        let redPawn2 = PiecePawn(collisionBitMask: Piece.BITMASK_RED())
-        let redPawn3 = PiecePawn(collisionBitMask: Piece.BITMASK_RED())
-        let redElephant1 = PieceElephant(collisionBitMask: Piece.BITMASK_RED())
-        let redElephant2 = PieceElephant(collisionBitMask: Piece.BITMASK_RED())
-        
-        var redKingLocation = CGPointMake(187, 567)
-        var redPawn1Location = CGPointMake(107, 447)
-        var redPawn3Location = CGPointMake(187, 447)
-        var redPawn2Location = CGPointMake(267, 447)
-        var redElephant1Location = CGPointMake(150, 507)
-        var redElephant2Location = CGPointMake(224, 507)
-        redKing.position = redKingLocation
-        redPawn1.position = redPawn1Location
-        redPawn2.position = redPawn2Location
-        redPawn3.position = redPawn3Location
-        redElephant1.position = redElephant1Location
-        redElephant2.position = redElephant2Location
-        self.addChild(redKing)
-        self.addChild(redPawn1)
-        self.addChild(redPawn2)
-        self.addChild(redPawn3)
-        self.addChild(redElephant1)
-        self.addChild(redElephant2)
-        
+        placePieces()
         self.physicsWorld.contactDelegate = self
     }
     
@@ -296,9 +240,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func addPiece(pieceType : PieceType, player : Player, location : CGPoint) {
+    func addPiece(pieceType : PieceType, location : CGPoint, player : Player) {
+        println("location: \(location)")
         var piece = Piece.newPiece(pieceType, bitMask: player.bitMask);
         piece.position = location
         self.addChild(piece)
+    }
+    
+    func addPairPieces(pieceType : PieceType, location : CGPoint) {
+        addPiece(pieceType, location: location, player: PLAYER1)
+        let opponentLocation = CGPointMake(self.size.width - location.x, self.size.height - location.y)
+        addPiece(pieceType, location: opponentLocation, player: PLAYER2)
+    }
+    
+    func placePieces() {
+        
+        //Just for demo purpose
+        //initialize blue pieces
+        // add kings
+        addPairPieces(PieceType.King, location: CGPointMake(187, 100))
+        // add pawns
+        addPairPieces(PieceType.Pawn, location: CGPointMake(107, 220))
+        addPairPieces(PieceType.Pawn, location: CGPointMake(267, 220))
+        addPairPieces(PieceType.Pawn, location: CGPointMake(187, 220))
+        // add elephants
+        addPairPieces(PieceType.Elephant, location: CGPointMake(150, 160))
+        addPairPieces(PieceType.Elephant, location: CGPointMake(224, 160))
     }
 }
