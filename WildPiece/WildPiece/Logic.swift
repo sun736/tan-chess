@@ -110,7 +110,7 @@ class Logic {
                 case 0x01, 0x02:
                     state = .Ended(Player(playerFlags))
                 case 0x03:
-                    state = .Waiting(player)
+                    state = .Waiting(player.opponent())
                 default:
                     state = .Error
                 }
