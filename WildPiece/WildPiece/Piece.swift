@@ -17,14 +17,18 @@ class Piece: SKSpriteNode {
     var ring : Ring?
     var arrow: Arrow?
     var hpring: HPRing?
+    // temporary solution to contact
+    var isContacter: Bool
 
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
+
     init(radius: CGFloat, healthPoint: Int = 30, maxHealthPoint: Int = 30) {
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
+        self.isContacter = false
         super.init(texture: SKTexture(imageNamed:""),color: nil,size: CGSizeMake(0, 0))
         physicsBody?.dynamic = true;
         physicsBody?.friction = 0.9
@@ -41,6 +45,7 @@ class Piece: SKSpriteNode {
         physicsBody?.categoryBitMask = collisionBitMask
         physicsBody?.contactTestBitMask = collisionBitMask
         physicsBody?.collisionBitMask = collisionBitMask
+        physicsBody?.usesPreciseCollisionDetection = true
     }
     
     func getRadius() -> CGFloat{

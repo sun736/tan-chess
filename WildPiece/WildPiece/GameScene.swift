@@ -86,10 +86,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         
         if (contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA?.categoryBitMask == blueSideBitMask && contact.bodyB?.categoryBitMask == blueSideBitMask ) {
-            
             let node1:Piece = contact.bodyA.node as Piece
             let node2:Piece = contact.bodyB.node as Piece
-            if node1.speed > node2.speed{
+            /*
+            let speedNode1: Float = hypotf(Float(node1.physicsBody!.velocity.dx), Float(node1.physicsBody!.velocity.dy))
+            let speedNode2: Float = hypotf(Float(node2.physicsBody!.velocity.dx), Float(node2.physicsBody!.velocity.dy))
+            println("\(node1.texture?.description) speed: \(speedNode1)")
+            println("\(node2.texture?.description) speed: \(speedNode2)")
+            if speedNode1 > speedNode2 {
+                println("go 1")
+                didTwoBallCollision(contacter: node1, contactee: node2)
+            } else {
+                println("go 2")
+                didTwoBallCollision(contacter: node2, contactee: node1)
+            }*/
+            if node1.isContacter {
                 didTwoBallCollision(contacter: node1, contactee: node2)
             } else {
                 didTwoBallCollision(contacter: node2, contactee: node1)
@@ -98,6 +109,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             node1.drawHPRing()
             node2.drawHPRing()
         }
+    }
+    
+    func setContacter(contacter: Piece) {
+        // set all pieces to contactee
+        var pieces = scene?.children
+        for node in pieces as [SKNode] {
+            if node.name == "piece" {
+                let piece = node as Piece
+                piece.isContacter = false
+            }
+        }
+        //set clicked piece to contacter
+        contacter.isContacter = true
+        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -118,8 +143,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     break
                 }
             }
-            
-            
+            if let piece = possibleTouchNode as? Piece {
+                piece.drawRing()
+                // temporary solution to determine contacter
+                setContacter(piece)
+            }
+
         }
     }
     
