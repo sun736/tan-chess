@@ -45,7 +45,7 @@ class Player : Printable {
     }
     
     class func getPlayer(bitMask : UInt32) -> Player {
-        return PLAYER1
+        return getPlayer(Int(bitMask))
     }
     
     // get the opponent
