@@ -16,6 +16,7 @@ class Piece: SKSpriteNode {
     var radius : CGFloat
     var ring : Ring?
     var arrow: Arrow?
+    var hpring: HPRing?
 
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
@@ -76,10 +77,8 @@ class Piece: SKSpriteNode {
     }
     
     func removeRing() {
-        if let ring = self.ring {
-            
-        }
         self.ring?.removeFromParent()
+        self.hpring?.removeFromParent()
     }
     
     func drawRing() {
@@ -87,6 +86,10 @@ class Piece: SKSpriteNode {
         self.ring = Ring(CGPointMake(0, 0), getRadius())
         if let ring = self.ring {
             self.addChild(ring)
+        }
+        self.hpring = HPRing(location: CGPointMake(0, 0), radius: getRadius(), hp: CGFloat(self.healthPoint), maxHp: CGFloat(self.maxHealthPoint))
+        if let hpring = self.hpring {
+            self.addChild(hpring)
         }
     }
     

@@ -11,7 +11,7 @@ import SpriteKit
 
 class Ring: SKShapeNode {
     
-    let delta :CGFloat = 5
+    let delta :CGFloat = 6
     let opacity :CGFloat = 1
     let color: UInt = 0x00FFFF
     var radius: CGFloat = 0
