@@ -10,6 +10,11 @@ import Foundation
 import SpriteKit
 
 class Piece: SKSpriteNode {
+    
+    enum PieceType {
+        case King
+        case Pawn
+    }
 
     var healthPoint : Int
     var maxHealthPoint : Int
@@ -97,6 +102,19 @@ class Piece: SKSpriteNode {
     
     func removeArrow() {
         self.arrow?.removeFromParent()
+    }
+    
+    // factory method
+    class func newPiece(pieceType : PieceType, bitMask : UInt32) -> Piece {
+        switch pieceType {
+        case .King:
+            return PieceKing(collisionBitMask: bitMask)
+        case .Pawn:
+            return PiecePawn(collisionBitMask: bitMask)
+        default:
+            println("default piece type: \(pieceType)")
+            return Piece()
+        }
     }
 }
 
