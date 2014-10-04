@@ -53,8 +53,8 @@ class GameViewController: UIViewController {
             skView.presentScene(menuScene)
         }
         
-//        self.switchControl.on = false
-//        self.toolBarContainerView.alpha = 0.0
+        self.switchControl.on = false
+        self.toolBarContainerView.alpha = 0.0
     }
     
     override func shouldAutorotate() -> Bool {
@@ -83,5 +83,6 @@ class GameViewController: UIViewController {
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.toolBarContainerView.alpha = CGFloat(targetAlpha)
         })
+        NSNotificationCenter.defaultCenter().postNotificationName("kUpdateToolBar", object: nil)
     }
 }

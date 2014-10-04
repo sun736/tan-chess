@@ -115,6 +115,7 @@
 				087B614D19DF1B56009694C6 /* HelpScene.swift */,
 				91101BE219D5DF2300E59AB4 /* Piece.swift */,
 				91101BC419D5DE7000E59AB4 /* GameViewController.swift */,
+				4F290F7119DF77C500D283BE /* HPRing.swift */,
 				1819134019D7515200BBEDC2 /* WPGameDataManager.swift */,
 				186C621719D636A800FF3952 /* WPToolBarViewController.swift */,
 				186C621319D62AA500FF3952 /* WPSliderView.swift */,
@@ -123,7 +124,6 @@
 				91101BC919D5DE7000E59AB4 /* Images.xcassets */,
 				91101BCB19D5DE7000E59AB4 /* LaunchScreen.xib */,
 				91101BBC19D5DE7000E59AB4 /* Supporting Files */,
-				4F290F7119DF77C500D283BE /* HPRing.swift */,
 			);
 			path = WildPiece;
 			sourceTree = "<group>";
