@@ -14,7 +14,7 @@ class HPRing: SKShapeNode {
     let delta :CGFloat = 2
     let opacity :CGFloat = 1
     let color: UInt = 0xFF0000
-    let linewidth : CGFloat = 2.0
+    let linewidth : CGFloat = 1.5
     var radius: CGFloat = 0
     
     init(location: CGPoint, radius: CGFloat, hp: CGFloat, maxHp: CGFloat) {
@@ -26,8 +26,7 @@ class HPRing: SKShapeNode {
             percentage = 1 - percentage
         }
         CGPathAddArc(path, nil, 0, 0, self.radius, 0, CGFloat(M_PI) * 2 * percentage, true)
-        //CGPathCloseSubpath(path)
-        
+        self.physicsBody = nil
         self.path = path
         self.lineWidth = linewidth
         self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)

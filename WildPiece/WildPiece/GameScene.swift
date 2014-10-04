@@ -94,22 +94,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 didTwoBallCollision(contacter: node2, contactee: node1)
             }
+            
+            node1.drawHPRing()
+            node2.drawHPRing()
         }
-        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            
-            possibleBeginPt = location
-            possibleEndPt = nil
-            possibleTouchNode = self.nodeAtPoint(location)
-            
-            if let piece = possibleTouchNode as? Piece {
-                piece.drawRing()
+            let nodes = self.nodesAtPoint(location)
+            for node in nodes {
+                if let piece = node as? Piece {
+                    
+                    possibleBeginPt = location
+                    possibleEndPt = nil
+                    possibleTouchNode = piece
+                    
+                    if let piece = possibleTouchNode as? Piece {
+                        piece.drawRing()
+                    }
+                    break
+                }
             }
+            
+            
         }
     }
     

@@ -21,11 +21,10 @@ class Piece: SKSpriteNode {
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
-    override init() {
-        
-        healthPoint = 30
-        maxHealthPoint = 30
-        radius = 0
+    init(radius: CGFloat, healthPoint: Int = 30, maxHealthPoint: Int = 30) {
+        self.healthPoint = healthPoint
+        self.maxHealthPoint = maxHealthPoint
+        self.radius = radius
         super.init(texture: SKTexture(imageNamed:""),color: nil,size: CGSizeMake(0, 0))
         physicsBody?.dynamic = true;
         physicsBody?.friction = 0.9
@@ -35,7 +34,7 @@ class Piece: SKSpriteNode {
         physicsBody?.angularDamping = 7
         physicsBody?.mass = 5
         name = "piece"
-        
+        drawHPRing()
     }
     
     func setCollisionBitMask(collisionBitMask: UInt32) {
@@ -76,20 +75,29 @@ class Piece: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func removeRing() {
-        self.ring?.removeFromParent()
+    
+    func drawHPRing() {
+        self.removeHPRing()
+        self.hpring = HPRing(location: CGPointMake(0, 0), radius: getRadius(), hp: CGFloat(self.healthPoint), maxHp: CGFloat(self.maxHealthPoint))
+        if let hpring = self.hpring {
+            self.addChild(hpring)
+        }
+    }
+    
+    func removeHPRing() {
         self.hpring?.removeFromParent()
     }
     
+    func removeRing() {
+        self.ring?.removeFromParent()
+    }
+    
     func drawRing() {
+        println("drawing ring")
         self.removeRing()
         self.ring = Ring(CGPointMake(0, 0), getRadius())
         if let ring = self.ring {
             self.addChild(ring)
-        }
-        self.hpring = HPRing(location: CGPointMake(0, 0), radius: getRadius(), hp: CGFloat(self.healthPoint), maxHp: CGFloat(self.maxHealthPoint))
-        if let hpring = self.hpring {
-            self.addChild(hpring)
         }
     }
     
@@ -116,10 +124,8 @@ class PieceKing : Piece{
 
     init(collisionBitMask : UInt32){
 
-        super.init()
-        radius = 30
-        healthPoint = 50
-        maxHealthPoint = 50
+        super.init(radius: 30, healthPoint: 50, maxHealthPoint: 50)
+
         if(collisionBitMask == BITMASK_BLUE())
         {
             texture = SKTexture(imageNamed:"KingCoin")
@@ -149,8 +155,8 @@ class PiecePawn : Piece{
     
     init(collisionBitMask : UInt32){
       
-        super.init()
-        radius = 20
+        super.init(radius: 20)
+
         if(collisionBitMask == BITMASK_BLUE())
         {
             texture = SKTexture(imageNamed:"Coin")
