@@ -43,8 +43,8 @@ class Piece: SKSpriteNode {
     
     func setCollisionBitMask(collisionBitMask: UInt32) {
         physicsBody?.categoryBitMask = collisionBitMask
-        physicsBody?.contactTestBitMask = collisionBitMask
-        physicsBody?.collisionBitMask = collisionBitMask
+        physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+        physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
         physicsBody?.usesPreciseCollisionDetection = true
     }
     
@@ -52,11 +52,11 @@ class Piece: SKSpriteNode {
         return radius
     }
     
-    func BITMASK_BLUE() -> UInt32{
+    class func BITMASK_BLUE() -> UInt32{
         return 0x01
     }
     
-    func BITMASK_RED() -> UInt32{
+    class func BITMASK_RED() -> UInt32{
         return 0x02
     }
     
@@ -64,7 +64,7 @@ class Piece: SKSpriteNode {
         self.healthPoint = self.healthPoint - 10
         if(self.healthPoint <= self.maxHealthPoint*6/10)
         {
-            self.texture = SKTexture(imageNamed:"KingCoin_Broken")
+           // self.texture = SKTexture(imageNamed:"KingCoin_Broken")
         }
     }
     
@@ -129,20 +129,20 @@ class PieceKing : Piece{
 
     init(collisionBitMask : UInt32){
 
-        super.init(radius: 30, healthPoint: 50, maxHealthPoint: 50)
+        super.init(radius: 25, healthPoint: 50, maxHealthPoint: 50)
 
-        if(collisionBitMask == BITMASK_BLUE())
+        if(collisionBitMask == Piece.BITMASK_BLUE())
         {
-            texture = SKTexture(imageNamed:"KingCoin")
+            texture = SKTexture(imageNamed:"KingPiece_BLUE")
         }
-        else if(collisionBitMask == BITMASK_RED())
+        else if(collisionBitMask == Piece.BITMASK_RED())
         {
-            texture = SKTexture(imageNamed:"KingCoin")
+            texture = SKTexture(imageNamed:"KingPiece_RED")
         }
         size = CGSizeMake(radius*2, radius*2)
         physicsBody = SKPhysicsBody(circleOfRadius:radius)
-        physicsBody?.mass = 20;
-        physicsBody?.linearDamping = 10
+        physicsBody?.mass = 10;
+        physicsBody?.linearDamping = 5
         physicsBody?.angularDamping = 7
         
         setCollisionBitMask(collisionBitMask)
@@ -162,13 +162,13 @@ class PiecePawn : Piece{
       
         super.init(radius: 20)
 
-        if(collisionBitMask == BITMASK_BLUE())
+        if(collisionBitMask == Piece.BITMASK_BLUE())
         {
-            texture = SKTexture(imageNamed:"Coin")
+            texture = SKTexture(imageNamed:"PawnPiece_BLUE")
         }
-        else if(collisionBitMask == BITMASK_RED())
+        else if(collisionBitMask == Piece.BITMASK_RED())
         {
-            texture = SKTexture(imageNamed:"Coin")
+            texture = SKTexture(imageNamed:"PawnPiece_RED")
         }
         size = CGSizeMake(radius*2, radius*2)
         physicsBody = SKPhysicsBody(circleOfRadius:radius)
@@ -184,5 +184,34 @@ class PiecePawn : Piece{
         fatalError("init(coder:) has not been implemented")
     }
 
+}
+
+class PieceElephant : Piece{
+    
+    init(collisionBitMask : UInt32){
+        
+        super.init(radius: 30, healthPoint: 100, maxHealthPoint : 100)
+        
+        if(collisionBitMask == Piece.BITMASK_BLUE())
+        {
+            texture = SKTexture(imageNamed:"ElephantPiece_BLUE")
+        }
+        else if(collisionBitMask == Piece.BITMASK_RED())
+        {
+            texture = SKTexture(imageNamed:"ElephantPiece_RED")
+        }
+        size = CGSizeMake(radius*2, radius*2)
+        physicsBody = SKPhysicsBody(circleOfRadius:radius)
+        physicsBody?.mass = 30;
+        physicsBody?.linearDamping = 10
+        physicsBody?.angularDamping = 7
+        setCollisionBitMask(collisionBitMask)
+        
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 

@@ -10,8 +10,8 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    let blueSideBitMask : UInt32 = 0x01
-    let worldObject : UInt32 = 0x02
+    //let blueSideBitMask : UInt32 = 0x01
+    //let worldObject : UInt32 = 0x02
     
     let MIN_MOVEMENT_DISTANCE = 50.0
     let kDISTANCE_TO_FORCE:CGFloat = -100.0
@@ -20,6 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var possibleTouchNode :SKNode?
     
     override func didMoveToView(view: SKView) {
+        //draw the rectange gameboard
         var yourline = SKShapeNode();
         var pathToDraw = CGPathCreateMutable();
         CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
@@ -34,38 +35,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //change scene background color
         scene?.backgroundColor = UIColor.lightGrayColor()
-        // Now make the edges of the screen a physics object as well
-        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
-        
-        
-        scene?.physicsBody?.collisionBitMask = worldObject
-        scene?.physicsBody?.contactTestBitMask = worldObject
         
         scene?.physicsBody?.dynamic = false
         
         self.physicsWorld.gravity.dy = 0
         self.physicsBody?.friction = 0.9
         
-        //initialize pieces
-        //King
-        let king = PieceKing(collisionBitMask: blueSideBitMask);
-        var location = CGPointMake(200, 500)
+        //Just for demo purpose
+        //initialize blue pieces
+        let blueKing = PieceKing(collisionBitMask: Piece.BITMASK_BLUE())
+        let bluePawn1 = PiecePawn(collisionBitMask: Piece.BITMASK_BLUE())
+        let bluePawn2 = PiecePawn(collisionBitMask: Piece.BITMASK_BLUE())
+        let bluePawn3 = PiecePawn(collisionBitMask: Piece.BITMASK_BLUE())
         
-        king.position = location
-        println(king.name)
-        self.addChild(king)
-        //Pawn
-        let pawn1 = PiecePawn(collisionBitMask: blueSideBitMask)
-        let pawn2 = PiecePawn(collisionBitMask: blueSideBitMask)
+        let blueElephant1 = PieceElephant(collisionBitMask: Piece.BITMASK_BLUE())
+        let blueElephant2 = PieceElephant(collisionBitMask: Piece.BITMASK_BLUE())
+        var blueKingLocation = CGPointMake(187, 100)
+        var bluePawn1Location = CGPointMake(107, 220)
+        var bluePawn2Location = CGPointMake(267, 220)
+        var bluePawn3Location = CGPointMake(187, 220)
+        var blueElephant1Location = CGPointMake(150, 160)
+        var blueElephant2Location = CGPointMake(224, 160)
+
+        blueKing.position = blueKingLocation
+        bluePawn1.position = bluePawn1Location
+        bluePawn2.position = bluePawn2Location
+        bluePawn3.position = bluePawn3Location
+        blueElephant1.position = blueElephant1Location
+        blueElephant2.position = blueElephant2Location
+        self.addChild(blueKing)
+        self.addChild(bluePawn1)
+        self.addChild(bluePawn2)
+        self.addChild(bluePawn3)
+        self.addChild(blueElephant1)
+        self.addChild(blueElephant2)
         
-        var location2 = CGPointMake(50, 200)
+        //initialize red pieces
+        let redKing = PieceKing(collisionBitMask: Piece.BITMASK_RED())
+        let redPawn1 = PiecePawn(collisionBitMask: Piece.BITMASK_RED())
+        let redPawn2 = PiecePawn(collisionBitMask: Piece.BITMASK_RED())
+        let redPawn3 = PiecePawn(collisionBitMask: Piece.BITMASK_RED())
+        let redElephant1 = PieceElephant(collisionBitMask: Piece.BITMASK_RED())
+        let redElephant2 = PieceElephant(collisionBitMask: Piece.BITMASK_RED())
         
-        pawn1.position = location2
-        self.addChild(pawn1)
-        
-        var location3 = CGPointMake(200, 200)
-        pawn2.position = location3
-        self.addChild(pawn2)
+        var redKingLocation = CGPointMake(187, 567)
+        var redPawn1Location = CGPointMake(107, 447)
+        var redPawn3Location = CGPointMake(187, 447)
+        var redPawn2Location = CGPointMake(267, 447)
+        var redElephant1Location = CGPointMake(150, 507)
+        var redElephant2Location = CGPointMake(224, 507)
+        redKing.position = redKingLocation
+        redPawn1.position = redPawn1Location
+        redPawn2.position = redPawn2Location
+        redPawn3.position = redPawn3Location
+        redElephant1.position = redElephant1Location
+        redElephant2.position = redElephant2Location
+        self.addChild(redKing)
+        self.addChild(redPawn1)
+        self.addChild(redPawn2)
+        self.addChild(redPawn3)
+        self.addChild(redElephant1)
+        self.addChild(redElephant2)
         
         self.physicsWorld.contactDelegate = self
     }
@@ -85,21 +115,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         
-        if (contact.bodyA.node != nil && contact.bodyB.node != nil && contact.bodyA?.categoryBitMask == blueSideBitMask && contact.bodyB?.categoryBitMask == blueSideBitMask ) {
-            let node1:Piece = contact.bodyA.node as Piece
-            let node2:Piece = contact.bodyB.node as Piece
-            /*
-            let speedNode1: Float = hypotf(Float(node1.physicsBody!.velocity.dx), Float(node1.physicsBody!.velocity.dy))
-            let speedNode2: Float = hypotf(Float(node2.physicsBody!.velocity.dx), Float(node2.physicsBody!.velocity.dy))
-            println("\(node1.texture?.description) speed: \(speedNode1)")
-            println("\(node2.texture?.description) speed: \(speedNode2)")
-            if speedNode1 > speedNode2 {
-                println("go 1")
-                didTwoBallCollision(contacter: node1, contactee: node2)
-            } else {
-                println("go 2")
-                didTwoBallCollision(contacter: node2, contactee: node1)
-            }*/
+        if (contact.bodyA.node != nil && contact.bodyB.node != nil){
+            var node1 : Piece
+            var node2 : Piece
+            if(contact.bodyA?.categoryBitMask == Piece.BITMASK_BLUE() && contact.bodyB?.categoryBitMask == Piece.BITMASK_RED() ) {
+                node1 = contact.bodyA.node as Piece
+                node2 = contact.bodyB.node as Piece
+            }
+            else if(contact.bodyA?.categoryBitMask == Piece.BITMASK_RED() && contact.bodyB?.categoryBitMask == Piece.BITMASK_BLUE() ) {
+                node1 = contact.bodyB.node as Piece
+                node2 = contact.bodyA.node as Piece
+            }
+            else{
+                return
+            }
+            
             if node1.isContacter {
                 didTwoBallCollision(contacter: node1, contactee: node2)
             } else {
