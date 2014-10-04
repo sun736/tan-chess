@@ -12,6 +12,7 @@ import SpriteKit
 enum PieceType {
     case King
     case Pawn
+    case Elephant
 }
 
 class Piece: SKSpriteNode {
@@ -135,6 +136,8 @@ class Piece: SKSpriteNode {
             return PieceKing(collisionBitMask: bitMask)
         case .Pawn:
             return PiecePawn(collisionBitMask: bitMask)
+        case .Elephant:
+            return PieceElephant(collisionBitMask: bitMask)
         default:
             println("default piece type: \(pieceType)")
             return Piece()

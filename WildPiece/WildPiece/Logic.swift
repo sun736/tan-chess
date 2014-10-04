@@ -15,10 +15,6 @@ extension Player {
         get {
             return UInt32(self)
         }
-        
-        set {
-            self = Int(newValue)
-        }
     }
     
     // get the opponent
@@ -31,7 +27,7 @@ let PLAYER1 = Player(1), PLAYER2 = Player(2)
 
 class Logic {
     
-    enum GameState {
+    enum GameState : Printable {
         case Unstarted
         case Starting
         case Suspended
@@ -39,6 +35,25 @@ class Logic {
         case Waiting(Player)
         case Ended(Player)
         case Error
+        
+        var description : String {
+            switch self {
+            case .Unstarted:
+                return "Unstarted"
+            case .Starting:
+                return "Starting"
+            case .Suspended:
+                return "Suspended"
+            case .Processing(let player):
+                return "Processing(\(player))"
+            case .Waiting(let player):
+                return "Waiting(\(player))"
+            case .Ended(let player):
+                return "Ended(\(player))"
+            default:
+                return "default"
+            }
+        }
     }
     
     var scene: GameScene? {
@@ -113,9 +128,14 @@ class Logic {
         }
     }
     
-    func startGame() {
+    private func startGame() {
         
         state = .Starting
+        // initiate scene
+        scene?.placePieces()
+        
+        // first player's turn
+        state = .Waiting(PLAYER1)
         
         
         
