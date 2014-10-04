@@ -11,6 +11,7 @@ import SpriteKit
 
 typealias Player = Int
 
+// the only two players: Player(1), Player(2)
 extension Player {
     var bitMask : UInt32 {
         get {
@@ -35,21 +36,23 @@ class Logic {
         case Error
     }
     
-    private var scene: GameScene? {
+    var scene: GameScene? {
         didSet {
             self.startGame()
         }
     }
-    private(set) var state: GameState
+    private(set) var state: GameState {
+        willSet {
+            println("old state: \(state)")
+        }
+        didSet {
+            println("new state: \(state)")
+        }
+    }
     private(set) var currentPlayer: Player?
     
     init() {
         state = .Unstarted
-    }
-    
-    convenience init(gameScene : GameScene) {
-        self.init()
-        scene = gameScene
     }
     
     class func sharedInstance() -> Logic {
@@ -111,6 +114,9 @@ class Logic {
         
         var player1 = Player(1);
         var player2 = Player(2);
+        
+        
+        
         
     }
     
