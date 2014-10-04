@@ -24,6 +24,7 @@
 		91101BCD19D5DE7000E59AB4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91101BCB19D5DE7000E59AB4 /* LaunchScreen.xib */; };
 		91101BD919D5DE7100E59AB4 /* WildPieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BD819D5DE7100E59AB4 /* WildPieceTests.swift */; };
 		91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BE219D5DF2300E59AB4 /* Piece.swift */; };
+		A23D73B019DF6C7F007383DF /* Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23D73AF19DF6C7F007383DF /* Logic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		91101BD719D5DE7100E59AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91101BD819D5DE7100E59AB4 /* WildPieceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildPieceTests.swift; sourceTree = "<group>"; };
 		91101BE219D5DF2300E59AB4 /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
+		A23D73AF19DF6C7F007383DF /* Logic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		91101BBB19D5DE7000E59AB4 /* WildPiece */ = {
 			isa = PBXGroup;
 			children = (
+				A23D73AF19DF6C7F007383DF /* Logic.swift */,
 				4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */,
 				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
@@ -251,6 +254,7 @@
 				91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */,
 				4FF31F5B19DE5C2300A0ABB6 /* Arrow.swift in Sources */,
 				186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */,
+				A23D73B019DF6C7F007383DF /* Logic.swift in Sources */,
 				088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */,
 				1819134119D7515200BBEDC2 /* WPParameterHelper.swift in Sources */,
 				186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */,
