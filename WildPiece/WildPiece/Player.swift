@@ -50,6 +50,6 @@ class Player : Printable {
     
     // get the opponent
     func opponent() -> Player {
-        return Player.getPlayer(1 - id)
+        return Player.getPlayer(3 - id)
     }
 }
