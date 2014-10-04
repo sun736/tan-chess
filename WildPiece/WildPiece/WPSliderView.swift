@@ -54,11 +54,19 @@ class WPSliderView: UIView {
         setConstraints()
     }
     
+    func setSliderValue(rawValue : Double?) {
+        if let value = rawValue {
+            slider.value = Float(value)
+            valueLabel.text = String(format:"%.1f", slider.value)
+        }
+    }
+    
     @IBAction func touchEnded(sender: AnyObject) {
         delegate?.sliderValueDidChange(slider:self, didMoveToValue: Double(slider.value))
     }
     
     @IBAction func sliderDidChangeValue(sender: AnyObject) {
-        valueLabel.text = String(format:"%.2f", slider.value)    }
+        valueLabel.text = String(format:"%.1f", slider.value)
+    }
 
 }

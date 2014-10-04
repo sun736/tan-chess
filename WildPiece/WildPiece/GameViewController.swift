@@ -48,6 +48,8 @@ class GameViewController: UIViewController {
             /* Set single touch */
             skView.multipleTouchEnabled = false;
             
+            //init the gamescene in AppDelegata
+            
             let menuScene = MenuScene(size: scene.size)
             
             skView.presentScene(menuScene)
@@ -83,5 +85,6 @@ class GameViewController: UIViewController {
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.toolBarContainerView.alpha = CGFloat(targetAlpha)
         })
+        NSNotificationCenter.defaultCenter().postNotificationName("kUpdateToolBar", object: nil)
     }
 }

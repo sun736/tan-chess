@@ -8,8 +8,8 @@
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="Gm8-7j-Ucv"/>
                 <outlet property="slider" destination="bPk-XT-Eei" id="Doa-dG-vdx"/>
-                <outlet property="titleLabel" destination="4i9-hH-K8p" id="kNw-wk-Jje"/>
-                <outlet property="valueLabel" destination="U6H-rY-LSk" id="1aQ-ie-eCR"/>
+                <outlet property="titleLabel" destination="U6H-rY-LSk" id="kP5-Fb-o5D"/>
+                <outlet property="valueLabel" destination="4i9-hH-K8p" id="rrP-jw-yaW"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -17,17 +17,21 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6H-rY-LSk">
-                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U6H-rY-LSk">
+                    <rect key="frame" x="0.0" y="290" width="25" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="Xuh-WY-Oov"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4i9-hH-K8p">
-                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                    <rect key="frame" x="558" y="289" width="42" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="42" id="4qr-jl-66q"/>
                         <constraint firstAttribute="height" constant="21" id="FiS-nz-FzB"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="mEW-Ql-bJB"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -46,7 +50,7 @@
                     </variation>
                 </label>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bPk-XT-Eei">
-                    <rect key="frame" x="0.0" y="-15" width="118" height="31"/>
+                    <rect key="frame" x="28" y="285" width="527" height="31"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Avn-6X-t3L"/>
                     </constraints>
@@ -69,15 +73,21 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="4i9-hH-K8p" firstAttribute="leading" secondItem="bPk-XT-Eei" secondAttribute="trailing" constant="5" id="17Q-b3-ckp"/>
+                <constraint firstItem="U6H-rY-LSk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="20w-YB-CJ6"/>
                 <constraint firstAttribute="trailing" secondItem="U6H-rY-LSk" secondAttribute="trailing" constant="7" id="6ub-Vn-6Ps">
                     <variation key="heightClass=compact-widthClass=compact" constant="10"/>
                 </constraint>
+                <constraint firstAttribute="centerY" secondItem="bPk-XT-Eei" secondAttribute="centerY" id="AFE-eC-DQF"/>
+                <constraint firstAttribute="centerY" secondItem="U6H-rY-LSk" secondAttribute="centerY" id="CBx-dj-xfc"/>
                 <constraint firstAttribute="centerY" secondItem="bPk-XT-Eei" secondAttribute="centerY" constant="-15" id="D2X-N7-Lcn">
                     <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
                 </constraint>
+                <constraint firstAttribute="trailing" secondItem="4i9-hH-K8p" secondAttribute="trailing" id="HWD-E4-grH"/>
                 <constraint firstItem="4i9-hH-K8p" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="IIb-c3-4H9">
                     <variation key="heightClass=compact-widthClass=compact" constant="10"/>
                 </constraint>
+                <constraint firstAttribute="centerY" secondItem="4i9-hH-K8p" secondAttribute="centerY" id="RfT-s1-Bl9"/>
                 <constraint firstAttribute="centerY" secondItem="4i9-hH-K8p" secondAttribute="centerY" constant="12.5" id="Vgv-GV-IKh">
                     <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
                 </constraint>
@@ -87,26 +97,24 @@
                 <constraint firstItem="U6H-rY-LSk" firstAttribute="leading" secondItem="bPk-XT-Eei" secondAttribute="trailing" constant="11" id="eLi-Fy-Le5">
                     <variation key="heightClass=compact-widthClass=compact" constant="20"/>
                 </constraint>
+                <constraint firstAttribute="centerX" secondItem="bPk-XT-Eei" secondAttribute="centerX" id="nU0-FF-24f"/>
                 <constraint firstAttribute="centerY" secondItem="U6H-rY-LSk" secondAttribute="centerY" constant="13.5" id="on7-Gl-dKC">
                     <variation key="heightClass=compact-widthClass=compact" constant="0.0"/>
                 </constraint>
+                <constraint firstItem="bPk-XT-Eei" firstAttribute="leading" secondItem="U6H-rY-LSk" secondAttribute="trailing" constant="5" id="saM-2K-rMd"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="U6H-rY-LSk"/>
-                    <exclude reference="4i9-hH-K8p"/>
-                    <exclude reference="bPk-XT-Eei"/>
-                </mask>
                 <mask key="constraints">
-                    <exclude reference="IIb-c3-4H9"/>
-                    <exclude reference="Vgv-GV-IKh"/>
                     <exclude reference="6ub-Vn-6Ps"/>
                     <exclude reference="eLi-Fy-Le5"/>
                     <exclude reference="on7-Gl-dKC"/>
                     <exclude reference="D2X-N7-Lcn"/>
                     <exclude reference="bk2-cy-cf1"/>
+                    <exclude reference="nU0-FF-24f"/>
+                    <exclude reference="IIb-c3-4H9"/>
+                    <exclude reference="Vgv-GV-IKh"/>
                 </mask>
             </variation>
             <variation key="heightClass=compact-widthClass=compact">
@@ -116,16 +124,16 @@
                     <include reference="bPk-XT-Eei"/>
                 </mask>
                 <mask key="constraints">
-                    <include reference="IIb-c3-4H9"/>
-                    <include reference="Vgv-GV-IKh"/>
                     <include reference="6ub-Vn-6Ps"/>
                     <include reference="eLi-Fy-Le5"/>
                     <include reference="on7-Gl-dKC"/>
                     <include reference="D2X-N7-Lcn"/>
                     <include reference="bk2-cy-cf1"/>
+                    <include reference="IIb-c3-4H9"/>
+                    <include reference="Vgv-GV-IKh"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="262" y="106.5"/>
+            <point key="canvasLocation" x="191" y="135"/>
         </view>
     </objects>
 </document>

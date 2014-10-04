@@ -10,6 +10,11 @@ import Foundation
 import SpriteKit
 
 class Piece: SKSpriteNode {
+    
+    enum PieceType {
+        case King
+        case Pawn
+    }
 
     var healthPoint : Int
     var maxHealthPoint : Int
@@ -24,7 +29,7 @@ class Piece: SKSpriteNode {
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
 
-    init(radius: CGFloat, healthPoint: Int = 30, maxHealthPoint: Int = 30) {
+    init(radius: CGFloat = 10, healthPoint: Int = 30, maxHealthPoint: Int = 30) {
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
@@ -121,6 +126,19 @@ class Piece: SKSpriteNode {
     
     func removeArrow() {
         self.arrow?.removeFromParent()
+    }
+    
+    // factory method
+    class func newPiece(pieceType : PieceType, bitMask : UInt32) -> Piece {
+        switch pieceType {
+        case .King:
+            return PieceKing(collisionBitMask: bitMask)
+        case .Pawn:
+            return PiecePawn(collisionBitMask: bitMask)
+        default:
+            println("default piece type: \(pieceType)")
+            return Piece()
+        }
     }
 }
 

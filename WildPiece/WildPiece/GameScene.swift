@@ -35,6 +35,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //change scene background color
         scene?.backgroundColor = UIColor.lightGrayColor()
+
+        //add munu button
+        let menuButton = SKSpriteNode(imageNamed: "menuButton")
+        menuButton.name = "menuButton"
+        menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
+        self.addChild(menuButton)
+        // Now make the edges of the screen a physics object as well
+        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
         
         scene?.physicsBody?.dynamic = false
         
@@ -179,6 +187,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 setContacter(piece)
             }
 
+        }
+        
+        //if touch the menu button
+        let location = touches.anyObject()?.locationInNode(self)
+        let touchedNode = self.nodeAtPoint(location!)
+        
+        if touchedNode.name == "menuButton"
+        {
+            println("menuButton")
+            var pauseScene = PauseScene(size: self.size)
+            let transition = SKTransition.crossFadeWithDuration(0.3)
+            pauseScene.scaleMode = SKSceneScaleMode.AspectFill
+            self.scene?.view?.presentScene(pauseScene, transition: transition)
         }
     }
     
