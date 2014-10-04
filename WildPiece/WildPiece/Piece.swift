@@ -14,8 +14,8 @@ class Piece: SKSpriteNode {
     var healthPoint : Int
     var maxHealthPoint : Int
     var radius : CGFloat
-    var ring : SKShapeNode?
-    var arrow: SKShapeNode?
+    var ring : Ring?
+    var arrow: Arrow?
 
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
@@ -76,6 +76,9 @@ class Piece: SKSpriteNode {
     }
     
     func removeRing() {
+        if let ring = self.ring {
+            
+        }
         self.ring?.removeFromParent()
     }
     
@@ -89,8 +92,13 @@ class Piece: SKSpriteNode {
     
     func drawArrow(cgVector: CGVector) {
         self.removeArrow()
-        var endPoition = CGPointMake(cgVector.dx/100 + self.position.x, cgVector.dy/100 + self.position.y)
-        let arrowNode :SKShapeNode = Arrow(startPoint: self.position, endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6)
+        var endPoition = CGPointMake(cgVector.dx/200 + self.position.x, cgVector.dy/200 + self.position.y)
+        var outRadius = self.getRadius()
+        if let ring = self.ring {
+            outRadius = ring.getRadius()
+        }
+        let arrowNode :Arrow = Arrow(startPoint: self.position, endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6, parentRadius: outRadius)
+        
         self.arrow = arrowNode
         self.parent?.addChild(arrowNode)
     }
