@@ -99,10 +99,10 @@
 		91101BBB19D5DE7000E59AB4 /* WildPiece */ = {
 			isa = PBXGroup;
 			children = (
+				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
 				4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */,
 				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
-				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
 				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
 				088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */,
 				087B614D19DF1B56009694C6 /* HelpScene.swift */,
