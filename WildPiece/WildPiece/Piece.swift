@@ -9,10 +9,23 @@
 import Foundation
 import SpriteKit
 
-enum PieceType {
+enum PieceType : Printable {
     case King
     case Pawn
     case Elephant
+    
+    var description : String {
+        switch self {
+        case .King:
+            return "King"
+        case .Pawn:
+            return "Pawn"
+        case .Elephant:
+            return "Elephant"
+        default:
+            return "default"
+        }
+    }
 }
 
 class Piece: SKSpriteNode {
