@@ -27,6 +27,7 @@ class Ring: SKShapeNode {
         self.lineWidth = 2.0
         self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)
         self.position = location
+        self.zPosition = 2
     }
     
     func getRadius() -> CGFloat {

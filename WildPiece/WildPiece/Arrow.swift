@@ -19,7 +19,7 @@ class Arrow: SKShapeNode {
         let cgPath = self.pathWithArrowFromPoint(startPoint, endPoint: endPoint, tailWidth: tailWidth, headWidth: headWidth, headLength: headLength, parentRadius: parentRadius)
         self.path = cgPath
         self.lineWidth = 2.0
-        self.zPosition = 0
+        self.zPosition = 2
         self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)
     }
     

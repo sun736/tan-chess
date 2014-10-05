@@ -31,6 +31,7 @@ class HPRing: SKShapeNode {
         self.lineWidth = linewidth
         self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)
         self.position = location
+        self.zPosition = 2
     }
     
     func getRadius() -> CGFloat {
