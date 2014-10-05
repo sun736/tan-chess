@@ -142,6 +142,13 @@ class Piece: SKSpriteNode {
         self.arrow?.removeFromParent()
     }
     
+    func belongsTo(player : Player) -> Bool {
+        if let body = self.physicsBody? {
+            return (body.categoryBitMask == player.bitMask)
+        }
+        return false
+    }
+    
     // factory method
     class func newPiece(pieceType : PieceType, bitMask : UInt32) -> Piece {
         switch pieceType {

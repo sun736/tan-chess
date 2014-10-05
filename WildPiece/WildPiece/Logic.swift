@@ -117,6 +117,7 @@ class Logic {
         state = .Starting
         self.scene = gameScene
         // initiate scene
+        scene?.removePieces()
         scene?.placePieces()
         
         // first player's turn

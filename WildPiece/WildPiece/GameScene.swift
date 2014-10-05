@@ -19,6 +19,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
     
+    // get all Piece children
+    var pieces : Array<Piece> {
+        get {
+            var pieces = Array<Piece>()
+            for node in children {
+                if let piece = node as? Piece {
+                    pieces.append(piece)
+                }
+            }
+            return pieces
+        }
+    }
+    
+    // get all Piece children belongs to a player
+    func piecesOfPlayer(player : Player) -> Array<Piece> {
+        return pieces.filter{$0.belongsTo(player)}
+    }
+    
     override func didMoveToView(view: SKView) {
         //draw the rectange gameboard
         var yourline = SKShapeNode();
@@ -241,12 +259,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addPiece(pieceType : PieceType, location : CGPoint, player : Player) {
-//        println("location: \(location)")
+        // println("location: \(location)")
         var piece = Piece.newPiece(pieceType, bitMask: player.bitMask);
         piece.position = location
         self.addChild(piece)
     }
     
+    // add a piece for each player, with symmetrical position
     func addPairPieces(pieceType : PieceType, location : CGPoint) {
         addPiece(pieceType, location: location, player: PLAYER1)
         let opponentLocation = CGPointMake(self.size.width - location.x, self.size.height - location.y)
@@ -266,5 +285,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // add elephants
         addPairPieces(PieceType.Elephant, location: CGPointMake(150, 160))
         addPairPieces(PieceType.Elephant, location: CGPointMake(224, 160))
+    }
+    
+    func removePieces() {
+        for piece in pieces {
+            piece.removeFromParent()
+        }
     }
 }
