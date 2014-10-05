@@ -117,7 +117,6 @@ class Piece: SKSpriteNode {
     }
     
     func drawRing() {
-        println("drawing ring")
         self.removeRing()
         self.ring = Ring(CGPointMake(0, 0), getRadius())
         if let ring = self.ring {
