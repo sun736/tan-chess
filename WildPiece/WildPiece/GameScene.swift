@@ -13,11 +13,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //let blueSideBitMask : UInt32 = 0x01
     //let worldObject : UInt32 = 0x02
     
+    
     let MIN_MOVEMENT_DISTANCE = 50.0
     let kDISTANCE_TO_FORCE:CGFloat = -100.0
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
+    var gameStart = false;
     
     // get all Piece children
     var pieces : Array<Piece> {
@@ -37,37 +39,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return pieces.filter{$0.belongsTo(player)}
     }
     
+    
+    
+    
     override func didMoveToView(view: SKView) {
-        //draw the rectange gameboard
-        var yourline = SKShapeNode();
-        var pathToDraw = CGPathCreateMutable();
-        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
-        yourline.path = pathToDraw;
-        yourline.strokeColor = UIColor.blueColor()
-        self.addChild(yourline)
-        println("Move game scene to view")
-        
-        //change scene background color
-        scene?.backgroundColor = UIColor.lightGrayColor()
+        if(!self.gameStart){
+            //draw the rectange gameboard
+            self.gameStart = true;
+            var yourline = SKShapeNode();
+            var pathToDraw = CGPathCreateMutable();
+            CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
+            CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
+            CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
+            CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
+            CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
+            yourline.path = pathToDraw;
+            yourline.strokeColor = UIColor.blueColor()
+            self.addChild(yourline)
+            println("Move game scene to view")
+            
+            //change scene background color to gray color
+            scene?.backgroundColor = UIColor.lightGrayColor()
 
-        //add munu button
-        let menuButton = SKSpriteNode(imageNamed: "menuButton")
-        menuButton.name = "menuButton"
-        menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
-        self.addChild(menuButton)
-        // Now make the edges of the screen a physics object as well
-        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
-        
-        scene?.physicsBody?.dynamic = false
-        
-        self.physicsWorld.gravity.dy = 0
-        self.physicsBody?.friction = 0.9
-        placePieces()
-        self.physicsWorld.contactDelegate = self
+            //add munu button
+            let menuButton = SKSpriteNode(imageNamed: "menuButton")
+            menuButton.name = "menuButton"
+            menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
+            self.addChild(menuButton)
+            // Now make the edges of the screen a physics object as well
+            //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
+            
+            scene?.physicsBody?.dynamic = false
+            
+            self.physicsWorld.gravity.dy = 0
+            self.physicsBody?.friction = 0.9
+            placePieces()
+            self.physicsWorld.contactDelegate = self
+        }
     }
     
     func didTwoBallCollision(#contacter: Piece, contactee: Piece) {
