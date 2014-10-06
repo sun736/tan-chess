@@ -69,11 +69,11 @@ class Logic {
     func updateState() {
         
         // get pieces' states
-        var children = scene?.children
         var playerFlags : UInt32 = 0x0
         var isMoving : Bool = false
-        for child in children as [SKNode] {
-            if let piece = child as? Piece {
+        
+        if let scene = self.scene {
+            for piece in scene.pieces {
                 if let body = piece.physicsBody {
                     playerFlags |= body.categoryBitMask
                     isMoving = (body.velocity.dx != 0) || (body.velocity.dy != 0)

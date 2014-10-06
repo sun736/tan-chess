@@ -22,9 +22,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameStart = false;
     
     // get all Piece children
-    var pieces : Array<Piece> {
+    var pieces : [Piece] {
         get {
-            var pieces = Array<Piece>()
+            var pieces = [Piece]()
             for node in children {
                 if let piece = node as? Piece {
                     pieces.append(piece)
