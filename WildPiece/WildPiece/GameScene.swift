@@ -74,6 +74,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         contactee.deduceHealth()
         
+        contactee.drawHPRing()
+        
         if contacter.healthPoint == 0 {
             contacter.fadeOut();
         }
@@ -105,9 +107,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else {
                 didTwoBallCollision(contacter: node2, contactee: node1)
             }
-            
-            node1.drawHPRing()
-            node2.drawHPRing()
         }
     }
     

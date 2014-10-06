@@ -22,7 +22,7 @@ class HPRing: SKShapeNode {
         var path = CGPathCreateMutable()
         self.radius += radius + delta
         var percentage = hp/maxHp
-        if(percentage != 1) {
+        if(percentage != 1 && percentage != 0) {
             percentage = 1 - percentage
         }
         CGPathAddArc(path, nil, 0, 0, self.radius, 0, CGFloat(M_PI) * 2 * percentage, true)
