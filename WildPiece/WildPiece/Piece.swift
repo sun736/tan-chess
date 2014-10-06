@@ -43,7 +43,7 @@ class Piece: SKSpriteNode {
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
 
-    init(radius: CGFloat = 10, healthPoint: Int = 30, maxHealthPoint: Int = 30) {
+    init(radius: CGFloat = 10, healthPoint: Int = 10, maxHealthPoint: Int = 10) {
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
@@ -212,7 +212,7 @@ class PiecePawn : Piece{
         }
         size = CGSizeMake(radius*2, radius*2)
         physicsBody = SKPhysicsBody(circleOfRadius:radius)
-        physicsBody?.mass = 2;
+        physicsBody?.mass = 15;
         physicsBody?.linearDamping = 10
         physicsBody?.angularDamping = 7
         
@@ -230,7 +230,7 @@ class PieceElephant : Piece{
     
     init(collisionBitMask : UInt32){
         
-        super.init(radius: 30, healthPoint: 100, maxHealthPoint : 100)
+        super.init(radius: 30, healthPoint: 10, maxHealthPoint : 10)
         
         if(collisionBitMask == Piece.BITMASK_BLUE())
         {
@@ -242,7 +242,7 @@ class PieceElephant : Piece{
         }
         size = CGSizeMake(radius*2, radius*2)
         physicsBody = SKPhysicsBody(circleOfRadius:radius)
-        physicsBody?.mass = 30;
+        physicsBody?.mass = 3;
         physicsBody?.linearDamping = 10
         physicsBody?.angularDamping = 7
         setCollisionBitMask(collisionBitMask)

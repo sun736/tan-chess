@@ -33,14 +33,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return pieces
         }
     }
-    
+
     // get all Piece children belongs to a player
     func piecesOfPlayer(player : Player) -> Array<Piece> {
         return pieces.filter{$0.belongsTo(player)}
     }
-    
-    
-    
     
     override func didMoveToView(view: SKView) {
         if(!self.gameStart){
