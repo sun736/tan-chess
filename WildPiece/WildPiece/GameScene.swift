@@ -121,7 +121,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for node in pieces as [SKNode] {
             if node.name == "piece" {
                 let piece = node as Piece
-                piece.isContacter = false
+                if piece.physicsBody?.categoryBitMask == contacter.physicsBody?.categoryBitMask {
+                    piece.isContacter = true
+                } else {
+                    piece.isContacter = false
+                }
             }
         }
         //set clicked piece to contacter
