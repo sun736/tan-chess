@@ -33,7 +33,7 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
         case impulseSlider : WPParameterSet.sharedInstance.impulse = value
         default: println("Error when setting Slider value")
         }
-        WPGameDataManager.sharedInstance.saveParameterSet(forIdentifier: "King")
+//        WPGameDataManager.sharedInstance.saveParameterSet(forIdentifier: "King")
     }
 
     func updateContents() {
@@ -42,7 +42,7 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
         restitutionSlider.setSliderValue(WPParameterSet.sharedInstance.restitution)
         impulseSlider.setSliderValue(WPParameterSet.sharedInstance.impulse)
         
-        WPGameDataManager.sharedInstance.getParameterSet(forIdentifier: "King")
+//        WPGameDataManager.sharedInstance.getParameterSet(forIdentifier: "King")
     }
     
     override func didReceiveMemoryWarning() {
