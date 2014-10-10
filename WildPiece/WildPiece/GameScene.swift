@@ -72,7 +72,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
     func didBeginContact(contact: SKPhysicsContact) {
         
         CollisionController.handlContact(contact)
@@ -90,25 +89,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     possibleEndPt = nil
                     possibleTouchNode = piece
                     
-                    piece.drawRing()
-                    // temporary solution to determine contacter
-                    CollisionController.setContacter(self, contacter: piece)
+                    self.pieceDidStartPull(piece)
+                    
+                    break
+                } else if node.name == "menuButton" {
+                    
+                    println("menuButton")
+                    var pauseScene = PauseScene(size: self.size)
+                    let transition = SKTransition.crossFadeWithDuration(0.3)
+                    pauseScene.scaleMode = SKSceneScaleMode.AspectFill
+                    self.scene?.view?.presentScene(pauseScene, transition: transition)
+                    
                     break
                 }
             }
-        }
-        
-        //if touch the menu button
-        let location = touches.anyObject()?.locationInNode(self)
-        let touchedNode = self.nodeAtPoint(location!)
-        
-        if touchedNode.name == "menuButton"
-        {
-            println("menuButton")
-            var pauseScene = PauseScene(size: self.size)
-            let transition = SKTransition.crossFadeWithDuration(0.3)
-            pauseScene.scaleMode = SKSceneScaleMode.AspectFill
-            self.scene?.view?.presentScene(pauseScene, transition: transition)
+            break
         }
     }
     
@@ -118,20 +113,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             // save end location
             possibleEndPt = location
+            break
         }
         // fire
         if let actualBeginPt = possibleBeginPt {
             if let actualEndPt = possibleEndPt {
-                if let actualTouchNode = possibleTouchNode {
-                    firePull(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: actualEndPt)
+                if let piece = possibleTouchNode as? Piece{
+                    let centerPt = piece.position
+                    let distance = CGVectorMake(actualEndPt.x - centerPt.x, actualEndPt.y - centerPt.y)
+                    // do nothing if end point lies within the node border
+                    if (hypotf(Float(distance.dx), Float(distance.dy)) <= Float(piece.radius)) {
+                        self.pieceDidTaped(piece)
+                    } else {
+                        self.pieceDidPulled(piece, touchBeginPt: centerPt, touchEndPt: actualEndPt)
+                    }
                 }
             }
         }
-        if let piece = possibleTouchNode as? Piece {
-            piece.removeRing()
-            piece.removeArrow()
-        }
-        
         possibleBeginPt = nil
         possibleEndPt = nil
         possibleTouchNode = nil
@@ -142,8 +140,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             // notify the node to draw a force indicator
             if let actualBeginPt = possibleBeginPt {
-                if let actualTouchNode = possibleTouchNode {
-                    pullDidChangeDistance(actualTouchNode, touchBeginPt: actualBeginPt, touchEndPt: location)
+                if let piece = possibleTouchNode as? Piece {
+                    self.pieceDidChangePullDistance(piece, touchBeginPt: actualBeginPt, touchEndPt: location)
                 }
             }
         }
@@ -151,8 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
         if let piece = possibleTouchNode as? Piece {
-            piece.removeRing()
-            piece.removeArrow()
+            self.pieceDidCancelPull(piece)
         }
         
         possibleBeginPt = nil
@@ -160,31 +157,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         possibleTouchNode = nil
     }
     
-    func pullDidChangeDistance (touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
-        // use node's center point as start point of force
-        let centerPt = touchNode.position
-        let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
-        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
-        if let piece = touchNode as? Piece {
-            piece.drawArrow(force)
-        }
-    }
-    
-    // called when a pull gesture is performed on a node
-    func firePull(touchNode: SKNode, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
-        
-        if let piece = touchNode as? Piece {
-            let centerPt = touchNode.position
-            let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
-            // do nothing if end point lies within the node border
-            if (hypotf(Float(distance.dx), Float(distance.dy)) <= Float(piece.radius)) {
-                return
-            }
-            // println(String(format:"%@, %f, %f", touchNode,  Float(distance.dx), Float(distance.dy)))
-            var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
-            touchNode.physicsBody?.applyImpulse(force);
-        }
-    }
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         var pieces = scene?.children
@@ -205,6 +177,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // functions deal with touches on piece
+    
+    func pieceDidStartPull(piece : Piece) {
+        // temporary solution to determine contacter
+        CollisionController.setContacter(self, contacter: piece)
+        piece.drawRing()
+    }
+    
+    func pieceDidChangePullDistance(piece : Piece, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
+        let centerPt = piece.position
+        let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
+        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+        piece.drawArrow(force)
+    }
+    
+    func pieceDidCancelPull(piece : Piece) {
+        piece.removeRing()
+        piece.removeArrow()
+    }
+    
+    func pieceDidPulled(piece : Piece, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
+        let centerPt = piece.position
+        let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
+        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+        piece.physicsBody?.applyImpulse(force);
+        
+        piece.removeRing()
+        piece.removeArrow()
+    }
+    
+    func pieceDidTaped(piece : Piece) {
+        piece.removeRing()
+        piece.removeArrow()
+    }
+    
+    // functions to add pieces
+    
     func addPiece(pieceType : PieceType, location : CGPoint, player : Player) {
         // println("location: \(location)")
         var piece = Piece.newPiece(pieceType, bitMask: player.bitMask);
@@ -222,7 +231,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func placePieces() {
         
         //Just for demo purpose
-        //initialize blue pieces
         // add kings
         addPairPieces(PieceType.King, location: CGPointMake(187, 100))
         // add pawns
