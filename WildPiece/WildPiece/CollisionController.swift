@@ -25,17 +25,13 @@ class CollisionController {
         }
     }
     
-    class func setContacter(scene: SKScene, contacter: Piece) {
+    class func setContacter(scene: GameScene, contacter: Piece) {
         // set all pieces to contactee
-        var pieces = scene.children
-        for node in pieces as [SKNode] {
-            if node.name == "piece" {
-                let piece = node as Piece
-                if piece.physicsBody?.categoryBitMask == contacter.physicsBody?.categoryBitMask {
-                    piece.isContacter = true
-                } else {
-                    piece.isContacter = false
-                }
+        for piece in scene.pieces {
+            if piece.physicsBody?.categoryBitMask == contacter.physicsBody?.categoryBitMask {
+                piece.isContacter = true
+            } else {
+                piece.isContacter = false
             }
         }
         //set clicked piece to contacter
