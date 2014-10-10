@@ -24,9 +24,9 @@ class Player : Printable {
     let id : Int
     var name : String
     
-    var cgColor : CGColor {
+    var color : UIColor {
         get {
-            return colors[id % 3].CGColor
+            return colors[id % 3]
         }
     }
     

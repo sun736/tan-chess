@@ -33,17 +33,13 @@ class Piece: SKSpriteNode {
     var healthPoint : CGFloat
     var maxHealthPoint : CGFloat
     var radius : CGFloat
+    var maxForce : CGFloat
+    var player : Player
     var ring : Ring?
     var arrow: Arrow?
     var hpring: HPRing?
     // temporary solution to contact
     var isContacter: Bool
-    
-    var cgColor : CGColor {
-        get {
-            return Player.getPlayer(bitMask).cgColor
-        }
-    }
     
     var bitMask : UInt32 {
         get {
@@ -58,11 +54,14 @@ class Piece: SKSpriteNode {
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
-    init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, collisionBitMask : UInt32, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat) {
+    init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat) {
+        
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
+        self.maxForce = maxForce
         self.isContacter = false
+        self.player = player
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
         self.physicsBody = SKPhysicsBody(circleOfRadius:radius)
@@ -73,8 +72,9 @@ class Piece: SKSpriteNode {
         self.physicsBody?.angularDamping = angularDamping
         self.physicsBody?.mass = mass
         self.name = "piece"
+        self.color = Player.getPlayer(bitMask).color
         
-        setCollisionBitMask(collisionBitMask)
+        setCollisionBitMask(player.bitMask)
         
         drawHPRing()
     }
@@ -171,11 +171,11 @@ class Piece: SKSpriteNode {
     class func newPiece(pieceType : PieceType, player : Player) -> Piece {
         switch pieceType {
         case .King:
-            return PieceKing(collisionBitMask: player.bitMask)
+            return PieceKing(player)
         case .Pawn:
-            return PiecePawn(collisionBitMask: player.bitMask)
+            return PiecePawn(player)
         case .Elephant:
-            return PieceElephant(collisionBitMask: player.bitMask)
+            return PieceElephant(player)
         }
     }
 }
@@ -188,14 +188,15 @@ class PieceKing : Piece{
     let c_mass : CGFloat = 10
     let c_linearDamping : CGFloat = 5
     let c_angularDamping: CGFloat = 7
+    let c_maxForce = CGFloat.max
     let c_bluePic = "KingPiece_BLUE"
     let c_redPic = "KingPiece_RED"
 
-    init(collisionBitMask : UInt32){
+    init(_ player : Player){
 
-        let c_imageNamed = (collisionBitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
         
-        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, collisionBitMask: collisionBitMask, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping)
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
 
     }
     
@@ -213,14 +214,15 @@ class PiecePawn : Piece{
     let c_mass : CGFloat = 15
     let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
+    let c_maxForce = CGFloat.max
     let c_bluePic = "PawnPiece_BLUE"
     let c_redPic = "PawnPiece_RED"
 
-    init(collisionBitMask : UInt32){
+    init(_ player : Player){
         
-        let c_imageNamed = (collisionBitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
         
-        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, collisionBitMask: collisionBitMask, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping)
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -237,14 +239,15 @@ class PieceElephant : Piece{
     let c_mass : CGFloat = 3
     let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
+    let c_maxForce = CGFloat.max
     let c_bluePic = "ElephantPiece_BLUE"
     let c_redPic = "ElephantPiece_RED"
 
-    init(collisionBitMask : UInt32){
+    init(_ player : Player){
         
-        let c_imageNamed = (collisionBitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
         
-        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, collisionBitMask: collisionBitMask, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping)
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
     }
     
     required init(coder aDecoder: NSCoder) {
