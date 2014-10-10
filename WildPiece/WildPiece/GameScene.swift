@@ -10,9 +10,6 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    //let blueSideBitMask : UInt32 = 0x01
-    //let worldObject : UInt32 = 0x02
-    
     
     let MIN_MOVEMENT_DISTANCE = 50.0
     let kDISTANCE_TO_FORCE:CGFloat = -100.0
@@ -75,62 +72,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didTwoBallCollision(#contacter: Piece, contactee: Piece) {
-        
-        contactee.deduceHealth()
-        
-        contactee.drawHPRing()
-        
-        if contacter.healthPoint == 0 {
-            contacter.fadeOut();
-        }
-        
-        if contactee.healthPoint == 0 {
-         contactee.fadeOut()
-        }
-    }
     
     func didBeginContact(contact: SKPhysicsContact) {
         
-        if (contact.bodyA.node != nil && contact.bodyB.node != nil){
-            var node1 : Piece
-            var node2 : Piece
-            if(contact.bodyA?.categoryBitMask == Piece.BITMASK_BLUE() && contact.bodyB?.categoryBitMask == Piece.BITMASK_RED() ) {
-                node1 = contact.bodyA.node as Piece
-                node2 = contact.bodyB.node as Piece
-            }
-            else if(contact.bodyA?.categoryBitMask == Piece.BITMASK_RED() && contact.bodyB?.categoryBitMask == Piece.BITMASK_BLUE() ) {
-                node1 = contact.bodyB.node as Piece
-                node2 = contact.bodyA.node as Piece
-            }
-            else{
-                return
-            }
-            
-            if node1.isContacter {
-                didTwoBallCollision(contacter: node1, contactee: node2)
-            } else {
-                didTwoBallCollision(contacter: node2, contactee: node1)
-            }
-        }
-    }
-    
-    func setContacter(contacter: Piece) {
-        // set all pieces to contactee
-        var pieces = scene?.children
-        for node in pieces as [SKNode] {
-            if node.name == "piece" {
-                let piece = node as Piece
-                if piece.physicsBody?.categoryBitMask == contacter.physicsBody?.categoryBitMask {
-                    piece.isContacter = true
-                } else {
-                    piece.isContacter = false
-                }
-            }
-        }
-        //set clicked piece to contacter
-        contacter.isContacter = true
-        
+        CollisionController.handlContact(contact)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -154,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let piece = possibleTouchNode as? Piece {
                 piece.drawRing()
                 // temporary solution to determine contacter
-                setContacter(piece)
+                CollisionController.setContacter(self, contacter: piece)
             }
 
         }

@@ -29,6 +29,7 @@
 		91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BE219D5DF2300E59AB4 /* Piece.swift */; };
 		A23D73B019DF6C7F007383DF /* Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23D73AF19DF6C7F007383DF /* Logic.swift */; };
 		A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C8C93C19E0A8FC00C6B166 /* Player.swift */; };
+		AE82C96A19E360C300E6FE0B /* CollisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE82C96919E360C300E6FE0B /* CollisionController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		91101BE219D5DF2300E59AB4 /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
 		A23D73AF19DF6C7F007383DF /* Logic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logic.swift; sourceTree = "<group>"; };
 		A2C8C93C19E0A8FC00C6B166 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		AE82C96919E360C300E6FE0B /* CollisionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollisionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
 				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
+				AE82C96919E360C300E6FE0B /* CollisionController.swift */,
 				088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */,
 				087B614D19DF1B56009694C6 /* HelpScene.swift */,
 				081B805C19DFA5AC00B6C135 /* PauseScene.swift */,
@@ -267,6 +270,7 @@
 				91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */,
 				4FF31F5B19DE5C2300A0ABB6 /* Arrow.swift in Sources */,
 				4F290F7219DF77C500D283BE /* HPRing.swift in Sources */,
+				AE82C96A19E360C300E6FE0B /* CollisionController.swift in Sources */,
 				081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */,
 				186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */,
 				A23D73B019DF6C7F007383DF /* Logic.swift in Sources */,
