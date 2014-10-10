@@ -38,6 +38,22 @@ class Piece: SKSpriteNode {
     var hpring: HPRing?
     // temporary solution to contact
     var isContacter: Bool
+    
+    var cgColor : CGColor {
+        get {
+            return Player.getPlayer(bitMask).cgColor
+        }
+    }
+    
+    var bitMask : UInt32 {
+        get {
+            if let bitMask = self.physicsBody?.categoryBitMask {
+                return self.physicsBody!.categoryBitMask
+            } else {
+                return 0;
+            }
+        }
+    }
 
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
@@ -152,14 +168,14 @@ class Piece: SKSpriteNode {
     }
     
     // factory method
-    class func newPiece(pieceType : PieceType, bitMask : UInt32) -> Piece {
+    class func newPiece(pieceType : PieceType, player : Player) -> Piece {
         switch pieceType {
         case .King:
-            return PieceKing(collisionBitMask: bitMask)
+            return PieceKing(collisionBitMask: player.bitMask)
         case .Pawn:
-            return PiecePawn(collisionBitMask: bitMask)
+            return PiecePawn(collisionBitMask: player.bitMask)
         case .Elephant:
-            return PieceElephant(collisionBitMask: bitMask)
+            return PieceElephant(collisionBitMask: player.bitMask)
         }
     }
 }

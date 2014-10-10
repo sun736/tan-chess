@@ -216,7 +216,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addPiece(pieceType : PieceType, location : CGPoint, player : Player) {
         // println("location: \(location)")
-        var piece = Piece.newPiece(pieceType, bitMask: player.bitMask);
+        var piece = Piece.newPiece(pieceType, player: player);
         piece.position = location
         self.addChild(piece)
     }
