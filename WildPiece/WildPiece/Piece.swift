@@ -151,10 +151,7 @@ class Piece: SKSpriteNode {
     }
     
     func belongsTo(player : Player) -> Bool {
-        if let body = self.physicsBody? {
-            return (body.categoryBitMask == player.bitMask)
-        }
-        return false
+        return (player.id == self.player.id)
     }
     
     // factory method

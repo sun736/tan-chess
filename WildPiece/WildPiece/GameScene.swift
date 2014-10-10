@@ -32,7 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     // get all Piece children belongs to a player
-    func piecesOfPlayer(player : Player) -> Array<Piece> {
+    func piecesOfPlayer(player : Player) -> [Piece] {
         return pieces.filter{$0.belongsTo(player)}
     }
     
