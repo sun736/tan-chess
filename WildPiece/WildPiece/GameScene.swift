@@ -90,18 +90,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     possibleEndPt = nil
                     possibleTouchNode = piece
                     
-                    if let piece = possibleTouchNode as? Piece {
-                        piece.drawRing()
-                    }
+                    piece.drawRing()
+                    // temporary solution to determine contacter
+                    CollisionController.setContacter(self, contacter: piece)
                     break
                 }
             }
-            if let piece = possibleTouchNode as? Piece {
-                piece.drawRing()
-                // temporary solution to determine contacter
-                CollisionController.setContacter(self, contacter: piece)
-            }
-
         }
         
         //if touch the menu button
