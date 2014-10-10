@@ -82,7 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             let nodes = self.nodesAtPoint(location)
-            for node in nodes {
+            for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
                     
                     possibleBeginPt = location
