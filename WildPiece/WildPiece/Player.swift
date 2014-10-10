@@ -13,11 +13,12 @@ import SpriteKit
 
 // the only valid two players
 let PLAYER1 = Player(id : 1), PLAYER2 = Player(id : 2)
+
 // invalid player
 private let PLAYER_NULL = Player(id : 0)
 
 // player colors
-let colors = [UIColor.yellowColor(), UIColor.blueColor(), UIColor.redColor()]
+private let colors = [UIColor.yellowColor(), UIColor.blueColor(), UIColor.redColor()]
 
 class Player : Printable {
     
