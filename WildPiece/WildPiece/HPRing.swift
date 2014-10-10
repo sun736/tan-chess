@@ -17,7 +17,7 @@ class HPRing: SKShapeNode {
     let linewidth : CGFloat = 1.5
     var radius: CGFloat = 0
     
-    init(location: CGPoint, radius: CGFloat, hp: CGFloat, maxHp: CGFloat) {
+    init(location: CGPoint, radius: CGFloat, hp: CGFloat, maxHp: CGFloat, color: UIColor) {
         super.init()
         var path = CGPathCreateMutable()
         self.radius += radius + delta
@@ -29,7 +29,7 @@ class HPRing: SKShapeNode {
         self.physicsBody = nil
         self.path = path
         self.lineWidth = linewidth
-        self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)
+        self.strokeColor = color
         self.position = location
         self.zPosition = 2
     }
