@@ -64,10 +64,10 @@ class Piece: SKSpriteNode {
     }
     
     func setCollisionBitMask(collisionBitMask: UInt32) {
-        physicsBody?.categoryBitMask = collisionBitMask
-        physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-        physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-        physicsBody?.usesPreciseCollisionDetection = true
+        self.physicsBody?.categoryBitMask = collisionBitMask
+        self.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+        self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+        self.physicsBody?.usesPreciseCollisionDetection = true
     }
     
     func getRadius() -> CGFloat{
