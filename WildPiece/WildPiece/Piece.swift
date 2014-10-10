@@ -40,16 +40,6 @@ class Piece: SKSpriteNode {
     var hpring: HPRing?
     // temporary solution to contact
     var isContacter: Bool
-    
-    var bitMask : UInt32 {
-        get {
-            if let bitMask = self.physicsBody?.categoryBitMask {
-                return self.physicsBody!.categoryBitMask
-            } else {
-                return 0;
-            }
-        }
-    }
 
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
@@ -72,7 +62,7 @@ class Piece: SKSpriteNode {
         self.physicsBody?.angularDamping = angularDamping
         self.physicsBody?.mass = mass
         self.name = "piece"
-        self.color = Player.getPlayer(bitMask).color
+        self.color = player.color
         
         setCollisionBitMask(player.bitMask)
         
