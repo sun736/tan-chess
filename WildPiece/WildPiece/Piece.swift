@@ -30,8 +30,8 @@ enum PieceType : Printable {
 
 class Piece: SKSpriteNode {
 
-    var healthPoint : Int
-    var maxHealthPoint : Int
+    var healthPoint : CGFloat
+    var maxHealthPoint : CGFloat
     var radius : CGFloat
     var ring : Ring?
     var arrow: Arrow?
@@ -42,21 +42,24 @@ class Piece: SKSpriteNode {
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
-
-    init(radius: CGFloat = 10, healthPoint: Int = 10, maxHealthPoint: Int = 10) {
+    init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, collisionBitMask : UInt32, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat) {
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
         self.isContacter = false
-        super.init(texture: SKTexture(imageNamed:""),color: nil,size: CGSizeMake(0, 0))
-        physicsBody?.dynamic = true;
-        physicsBody?.friction = 0.9
+        super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
-        physicsBody?.restitution = 0.5
-        physicsBody?.linearDamping = 5
-        physicsBody?.angularDamping = 7
-        physicsBody?.mass = 5
-        name = "piece"
+        self.physicsBody = SKPhysicsBody(circleOfRadius:radius)
+        self.physicsBody?.dynamic = true;
+        self.physicsBody?.friction = 0.9
+        self.physicsBody?.restitution = 0.5
+        self.physicsBody?.linearDamping = linearDamping
+        self.physicsBody?.angularDamping = angularDamping
+        self.physicsBody?.mass = mass
+        self.name = "piece"
+        
+        setCollisionBitMask(collisionBitMask)
+        
         drawHPRing()
     }
     
@@ -157,38 +160,28 @@ class Piece: SKSpriteNode {
             return PiecePawn(collisionBitMask: bitMask)
         case .Elephant:
             return PieceElephant(collisionBitMask: bitMask)
-        default:
-            println("default piece type: \(pieceType)")
-            return Piece()
         }
     }
 }
 
 class PieceKing : Piece{
     
+    let c_radius: CGFloat = 25
+    let c_healthPoint: CGFloat = 50
+    let c_maxhealthPoint: CGFloat = 50
+    let c_mass : CGFloat = 10
+    let c_linearDamping : CGFloat = 5
+    let c_angularDamping: CGFloat = 7
+    let c_bluePic = "KingPiece_BLUE"
+    let c_redPic = "KingPiece_RED"
 
     init(collisionBitMask : UInt32){
 
-        super.init(radius: 25, healthPoint: 50, maxHealthPoint: 50)
+        let c_imageNamed = (collisionBitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, collisionBitMask: collisionBitMask, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping)
 
-        if(collisionBitMask == Piece.BITMASK_BLUE())
-        {
-            texture = SKTexture(imageNamed:"KingPiece_BLUE")
-        }
-        else if(collisionBitMask == Piece.BITMASK_RED())
-        {
-            texture = SKTexture(imageNamed:"KingPiece_RED")
-        }
-        size = CGSizeMake(radius*2, radius*2)
-        physicsBody = SKPhysicsBody(circleOfRadius:radius)
-        physicsBody?.mass = 10;
-        physicsBody?.linearDamping = 5
-        physicsBody?.angularDamping = 7
-        
-        setCollisionBitMask(collisionBitMask)
-        
     }
-    
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -198,26 +191,20 @@ class PieceKing : Piece{
 
 class PiecePawn : Piece{
     
+    let c_radius: CGFloat = 20
+    let c_healthPoint: CGFloat = 10
+    let c_maxhealthPoint: CGFloat = 10
+    let c_mass : CGFloat = 15
+    let c_linearDamping : CGFloat = 10
+    let c_angularDamping: CGFloat = 7
+    let c_bluePic = "PawnPiece_BLUE"
+    let c_redPic = "PawnPiece_RED"
+
     init(collisionBitMask : UInt32){
-      
-        super.init(radius: 20)
-
-        if(collisionBitMask == Piece.BITMASK_BLUE())
-        {
-            texture = SKTexture(imageNamed:"PawnPiece_BLUE")
-        }
-        else if(collisionBitMask == Piece.BITMASK_RED())
-        {
-            texture = SKTexture(imageNamed:"PawnPiece_RED")
-        }
-        size = CGSizeMake(radius*2, radius*2)
-        physicsBody = SKPhysicsBody(circleOfRadius:radius)
-        physicsBody?.mass = 15;
-        physicsBody?.linearDamping = 10
-        physicsBody?.angularDamping = 7
         
-        setCollisionBitMask(collisionBitMask)
-
+        let c_imageNamed = (collisionBitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, collisionBitMask: collisionBitMask, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -228,25 +215,20 @@ class PiecePawn : Piece{
 
 class PieceElephant : Piece{
     
+    let c_radius: CGFloat = 30
+    let c_healthPoint: CGFloat = 10
+    let c_maxhealthPoint: CGFloat = 10
+    let c_mass : CGFloat = 3
+    let c_linearDamping : CGFloat = 10
+    let c_angularDamping: CGFloat = 7
+    let c_bluePic = "ElephantPiece_BLUE"
+    let c_redPic = "ElephantPiece_RED"
+
     init(collisionBitMask : UInt32){
         
-        super.init(radius: 30, healthPoint: 10, maxHealthPoint : 10)
+        let c_imageNamed = (collisionBitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
         
-        if(collisionBitMask == Piece.BITMASK_BLUE())
-        {
-            texture = SKTexture(imageNamed:"ElephantPiece_BLUE")
-        }
-        else if(collisionBitMask == Piece.BITMASK_RED())
-        {
-            texture = SKTexture(imageNamed:"ElephantPiece_RED")
-        }
-        size = CGSizeMake(radius*2, radius*2)
-        physicsBody = SKPhysicsBody(circleOfRadius:radius)
-        physicsBody?.mass = 3;
-        physicsBody?.linearDamping = 10
-        physicsBody?.angularDamping = 7
-        setCollisionBitMask(collisionBitMask)
-        
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, collisionBitMask: collisionBitMask, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping)
     }
     
     required init(coder aDecoder: NSCoder) {
