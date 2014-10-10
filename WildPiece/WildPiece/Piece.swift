@@ -28,6 +28,8 @@ enum PieceType : Printable {
     }
 }
 
+let kDISTANCE_TO_FORCE:CGFloat = -100.0
+
 class Piece: SKSpriteNode {
 
     var healthPoint : CGFloat
@@ -152,6 +154,17 @@ class Piece: SKSpriteNode {
     
     func belongsTo(player : Player) -> Bool {
         return (player.id == self.player.id)
+    }
+    
+    // calculate a valid force based on piece's limit
+    func forceForPullDistance(distance : CGVector) -> CGVector {
+        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+        var forceLength = hypotf(Float(force.dx), Float(force.dy))
+        if  forceLength > Float(maxForce) {
+            let scaleFactor = maxForce / CGFloat(forceLength)
+            force = CGVectorMake(force.dx * scaleFactor, force.dy * scaleFactor)
+        }
+        return force
     }
     
     // factory method

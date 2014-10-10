@@ -12,7 +12,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     let MIN_MOVEMENT_DISTANCE = 50.0
-    let kDISTANCE_TO_FORCE:CGFloat = -100.0
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
@@ -188,7 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func pieceDidChangePullDistance(piece : Piece, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         let centerPt = piece.position
         let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
-        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+        var force = piece.forceForPullDistance(distance)
         piece.drawArrow(force)
     }
     
@@ -200,7 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func pieceDidPulled(piece : Piece, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
         let centerPt = piece.position
         let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
-        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+        var force = piece.forceForPullDistance(distance)
         piece.physicsBody?.applyImpulse(force);
         
         piece.removeRing()
