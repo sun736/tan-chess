@@ -83,14 +83,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let nodes = self.nodesAtPoint(location)
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
-                    
-                    possibleBeginPt = location
-                    possibleEndPt = nil
-                    possibleTouchNode = piece
-                    
-                    self.pieceDidStartPull(piece)
-                    
-                    break
+                    let centerPt = piece.position
+                    let distance = hypotf(Float(location.x - centerPt.x),
+                        Float(location.y - centerPt.y))
+                    // exact distance comparison
+                    if (distance <= Float(piece.radius)) {
+                        
+                        possibleBeginPt = location
+                        possibleEndPt = nil
+                        possibleTouchNode = piece
+                        
+                        self.pieceDidStartPull(piece)
+                        break
+                    }
                 } else if node.name == "menuButton" {
                     
                     println("menuButton")
