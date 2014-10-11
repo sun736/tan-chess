@@ -38,7 +38,7 @@ class Piece: SKSpriteNode {
     var maxForce : CGFloat
     var minForce : CGFloat {
         get {
-            return radius * kDISTANCE_TO_FORCE
+            return radius * abs(kDISTANCE_TO_FORCE)
         }
     }
     var player : Player
@@ -168,8 +168,7 @@ class Piece: SKSpriteNode {
         return force
     }
     
-    func forcePercentage(distance : CGVector) -> CGFloat {
-        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+    func forcePercentage(force : CGVector) -> CGFloat {
         var forceLength = hypotf(Float(force.dx), Float(force.dy))
         var percentage = (CGFloat(forceLength) - minForce) / (maxForce - minForce)
         return percentage >= 0 ? percentage : 0
