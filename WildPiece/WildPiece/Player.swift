@@ -66,3 +66,8 @@ class Player : Printable {
         return Player.getPlayer(3 - id)
     }
 }
+
+// operater overloading
+func == (left : Player, right : Player) -> Bool {
+    return (left.id == right.id)
+}

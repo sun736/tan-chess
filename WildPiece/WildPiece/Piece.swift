@@ -157,10 +157,6 @@ class Piece: SKSpriteNode {
         self.arrow?.removeFromParent()
     }
     
-    func belongsTo(player : Player) -> Bool {
-        return (player.id == self.player.id)
-    }
-    
     // calculate a valid force based on piece's limit
     func forceForPullDistance(distance : CGVector) -> CGVector {
         var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
