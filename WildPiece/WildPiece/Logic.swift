@@ -9,6 +9,13 @@
 import Foundation
 import SpriteKit
 
+protocol LogicDelegate : class {
+    
+    func gameDidEnd(player : Player)
+    func gameDidWait(player : Player)
+    var pieces : [Piece] { get }
+}
+
 class Logic {
     
     enum GameState : Printable {
@@ -40,7 +47,7 @@ class Logic {
         }
     }
     
-    private(set) var scene: GameScene?
+    private(set) weak var scene: LogicDelegate?
     
     private(set) var state: GameState {
         didSet {
@@ -113,7 +120,7 @@ class Logic {
             
             if !isMoving {
                 switch playerFlags {
-                case 0x01, 0x02:
+                case 0x00, 0x01, 0x02:
                     self.win(Player.getPlayer(playerFlags))
                 case 0x03:
                     self.wait(player.opponent())
@@ -181,12 +188,14 @@ class Logic {
     
     private func win(player : Player) {
         state = GameState.Ended(player)
-        // TODO: notify scene
+        // notify scene
+        scene?.gameDidEnd(player)
     }
     
     private func wait(player : Player) {
         state = GameState.Waiting(player)
-        // TODO: notify scene
+        // notify scene
+        scene?.gameDidWait(player)
     }
 
 }

@@ -15,7 +15,7 @@ import SpriteKit
 let PLAYER1 = Player(id : 1), PLAYER2 = Player(id : 2)
 
 // invalid player
-private let PLAYER_NULL = Player(id : 0)
+let PLAYER_NULL = Player(id : 0)
 
 // player colors
 private let colors = [UIColor.yellowColor(), UIColor.blueColor(), UIColor.redColor()]

@@ -8,24 +8,11 @@
 
 import SpriteKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
-    
-    // get all Piece children
-    var pieces : [Piece] {
-        get {
-            var pieces = [Piece]()
-            for node in children {
-                if let piece = node as? Piece {
-                    pieces.append(piece)
-                }
-            }
-            return pieces
-        }
-    }
 
     // get all Piece children belongs to a player
     func piecesOfPlayer(player : Player) -> [Piece] {
@@ -310,5 +297,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for piece in pieces {
             piece.removeFromParent()
         }
+    }
+    
+    // delegate methods
+    // get all Piece children
+    var pieces : [Piece] {
+        get {
+            var pieces = [Piece]()
+            for node in children {
+                if let piece = node as? Piece {
+                    pieces.append(piece)
+                }
+            }
+            return pieces
+        }
+    }
+    
+    // player == PLAYER_NULL indicates a draw
+    func gameDidEnd(player : Player) {
+        
+    }
+    
+    func gameDidWait(player : Player) {
+        
     }
 }
