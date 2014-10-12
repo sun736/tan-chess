@@ -10,12 +10,9 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    
-    let MIN_MOVEMENT_DISTANCE = 50.0
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
-    var gameStart = false;
     
     // get all Piece children
     var pieces : [Piece] {

@@ -28,20 +28,26 @@ enum PieceType : Printable {
     }
 }
 
-let kDISTANCE_TO_FORCE:CGFloat = -100.0
+let MAX_PULL_DISTANCE:CGFloat = 75
 
 class Piece: SKSpriteNode {
 
     var healthPoint : CGFloat
-    var maxHealthPoint : CGFloat
-    var radius : CGFloat
+    let maxHealthPoint : CGFloat
+    let radius : CGFloat
     var maxForce : CGFloat
-    var minForce : CGFloat {
+    let player : Player
+    
+    var distanceToForce : CGFloat {
         get {
-            return radius * abs(kDISTANCE_TO_FORCE)
+            return -(maxForce / MAX_PULL_DISTANCE)
         }
     }
-    var player : Player
+    var minForce : CGFloat {
+        get {
+            return radius * abs(distanceToForce)
+        }
+    }
     var ring : Ring?
     var arrow: Arrow?
     var hpring: HPRing?
@@ -159,7 +165,7 @@ class Piece: SKSpriteNode {
     
     // calculate a valid force based on piece's limit
     func forceForPullDistance(distance : CGVector) -> CGVector {
-        var force = CGVectorMake(distance.dx * kDISTANCE_TO_FORCE, distance.dy * kDISTANCE_TO_FORCE)
+        var force = CGVectorMake(distance.dx * distanceToForce, distance.dy * distanceToForce)
         var forceLength = hypotf(Float(force.dx), Float(force.dy))
         if  forceLength > Float(maxForce) {
             let scaleFactor = maxForce / CGFloat(forceLength)
@@ -195,7 +201,7 @@ class PieceKing : Piece{
     let c_mass : CGFloat = 10
     let c_linearDamping : CGFloat = 5
     let c_angularDamping: CGFloat = 7
-    let c_maxForce = CGFloat.max
+    let c_maxForce : CGFloat = 10000.0
     let c_bluePic = "KingPiece_BLUE"
     let c_redPic = "KingPiece_RED"
 
@@ -221,7 +227,7 @@ class PiecePawn : Piece{
     let c_mass : CGFloat = 15
     let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
-    let c_maxForce = CGFloat.max
+    let c_maxForce : CGFloat = 10000.0
     let c_bluePic = "PawnPiece_BLUE"
     let c_redPic = "PawnPiece_RED"
 
@@ -246,7 +252,7 @@ class PieceElephant : Piece{
     let c_mass : CGFloat = 3
     let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
-    let c_maxForce = CGFloat.max
+    let c_maxForce : CGFloat = 10000.0
     let c_bluePic = "ElephantPiece_BLUE"
     let c_redPic = "ElephantPiece_RED"
 
