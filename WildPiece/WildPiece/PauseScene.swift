@@ -40,6 +40,9 @@ class PauseScene: SKScene {
         if touchedNode.name == "backButton"
         {
             println("back to menu")
+            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            var gameScene = appDelegate.gameScene
+            gameScene?.end()
             var menuScene = MenuScene(size: self.size)
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 0.3)
             menuScene.scaleMode = SKSceneScaleMode.AspectFill

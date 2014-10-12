@@ -92,13 +92,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // pause
     func pause() {
-        Logic.sharedInstance.pause()
         self.scene?.paused = true
+        Logic.sharedInstance.pause()
     }
     
     func unpause() {
-        Logic.sharedInstance.unpause()
         self.scene?.paused = false
+        Logic.sharedInstance.unpause()
+    }
+    
+    // end game
+    func end() {
+        self.scene?.paused = true
+        Logic.sharedInstance.end()
     }
     
     // Contact delegate methods

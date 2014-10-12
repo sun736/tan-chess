@@ -174,6 +174,11 @@ class Logic {
         }
     }
     
+    func end() {
+        scene = nil
+        state = GameState.Unstarted
+    }
+    
     private func win(player : Player) {
         state = GameState.Ended(player)
         // TODO: notify scene
