@@ -133,7 +133,7 @@ class Logic {
         }
     }
     
-    func start(gameScene : GameScene) {
+    func start(gameScene : LogicDelegate) {
         switch state {
         case .Unstarted:
             state = GameState.Starting
@@ -164,6 +164,7 @@ class Logic {
         case .Paused:
             if let newstate = oldState {
                 state = newstate
+                oldState = nil
             } else {
                 state = GameState.Error("unpause without old state")
             }
@@ -177,7 +178,7 @@ class Logic {
         case .Waiting(let player):
             state = GameState.Processing(player)
         default:
-            state = GameState.Error("currentPlayer is empty")
+            state = GameState.Error("player done in wrong state: \(state)")
         }
     }
     

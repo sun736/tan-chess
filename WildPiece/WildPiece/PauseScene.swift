@@ -42,7 +42,7 @@ class PauseScene: SKScene {
             println("back to menu")
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var gameScene = appDelegate.gameScene
-            gameScene?.end()
+            gameScene?.endGame()
             var menuScene = MenuScene(size: self.size)
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 0.3)
             menuScene.scaleMode = SKSceneScaleMode.AspectFill
@@ -61,7 +61,7 @@ class PauseScene: SKScene {
             //if resume the game, change to the old game scene in appdelegate
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var gameScene = appDelegate.gameScene
-            gameScene?.unpause()
+            gameScene?.unpauseGame()
             let transition = SKTransition.crossFadeWithDuration(0.3)
             self.scene?.view?.presentScene(gameScene, transition: transition)
             

@@ -19,85 +19,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         return pieces.filter{$0.player == player}
     }
     
+    // MARK: SpriteKit Calls
     override func didMoveToView(view: SKView) {
         if(!Logic.sharedInstance.isStarted){
             self.startGame()
         }
     }
-    
-    // init methods
-    func startGame() {
-        configureBoard()
-        configureButtons()
-        placePieces()
-        Logic.sharedInstance.start(self)
-    }
-    
-    func restartGame() {
-        removePieces()
-        placePieces()
-        Logic.sharedInstance.restart()
-    }
-    
-    func configureBoard() {
-        //draw the rectange gameboard
-        var yourline = SKShapeNode();
-        var pathToDraw = CGPathCreateMutable();
-        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
-        yourline.path = pathToDraw;
-        yourline.strokeColor = UIColor.blueColor()
-        self.addChild(yourline)
-        println("Move game scene to view")
+
+    override func update(currentTime: CFTimeInterval) {
+        /* Called before each frame is rendered */
+        var pieces = scene?.children
+        var piece: AnyObject
         
-        //change scene background color to gray color
-        scene?.backgroundColor = UIColor.lightGrayColor()
-        
-        // Now make the edges of the screen a physics object as well
-        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
-        
-        scene?.physicsBody?.dynamic = false
-        
-        self.physicsWorld.gravity.dy = 0
-        self.physicsBody?.friction = 0.9
-        self.physicsWorld.contactDelegate = self
+        for node in pieces as [SKNode] {
+            if node.name == "piece" {
+                let piece = node as Piece
+                //println("x:\(piece.position.x), y:\(piece.position.y)")
+                if piece.position.x < 40 || piece.position.x > 335 {
+                    piece.fadeOut()
+                }
+                if piece.position.y < 40 || piece.position.y > 627 {
+                    piece.fadeOut()
+                }
+                
+            }
+        }
+        Logic.sharedInstance.updateState()
     }
     
-    func configureButtons() {
-        //add munu button
-        let menuButton = SKSpriteNode(imageNamed: "menuButton")
-        menuButton.name = "menuButton"
-        menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
-        self.addChild(menuButton)
-    }
-    
-    // pause
-    func pause() {
-        self.scene?.paused = true
-        Logic.sharedInstance.pause()
-    }
-    
-    func unpause() {
-        self.scene?.paused = false
-        Logic.sharedInstance.unpause()
-    }
-    
-    // end game
-    func end() {
-        self.scene?.paused = true
-        Logic.sharedInstance.end()
-    }
-    
-    // Contact delegate methods
-    func didBeginContact(contact: SKPhysicsContact) {
-        
-        CollisionController.handlContact(contact)
-    }
-    
-    // Touch events
+    // MARK: Touch Events
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         for touch: AnyObject in touches {
@@ -123,7 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                 } else if node.name == "menuButton" {
                     
                     println("menuButton")
-                    self.pause()
+                    self.pauseGame()
                     var pauseScene = PauseScene(size: self.size)
                     let transition = SKTransition.crossFadeWithDuration(0.3)
                     pauseScene.scaleMode = SKSceneScaleMode.AspectFill
@@ -196,8 +146,111 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         possibleEndPt = nil
         possibleTouchNode = nil
     }
+
+    // MARK: State Changes
+    func startGame() {
+        addBoard()
+        addButtons()
+        placePieces()
+        Logic.sharedInstance.start(self)
+    }
     
-    // game logic
+    func restartGame() {
+        removePieces()
+        placePieces()
+        Logic.sharedInstance.restart()
+    }
+    
+    func pauseGame() {
+        // pause the physical world in scene
+        self.paused = true
+        Logic.sharedInstance.pause()
+    }
+    
+    func unpauseGame() {
+        self.paused = false
+        Logic.sharedInstance.unpause()
+    }
+    
+    func endGame() {
+        self.paused = true
+        Logic.sharedInstance.end()
+    }
+    
+    // MARK: Set Up Board
+    func addBoard() {
+        //draw the rectange gameboard
+        var yourline = SKShapeNode();
+        var pathToDraw = CGPathCreateMutable();
+        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
+        yourline.path = pathToDraw;
+        yourline.strokeColor = UIColor.blueColor()
+        self.addChild(yourline)
+        println("Move game scene to view")
+        
+        //change scene background color to gray color
+        scene?.backgroundColor = UIColor.lightGrayColor()
+        
+        // Now make the edges of the screen a physics object as well
+        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
+        
+        scene?.physicsBody?.dynamic = false
+        
+        self.physicsWorld.gravity.dy = 0
+        self.physicsBody?.friction = 0.9
+        self.physicsWorld.contactDelegate = self
+    }
+    
+    func addButtons() {
+        //add munu button
+        let menuButton = SKSpriteNode(imageNamed: "menuButton")
+        menuButton.name = "menuButton"
+        menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
+        self.addChild(menuButton)
+    }
+    
+    // MARK: Add/Remove Pieces
+    func addPiece(pieceType : PieceType, location : CGPoint, player : Player) {
+        // println("location: \(location)")
+        var piece = Piece.newPiece(pieceType, player: player);
+        piece.position = location
+        self.addChild(piece)
+    }
+    
+    // add a piece for each player, with symmetrical position
+    func addPairPieces(pieceType : PieceType, location : CGPoint) {
+        addPiece(pieceType, location: location, player: PLAYER1)
+        let opponentLocation = CGPointMake(self.size.width - location.x, self.size.height - location.y)
+        addPiece(pieceType, location: opponentLocation, player: PLAYER2)
+    }
+    
+    // place all pieces
+    func placePieces() {
+        
+        //Just for demo purpose
+        // add kings
+        addPairPieces(PieceType.King, location: CGPointMake(187, 100))
+        // add pawns
+        addPairPieces(PieceType.Pawn, location: CGPointMake(107, 220))
+        addPairPieces(PieceType.Pawn, location: CGPointMake(267, 220))
+        addPairPieces(PieceType.Pawn, location: CGPointMake(187, 220))
+        // add elephants
+        addPairPieces(PieceType.Elephant, location: CGPointMake(150, 160))
+        addPairPieces(PieceType.Elephant, location: CGPointMake(224, 160))
+    }
+    
+    // remove all pieces
+    func removePieces() {
+        for piece in pieces {
+            piece.removeFromParent()
+        }
+    }
+    
+    // MARK: User Operation Validators
     func pieceShouldPull(piece : Piece) -> Bool {
         return Logic.sharedInstance.isWaiting(piece.player)
     }
@@ -206,30 +259,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         return !Logic.sharedInstance.isProcessing
     }
     
-    // called each frame
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-        var pieces = scene?.children
-        var piece: AnyObject
-        
-        for node in pieces as [SKNode] {
-            if node.name == "piece" {
-                let piece = node as Piece
-                //println("x:\(piece.position.x), y:\(piece.position.y)")
-                if piece.position.x < 40 || piece.position.x > 335 {
-                    piece.fadeOut()
-                }
-                if piece.position.y < 40 || piece.position.y > 627 {
-                    piece.fadeOut()
-                }
-                
-            }
-        }
-        
-        Logic.sharedInstance.updateState()
-    }
-    
-    // methods deal with touches on piece
+    // MARK: Touch Events on Pieces
     func pieceDidStartPull(piece : Piece) {
         // temporary solution to determine contacter
         CollisionController.setContacter(self, contacter: piece)
@@ -263,43 +293,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         piece.removeArrow()
     }
     
-    // functions to add pieces
-    
-    func addPiece(pieceType : PieceType, location : CGPoint, player : Player) {
-        // println("location: \(location)")
-        var piece = Piece.newPiece(pieceType, player: player);
-        piece.position = location
-        self.addChild(piece)
-    }
-    
-    // add a piece for each player, with symmetrical position
-    func addPairPieces(pieceType : PieceType, location : CGPoint) {
-        addPiece(pieceType, location: location, player: PLAYER1)
-        let opponentLocation = CGPointMake(self.size.width - location.x, self.size.height - location.y)
-        addPiece(pieceType, location: opponentLocation, player: PLAYER2)
-    }
-    
-    func placePieces() {
+    // MARK: Contact Delegate
+    func didBeginContact(contact: SKPhysicsContact) {
         
-        //Just for demo purpose
-        // add kings
-        addPairPieces(PieceType.King, location: CGPointMake(187, 100))
-        // add pawns
-        addPairPieces(PieceType.Pawn, location: CGPointMake(107, 220))
-        addPairPieces(PieceType.Pawn, location: CGPointMake(267, 220))
-        addPairPieces(PieceType.Pawn, location: CGPointMake(187, 220))
-        // add elephants
-        addPairPieces(PieceType.Elephant, location: CGPointMake(150, 160))
-        addPairPieces(PieceType.Elephant, location: CGPointMake(224, 160))
+        CollisionController.handlContact(contact)
     }
     
-    func removePieces() {
-        for piece in pieces {
-            piece.removeFromParent()
-        }
-    }
-    
-    // delegate methods
+    // MARK: Logic Delegate
     // get all Piece children
     var pieces : [Piece] {
         get {
@@ -314,6 +314,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     // player == PLAYER_NULL indicates a draw
+    // update UI here
     func gameDidEnd(player : Player) {
         
     }
