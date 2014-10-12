@@ -49,10 +49,8 @@ class PauseScene: SKScene {
         {
             println("restart game")
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            appDelegate.gameScene = GameScene()
             var gameScene = appDelegate.gameScene
-            gameScene?.size = self.size
-            gameScene?.scaleMode = SKSceneScaleMode.AspectFill
+            gameScene?.restartGame()
             let transition = SKTransition.crossFadeWithDuration(0.3)
             self.scene?.view?.presentScene(gameScene, transition: transition)
         }else if touchedNode.name == "resumeButton"

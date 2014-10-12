@@ -49,6 +49,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Logic.sharedInstance.start(self)
     }
     
+    func restartGame() {
+        removePieces()
+        placePieces()
+        Logic.sharedInstance.restart()
+    }
+    
     func configureBoard() {
         //draw the rectange gameboard
         var yourline = SKShapeNode();

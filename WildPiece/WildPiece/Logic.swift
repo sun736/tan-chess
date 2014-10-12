@@ -148,6 +148,13 @@ class Logic {
         self.wait(PLAYER1)
     }
     
+    func restart() {
+        state = GameState.Starting
+        
+        // first player's turn
+        self.wait(PLAYER1)
+    }
+    
     func playerDone() {
         if let player = currentPlayer {
             state = GameState.Processing(player)
