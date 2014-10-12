@@ -18,7 +18,7 @@ class Logic {
         case Processing(Player)
         case Waiting(Player)
         case Ended(Player)
-        case Error
+        case Error(String)
         
         var description : String {
             switch self {
@@ -34,8 +34,8 @@ class Logic {
                 return "Waiting(\(player))"
             case .Ended(let player):
                 return "Ended(\(player))"
-            default:
-                return "default"
+            case .Error(let error):
+                return "Error: \(error)"
             }
         }
     }
@@ -43,15 +43,55 @@ class Logic {
     private(set) var scene: GameScene?
     
     private(set) var state: GameState {
-        willSet {
-            println("old state: \(state)")
-        }
+//        willSet {
+//            println("old state: \(state)")
+//        }
         didSet {
             println("new state: \(state)")
         }
     }
     
-    private(set) var currentPlayer: Player?
+    private var currentPlayer: Player? {
+        get {
+            switch state {
+            case .Waiting(let player):
+                return player
+            default:
+                return nil
+            }
+        }
+    }
+    
+    func isWaiting(player : Player) -> Bool {
+        switch state {
+        case .Waiting(let waitingPlayer):
+            return waitingPlayer == player
+        default:
+            return false
+        }
+    }
+    
+    var isStarted : Bool {
+        get {
+            switch state {
+            case .Unstarted:
+                return false
+            default:
+                return true
+            }
+        }
+    }
+    
+    var isProcessing : Bool {
+        get {
+            switch state {
+            case .Processing(let player):
+                return true
+            default:
+                return false
+            }
+        }
+    }
     
     init() {
         state = .Unstarted
@@ -67,63 +107,63 @@ class Logic {
     }
     
     func updateState() {
-        
-        // get pieces' states
-        var playerFlags : UInt32 = 0x0
-        var isMoving : Bool = false
-        
-        if let scene = self.scene {
-            for piece in scene.pieces {
-                if let body = piece.physicsBody {
-                    playerFlags |= body.categoryBitMask
-                    isMoving = (body.velocity.dx != 0) || (body.velocity.dy != 0)
+
+        switch state {
+        case .Processing(let player):
+            // get pieces' states
+            var playerFlags : UInt32 = 0x0
+            var isMoving : Bool = false
+            
+            if let scene = self.scene {
+                for piece in scene.pieces {
+                    if let body = piece.physicsBody {
+                        playerFlags |= body.categoryBitMask
+                        isMoving = (body.velocity.dx != 0) || (body.velocity.dy != 0)
+                    }
                 }
             }
-        }
-        
-        switch state {
-        case .Unstarted:
-            break
-        case .Starting:
-            break
-        case .Suspended:
-            break
-        case .Processing(let player):
+            
             if !isMoving {
                 switch playerFlags {
                 case 0x01, 0x02:
-                    state = .Ended(Player.getPlayer(playerFlags))
+                    self.win(Player.getPlayer(playerFlags))
                 case 0x03:
-                    state = .Waiting(player.opponent())
+                    self.wait(player.opponent())
                 default:
-                    state = .Error
+                    state = .Error("playerFlags = \(playerFlags)")
                 }
             }
             break
-        case .Waiting(let player):
-            if isMoving {
-                state = .Processing(player)
-            }
-            break
-        case .Ended(let player):
-            break
         default:
-            state = .Error
+            break
         }
     }
     
-    func startGame(gameScene : GameScene) {
+    func start(gameScene : GameScene) {
         
-        state = .Starting
+        state = GameState.Starting
         self.scene = gameScene
-        // initiate scene
-        scene?.removePieces()
-        scene?.placePieces()
         
         // first player's turn
-        state = .Waiting(PLAYER1)
-        
-        
-        
+        self.wait(PLAYER1)
     }
+    
+    func playerDone() {
+        if let player = currentPlayer {
+            state = GameState.Processing(player)
+        } else {
+            state = GameState.Error("currentPlayer is empty")
+        }
+    }
+    
+    private func win(player : Player) {
+        state = GameState.Ended(player)
+        // TODO: notify scene
+    }
+    
+    private func wait(player : Player) {
+        state = GameState.Waiting(player)
+        // TODO: notify scene
+    }
+
 }

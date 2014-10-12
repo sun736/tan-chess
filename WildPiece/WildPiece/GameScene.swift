@@ -36,46 +36,61 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMoveToView(view: SKView) {
-        if(!self.gameStart){
-            //draw the rectange gameboard
-            self.gameStart = true;
-            var yourline = SKShapeNode();
-            var pathToDraw = CGPathCreateMutable();
-            CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
-            CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
-            CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
-            CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
-            CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
-            yourline.path = pathToDraw;
-            yourline.strokeColor = UIColor.blueColor()
-            self.addChild(yourline)
-            println("Move game scene to view")
-            
-            //change scene background color to gray color
-            scene?.backgroundColor = UIColor.lightGrayColor()
-
-            //add munu button
-            let menuButton = SKSpriteNode(imageNamed: "menuButton")
-            menuButton.name = "menuButton"
-            menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
-            self.addChild(menuButton)
-            // Now make the edges of the screen a physics object as well
-            //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
-            
-            scene?.physicsBody?.dynamic = false
-            
-            self.physicsWorld.gravity.dy = 0
-            self.physicsBody?.friction = 0.9
-            placePieces()
-            self.physicsWorld.contactDelegate = self
+        if(!Logic.sharedInstance.isStarted){
+            self.startGame()
         }
     }
     
+    // init methods
+    func startGame() {
+        configureBoard()
+        configureButtons()
+        placePieces()
+        Logic.sharedInstance.start(self)
+    }
+    
+    func configureBoard() {
+        //draw the rectange gameboard
+        var yourline = SKShapeNode();
+        var pathToDraw = CGPathCreateMutable();
+        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
+        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
+        yourline.path = pathToDraw;
+        yourline.strokeColor = UIColor.blueColor()
+        self.addChild(yourline)
+        println("Move game scene to view")
+        
+        //change scene background color to gray color
+        scene?.backgroundColor = UIColor.lightGrayColor()
+        
+        // Now make the edges of the screen a physics object as well
+        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
+        
+        scene?.physicsBody?.dynamic = false
+        
+        self.physicsWorld.gravity.dy = 0
+        self.physicsBody?.friction = 0.9
+        self.physicsWorld.contactDelegate = self
+    }
+    
+    func configureButtons() {
+        //add munu button
+        let menuButton = SKSpriteNode(imageNamed: "menuButton")
+        menuButton.name = "menuButton"
+        menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
+        self.addChild(menuButton)
+    }
+    
+    // Contact delegate methods
     func didBeginContact(contact: SKPhysicsContact) {
         
         CollisionController.handlContact(contact)
     }
     
+    // Touch events
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         for touch: AnyObject in touches {
@@ -83,18 +98,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let nodes = self.nodesAtPoint(location)
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
-                    let centerPt = piece.position
-                    let distance = hypotf(Float(location.x - centerPt.x),
-                        Float(location.y - centerPt.y))
-                    // exact distance comparison
-                    if (distance <= Float(piece.radius)) {
-                        
-                        possibleBeginPt = location
-                        possibleEndPt = nil
-                        possibleTouchNode = piece
-                        
-                        self.pieceDidStartPull(piece)
-                        break
+                    if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
+                        let centerPt = piece.position
+                        let distance = hypotf(Float(location.x - centerPt.x),
+                            Float(location.y - centerPt.y))
+                        // exact distance comparison
+                        if (distance <= Float(piece.radius)) {
+                            
+                            possibleBeginPt = location
+                            possibleEndPt = nil
+                            possibleTouchNode = piece
+                            
+                            self.pieceDidStartPull(piece)
+                            break
+                        }
                     }
                 } else if node.name == "menuButton" {
                     
@@ -127,9 +144,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let distance = CGVectorMake(actualEndPt.x - centerPt.x, actualEndPt.y - centerPt.y)
                     // do nothing if end point lies within the node border
                     if (hypotf(Float(distance.dx), Float(distance.dy)) <= Float(piece.radius)) {
-                        self.pieceDidTaped(piece)
+                        if self.pieceShouldTap(piece) {
+                            self.pieceDidTaped(piece)
+                        } else {
+                            self.pieceDidCancelPull(piece)
+                        }
                     } else {
-                        self.pieceDidPulled(piece, touchBeginPt: centerPt, touchEndPt: actualEndPt)
+                        if self.pieceShouldPull(piece) {
+                            self.pieceDidPulled(piece, touchBeginPt: centerPt, touchEndPt: actualEndPt)
+                            Logic.sharedInstance.playerDone()
+                        } else {
+                            self.pieceDidCancelPull(piece)
+                        }
                     }
                 }
             }
@@ -145,7 +171,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // notify the node to draw a force indicator
             if let actualBeginPt = possibleBeginPt {
                 if let piece = possibleTouchNode as? Piece {
-                    self.pieceDidChangePullDistance(piece, touchBeginPt: actualBeginPt, touchEndPt: location)
+                    if self.pieceShouldPull(piece) {
+                        self.pieceDidChangePullDistance(piece, touchBeginPt: actualBeginPt, touchEndPt: location)
+                    }
                 }
             }
         }
@@ -161,6 +189,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         possibleTouchNode = nil
     }
     
+    // game logic
+    func pieceShouldPull(piece : Piece) -> Bool {
+        return Logic.sharedInstance.isWaiting(piece.player)
+    }
+    
+    func pieceShouldTap(piece : Piece) -> Bool {
+        return !Logic.sharedInstance.isProcessing
+    }
+    
+    // called each frame
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         var pieces = scene?.children
@@ -179,10 +217,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             }
         }
+        
+        Logic.sharedInstance.updateState()
     }
     
-    // functions deal with touches on piece
-    
+    // methods deal with touches on piece
     func pieceDidStartPull(piece : Piece) {
         // temporary solution to determine contacter
         CollisionController.setContacter(self, contacter: piece)
