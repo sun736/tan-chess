@@ -106,7 +106,7 @@ class Logic {
                 for piece in scene.pieces {
                     if let body = piece.physicsBody {
                         playerFlags |= body.categoryBitMask
-                        isMoving = (body.velocity.dx != 0) || (body.velocity.dy != 0)
+                        isMoving |= (body.velocity.dx != 0) || (body.velocity.dy != 0)
                     }
                 }
             }
