@@ -90,6 +90,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(menuButton)
     }
     
+    // pause
+    func pause() {
+        Logic.sharedInstance.pause()
+        self.scene?.paused = true
+    }
+    
+    func unpause() {
+        Logic.sharedInstance.unpause()
+        self.scene?.paused = false
+    }
+    
     // Contact delegate methods
     func didBeginContact(contact: SKPhysicsContact) {
         
@@ -122,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } else if node.name == "menuButton" {
                     
                     println("menuButton")
+                    self.pause()
                     var pauseScene = PauseScene(size: self.size)
                     let transition = SKTransition.crossFadeWithDuration(0.3)
                     pauseScene.scaleMode = SKSceneScaleMode.AspectFill
@@ -251,7 +263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
         var force = piece.forceForPullDistance(distance)
         piece.physicsBody?.applyImpulse(force);
-        
+
         piece.removeRing()
         piece.removeArrow()
     }

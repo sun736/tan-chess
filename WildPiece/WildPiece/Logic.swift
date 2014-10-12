@@ -14,7 +14,7 @@ class Logic {
     enum GameState : Printable {
         case Unstarted
         case Starting
-        case Suspended
+        case Paused
         case Processing(Player)
         case Waiting(Player)
         case Ended(Player)
@@ -26,8 +26,8 @@ class Logic {
                 return "Unstarted"
             case .Starting:
                 return "Starting"
-            case .Suspended:
-                return "Suspended"
+            case .Paused:
+                return "Paused"
             case .Processing(let player):
                 return "Processing(\(player))"
             case .Waiting(let player):
@@ -43,24 +43,12 @@ class Logic {
     private(set) var scene: GameScene?
     
     private(set) var state: GameState {
-//        willSet {
-//            println("old state: \(state)")
-//        }
         didSet {
-            println("new state: \(state)")
+            println("state: \(state)")
         }
     }
     
-    private var currentPlayer: Player? {
-        get {
-            switch state {
-            case .Waiting(let player):
-                return player
-            default:
-                return nil
-            }
-        }
-    }
+    private var oldState: GameState?
     
     func isWaiting(player : Player) -> Bool {
         switch state {
@@ -133,19 +121,23 @@ class Logic {
                     state = .Error("playerFlags = \(playerFlags)")
                 }
             }
-            break
         default:
             break
         }
     }
     
     func start(gameScene : GameScene) {
-        
-        state = GameState.Starting
-        self.scene = gameScene
-        
-        // first player's turn
-        self.wait(PLAYER1)
+        switch state {
+        case .Unstarted:
+            state = GameState.Starting
+            self.scene = gameScene
+            
+            // first player's turn
+            self.wait(PLAYER1)
+            break
+        default:
+            state = GameState.Error("start game in wrong state: \(state)")
+        }
     }
     
     func restart() {
@@ -155,10 +147,29 @@ class Logic {
         self.wait(PLAYER1)
     }
     
+    func pause() {
+        oldState = state
+        state = GameState.Paused
+    }
+    
+    func unpause() {
+        switch state {
+        case .Paused:
+            if let newstate = oldState {
+                state = newstate
+            } else {
+                state = GameState.Error("unpause without old state")
+            }
+        default:
+            state = GameState.Error("unpause in wrong state: \(state)")
+        }
+    }
+    
     func playerDone() {
-        if let player = currentPlayer {
+        switch state {
+        case .Waiting(let player):
             state = GameState.Processing(player)
-        } else {
+        default:
             state = GameState.Error("currentPlayer is empty")
         }
     }

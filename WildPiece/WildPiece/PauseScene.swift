@@ -58,8 +58,7 @@ class PauseScene: SKScene {
             //if resume the game, change to the old game scene in appdelegate
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var gameScene = appDelegate.gameScene
-            gameScene?.size = self.size
-            gameScene?.scaleMode = SKSceneScaleMode.AspectFill
+            gameScene?.unpause()
             let transition = SKTransition.crossFadeWithDuration(0.3)
             self.scene?.view?.presentScene(gameScene, transition: transition)
             
