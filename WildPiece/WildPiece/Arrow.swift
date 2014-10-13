@@ -12,11 +12,16 @@ import SpriteKit
 class Arrow: SKShapeNode {
     let color: UInt = 0x00FFFF
     let opacity: CGFloat = 1.0
-    var maxLength: Float = 30.0
+    let tailWidth: CGFloat = 4
+    let headWidth: CGFloat = 8
+    let headLength: CGFloat = 6
     
-    init(startPoint :CGPoint, endPoint : CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat, parentRadius: CGFloat) {
+    let minLength: Float = 8.0
+    let maxLength: Float = 30.0
+    
+    init(startPoint :CGPoint, endPoint : CGPoint, parentRadius: CGFloat, forcePercentage: CGFloat) {
         super.init()
-        let cgPath = self.pathWithArrowFromPoint(startPoint, endPoint: endPoint, tailWidth: tailWidth, headWidth: headWidth, headLength: headLength, parentRadius: parentRadius)
+        let cgPath = self.pathWithArrowFromPoint(startPoint, endPoint: endPoint, tailWidth: tailWidth, headWidth: headWidth, headLength: headLength, parentRadius: parentRadius, forcePercentage: forcePercentage)
         self.path = cgPath
         self.lineWidth = 2.0
         self.zPosition = 2
@@ -46,7 +51,7 @@ class Arrow: SKShapeNode {
         return CGAffineTransformMake(cosine, sine, -sine, cosine, startPoint.x, startPoint.y)
     }
     
-    func pathWithArrowFromPoint(startPoint :CGPoint, endPoint : CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat, parentRadius: CGFloat) -> CGPath {
+    func pathWithArrowFromPoint(startPoint :CGPoint, endPoint : CGPoint, tailWidth: CGFloat, headWidth: CGFloat, headLength: CGFloat, parentRadius: CGFloat, forcePercentage: CGFloat) -> CGPath {
         var startPt = startPoint
         var endPt = endPoint
         var outRadius = parentRadius
@@ -58,13 +63,8 @@ class Arrow: SKShapeNode {
         
         startPt.x = startPoint.x + CGFloat(Float(outRadius) * (xdiff)/oldLength)
         startPt.y = startPoint.y + CGFloat(Float(outRadius) * (ydiff)/oldLength)
-        
-        if(length < 8) {
-            length = Float(8)
-        }
-        if(length > maxLength) {
-            length = maxLength
-        }
+
+        length = minLength + (maxLength - minLength) * Float(forcePercentage)
         endPt.x = startPt.x + CGFloat(length * (xdiff)/oldLength)
         endPt.y = startPt.y + CGFloat(length * (ydiff)/oldLength)
         
@@ -75,7 +75,7 @@ class Arrow: SKShapeNode {
         
         var cgPath: CGMutablePathRef = CGPathCreateMutable()
         CGPathAddLines(cgPath, &transform, points, 7)
-        CGPathCloseSubpath(cgPath)
+        //CGPathCloseSubpath(cgPath)
 
         return cgPath
     }

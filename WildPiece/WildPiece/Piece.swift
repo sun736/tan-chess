@@ -148,14 +148,15 @@ class Piece: SKSpriteNode {
         }
     }
     
-    func drawArrow(cgVector: CGVector) {
+    func drawArrow(force: CGVector) {
         self.removeArrow()
-        var endPoition = CGPointMake(cgVector.dx/200 + self.position.x, cgVector.dy/200 + self.position.y)
+        var endPoition = CGPointMake(force.dx/200 + self.position.x, force.dy/200 + self.position.y)
         var outRadius = self.getRadius()
         if let ring = self.ring {
             outRadius = ring.getRadius()
         }
-        let arrowNode :Arrow = Arrow(startPoint: self.position, endPoint: endPoition, tailWidth: 4, headWidth: 8, headLength: 6, parentRadius: outRadius)
+
+        let arrowNode :Arrow = Arrow(startPoint: self.position, endPoint: endPoition, parentRadius: outRadius, forcePercentage: forcePercentage(force))
         
         self.arrow = arrowNode
         self.parent?.addChild(arrowNode)
@@ -178,6 +179,7 @@ class Piece: SKSpriteNode {
     
     func forcePercentage(force : CGVector) -> CGFloat {
         var forceLength = hypotf(Float(force.dx), Float(force.dy))
+        println("force: \(forceLength), max: \(maxForce)")
         var percentage = (CGFloat(forceLength) - minForce) / (maxForce - minForce)
         return percentage >= 0 ? percentage : 0
     }
@@ -200,12 +202,12 @@ class PieceKing : Piece{
     let c_radius: CGFloat = 25
     let c_healthPoint: CGFloat = 50
     let c_maxhealthPoint: CGFloat = 50
-    let c_mass : CGFloat = 10
-    let c_linearDamping : CGFloat = 5
+    let c_mass: CGFloat = 10
+    let c_linearDamping: CGFloat = 5
     let c_angularDamping: CGFloat = 7
-    let c_maxForce : CGFloat = 10000.0
-    let c_bluePic = "KingPiece_BLUE"
-    let c_redPic = "KingPiece_RED"
+    let c_maxForce: CGFloat = 10000.0
+    let c_bluePic: String = "KingPiece_BLUE"
+    let c_redPic: String = "KingPiece_RED"
     let c_pieceType = PieceType.King
     
     init(_ player : Player){
@@ -230,9 +232,9 @@ class PiecePawn : Piece{
     let c_mass : CGFloat = 15
     let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
-    let c_maxForce : CGFloat = 10000.0
-    let c_bluePic = "PawnPiece_BLUE"
-    let c_redPic = "PawnPiece_RED"
+    let c_maxForce: CGFloat = 10000.0
+    let c_bluePic: String = "PawnPiece_BLUE"
+    let c_redPic: String = "PawnPiece_RED"
     let c_pieceType = PieceType.Pawn
 
     init(_ player : Player){
@@ -253,12 +255,12 @@ class PieceElephant : Piece{
     let c_radius: CGFloat = 30
     let c_healthPoint: CGFloat = 10
     let c_maxhealthPoint: CGFloat = 10
-    let c_mass : CGFloat = 3
-    let c_linearDamping : CGFloat = 10
+    let c_mass: CGFloat = 3
+    let c_linearDamping: CGFloat = 10
     let c_angularDamping: CGFloat = 7
-    let c_maxForce : CGFloat = 10000.0
-    let c_bluePic = "ElephantPiece_BLUE"
-    let c_redPic = "ElephantPiece_RED"
+    let c_maxForce: CGFloat = 10000.0
+    let c_bluePic: String = "ElephantPiece_BLUE"
+    let c_redPic: String = "ElephantPiece_RED"
     let c_pieceType = PieceType.Elephant
 
     init(_ player : Player){
