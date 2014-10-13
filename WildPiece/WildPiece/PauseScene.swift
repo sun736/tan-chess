@@ -12,17 +12,17 @@ import SpriteKit
 class PauseScene: SKScene {
     override func didMoveToView(view: SKView) {
         
-        let resumeButton = SKSpriteNode(imageNamed: "resumeButton")
+        let resumeButton = SKSpriteNode(imageNamed: "resume")
         resumeButton.name = "resumeButton"
         resumeButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.3);
         self.addChild(resumeButton)
         
-        let restartButton = SKSpriteNode(imageNamed: "restartButton")
+        let restartButton = SKSpriteNode(imageNamed: "restart")
         restartButton.name = "restartButton"
         restartButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.0);
         self.addChild(restartButton)
         
-        let backButton = SKSpriteNode(imageNamed: "returnButton")
+        let backButton = SKSpriteNode(imageNamed: "backToMenu")
         backButton.name = "backButton"
         backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.7);
         self.addChild(backButton)
