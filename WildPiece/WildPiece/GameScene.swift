@@ -110,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                     } else {
                         if self.pieceShouldPull(piece) {
                             //added just for the pawn demo, delete it if needed
-                            if piece.player.bitMask == Piece.BITMASK_RED() && actualEndPt.y > piece.position.y || piece.player.bitMask == Piece.BITMASK_BLUE() && actualEndPt.y < piece.position.y
+                            if ( piece is PiecePawn ) && (piece.player.bitMask == Piece.BITMASK_RED() && actualEndPt.y > piece.position.y || piece.player.bitMask == Piece.BITMASK_BLUE() && actualEndPt.y < piece.position.y) || !( piece is PiecePawn )
                             {
                                 self.pieceDidPulled(piece, touchBeginPt: centerPt, touchEndPt: actualEndPt)
                                 Logic.sharedInstance.playerDone()
