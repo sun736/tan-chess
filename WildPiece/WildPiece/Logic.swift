@@ -9,6 +9,7 @@
 import Foundation
 import SpriteKit
 
+// MARK: Logic Delegate
 protocol LogicDelegate : class {
     
     func gameDidEnd(player : Player)
@@ -16,6 +17,7 @@ protocol LogicDelegate : class {
     var pieces : [Piece] { get }
 }
 
+// MARK: Logic class
 class Logic {
     
     enum GameState : Printable {
@@ -47,9 +49,9 @@ class Logic {
         }
     }
     
-    private(set) weak var scene: LogicDelegate?
+    private weak var scene: LogicDelegate?
     
-    private(set) var state: GameState {
+    private var state: GameState {
         didSet {
             println("state: \(state)")
         }
