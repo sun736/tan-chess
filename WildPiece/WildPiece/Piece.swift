@@ -119,6 +119,14 @@ class Piece: SKSpriteNode {
         self.runAction(SKAction.sequence(sequence))
     }
     
+    func flash() {
+        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
+        let fadeOutAct = SKAction.fadeAlphaTo(0.4, duration: fadeOutFadeTime);
+        let fadeInAct = SKAction.fadeInWithDuration(fadeOutFadeTime);
+        let sequence = [waitAction, fadeOutAct, fadeInAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
