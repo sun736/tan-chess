@@ -327,6 +327,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     func gameDidWait(player : Player) {
-        
+       
     }
 }

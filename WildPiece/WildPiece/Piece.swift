@@ -13,6 +13,9 @@ enum PieceType : Printable {
     case King
     case Pawn
     case Elephant
+    case Rock
+    case Canon
+    case Knight
     
     var description : String {
         switch self {
@@ -22,6 +25,12 @@ enum PieceType : Printable {
             return "Pawn"
         case .Elephant:
             return "Elephant"
+        case .Rock:
+            return "Rock"
+        case .Canon:
+            return "Canon"
+        case .Knight:
+            return "Knight"
         default:
             return "default"
         }
@@ -37,7 +46,6 @@ class Piece: SKSpriteNode {
     let radius : CGFloat
     var maxForce : CGFloat
     let player : Player
-    var pieceType : PieceType?
     
     var distanceToForce : CGFloat {
         get {
@@ -58,7 +66,7 @@ class Piece: SKSpriteNode {
     let fadeOutWaitTime: NSTimeInterval = 0.1
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
-    init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat, pieceType : PieceType) {
+    init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat) {
         
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
@@ -66,7 +74,6 @@ class Piece: SKSpriteNode {
         self.maxForce = maxForce
         self.isContacter = false
         self.player = player
-        self.pieceType = pieceType
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
         self.physicsBody = SKPhysicsBody(circleOfRadius:radius)
@@ -193,6 +200,12 @@ class Piece: SKSpriteNode {
             return PiecePawn(player)
         case .Elephant:
             return PieceElephant(player)
+        case .Rock:
+            return PieceRock(player)
+        case .Knight:
+            return PieceKing(player)
+        case .Canon:
+            return PieceCanon(player)
         }
     }
 }
@@ -208,13 +221,12 @@ class PieceKing : Piece{
     let c_maxForce: CGFloat = 10000.0
     let c_bluePic: String = "KingPiece_BLUE"
     let c_redPic: String = "KingPiece_RED"
-    let c_pieceType = PieceType.King
     
     init(_ player : Player){
 
         let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
         
-        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce, pieceType : c_pieceType)
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
 
     }
     
@@ -235,15 +247,13 @@ class PiecePawn : Piece{
     let c_maxForce: CGFloat = 10000.0
     let c_bluePic: String = "PawnPiece_BLUE"
     let c_redPic: String = "PawnPiece_RED"
-    let c_pieceType = PieceType.Pawn
-
     init(_ player : Player){
         
         let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
         
-        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce, pieceType : c_pieceType)
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
+    
     }
-
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -261,13 +271,11 @@ class PieceElephant : Piece{
     let c_maxForce: CGFloat = 10000.0
     let c_bluePic: String = "ElephantPiece_BLUE"
     let c_redPic: String = "ElephantPiece_RED"
-    let c_pieceType = PieceType.Elephant
-
     init(_ player : Player){
         
         let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
         
-        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce, pieceType : c_pieceType)
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -275,4 +283,78 @@ class PieceElephant : Piece{
     }
     
 }
+
+class PieceRock : Piece{
+    
+    let c_radius: CGFloat = 30
+    let c_healthPoint: CGFloat = 10
+    let c_maxhealthPoint: CGFloat = 10
+    let c_mass: CGFloat = 3
+    let c_linearDamping: CGFloat = 10
+    let c_angularDamping: CGFloat = 7
+    let c_maxForce: CGFloat = 10000.0
+    let c_bluePic: String = "RockPiece_BLUE"
+    let c_redPic: String = "RockPiece_RED"
+    init(_ player : Player){
+        
+        let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+class PieceCanon : Piece{
+    
+    let c_radius: CGFloat = 30
+    let c_healthPoint: CGFloat = 10
+    let c_maxhealthPoint: CGFloat = 10
+    let c_mass: CGFloat = 3
+    let c_linearDamping: CGFloat = 10
+    let c_angularDamping: CGFloat = 7
+    let c_maxForce: CGFloat = 10000.0
+    let c_bluePic: String = "QueenPiece_BLUE"
+    let c_redPic: String = "QueenPiece_RED"
+    init(_ player : Player){
+        
+        let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+class PieceKnight : Piece{
+    
+    let c_radius: CGFloat = 30
+    let c_healthPoint: CGFloat = 10
+    let c_maxhealthPoint: CGFloat = 10
+    let c_mass: CGFloat = 3
+    let c_linearDamping: CGFloat = 10
+    let c_angularDamping: CGFloat = 7
+    let c_maxForce: CGFloat = 10000.0
+    let c_bluePic: String = "KnightPiece_BLUE"
+    let c_redPic: String = "KnightPiece_RED"
+    init(_ player : Player){
+        
+        let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
+        
+        super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+
 
