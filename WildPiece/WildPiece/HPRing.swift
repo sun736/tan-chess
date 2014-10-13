@@ -11,7 +11,7 @@ import SpriteKit
 
 class HPRing: SKShapeNode {
     
-    let delta :CGFloat = 2.5
+    let delta :CGFloat = 0
     let opacity :CGFloat = 1
     let color: UInt = 0xFF0000
     let linewidth : CGFloat = 1.5
