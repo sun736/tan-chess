@@ -109,8 +109,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                         }
                     } else {
                         if self.pieceShouldPull(piece) {
-                            self.pieceDidPulled(piece, touchBeginPt: centerPt, touchEndPt: actualEndPt)
-                            Logic.sharedInstance.playerDone()
+                            //added just for the pawn demo, delete it if needed
+                            if piece.player.bitMask == Piece.BITMASK_RED() && actualEndPt.y > piece.position.y || piece.player.bitMask == Piece.BITMASK_BLUE() && actualEndPt.y < piece.position.y
+                            {
+                                self.pieceDidPulled(piece, touchBeginPt: centerPt, touchEndPt: actualEndPt)
+                                Logic.sharedInstance.playerDone()
+                            }
+                            else{
+                                self.pieceDidCancelPull(piece)
+                            }
                         } else {
                             self.pieceDidCancelPull(piece)
                         }
