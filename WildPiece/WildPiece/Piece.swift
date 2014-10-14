@@ -211,7 +211,7 @@ class Piece: SKSpriteNode {
         case .Rock:
             return PieceRock(player)
         case .Knight:
-            return PieceKing(player)
+            return PieceKnight(player)
         case .Canon:
             return PieceCanon(player)
         }
@@ -220,7 +220,7 @@ class Piece: SKSpriteNode {
 
 class PieceKing : Piece{
     
-    let c_radius: CGFloat = 25
+    let c_radius: CGFloat = 20
     let c_healthPoint: CGFloat = 50
     let c_maxhealthPoint: CGFloat = 50
     let c_mass: CGFloat = 10
@@ -270,7 +270,7 @@ class PiecePawn : Piece{
 
 class PieceElephant : Piece{
     
-    let c_radius: CGFloat = 30
+    let c_radius: CGFloat = 20
     let c_healthPoint: CGFloat = 10
     let c_maxhealthPoint: CGFloat = 10
     let c_mass: CGFloat = 3
@@ -294,7 +294,7 @@ class PieceElephant : Piece{
 
 class PieceRock : Piece{
     
-    let c_radius: CGFloat = 30
+    let c_radius: CGFloat = 20
     let c_healthPoint: CGFloat = 10
     let c_maxhealthPoint: CGFloat = 10
     let c_mass: CGFloat = 3
@@ -318,7 +318,7 @@ class PieceRock : Piece{
 
 class PieceCanon : Piece{
     
-    let c_radius: CGFloat = 30
+    let c_radius: CGFloat = 20
     let c_healthPoint: CGFloat = 10
     let c_maxhealthPoint: CGFloat = 10
     let c_mass: CGFloat = 3
@@ -342,7 +342,7 @@ class PieceCanon : Piece{
 
 class PieceKnight : Piece{
     
-    let c_radius: CGFloat = 30
+    let c_radius: CGFloat = 20
     let c_healthPoint: CGFloat = 10
     let c_maxhealthPoint: CGFloat = 10
     let c_mass: CGFloat = 3
