@@ -14,15 +14,16 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
     @IBOutlet weak var dampingSlider: WPSliderView!
     @IBOutlet weak var restitutionSlider: WPSliderView!
     @IBOutlet weak var impulseSlider: WPSliderView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         massSlider.setupBasic(title: "M", minValue: 1, maxValue: 50, delegate: self)
         dampingSlider.setupBasic(title: "D", minValue: 1, maxValue: 25, delegate: self)
         restitutionSlider.setupBasic(title: "R", minValue: 0, maxValue: 1, delegate: self)
-        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 1000, delegate: self)
+        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 20, delegate: self)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContents", name: "kUpdateToolBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContents", name: "kUpdateToolBarNotification", object: nil)
     }
     
     func sliderValueDidChange(#slider : WPSliderView, didMoveToValue value : Double) {
@@ -30,19 +31,18 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
         case massSlider : WPParameterSet.sharedInstance.mass = value
         case dampingSlider : WPParameterSet.sharedInstance.damping = value
         case restitutionSlider : WPParameterSet.sharedInstance.restitution = value
-        case impulseSlider : WPParameterSet.sharedInstance.impulse = value
+        case impulseSlider : WPParameterSet.sharedInstance.impulse = value * 10000
         default: println("Error when setting Slider value")
         }
-//        WPGameDataManager.sharedInstance.saveParameterSet(forIdentifier: "King")
+        WPParameterSet.sharedInstance.saveParameterSet()
     }
 
     func updateContents() {
+        titleLabel.text = WPParameterSet.sharedInstance.currentIdentifier
         massSlider.setSliderValue(WPParameterSet.sharedInstance.mass)
         dampingSlider.setSliderValue(WPParameterSet.sharedInstance.damping)
         restitutionSlider.setSliderValue(WPParameterSet.sharedInstance.restitution)
         impulseSlider.setSliderValue(WPParameterSet.sharedInstance.impulse)
-        
-//        WPGameDataManager.sharedInstance.getParameterSet(forIdentifier: "King")
     }
     
     override func didReceiveMemoryWarning() {

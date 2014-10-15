@@ -13,7 +13,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
-
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     // get all Piece children belongs to a player
     func piecesOfPlayer(player : Player) -> [Piece] {
         return pieces.filter{$0.player == player}
@@ -21,6 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: SpriteKit Calls
     override func didMoveToView(view: SKView) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyParameters", name: "kShouldApplyParameters", object: nil)
         if(!Logic.sharedInstance.isStarted){
             self.startGame()
         }
@@ -268,6 +273,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         }
     }
     
+    func applyParameters() {
+        for piece in pieces {
+            if piece.pieceType?.description == WPParameterSet.sharedInstance.currentIdentifier {
+                piece.physicsBody?.mass = CGFloat(WPParameterSet.sharedInstance.mass!)
+                piece.physicsBody?.restitution = CGFloat(WPParameterSet.sharedInstance.restitution!)
+                piece.physicsBody?.linearDamping = CGFloat(WPParameterSet.sharedInstance.damping!)
+                piece.maxForce = CGFloat(WPParameterSet.sharedInstance.impulse!)
+            }
+        }
+    }
+    
     // MARK: User Operation Validators
     func pieceShouldPull(piece : Piece) -> Bool {
         return Logic.sharedInstance.isWaiting(piece.player)
@@ -307,6 +323,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     func pieceDidTaped(piece : Piece) {
+        WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType?.description);
         piece.removeRing()
         piece.removeArrow()
     }

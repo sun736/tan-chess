@@ -24,5 +24,27 @@
 		<key>impulse</key>
 		<integer>100</integer>
 	</dict>
+	<key>Elephant</key>
+	<dict>
+		<key>mass</key>
+		<integer>20</integer>
+		<key>damping</key>
+		<integer>10</integer>
+		<key>restitution</key>
+		<real>0.5</real>
+		<key>impulse</key>
+		<integer>100</integer>
+	</dict>
+	<key>Horse</key>
+	<dict>
+		<key>mass</key>
+		<integer>20</integer>
+		<key>damping</key>
+		<integer>10</integer>
+		<key>restitution</key>
+		<real>0.5</real>
+		<key>impulse</key>
+		<integer>100</integer>
+	</dict>
 </dict>
 </plist>

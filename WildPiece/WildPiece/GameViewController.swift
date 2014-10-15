@@ -57,6 +57,8 @@ class GameViewController: UIViewController {
         
         self.switchControl.on = false
         self.toolBarContainerView.alpha = 0.0
+        
+        WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: "King")
     }
     
     override func shouldAutorotate() -> Bool {

@@ -31,7 +31,6 @@ class MenuScene: SKScene {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        println("touch menu scene")
         /* Called when a touch begins */
         super.touchesBegan(touches, withEvent: event)
         let location = touches.anyObject()?.locationInNode(self)

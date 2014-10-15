@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol WPSliderViewDelegate {
+protocol WPSliderViewDelegate : class {
     func sliderValueDidChange(#slider: WPSliderView, didMoveToValue value : Double)
 }
 
@@ -20,7 +20,7 @@ class WPSliderView: UIView {
     @IBOutlet var valueLabel: UILabel!
     @IBOutlet var slider: UISlider!
     
-    var delegate: WPSliderViewDelegate?
+    weak var delegate: WPSliderViewDelegate?
         
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
