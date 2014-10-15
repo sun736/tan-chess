@@ -6,15 +6,19 @@
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A92CBAA6-C46D-466B-AB43-232ABC464B1D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>WildPiece</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>BFDC96A123F5D51C5850861F04DBB45328372041</key>
 		<string>https://github.com/boyxgc/tan-chess.git</string>
 	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>WildPiece/WildPiece.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>BFDC96A123F5D51C5850861F04DBB45328372041</key>
-		<string>tan-chess/</string>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/boyxgc/tan-chess.git</string>

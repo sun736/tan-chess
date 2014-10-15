@@ -3,3 +3,5 @@
 
 *.xcbkptlist
 WildPiece/WildPiece.xcodeproj/xcuserdata/*.xcuserdatad
+
+*.xccheckout
