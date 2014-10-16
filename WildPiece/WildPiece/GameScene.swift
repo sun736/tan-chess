@@ -275,7 +275,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     func applyParameters() {
         for piece in pieces {
-            if piece.pieceType?.description == WPParameterSet.sharedInstance.currentIdentifier {
+            if piece.pieceType.description == WPParameterSet.sharedInstance.currentIdentifier {
                 piece.physicsBody?.mass = CGFloat(WPParameterSet.sharedInstance.mass!)
                 piece.physicsBody?.restitution = CGFloat(WPParameterSet.sharedInstance.restitution!)
                 piece.physicsBody?.linearDamping = CGFloat(WPParameterSet.sharedInstance.damping!)
@@ -323,7 +323,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     func pieceDidTaped(piece : Piece) {
-        WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType?.description);
+        WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType.description);
         piece.removeRing()
         piece.removeArrow()
     }
