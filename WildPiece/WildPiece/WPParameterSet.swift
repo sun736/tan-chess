@@ -10,6 +10,7 @@ import UIKit
 
 struct WPParameterSet {
     var mass, damping, restitution, impulse : Double?
+    var radius, healthPoint, maxhealthPoint, angularDamping : Double?
     var dataDict : NSMutableDictionary?
     var currentIdentifier : String?
     
@@ -31,6 +32,10 @@ struct WPParameterSet {
             damping = (dict.objectForKey("damping") as? NSNumber)?.doubleValue
             restitution = (dict.objectForKey("restitution") as? NSNumber)?.doubleValue
             impulse = (dict.objectForKey("impulse") as? NSNumber)?.doubleValue
+            radius = (dict.objectForKey("radius") as? NSNumber)?.doubleValue
+            healthPoint = (dict.objectForKey("healthPoint") as? NSNumber)?.doubleValue
+            maxhealthPoint = (dict.objectForKey("maxhealthPoint") as? NSNumber)?.doubleValue
+            angularDamping = (dict.objectForKey("angularDamping") as? NSNumber)?.doubleValue
         }
         NSNotificationCenter.defaultCenter().postNotificationName("kUpdateToolBarNotification", object: nil)
     }

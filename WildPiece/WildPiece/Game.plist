@@ -5,46 +5,116 @@
 	<key>King</key>
 	<dict>
 		<key>mass</key>
-		<integer>20</integer>
-		<key>damping</key>
 		<integer>10</integer>
+		<key>damping</key>
+		<integer>5</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>100</integer>
+		<integer>10000</integer>
+		<key>radius</key>
+		<string>20</string>
+		<key>healthPoint</key>
+		<string>50</string>
+		<key>maxhealthPoint</key>
+		<string>50</string>
+		<key>angularDamping</key>
+		<string>7</string>
 	</dict>
 	<key>Pawn</key>
 	<dict>
 		<key>mass</key>
-		<integer>2</integer>
+		<integer>15</integer>
 		<key>damping</key>
 		<integer>10</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
 		<integer>100</integer>
+		<key>radius</key>
+		<string>20</string>
+		<key>healthPoint</key>
+		<string>10</string>
+		<key>maxhealthPoint</key>
+		<string>10</string>
+		<key>angularDamping</key>
+		<string>7</string>
 	</dict>
 	<key>Elephant</key>
 	<dict>
 		<key>mass</key>
-		<integer>20</integer>
+		<integer>3</integer>
 		<key>damping</key>
 		<integer>10</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>100</integer>
+		<integer>10000</integer>
+		<key>radius</key>
+		<string>20</string>
+		<key>healthPoint</key>
+		<string>10</string>
+		<key>maxhealthPoint</key>
+		<string>10</string>
+		<key>angularDamping</key>
+		<string>7</string>
 	</dict>
-	<key>Horse</key>
+	<key>Rock</key>
 	<dict>
 		<key>mass</key>
-		<integer>20</integer>
+		<integer>3</integer>
 		<key>damping</key>
 		<integer>10</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>100</integer>
+		<integer>10000</integer>
+		<key>radius</key>
+		<string>20</string>
+		<key>healthPoint</key>
+		<string>10</string>
+		<key>maxhealthPoint</key>
+		<string>10</string>
+		<key>angularDamping</key>
+		<string>7</string>
+	</dict>
+	<key>Canon</key>
+	<dict>
+		<key>mass</key>
+		<integer>3</integer>
+		<key>damping</key>
+		<integer>10</integer>
+		<key>restitution</key>
+		<real>0.5</real>
+		<key>impulse</key>
+		<integer>10000</integer>
+		<key>radius</key>
+		<string>20</string>
+		<key>healthPoint</key>
+		<string>10</string>
+		<key>maxhealthPoint</key>
+		<string>10</string>
+		<key>angularDamping</key>
+		<string>7</string>
+	</dict>
+	<key>Knight</key>
+	<dict>
+		<key>mass</key>
+		<integer>3</integer>
+		<key>damping</key>
+		<integer>10</integer>
+		<key>restitution</key>
+		<real>0.5</real>
+		<key>impulse</key>
+		<integer>10000</integer>
+		<key>radius</key>
+		<string>20</string>
+		<key>healthPoint</key>
+		<string>10</string>
+		<key>maxhealthPoint</key>
+		<string>10</string>
+		<key>angularDamping</key>
+		<string>7</string>
 	</dict>
 </dict>
 </plist>
