@@ -19,7 +19,7 @@ class Rule {
         case .Knight:
             return reforceKnight(force)
         case .Pawn:
-            return reforcePawn(force)
+            return reforcePawn(force, piece: piece)
         case .Rook:
             return reforceRook(force)
         default:
@@ -27,8 +27,15 @@ class Rule {
         }
     }
     
-    class func reforcePawn(force: CGVector) -> CGVector{
-        return force
+    class func reforcePawn(force: CGVector ,piece: Piece) -> CGVector{
+        if (piece.player.bitMask == Piece.BITMASK_RED() && force.dy < 0 || piece.player.bitMask == Piece.BITMASK_BLUE() && force.dy > 0)
+        {
+            return force
+        }
+        else
+        {
+            return CGVectorMake(0, 0)
+        }
     }
     
     class func reforceRook(force: CGVector) -> CGVector {
