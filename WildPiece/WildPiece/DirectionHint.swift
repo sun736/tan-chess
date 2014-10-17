@@ -14,9 +14,18 @@ class DirectionHint : SKShapeNode{
     
     init(location: CGPoint, lineColor: UIColor) {
         super.init()
+        
+        self.path = createStraightCross(location.x, y: location.y)
+        self.lineWidth = 1
+        self.strokeColor = lineColor
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func createStraightCross (x: CGFloat, y: CGFloat) -> CGPathRef{
         let path = CGPathCreateMutable()
-        let x = location.x
-        let y = location.y
         CGPathMoveToPoint(path, nil, x, y)
         CGPathAddLineToPoint(path, nil, x, y+lineLen)
         CGPathMoveToPoint(path, nil, x, y)
@@ -26,14 +35,6 @@ class DirectionHint : SKShapeNode{
         CGPathMoveToPoint(path, nil, x, y)
         CGPathAddLineToPoint(path, nil, x-lineLen, y)
         
-        self.path = path
-        self.lineWidth = 1
-        self.strokeColor = lineColor
-    }
-    
-    
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return path
     }
 }
