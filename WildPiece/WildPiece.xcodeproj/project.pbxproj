@@ -31,6 +31,7 @@
 		A23D73B019DF6C7F007383DF /* Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23D73AF19DF6C7F007383DF /* Logic.swift */; };
 		A2A4401819EF82F700EE2151 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4401719EF82F700EE2151 /* Rule.swift */; };
 		A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C8C93C19E0A8FC00C6B166 /* Player.swift */; };
+		A2CB9CCC19F1BF0C00A053E4 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */; };
 		AE82C96A19E360C300E6FE0B /* CollisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE82C96919E360C300E6FE0B /* CollisionController.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 		A23D73AF19DF6C7F007383DF /* Logic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logic.swift; sourceTree = "<group>"; };
 		A2A4401719EF82F700EE2151 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		A2C8C93C19E0A8FC00C6B166 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		AE82C96919E360C300E6FE0B /* CollisionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollisionController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +132,7 @@
 				91101BE219D5DF2300E59AB4 /* Piece.swift */,
 				91101BC419D5DE7000E59AB4 /* GameViewController.swift */,
 				4F290F7119DF77C500D283BE /* HPRing.swift */,
+				A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */,
 				186C621719D636A800FF3952 /* WPToolBarViewController.swift */,
 				1819134019D7515200BBEDC2 /* WPParameterSet.swift */,
 				186C621319D62AA500FF3952 /* WPSliderView.swift */,
@@ -280,6 +283,7 @@
 				AE82C96A19E360C300E6FE0B /* CollisionController.swift in Sources */,
 				081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */,
 				186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */,
+				A2CB9CCC19F1BF0C00A053E4 /* Helper.swift in Sources */,
 				A23D73B019DF6C7F007383DF /* Logic.swift in Sources */,
 				088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */,
 				1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */,
