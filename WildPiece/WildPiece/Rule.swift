@@ -11,17 +11,12 @@ import SpriteKit
 
 class Rule {
     
-    class var sharedInstance : Logic {
-        get {
-            struct Static {
-                static let instance : Logic = Logic()
-            }
-            return Static.instance
-        }
+    class func pieceValidForce(scene : GameScene, piece : Piece, force : CGVector) -> CGVector {
+        return CGVectorMake(0,0)
     }
     
-    class func validForce(scene : GameScene, piece : Piece, force : CGVector) -> CGVector {
-        return CGVectorMake(0,0)
+    class func pieceShouldOut(scene : GameScene, piece : Piece) -> Bool {
+        return true;
     }
     
     class func gameIsEnd(scene : GameScene) -> (isEnd : Bool, winner : Player) {
