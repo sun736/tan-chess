@@ -261,7 +261,7 @@ class PiecePawn : Piece{
     let c_radius: CGFloat = 20
     let c_healthPoint: CGFloat = 10
     let c_maxhealthPoint: CGFloat = 10
-    let c_mass : CGFloat = 5
+    let c_mass : CGFloat = 15
     let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
     let c_maxForce: CGFloat = 10000.0

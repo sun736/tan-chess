@@ -41,24 +41,24 @@ class Rule {
         
         //Just for demo purpose
         // add pawns
-        addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(127, 200))
-        addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(247, 200))
+        //addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(127, 200))
+        //addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(247, 200))
         addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(187, 200))
         addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(67, 200))
         addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(307, 200))
         // add kings
         addPairPieces(scene, pieceType : PieceType.King, location: CGPointMake(187, 100))
         // add elephants
-        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(147, 100))
+        //addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(147, 100))
         addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(227, 100))
         // add Knight
         addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(107, 100))
-        addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(267, 100))
+        //addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(267, 100))
         // add rocks
         addPairPieces(scene, pieceType : PieceType.Rock, location: CGPointMake(67, 100))
-        addPairPieces(scene, pieceType : PieceType.Rock, location: CGPointMake(307, 100))
+        //addPairPieces(scene, pieceType : PieceType.Rock, location: CGPointMake(307, 100))
         // add canons
-        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(97, 150))
+        //addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(97, 150))
         addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(277, 150))
     }
     
