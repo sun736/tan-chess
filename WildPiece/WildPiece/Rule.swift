@@ -32,7 +32,6 @@ class Rule {
     }
     
     class func reforceRook(force: CGVector) -> CGVector {
-        println("here!!")
         if(abs(force.dx) > abs(force.dy)) {
             return CGVectorMake(force.dx, 0)
         } else {
