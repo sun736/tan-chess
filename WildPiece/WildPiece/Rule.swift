@@ -39,7 +39,11 @@ class Rule {
     }
     
     class func reforceRook(force: CGVector) -> CGVector {
-        return force
+        if(abs(force.dx) > abs(force.dy)) {
+            return CGVectorMake(force.dx, 0)
+        } else {
+            return CGVectorMake(0, force.dy)
+        }
     }
     
     class func reforceKnight(force: CGVector) -> CGVector {

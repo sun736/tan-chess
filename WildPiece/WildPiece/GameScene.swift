@@ -99,7 +99,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
             if let actualEndPt = possibleEndPt {
                 if let piece = possibleTouchNode as? Piece{
                     let centerPt = piece.position
-                    let distance = CGVectorMake(actualEndPt.x - centerPt.x, actualEndPt.y - centerPt.y)
+                    let force: CGVector = CGVectorMake(centerPt.x - actualEndPt.x, centerPt.y - actualEndPt.y)
+                    let reforce: CGVector = Rule.pieceValidForce(self, piece: piece, force: force)
+                    let distance = CGVectorMake(-reforce.dx, -reforce.dy)
                     // do nothing if end point lies within the node border
                     if (hypotf(Float(distance.dx), Float(distance.dy)) <= Float(piece.radius)) {
                         if self.pieceShouldTap(piece) {
@@ -109,8 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                         }
                     } else {
                         if self.pieceShouldPull(piece) {
-                            //added just for the pawn demo, delete it if needed
-                            self.pieceDidPulled(piece, touchBeginPt: centerPt, touchEndPt: actualEndPt)
+                            self.pieceDidPulled(piece, distance: distance)
                             Logic.sharedInstance.playerDone()
                         } else {
                             self.pieceDidCancelPull(piece)
@@ -131,7 +132,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
             if let actualBeginPt = possibleBeginPt {
                 if let piece = possibleTouchNode as? Piece {
                     if self.pieceShouldPull(piece) {
-                        self.pieceDidChangePullDistance(piece, touchBeginPt: actualBeginPt, touchEndPt: location)
+                        let centerPt = piece.position
+                        let force: CGVector = CGVectorMake(centerPt.x - location.x, centerPt.y - location.y)
+                        let reforce: CGVector = Rule.pieceValidForce(self, piece: piece, force: force)
+                        let distance = CGVectorMake(-reforce.dx, -reforce.dy)
+                        
+                        self.pieceDidChangePullDistance(piece, distance: distance)
                     }
                 }
             }
@@ -250,9 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         piece.drawRing()
     }
     
-    func pieceDidChangePullDistance(piece : Piece, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
-        let centerPt = piece.position
-        let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
+    func pieceDidChangePullDistance(piece : Piece, distance: CGVector) {
         var force = piece.forceForPullDistance(distance)
         piece.drawArrow(force)
         piece.drawDirectionHint()
@@ -264,9 +268,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         piece.removeDirectionHint()
     }
     
-    func pieceDidPulled(piece : Piece, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
-        let centerPt = piece.position
-        let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
+    func pieceDidPulled(piece : Piece, distance: CGVector) {
         var force = piece.forceForPullDistance(distance)
         piece.physicsBody?.applyImpulse(force);
 
