@@ -82,6 +82,7 @@ class Piece: SKSpriteNode {
         self.physicsBody?.friction = 0.9
         self.physicsBody?.restitution = 0.5
         self.physicsBody?.linearDamping = linearDamping
+        self.physicsBody?.angularDamping = angularDamping
         self.physicsBody?.mass = mass
         self.name = "piece"
         self.color = player.color
