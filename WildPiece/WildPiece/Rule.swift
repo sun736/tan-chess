@@ -68,7 +68,7 @@ class Rule {
         addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(107, 100))
         //addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(267, 100))
         // add rocks
-        addPairPieces(scene, pieceType : PieceType.Rock, location: CGPointMake(67, 100))
+        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(67, 100))
         //addPairPieces(scene, pieceType : PieceType.Rock, location: CGPointMake(307, 100))
         // add canons
         //addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(97, 150))
