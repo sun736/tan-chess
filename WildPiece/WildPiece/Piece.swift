@@ -96,7 +96,7 @@ class Piece: SKSpriteNode {
     func updateParameter() {
         var rawDict = WPParameterSet.getParameterSet(forIdentifer: self.pieceType.description)
         if let dict = rawDict {
-            self.maxForce = CGFloat((dict.objectForKey("impulse") as? NSNumber)!.doubleValue)
+            self.maxForce = CGFloat((dict.objectForKey("impulse") as? NSNumber)!.doubleValue * kImpulseFactor)
             self.physicsBody?.mass = CGFloat((dict.objectForKey("mass") as? NSNumber)!.doubleValue)
             self.physicsBody?.linearDamping = CGFloat((dict.objectForKey("damping") as? NSNumber)!.doubleValue)
             self.physicsBody?.restitution = CGFloat((dict.objectForKey("restitution") as? NSNumber)!.doubleValue)

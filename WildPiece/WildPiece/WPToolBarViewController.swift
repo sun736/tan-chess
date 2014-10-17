@@ -21,7 +21,7 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
         massSlider.setupBasic(title: "M", minValue: 1, maxValue: 50, delegate: self)
         dampingSlider.setupBasic(title: "D", minValue: 1, maxValue: 25, delegate: self)
         restitutionSlider.setupBasic(title: "R", minValue: 0, maxValue: 1, delegate: self)
-        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 5, delegate: self)
+        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 10, delegate: self)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContents", name: "kUpdateToolBarNotification", object: nil)
     }
