@@ -12,7 +12,35 @@ import SpriteKit
 class Rule {
     
     class func pieceValidForce(scene : GameScene, piece : Piece, force : CGVector) -> CGVector {
-        return CGVectorMake(0,0)
+
+        switch piece.pieceType {
+        case .Elephant:
+            return reforceElephant(force)
+        case .Knight:
+            return reforceKnight(force)
+        case .Pawn:
+            return reforcePawn(force)
+        case .Rook:
+            return reforceRook(force)
+        default:
+            return force
+        }
+    }
+    
+    class func reforcePawn(force: CGVector) -> CGVector{
+        return force
+    }
+    
+    class func reforceRook(force: CGVector) -> CGVector {
+        return force
+    }
+    
+    class func reforceKnight(force: CGVector) -> CGVector {
+        return force
+    }
+    
+    class func reforceElephant(force: CGVector) -> CGVector {
+        return force
     }
     
     class func pieceIsOut(scene : GameScene, piece : Piece) -> Bool {
