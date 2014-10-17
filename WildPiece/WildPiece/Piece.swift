@@ -205,7 +205,7 @@ class Piece: SKSpriteNode {
     
     func forcePercentage(force : CGVector) -> CGFloat {
         var forceLength = hypotf(Float(force.dx), Float(force.dy))
-        println("force: \(forceLength), max: \(maxForce)")
+        // println("force: \(forceLength), max: \(maxForce)")
         var percentage = (CGFloat(forceLength) - minForce) / (maxForce - minForce)
         return percentage >= 0 ? percentage : 0
     }

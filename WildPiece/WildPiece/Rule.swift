@@ -15,8 +15,15 @@ class Rule {
         return CGVectorMake(0,0)
     }
     
-    class func pieceShouldOut(scene : GameScene, piece : Piece) -> Bool {
-        return true;
+    class func pieceIsOut(scene : GameScene, piece : Piece) -> Bool {
+        //println("x:\(piece.position.x), y:\(piece.position.y)")
+        if piece.position.x < 40 || piece.position.x > 335 {
+            return true
+        }
+        if piece.position.y < 40 || piece.position.y > 627 {
+            return true
+        }
+        return false;
     }
     
     class func gameIsEnd(scene : GameScene) -> (isEnd : Bool, winner : Player) {
