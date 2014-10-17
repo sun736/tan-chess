@@ -330,7 +330,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     // player == PLAYER_NULL indicates a draw
     // update UI here
     func gameDidEnd(player : Player) {
-        
+        println("Game Over!")
+        var endScene = EndScene(size: self.size)
+        let transition = SKTransition.crossFadeWithDuration(0.3)
+        endScene.scaleMode = SKSceneScaleMode.AspectFill
+        self.scene?.view?.presentScene(endScene, transition: transition)
     }
     
     func gameDidWait(player : Player) {
