@@ -11,7 +11,7 @@
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>10000</integer>
+		<integer>5</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -30,7 +30,7 @@
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>100</integer>
+		<integer>3</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -49,7 +49,7 @@
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>10000</integer>
+		<integer>5</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -68,7 +68,7 @@
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>10000</integer>
+		<integer>8</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -87,7 +87,7 @@
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>10000</integer>
+		<integer>1</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -106,7 +106,7 @@
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>10000</integer>
+		<integer>1</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>

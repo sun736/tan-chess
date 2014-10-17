@@ -8,6 +8,8 @@
 
 import UIKit
 
+let kImpulseFactor = 5000.0
+
 struct WPParameterSet {
     var mass, damping, restitution, impulse : Double?
     var radius, healthPoint, maxhealthPoint, angularDamping : Double?
@@ -17,8 +19,7 @@ struct WPParameterSet {
     static var sharedInstance : WPParameterSet = WPParameterSet()
     
     init() {
-        var a = NSMutableDictionary(contentsOfFile: plistPath())
-        dataDict = a
+        dataDict = NSMutableDictionary(contentsOfFile: plistPath())
     }
     
     mutating func updateCurrentParameterSet(forIdentifier identifier: String?) {
@@ -45,8 +46,25 @@ struct WPParameterSet {
         if currentIdentifier == nil {
             return
         }
-        dataDict?.writeToFile(plistPath(), atomically: true)
+        
+        var rawDict : NSMutableDictionary? = dataDict?.objectForKey(currentIdentifier!) as? NSMutableDictionary
+        if var dict = rawDict {
+            dict.setValue(mass as AnyObject?, forKey: "mass")
+            dict.setValue(damping as AnyObject?, forKey: "damping")
+            dict.setValue(restitution as AnyObject?, forKey: "restitution")
+            dict.setValue(impulse as AnyObject?, forKey: "impulse")
+            
+            dataDict?.setValue(dict, forKey: currentIdentifier!)
+        }
+
         NSNotificationCenter.defaultCenter().postNotificationName("kShouldApplyParameters", object: nil)
+    }
+    
+    static func getParameterSet(forIdentifer identifier : String?) -> NSDictionary? {
+        if identifier == nil {
+            return nil
+        }
+        return sharedInstance.dataDict?.objectForKey(identifier!) as? NSDictionary
     }
     
     func plistPath() -> NSString {

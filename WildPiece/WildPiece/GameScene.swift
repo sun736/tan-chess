@@ -221,19 +221,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     // MARK: Add/Remove Pieces
-    func addPiece(pieceType : PieceType, location : CGPoint, player : Player) {
-        // println("location: \(location)")
-        var piece = Piece.newPiece(pieceType, player: player);
-        piece.position = location
-        self.addChild(piece)
-    }
-    
-    // add a piece for each player, with symmetrical position
-    func addPairPieces(pieceType : PieceType, location : CGPoint) {
-        addPiece(pieceType, location: location, player: PLAYER1)
-        let opponentLocation = CGPointMake(self.size.width - location.x, self.size.height - location.y)
-        addPiece(pieceType, location: opponentLocation, player: PLAYER2)
-    }
     
     // remove all pieces
     func removePieces() {

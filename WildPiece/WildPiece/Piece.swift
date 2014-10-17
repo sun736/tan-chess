@@ -67,13 +67,14 @@ class Piece: SKSpriteNode {
     
     private init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat, pieceType : PieceType) {
         
+        self.isContacter = false
+        self.player = player
+        self.pieceType = pieceType
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
         self.maxForce = maxForce
-        self.isContacter = false
-        self.player = player
-        self.pieceType = pieceType
+        
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
         self.physicsBody = SKPhysicsBody(circleOfRadius:radius)
@@ -86,9 +87,21 @@ class Piece: SKSpriteNode {
         self.name = "piece"
         self.color = player.color
         
+        self.updateParameter()
+        
         setCollisionBitMask(player.bitMask)
         
         drawHPRing()
+    }
+
+    func updateParameter() {
+        var rawDict = WPParameterSet.getParameterSet(forIdentifer: self.pieceType.description)
+        if let dict = rawDict {
+            self.maxForce = CGFloat((dict.objectForKey("impulse") as? NSNumber)!.doubleValue * kImpulseFactor)
+            self.physicsBody?.mass = CGFloat((dict.objectForKey("mass") as? NSNumber)!.doubleValue)
+            self.physicsBody?.linearDamping = CGFloat((dict.objectForKey("damping") as? NSNumber)!.doubleValue)
+            self.physicsBody?.restitution = CGFloat((dict.objectForKey("restitution") as? NSNumber)!.doubleValue)
+        }
     }
     
     func setCollisionBitMask(collisionBitMask: UInt32) {
@@ -248,6 +261,7 @@ class PieceKing : Piece{
         
         super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce, pieceType : c_pieceType)
 
+        
     }
     
     required init(coder aDecoder: NSCoder) {

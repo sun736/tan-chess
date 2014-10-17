@@ -21,7 +21,7 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
         massSlider.setupBasic(title: "M", minValue: 1, maxValue: 50, delegate: self)
         dampingSlider.setupBasic(title: "D", minValue: 1, maxValue: 25, delegate: self)
         restitutionSlider.setupBasic(title: "R", minValue: 0, maxValue: 1, delegate: self)
-        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 5, delegate: self)
+        impulseSlider.setupBasic(title: "I", minValue: 1, maxValue: 10, delegate: self)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateContents", name: "kUpdateToolBarNotification", object: nil)
     }
@@ -31,7 +31,7 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
         case massSlider : WPParameterSet.sharedInstance.mass = value
         case dampingSlider : WPParameterSet.sharedInstance.damping = value
         case restitutionSlider : WPParameterSet.sharedInstance.restitution = value
-        case impulseSlider : WPParameterSet.sharedInstance.impulse = value * 10000
+        case impulseSlider : WPParameterSet.sharedInstance.impulse = value * kImpulseFactor
         default: println("Error when setting Slider value")
         }
         WPParameterSet.sharedInstance.saveParameterSet()
