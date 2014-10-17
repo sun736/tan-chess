@@ -255,6 +255,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: Touch Events on Pieces
     func pieceDidStartPull(piece : Piece) {
+        
         // temporary solution to determine contacter
         CollisionController.setContacter(self, contacter: piece)
         piece.drawRing()
@@ -274,8 +275,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     func pieceDidPulled(piece : Piece, distance: CGVector) {
         var force = piece.forceForPullDistance(distance)
+        
+        //MARK set canon to not collisionable
+        if piece is PieceCanon {
+            piece.physicsBody?.collisionBitMask = 0x00
+            piece.physicsBody?.categoryBitMask = 0x00
+            //print("find a canon\n")
+            //print("\(piece.physicsBody?.categoryBitMask)\n")
+            //print("\(piece.physicsBody?.collisionBitMask)\n")
+        }
+        
         piece.physicsBody?.applyImpulse(force);
-
+        
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
@@ -290,8 +301,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: Contact Delegate
     func didBeginContact(contact: SKPhysicsContact) {
-        
-        CollisionController.handlContact(contact)
+        print("herereerererer contact\n")
+        CollisionController.handlContact(self, contact: contact)
+    }
+    
+    func didEndContact(contact: SKPhysicsContact) {
+        //print("herereerererer contact ended\n")
+        //CollisionController.handleEndContact(contact)
     }
     
     // MARK: Logic Delegate
@@ -342,5 +358,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
             piece.flash();
         }
         updateMoveableSet()
+        
+        for piece in self.piecesOfPlayer(player.opponent()) {
+            if piece is PieceCanon {
+                piece.physicsBody?.categoryBitMask = player.opponent().bitMask
+                piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+            }
+        }
     }
 }
