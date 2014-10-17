@@ -218,7 +218,6 @@ class Piece: SKSpriteNode {
     
     func forcePercentage(force : CGVector) -> CGFloat {
         var forceLength = hypotf(Float(force.dx), Float(force.dy))
-        // println("force: \(forceLength), max: \(maxForce)")
         var percentage = (CGFloat(forceLength) - minForce) / (maxForce - minForce)
         return percentage >= 0 ? percentage : 0
     }
@@ -282,6 +281,7 @@ class PiecePawn : Piece{
     let c_bluePic: String = "PawnPiece_BLUE"
     let c_redPic: String = "PawnPiece_RED"
     let c_pieceType : PieceType = PieceType.Pawn
+
     init(_ player : Player){
         
         let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
@@ -307,6 +307,7 @@ class PieceElephant : Piece{
     let c_bluePic: String = "ElephantPiece_BLUE"
     let c_redPic: String = "ElephantPiece_RED"
     let c_pieceType : PieceType = PieceType.Elephant
+
     init(_ player : Player){
         
         let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
