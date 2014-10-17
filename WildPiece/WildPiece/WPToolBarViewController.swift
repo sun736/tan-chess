@@ -31,7 +31,7 @@ class WPToolBarViewController: UIViewController, WPSliderViewDelegate {
         case massSlider : WPParameterSet.sharedInstance.mass = value
         case dampingSlider : WPParameterSet.sharedInstance.damping = value
         case restitutionSlider : WPParameterSet.sharedInstance.restitution = value
-        case impulseSlider : WPParameterSet.sharedInstance.impulse = value * 10000
+        case impulseSlider : WPParameterSet.sharedInstance.impulse = value * kImpulseFactor
         default: println("Error when setting Slider value")
         }
         WPParameterSet.sharedInstance.saveParameterSet()
