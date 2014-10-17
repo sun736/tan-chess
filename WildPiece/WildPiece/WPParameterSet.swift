@@ -17,7 +17,8 @@ struct WPParameterSet {
     static var sharedInstance : WPParameterSet = WPParameterSet()
     
     init() {
-        dataDict = NSMutableDictionary(contentsOfFile: plistPath())
+        var a = NSMutableDictionary(contentsOfFile: plistPath())
+        dataDict = a
     }
     
     mutating func updateCurrentParameterSet(forIdentifier identifier: String?) {
@@ -49,20 +50,6 @@ struct WPParameterSet {
     }
     
     func plistPath() -> NSString {
-        
-        let fileManager = NSFileManager.defaultManager()
-        var bundle = NSBundle.mainBundle().pathForResource("Game", ofType: "plist")!
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-        var path = paths + "/Game.plist"
-        
-        if !NSFileManager.defaultManager().createDirectoryAtPath(path, withIntermediateDirectories: true, attributes: nil, error: nil) {
-            return path
-        }
-        
-        if (!fileManager.fileExistsAtPath(path)) {
-            fileManager.copyItemAtPath(bundle, toPath:path, error:nil)
-        }
-        println(path)
-        return path
+        return NSBundle.mainBundle().pathForResource("Game", ofType: "plist")!
     }
 }
