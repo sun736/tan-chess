@@ -201,7 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         yourline.path = pathToDraw;
         yourline.strokeColor = UIColor.blueColor()
         self.addChild(yourline)
-        println("Move game scene to view")
+
         
         //change scene background color to gray color
         scene?.backgroundColor = UIColor.lightGrayColor()
@@ -263,7 +263,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         // add canons
         addPairPieces(PieceType.Canon, location: CGPointMake(97, 150))
         //addPairPieces(PieceType.Canon, location: CGPointMake(277, 150))
-        
     }
     
     // remove all pieces
