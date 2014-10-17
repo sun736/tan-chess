@@ -58,6 +58,7 @@ class Piece: SKSpriteNode {
     var ring : Ring?
     var arrow: Arrow?
     var hpring: HPRing?
+    var directionHint: DirectionHint?
     // temporary solution to contact
     var isContacter: Bool
 
@@ -137,6 +138,17 @@ class Piece: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func drawDirectionHint() {
+        self.removeDirectionHint()
+        self.directionHint = DirectionHint(location: self.position, lineColor: self.color)
+        if let directionHint = self.directionHint {
+            self.parent?.addChild(directionHint)
+        }
+    }
+    
+    func removeDirectionHint() {
+        self.directionHint?.removeFromParent()
+    }
     
     func drawHPRing() {
         self.removeHPRing()

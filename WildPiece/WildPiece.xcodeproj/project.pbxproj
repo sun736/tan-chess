@@ -16,6 +16,7 @@
 		186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186C621719D636A800FF3952 /* WPToolBarViewController.swift */; };
 		18EE802A19DF5FE5009261A3 /* Game.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18EE802919DF5FE5009261A3 /* Game.plist */; };
 		4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F021E4C19DA059D00ACBB30 /* Ring.swift */; };
+		4F06ACCB19F1827E0023A0DC /* DirectionHint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */; };
 		4F290F7219DF77C500D283BE /* HPRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F290F7119DF77C500D283BE /* HPRing.swift */; };
 		4FF31F5B19DE5C2300A0ABB6 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */; };
 		91101BBF19D5DE7000E59AB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 		186C621719D636A800FF3952 /* WPToolBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPToolBarViewController.swift; sourceTree = "<group>"; };
 		18EE802919DF5FE5009261A3 /* Game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Game.plist; sourceTree = "<group>"; };
 		4F021E4C19DA059D00ACBB30 /* Ring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
+		4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionHint.swift; sourceTree = "<group>"; };
 		4F290F7119DF77C500D283BE /* HPRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HPRing.swift; sourceTree = "<group>"; };
 		4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		91101BB919D5DE7000E59AB4 /* WildPiece.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WildPiece.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +138,7 @@
 				91101BC919D5DE7000E59AB4 /* Images.xcassets */,
 				91101BCB19D5DE7000E59AB4 /* LaunchScreen.xib */,
 				91101BBC19D5DE7000E59AB4 /* Supporting Files */,
+				4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */,
 			);
 			path = WildPiece;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */,
 				91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */,
 				4FF31F5B19DE5C2300A0ABB6 /* Arrow.swift in Sources */,
+				4F06ACCB19F1827E0023A0DC /* DirectionHint.swift in Sources */,
 				4F290F7219DF77C500D283BE /* HPRing.swift in Sources */,
 				AE82C96A19E360C300E6FE0B /* CollisionController.swift in Sources */,
 				081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */,

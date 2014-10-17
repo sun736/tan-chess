@@ -304,11 +304,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         let distance = CGVectorMake(touchEndPt.x - centerPt.x, touchEndPt.y - centerPt.y)
         var force = piece.forceForPullDistance(distance)
         piece.drawArrow(force)
+        piece.drawDirectionHint()
     }
     
     func pieceDidCancelPull(piece : Piece) {
         piece.removeRing()
         piece.removeArrow()
+        piece.removeDirectionHint()
     }
     
     func pieceDidPulled(piece : Piece, touchBeginPt: CGPoint, touchEndPt: CGPoint) {
@@ -319,12 +321,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
 
         piece.removeRing()
         piece.removeArrow()
+        piece.removeDirectionHint()
     }
     
     func pieceDidTaped(piece : Piece) {
         WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType.description);
         piece.removeRing()
         piece.removeArrow()
+        piece.removeDirectionHint()
     }
     
     // MARK: Contact Delegate
