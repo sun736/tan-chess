@@ -11,11 +11,6 @@ import SpriteKit
 
 class Rule {
     
-    
-    init() {
-        
-    }
-    
     class var sharedInstance : Logic {
         get {
             struct Static {
@@ -25,29 +20,29 @@ class Rule {
         }
     }
     
-    func validForce(scene : GameScene, piece : Piece, force : CGVector) -> CGVector {
+    class func validForce(scene : GameScene, piece : Piece, force : CGVector) -> CGVector {
         return CGVectorMake(0,0)
     }
     
-    func gameIsEnd(scene : GameScene) -> (isEnd : Bool, winner : Player) {
+    class func gameIsEnd(scene : GameScene) -> (isEnd : Bool, winner : Player) {
         return (true, PLAYER_NULL)
     }
     
     // MARK: Add/Remove Pieces
-    func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player) {
+    class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player) {
         var piece = Piece.newPiece(pieceType, player: player);
         piece.position = location
         scene.addChild(piece)
     }
     
     // add a piece for each player, with symmetrical position
-    func addPairPieces(scene : GameScene, pieceType : PieceType, location : CGPoint) {
+    class func addPairPieces(scene : GameScene, pieceType : PieceType, location : CGPoint) {
         self.addPiece(scene, pieceType : pieceType, location: location, player: PLAYER1)
         let opponentLocation = CGPointMake(scene.size.width - location.x, scene.size.height - location.y)
         self.addPiece(scene, pieceType : pieceType, location: opponentLocation, player: PLAYER2)
     }
     
-    func placePieces(scene : GameScene) {
+    class func placePieces(scene : GameScene) {
         
         //Just for demo purpose
         // add pawns
@@ -72,7 +67,7 @@ class Rule {
         addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(277, 150))
     }
     
-    func placeBoard(scene : GameScene) {
+    class func placeBoard(scene : GameScene) {
         //draw the rectange gameboard
         var yourline = SKShapeNode();
         var pathToDraw = CGPathCreateMutable();
