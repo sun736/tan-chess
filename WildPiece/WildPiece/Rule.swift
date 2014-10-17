@@ -34,7 +34,8 @@ class Rule {
         }
         else
         {
-            return CGVectorMake(0, 0)
+            let base: CGFloat = abs(force.dx)+abs(force.dy)
+            return CGVectorMake(000.1*force.dx/base, 000.1*force.dy/base)
         }
     }
     
@@ -51,7 +52,7 @@ class Rule {
     }
     
     class func reforceElephant(force: CGVector) -> CGVector {
-        var tmpForce: CGFloat = abs(force.dx) + abs(force.dy)
+        var tmpForce: CGFloat = (abs(force.dx) + abs(force.dy))/2
         if(force.dx >= 0){
             if(force.dy >= 0){
                 return CGVectorMake(tmpForce, tmpForce)
@@ -116,8 +117,8 @@ class Rule {
         
         //Just for demo purpose
         // add pawns
-        //addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(127, 200))
-        //addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(247, 200))
+        addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(127, 200))
+        addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(247, 200))
         addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(187, 200))
         addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(67, 200))
         addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(307, 200))
