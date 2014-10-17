@@ -100,7 +100,7 @@
 	<key>Knight</key>
 	<dict>
 		<key>mass</key>
-		<integer>3</integer>
+		<integer>5</integer>
 		<key>damping</key>
 		<integer>10</integer>
 		<key>restitution</key>

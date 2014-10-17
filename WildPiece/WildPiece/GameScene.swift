@@ -241,28 +241,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // place all pieces
     func placePieces() {
-        
+
         //Just for demo purpose
         // add pawns
-        addPairPieces(PieceType.Pawn, location: CGPointMake(127, 200))
-        addPairPieces(PieceType.Pawn, location: CGPointMake(247, 200))
+        //addPairPieces(PieceType.Pawn, location: CGPointMake(127, 200))
+        //addPairPieces(PieceType.Pawn, location: CGPointMake(247, 200))
         addPairPieces(PieceType.Pawn, location: CGPointMake(187, 200))
         addPairPieces(PieceType.Pawn, location: CGPointMake(67, 200))
         addPairPieces(PieceType.Pawn, location: CGPointMake(307, 200))
         // add kings
         addPairPieces(PieceType.King, location: CGPointMake(187, 100))
         // add elephants
-        addPairPieces(PieceType.Elephant, location: CGPointMake(147, 100))
+        //addPairPieces(PieceType.Elephant, location: CGPointMake(147, 100))
         addPairPieces(PieceType.Elephant, location: CGPointMake(227, 100))
         // add Knight
         addPairPieces(PieceType.Knight, location: CGPointMake(107, 100))
-        addPairPieces(PieceType.Knight, location: CGPointMake(267, 100))
+        //addPairPieces(PieceType.Knight, location: CGPointMake(267, 100))
         // add rocks
-        addPairPieces(PieceType.Rock, location: CGPointMake(67, 100))
+        //addPairPieces(PieceType.Rock, location: CGPointMake(67, 100))
         addPairPieces(PieceType.Rock, location: CGPointMake(307, 100))
         // add canons
         addPairPieces(PieceType.Canon, location: CGPointMake(97, 150))
-        addPairPieces(PieceType.Canon, location: CGPointMake(277, 150))
+        //addPairPieces(PieceType.Canon, location: CGPointMake(277, 150))
+        
     }
     
     // remove all pieces
