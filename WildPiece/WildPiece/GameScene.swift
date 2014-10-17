@@ -13,6 +13,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
+    var moveableSet = HashSet<Piece>()
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -160,12 +161,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         addButtons()
         Rule.placePieces(self)
         Logic.sharedInstance.start(self)
+        updateMoveableSet()
     }
     
     func restartGame() {
         removePieces()
         Rule.placePieces(self)
         Logic.sharedInstance.restart()
+        updateMoveableSet()
     }
     
     func pauseGame() {
@@ -235,13 +238,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                 piece.physicsBody?.mass = CGFloat(WPParameterSet.sharedInstance.mass!)
                 piece.physicsBody?.restitution = CGFloat(WPParameterSet.sharedInstance.restitution!)
                 piece.physicsBody?.linearDamping = CGFloat(WPParameterSet.sharedInstance.damping!)
-                piece.maxForce = CGFloat(WPParameterSet.sharedInstance.impulse!)
+                piece.maxForceLevel = CGFloat(WPParameterSet.sharedInstance.impulse!)
             }
         }
     }
     
     // MARK: User Operation Validators
     func pieceShouldPull(piece : Piece) -> Bool {
+//        return moveableSet.contains(piece)
         return Logic.sharedInstance.isWaiting(piece.player)
     }
     
@@ -304,6 +308,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         }
     }
     
+    var piecesOfCurrentUser : [Piece] {
+        get {
+            var pieces = [Piece]()
+            for node in children {
+                if let piece = node as? Piece {
+                    if Logic.sharedInstance.isWaiting(piece.player) {
+                        pieces.append(piece)
+                    }
+                }
+            }
+            return pieces
+        }
+    }
+    
+    func updateMoveableSet () {
+        moveableSet.removeAll()
+        moveableSet.add(piecesOfCurrentUser)
+    }
+    
     // player == PLAYER_NULL indicates a draw
     // update UI here
     func gameDidEnd(player : Player) {
@@ -314,5 +337,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         for piece in piecesOfPlayer(player) {
             piece.flash();
         }
+        updateMoveableSet()
     }
 }

@@ -8,8 +8,6 @@
 
 import UIKit
 
-let kImpulseFactor = 5000.0
-
 struct WPParameterSet {
     var mass, damping, restitution, impulse : Double?
     var radius, healthPoint, maxhealthPoint, angularDamping : Double?

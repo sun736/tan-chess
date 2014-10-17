@@ -36,13 +36,19 @@ enum PieceType : Printable {
 }
 
 let MAX_PULL_DISTANCE:CGFloat = 75
+let FORCE_FACTOR : CGFloat = 5000.0
 
 class Piece: SKSpriteNode {
 
     var healthPoint : CGFloat
     let maxHealthPoint : CGFloat
     let radius : CGFloat
-    var maxForce : CGFloat
+    var maxForce : CGFloat {
+        get {
+            return maxForceLevel * FORCE_FACTOR
+        }
+    }
+    var maxForceLevel : CGFloat
     let player : Player
     let pieceType : PieceType
     var distanceToForce : CGFloat {
@@ -73,7 +79,7 @@ class Piece: SKSpriteNode {
         self.healthPoint = healthPoint
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
-        self.maxForce = maxForce
+        self.maxForceLevel = maxForce
         
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
@@ -97,7 +103,7 @@ class Piece: SKSpriteNode {
     func updateParameter() {
         var rawDict = WPParameterSet.getParameterSet(forIdentifer: self.pieceType.description)
         if let dict = rawDict {
-            self.maxForce = CGFloat((dict.objectForKey("impulse") as? NSNumber)!.doubleValue * kImpulseFactor)
+            self.maxForceLevel = CGFloat((dict.objectForKey("impulse") as? NSNumber)!.doubleValue)
             self.physicsBody?.mass = CGFloat((dict.objectForKey("mass") as? NSNumber)!.doubleValue)
             self.physicsBody?.linearDamping = CGFloat((dict.objectForKey("damping") as? NSNumber)!.doubleValue)
             self.physicsBody?.restitution = CGFloat((dict.objectForKey("restitution") as? NSNumber)!.doubleValue)
