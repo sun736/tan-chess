@@ -153,7 +153,7 @@ class Piece: SKSpriteNode {
     
     func drawDirectionHint() {
         self.removeDirectionHint()
-        self.directionHint = DirectionHint(location: self.position, lineColor: self.color, pieceType: self.pieceType)
+        self.directionHint = DirectionHint(location: self.position, lineColor: self.color, piece: self)
         if let directionHint = self.directionHint {
             self.parent?.addChild(directionHint)
         }

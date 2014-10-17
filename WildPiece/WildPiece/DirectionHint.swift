@@ -12,10 +12,10 @@ import SpriteKit
 class DirectionHint : SKShapeNode{
     let lineLen: CGFloat = 50
     
-    init(location: CGPoint, lineColor: UIColor, pieceType: PieceType) {
+    init(location: CGPoint, lineColor: UIColor, piece: Piece) {
         super.init()
         
-        self.path = createHintForType(location, pieceType: pieceType)
+        self.path = createHintForType(location, piece: piece)
         self.lineWidth = 1
         self.strokeColor = lineColor
     }
@@ -24,13 +24,16 @@ class DirectionHint : SKShapeNode{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func createHintForType(location: CGPoint, pieceType: PieceType) -> CGPathRef{
+    func createHintForType(location: CGPoint, piece: Piece) -> CGPathRef{
         var path: CGPathRef
-        switch pieceType{
+        switch piece.pieceType{
         case .Elephant:
             path = createXCross(location.x, y: location.y)
         case .Rook:
             path = createStraightCross(location.x, y: location.y)
+        case .Pawn:
+            let isClockWise = (piece.player == PLAYER1 ? false : true)
+            path = createArc(location.x, y: location.y, isClockWise: isClockWise)
         default:
             path = createInvisibleCross(location.x, y: location.y)
         }
@@ -61,6 +64,13 @@ class DirectionHint : SKShapeNode{
         CGPathAddLineToPoint(path, nil, x-lineLen, y+lineLen)
         CGPathMoveToPoint(path, nil, x, y)
         CGPathAddLineToPoint(path, nil, x-lineLen, y-lineLen)
+        
+        return path
+    }
+    
+    func createArc(x: CGFloat, y: CGFloat, isClockWise: Bool) -> CGPathRef {
+        let path = CGPathCreateMutable()
+        CGPathAddArc(path, nil, x, y, lineLen, 0, CGFloat(M_PI) * 1, isClockWise)
         
         return path
     }
