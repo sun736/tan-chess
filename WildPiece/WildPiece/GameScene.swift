@@ -33,29 +33,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
 
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-        var pieces = scene?.children
-        var piece: AnyObject
-        
-        for node in pieces as [SKNode] {
-            if node.name == "piece" {
-                let piece = node as Piece
-                //println("x:\(piece.position.x), y:\(piece.position.y)")
-                if piece.position.x < 40 || piece.position.x > 335 {
-                    piece.fadeOut()
-                }
-                if piece.position.y < 40 || piece.position.y > 627 {
-                    piece.fadeOut()
-                }
-                
+        for piece in self.pieces {
+            if Rule.pieceIsOut(self, piece: piece) {
+                piece.fadeOut()
             }
         }
-        Logic.sharedInstance.updateState()
         if (!Logic.sharedInstance.isEnded) {
             let (isEnd : Bool, winner : Player) = Rule.gameIsEnd(self)
             if isEnd {
                 Logic.sharedInstance.win(winner)
             }
         }
+        
+        Logic.sharedInstance.updateState()
     }
     
     // MARK: Touch Events
