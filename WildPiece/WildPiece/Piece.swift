@@ -13,7 +13,7 @@ enum PieceType : Printable {
     case King
     case Pawn
     case Elephant
-    case Rock
+    case Rook
     case Canon
     case Knight
     
@@ -25,8 +25,8 @@ enum PieceType : Printable {
             return "Pawn"
         case .Elephant:
             return "Elephant"
-        case .Rock:
-            return "Rock"
+        case .Rook:
+            return "Rook"
         case .Canon:
             return "Canon"
         case .Knight:
@@ -140,7 +140,7 @@ class Piece: SKSpriteNode {
     
     func drawDirectionHint() {
         self.removeDirectionHint()
-        self.directionHint = DirectionHint(location: self.position, lineColor: self.color)
+        self.directionHint = DirectionHint(location: self.position, lineColor: self.color, pieceType: self.pieceType)
         if let directionHint = self.directionHint {
             self.parent?.addChild(directionHint)
         }
@@ -219,7 +219,7 @@ class Piece: SKSpriteNode {
             return PiecePawn(player)
         case .Elephant:
             return PieceElephant(player)
-        case .Rock:
+        case .Rook:
             return PieceRock(player)
         case .Knight:
             return PieceKnight(player)
@@ -317,7 +317,7 @@ class PieceRock : Piece{
     let c_maxForce: CGFloat = 10000.0
     let c_bluePic: String = "RockPiece_BLUE"
     let c_redPic: String = "RockPiece_RED"
-    let c_pieceType : PieceType = PieceType.Rock
+    let c_pieceType : PieceType = PieceType.Rook
     init(_ player : Player){
         
         let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
