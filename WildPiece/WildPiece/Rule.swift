@@ -51,7 +51,23 @@ class Rule {
     }
     
     class func reforceElephant(force: CGVector) -> CGVector {
-        return force
+        var tmpForce: CGFloat = abs(force.dx) + abs(force.dy)
+        if(force.dx >= 0){
+            if(force.dy >= 0){
+                return CGVectorMake(tmpForce, tmpForce)
+            }
+            else{
+                return CGVectorMake(tmpForce, -tmpForce)
+            }
+        }
+        else{
+            if(force.dy >= 0){
+                return CGVectorMake(-tmpForce, tmpForce)
+            }
+            else{
+                return CGVectorMake(-tmpForce, -tmpForce)
+            }
+        }
     }
     
     class func pieceIsOut(scene : GameScene, piece : Piece) -> Bool {
