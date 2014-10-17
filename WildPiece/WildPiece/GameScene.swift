@@ -50,6 +50,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
             }
         }
         Logic.sharedInstance.updateState()
+        if (!Logic.sharedInstance.isEnded) {
+            let (isEnd : Bool, winner : Player) = Rule.gameIsEnd(self)
+            if isEnd {
+                Logic.sharedInstance.win(winner)
+            }
+        }
     }
     
     // MARK: Touch Events

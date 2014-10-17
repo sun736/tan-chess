@@ -90,6 +90,17 @@ class Logic {
         }
     }
     
+    var isEnded : Bool {
+        get {
+            switch state {
+            case .Ended(let player):
+                return true
+            default:
+                return false
+            }
+        }
+    }
+    
     init() {
         state = .Unstarted
     }
@@ -108,27 +119,28 @@ class Logic {
         switch state {
         case .Processing(let player):
             // get pieces' states
-            var playerFlags : UInt32 = 0x0
+//            var playerFlags : UInt32 = 0x0
             var isMoving : Bool = false
             
             if let scene = self.scene {
                 for piece in scene.pieces {
                     if let body = piece.physicsBody {
-                        playerFlags |= body.categoryBitMask
+//                        playerFlags |= body.categoryBitMask
                         isMoving |= (body.velocity.dx != 0) || (body.velocity.dy != 0)
                     }
                 }
             }
             
             if !isMoving {
-                switch playerFlags {
-                case 0x00, 0x01, 0x02:
-                    self.win(Player.getPlayer(playerFlags))
-                case 0x03:
-                    self.wait(player.opponent())
-                default:
-                    state = .Error("playerFlags = \(playerFlags)")
-                }
+                self.wait(player.opponent())
+//                switch playerFlags {
+//                case 0x00, 0x01, 0x02:
+//                    self.win(Player.getPlayer(playerFlags))
+//                case 0x03:
+//                    self.wait(player.opponent())
+//                default:
+//                    state = .Error("playerFlags = \(playerFlags)")
+//                }
             }
         default:
             break
@@ -189,7 +201,7 @@ class Logic {
         state = GameState.Unstarted
     }
     
-    private func win(player : Player) {
+    func win(player : Player) {
         state = GameState.Ended(player)
         // notify scene
         scene?.gameDidEnd(player)

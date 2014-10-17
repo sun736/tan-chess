@@ -20,7 +20,20 @@ class Rule {
     }
     
     class func gameIsEnd(scene : GameScene) -> (isEnd : Bool, winner : Player) {
-        return (true, PLAYER_NULL)
+        var winningPlayer : [Player] = [Player]()
+        for player in [PLAYER1, PLAYER2] {
+            var kingCount = scene.piecesOfPlayer(player).filter{$0.pieceType == PieceType.King}.count
+            if kingCount == 0 {
+                winningPlayer.append(player.opponent())
+            }
+        }
+        if winningPlayer.count == 1 {
+            return (true, winningPlayer[0])
+        } else if winningPlayer.count == 2 {
+            return (true, PLAYER_NULL)
+        } else {
+            return (false, PLAYER_NULL)
+        }
     }
     
     // MARK: Add/Remove Pieces
