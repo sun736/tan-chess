@@ -83,7 +83,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                     let transition = SKTransition.crossFadeWithDuration(0.3)
                     pauseScene.scaleMode = SKSceneScaleMode.AspectFill
                     self.scene?.view?.presentScene(pauseScene, transition: transition)
-                    
                     break
                 }
             }
@@ -219,9 +218,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     func addButtons() {
         //add munu button
-        let menuButton = SKSpriteNode(imageNamed: "menuButton")
+        let menuButton = SKSpriteNode(imageNamed: "pause")
         menuButton.name = "menuButton"
-        menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.7, y:CGRectGetMidY(self.frame)*1.90);
+        menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.8, y:CGRectGetMidY(self.frame)*1.94);
         self.addChild(menuButton)
     }
     

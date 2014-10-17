@@ -44,7 +44,7 @@ class PauseScene: SKScene {
             var gameScene = appDelegate.gameScene
             gameScene?.endGame()
             var menuScene = MenuScene(size: self.size)
-            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 0.3)
+            let transition = SKTransition.crossFadeWithDuration(0.3)
             menuScene.scaleMode = SKSceneScaleMode.AspectFill
             self.scene?.view?.presentScene(menuScene, transition: transition)
             
