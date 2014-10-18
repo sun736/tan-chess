@@ -343,6 +343,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     func gameShouldChangeTurn() -> Bool {
+        var array = children.filter{$0 === self.lastMove.piece}
+        if array.count == 0 {
+            return true
+        }
+
         var (turnChange, pieceChange) = Rule.gameShouldChangeTurn(lastMove)
         if !turnChange && !pieceChange {
             if let piece = lastMove.piece {
