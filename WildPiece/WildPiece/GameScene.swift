@@ -13,7 +13,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
-    var moveableSet = HashSet<Piece>()
+    var moveableSet = Array<Piece>()
+    var lastMove : (piece : Piece?, step : Int) = (nil, 0)
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -187,6 +188,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         Logic.sharedInstance.end()
     }
     
+    func updateLastMove(piece : Piece) {
+        if lastMove.piece === piece {
+            lastMove.step++
+        } else {
+            lastMove = (piece, 1)
+        }
+    }
+    
     // MARK: Set Up Board
     func addBoard() {
         //draw the rectange gameboard
@@ -245,8 +254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: User Operation Validators
     func pieceShouldPull(piece : Piece) -> Bool {
-//        return moveableSet.contains(piece)
-        return Logic.sharedInstance.isWaiting(piece.player)
+        return moveableSet.filter{$0 === piece}.count > 0
     }
     
     func pieceShouldTap(piece : Piece) -> Bool {
@@ -275,6 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     func pieceDidPulled(piece : Piece, distance: CGVector) {
         var force = piece.forceForPullDistance(distance)
         piece.physicsBody?.applyImpulse(force);
+        updateLastMove(piece)
 
         piece.removeRing()
         piece.removeArrow()
@@ -324,7 +333,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     func updateMoveableSet () {
         moveableSet.removeAll()
-        moveableSet.add(piecesOfCurrentUser)
+        moveableSet += piecesOfCurrentUser
+    }
+    
+    func gameShouldChangeTurn() -> Bool {
+        var (turnChange, pieceChange) = Rule.gameShouldChangeTurn(lastMove)
+        if !turnChange && !pieceChange {
+            if let piece = lastMove.piece {
+                moveableSet = [piece]
+            }
+        }
+        return turnChange
     }
     
     // player == PLAYER_NULL indicates a draw
@@ -334,9 +353,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     func gameDidWait(player : Player) {
-        for piece in piecesOfPlayer(player) {
+        if let piece = lastMove.piece {
+            if piece.player !== player {
+                updateMoveableSet()
+            }
+        }
+        for piece in moveableSet {
             piece.flash();
         }
-        updateMoveableSet()
+    }
+    
+    func gameDidProcess(player : Player) {
+        moveableSet = []
     }
 }

@@ -98,6 +98,16 @@ class Rule {
         }
     }
     
+    class func gameShouldChangeTurn(lastMove : (piece :Piece?, step : Int)) -> (turn : Bool, piece : Bool) {
+        if let piece = lastMove.piece {
+            if piece.pieceType == PieceType.Knight {
+                return (lastMove.step > 1, false)
+            }
+        }
+        
+        return (true, false)
+    }
+    
     // MARK: Add/Remove Pieces
     class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player) {
         var piece = Piece.newPiece(pieceType, player: player);

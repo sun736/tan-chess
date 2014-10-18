@@ -14,6 +14,8 @@ protocol LogicDelegate : class {
     
     func gameDidEnd(player : Player)
     func gameDidWait(player : Player)
+    func gameDidProcess(player : Player)
+    func gameShouldChangeTurn() -> Bool
     var pieces : [Piece] { get }
 }
 
@@ -132,7 +134,14 @@ class Logic {
             }
             
             if !isMoving {
-                self.wait(player.opponent())
+                if let scene = self.scene {
+                    if scene.gameShouldChangeTurn() {
+                        self.wait(player.opponent())
+                    } else {
+                        self.wait(player)
+                    }
+                }
+                
 //                switch playerFlags {
 //                case 0x00, 0x01, 0x02:
 //                    self.win(Player.getPlayer(playerFlags))
@@ -191,6 +200,7 @@ class Logic {
         switch state {
         case .Waiting(let player):
             state = GameState.Processing(player)
+            self.scene?.gameDidProcess(player)
         default:
             state = GameState.Error("player done in wrong state: \(state)")
         }
