@@ -34,7 +34,8 @@ class Rule {
         }
         else
         {
-            return CGVectorMake(0, 0)
+            let base: CGFloat = abs(force.dx)+abs(force.dy)
+            return CGVectorMake(000.1*force.dx/base, 000.1*force.dy/base)
         }
     }
     
@@ -51,7 +52,7 @@ class Rule {
     }
     
     class func reforceElephant(force: CGVector) -> CGVector {
-        var tmpForce: CGFloat = abs(force.dx) + abs(force.dy)
+        var tmpForce: CGFloat = (abs(force.dx) + abs(force.dy))/2
         if(force.dx >= 0){
             if(force.dy >= 0){
                 return CGVectorMake(tmpForce, tmpForce)
@@ -72,10 +73,12 @@ class Rule {
     
     class func pieceIsOut(scene : GameScene, piece : Piece) -> Bool {
         //println("x:\(piece.position.x), y:\(piece.position.y)")
-        if piece.position.x < 40 || piece.position.x > 335 {
+        let marginX: CGFloat = 20;
+        let marginY: CGFloat = 40;
+        if piece.position.x < marginX || piece.position.x > scene.frame.width - marginX {
             return true
         }
-        if piece.position.y < 40 || piece.position.y > 627 {
+        if piece.position.y < marginY || piece.position.y > scene.frame.height - marginY {
             return true
         }
         return false;
@@ -126,38 +129,45 @@ class Rule {
         
         //Just for demo purpose
         // add pawns
-        //addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(127, 200))
-        //addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(247, 200))
-        addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(187, 200))
-        addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(67, 200))
-        addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(307, 200))
-        // add kings
-        addPairPieces(scene, pieceType : PieceType.King, location: CGPointMake(187, 100))
-        // add elephants
-        //addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(147, 100))
-        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(227, 100))
-        // add Knight
-        addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(107, 100))
-        //addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(267, 100))
-        // add rocks
-        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(67, 100))
-        //addPairPieces(scene, pieceType : PieceType.Rock, location: CGPointMake(307, 100))
-        // add canons
-        //addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(97, 150))
-        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(277, 150))
+        let leftstartPointX:CGFloat = 44
+        let rightendPointX:CGFloat = scene.frame.width - leftstartPointX
+        var lrdiff:CGFloat = (rightendPointX - leftstartPointX)/4
+        for index:Int in 0...4 {
+            addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(leftstartPointX + CGFloat(index)*lrdiff, 200))
+        }
+        
+        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(leftstartPointX+(lrdiff/2), 150))
+        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(rightendPointX-(lrdiff/2), 150))
+        
+        lrdiff = (rightendPointX - leftstartPointX)/6
+        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(leftstartPointX, 100))
+        addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(leftstartPointX + lrdiff, 100))
+        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(leftstartPointX + lrdiff*2, 100))
+        addPairPieces(scene, pieceType : PieceType.King, location: CGPointMake(leftstartPointX + lrdiff*3, 100))
+        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(leftstartPointX + lrdiff*4, 100))
+        addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(leftstartPointX + lrdiff*5, 100))
+        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(leftstartPointX + lrdiff*6, 100))
+       
+       
     }
     
     class func placeBoard(scene : GameScene) {
         //draw the rectange gameboard
         var yourline = SKShapeNode();
         var pathToDraw = CGPathCreateMutable();
-        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
+        let marginX: CGFloat = 20;
+        let marginY: CGFloat = 40;
+        CGPathMoveToPoint(pathToDraw, nil, marginX, marginY);
+        CGPathAddLineToPoint(pathToDraw, nil, marginX, scene.frame.height-marginY);
+        CGPathAddLineToPoint(pathToDraw, nil, scene.frame.width-marginX, scene.frame.height-marginY);
+        CGPathAddLineToPoint(pathToDraw, nil, scene.frame.width-marginX, marginY);
+        CGPathAddLineToPoint(pathToDraw, nil, marginX, marginY);
         yourline.path = pathToDraw;
         yourline.strokeColor = UIColor.blueColor()
         scene.addChild(yourline)
+    }
+    
+    class func checkBoundary(){
+        
     }
 }

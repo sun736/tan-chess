@@ -12,16 +12,21 @@ import SpriteKit
 class MenuScene: SKScene {
     
     override func didMoveToView(view: SKView) {
+
+        var bgImage = SKSpriteNode(imageNamed: "background.jpg")
+        bgImage.position = CGPointMake(self.size.width/2, self.size.height/2)
+        self.addChild(bgImage)
         
         let gamtTitle = SKLabelNode(fontNamed:"Chalkduster")
         gamtTitle.text = "Tan Chess";
-        gamtTitle.fontSize = 25;
+        gamtTitle.color = UIColor.blackColor()
+        gamtTitle.fontSize = 30;
         gamtTitle.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.6);
         self.addChild(gamtTitle)
         
         let startButton = SKSpriteNode(imageNamed: "start")
         startButton.name = "startButton"
-        startButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
+        startButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.3);
         self.addChild(startButton)
         
         let helpButton = SKSpriteNode(imageNamed: "help")

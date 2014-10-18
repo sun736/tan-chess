@@ -5,9 +5,9 @@
 	<key>King</key>
 	<dict>
 		<key>mass</key>
-		<integer>10</integer>
+		<integer>15</integer>
 		<key>damping</key>
-		<integer>5</integer>
+		<integer>15</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
@@ -26,7 +26,7 @@
 		<key>mass</key>
 		<integer>15</integer>
 		<key>damping</key>
-		<integer>10</integer>
+		<integer>15</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
@@ -43,7 +43,7 @@
 	<key>Elephant</key>
 	<dict>
 		<key>mass</key>
-		<integer>3</integer>
+		<integer>15</integer>
 		<key>damping</key>
 		<integer>10</integer>
 		<key>restitution</key>
@@ -59,16 +59,16 @@
 		<key>angularDamping</key>
 		<string>7</string>
 	</dict>
-	<key>Rock</key>
+	<key>Rook</key>
 	<dict>
 		<key>mass</key>
-		<integer>3</integer>
-		<key>damping</key>
 		<integer>10</integer>
+		<key>damping</key>
+		<integer>8</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>8</integer>
+		<integer>5</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>

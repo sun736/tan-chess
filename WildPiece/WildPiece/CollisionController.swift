@@ -14,7 +14,9 @@ class CollisionController {
     
     class func didTwoBallCollision(#contacter: Piece, contactee: Piece) {
         
-        contactee.deduceHealth()
+        if contacter.pieceType != PieceType.King {
+            contactee.deduceHealth()
+        }
         contactee.drawHPRing()
         
         if contacter.healthPoint == 0 {
@@ -39,11 +41,52 @@ class CollisionController {
         
     }
     
-    class func handlContact(contact: SKPhysicsContact) {
+    class func handlContact(scene: SKScene, contact: SKPhysicsContact) {
         
         if (contact.bodyA.node != nil && contact.bodyB.node != nil){
             var node1 : Piece
             var node2 : Piece
+            
+            if contact.bodyA.node != nil && contact.bodyB.node != nil {
+                var node1 : Piece
+                var node2 : Piece
+                
+                if(contact.bodyA.categoryBitMask == 0x00) {
+                    var node = contact.bodyA.node as PieceCanon
+                    let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
+                    //print("here at A:\(node.player.bitMask)\n")
+                    let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.0000001)
+                    let wait  = SKAction.waitForDuration(waitTime)
+                    let resetMask = SKAction.runBlock({
+                        node.physicsBody?.categoryBitMask = node.player.bitMask
+                        node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                    })
+                    let sequence = SKAction.sequence([wait, resetMask])
+                    scene.runAction(sequence)
+                    //print("reset at A\n")
+                    //print("here at A:\(node.physicsBody?.collisionBitMask)\n")
+                    //print("here at A:\(node.physicsBody?.categoryBitMask)\n")
+                    return
+                } else if (contact.bodyB.categoryBitMask == 0x00) {
+                    
+                    var node = contact.bodyB.node as PieceCanon
+                    let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
+                    //print("here at B:\(node.player.bitMask)\n")
+                    let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.0000001)
+                    let wait  = SKAction.waitForDuration(waitTime)
+                    let resetMask = SKAction.runBlock({
+                        node.physicsBody?.categoryBitMask = node.player.bitMask
+                        node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                    })
+                    let sequence = SKAction.sequence([wait, resetMask])
+                    scene.runAction(sequence)
+                    //print("reset at B\n")
+                    //print("here at B:\(node.physicsBody?.collisionBitMask)\n")
+                    //print("here at B:\(node.physicsBody?.categoryBitMask)\n")
+                    return
+                }
+            }
+            
             if(contact.bodyA?.categoryBitMask == Piece.BITMASK_BLUE() && contact.bodyB?.categoryBitMask == Piece.BITMASK_RED() ) {
                 node1 = contact.bodyA.node as Piece
                 node2 = contact.bodyB.node as Piece
@@ -63,6 +106,36 @@ class CollisionController {
             }
         }
         
+    }
+    
+    class func handleEndContact(contact: SKPhysicsContact) {
+        print("handle ended contact\n")
+        if contact.bodyA.node != nil && contact.bodyB.node != nil {
+            var node1 : Piece
+            var node2 : Piece
+            
+            if(contact.bodyA.categoryBitMask == 0x00) {
+                
+                var node = contact.bodyA.node as PieceCanon
+                print("here at A:\(node.player.bitMask)\n")
+                node.physicsBody?.categoryBitMask = node.player.bitMask
+                node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                print("reset at A\n")
+                print("here at A:\(node.physicsBody?.collisionBitMask)\n")
+                print("here at A:\(node.physicsBody?.categoryBitMask)\n")
+                return
+            } else if (contact.bodyB.categoryBitMask == 0x00) {
+                
+                var node = contact.bodyB.node as PieceCanon
+                print("here at B:\(node.player.bitMask)\n")
+                node.physicsBody?.categoryBitMask = node.player.bitMask
+                node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                print("reset at B\n")
+                print("here at B:\(node.physicsBody?.collisionBitMask)\n")
+                print("here at B:\(node.physicsBody?.categoryBitMask)\n")
+                return
+            }
+        }
     }
     
 }

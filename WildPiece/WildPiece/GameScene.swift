@@ -199,17 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     // MARK: Set Up Board
     func addBoard() {
         //draw the rectange gameboard
-        var yourline = SKShapeNode();
-        var pathToDraw = CGPathCreateMutable();
-        CGPathMoveToPoint(pathToDraw, nil, 40.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 627.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 335.0, 40.0);
-        CGPathAddLineToPoint(pathToDraw, nil, 40.0, 40.0);
-        yourline.path = pathToDraw;
-        yourline.strokeColor = UIColor.blueColor()
-        self.addChild(yourline)
-
+        Rule.placeBoard(self)
         
         //change scene background color to gray color
         scene?.backgroundColor = UIColor.lightGrayColor()
@@ -263,6 +253,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: Touch Events on Pieces
     func pieceDidStartPull(piece : Piece) {
+        
         // temporary solution to determine contacter
         CollisionController.setContacter(self, contacter: piece)
         piece.drawRing()
@@ -282,6 +273,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     func pieceDidPulled(piece : Piece, distance: CGVector) {
         var force = piece.forceForPullDistance(distance)
+        
+        //MARK set canon to not collisionable
+        if piece is PieceCanon {
+            piece.physicsBody?.collisionBitMask = 0x00
+            piece.physicsBody?.categoryBitMask = 0x00
+            //print("find a canon\n")
+            //print("\(piece.physicsBody?.categoryBitMask)\n")
+            //print("\(piece.physicsBody?.collisionBitMask)\n")
+        }
+        
         piece.physicsBody?.applyImpulse(force);
         updateLastMove(piece)
 
@@ -299,8 +300,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: Contact Delegate
     func didBeginContact(contact: SKPhysicsContact) {
-        
-        CollisionController.handlContact(contact)
+        print("herereerererer contact\n")
+        CollisionController.handlContact(self, contact: contact)
+    }
+    
+    func didEndContact(contact: SKPhysicsContact) {
+        //print("herereerererer contact ended\n")
+        //CollisionController.handleEndContact(contact)
     }
     
     // MARK: Logic Delegate
@@ -349,7 +355,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     // player == PLAYER_NULL indicates a draw
     // update UI here
     func gameDidEnd(player : Player) {
-        
+        println("Game Over!")
+        var endScene = EndScene(size: self.size)
+        let transition = SKTransition.crossFadeWithDuration(0.3)
+        endScene.scaleMode = SKSceneScaleMode.AspectFill
+        self.scene?.view?.presentScene(endScene, transition: transition)
     }
     
     func gameDidWait(player : Player) {
@@ -361,9 +371,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         for piece in moveableSet {
             piece.flash();
         }
+
+        for piece in self.piecesOfPlayer(player.opponent()) {
+            if piece is PieceCanon {
+                piece.physicsBody?.categoryBitMask = player.opponent().bitMask
+                piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+            }
+        }
     }
-    
+
     func gameDidProcess(player : Player) {
-        moveableSet = []
+            moveableSet = []
     }
 }
