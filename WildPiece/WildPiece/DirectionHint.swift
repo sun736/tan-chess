@@ -70,7 +70,19 @@ class DirectionHint : SKShapeNode{
     
     func createArc(x: CGFloat, y: CGFloat, isClockWise: Bool) -> CGPathRef {
         let path = CGPathCreateMutable()
-        CGPathAddArc(path, nil, x, y, lineLen, 0, CGFloat(M_PI) * 1, isClockWise)
+        if(isClockWise) {
+            CGPathAddArc(path, nil, x, y, lineLen, CGFloat(M_PI) * 1.25, CGFloat(M_PI) * 1.75, false)
+            CGPathMoveToPoint(path, nil, x, y)
+            CGPathAddLineToPoint(path, nil, x+lineLen/sqrt(2), y-lineLen/sqrt(2))
+            CGPathMoveToPoint(path, nil, x, y)
+            CGPathAddLineToPoint(path, nil, x-lineLen/sqrt(2), y-lineLen/sqrt(2))
+        } else {
+            CGPathAddArc(path, nil, x, y, lineLen, CGFloat(M_PI) * 0.25, CGFloat(M_PI) * 0.75, false)
+            CGPathMoveToPoint(path, nil, x, y)
+            CGPathAddLineToPoint(path, nil, x+lineLen/sqrt(2), y+lineLen/sqrt(2))
+            CGPathMoveToPoint(path, nil, x, y)
+            CGPathAddLineToPoint(path, nil, x-lineLen/sqrt(2), y+lineLen/sqrt(2))
+        }
         
         return path
     }
