@@ -26,7 +26,7 @@
 		<key>mass</key>
 		<integer>15</integer>
 		<key>damping</key>
-		<integer>15</integer>
+		<integer>14</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>

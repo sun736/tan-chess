@@ -28,15 +28,21 @@ class Rule {
     }
     
     class func reforcePawn(force: CGVector ,piece: Piece) -> CGVector{
-        if (piece.player.bitMask == Piece.BITMASK_RED() && force.dy < 0 || piece.player.bitMask == Piece.BITMASK_BLUE() && force.dy > 0)
-        {
-            return force
+        let base: CGFloat = abs(force.dx)+abs(force.dy)
+        if (piece.player.bitMask == Piece.BITMASK_RED() && force.dy < 0){
+            if(abs(force.dy)>abs(force.dx)){
+                return force
+            }
         }
-        else
+        if (piece.player.bitMask == Piece.BITMASK_BLUE() && force.dy > 0)
         {
-            let base: CGFloat = abs(force.dx)+abs(force.dy)
-            return CGVectorMake(000.1*force.dx/base, 000.1*force.dy/base)
+            if(abs(force.dy)>abs(force.dx)){
+                return force
+            }
         }
+        
+        return CGVectorMake(000.1*force.dx/base, 000.1*force.dy/base)
+
     }
     
     class func reforceRook(force: CGVector) -> CGVector {
