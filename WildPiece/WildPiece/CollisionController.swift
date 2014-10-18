@@ -12,13 +12,16 @@ import SpriteKit
 
 class CollisionController {
     
-    class func didTwoBallCollision(#contacter: Piece, contactee: Piece) {
+    class func didTwoBallCollision(#scene: GameScene, contacter: Piece, contactee: Piece) {
+        // only one deduction collision is allowed
+        for piece in scene.piecesOfPlayer(contacter.player) {
+            piece.isContacter = false;
+        }
         
         if contacter.pieceType != PieceType.King {
             contactee.deduceHealth()
         }
         contactee.drawHPRing()
-        
         if contacter.healthPoint == 0 {
             contacter.fadeOut();
         }
@@ -41,50 +44,45 @@ class CollisionController {
         
     }
     
-    class func handlContact(scene: SKScene, contact: SKPhysicsContact) {
+    class func handlContact(scene: GameScene, contact: SKPhysicsContact) {
         
         if (contact.bodyA.node != nil && contact.bodyB.node != nil){
             var node1 : Piece
             var node2 : Piece
             
-            if contact.bodyA.node != nil && contact.bodyB.node != nil {
-                var node1 : Piece
-                var node2 : Piece
+            if(contact.bodyA.categoryBitMask == 0x00) {
+                var node = contact.bodyA.node as PieceCanon
+                let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
+                //print("here at A:\(node.player.bitMask)\n")
+                let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.00000001)
+                let wait  = SKAction.waitForDuration(waitTime)
+                let resetMask = SKAction.runBlock({
+                    node.physicsBody?.categoryBitMask = node.player.bitMask
+                    node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                })
+                let sequence = SKAction.sequence([wait, resetMask])
+                scene.runAction(sequence)
+                //print("reset at A\n")
+                //print("here at A:\(node.physicsBody?.collisionBitMask)\n")
+                //print("here at A:\(node.physicsBody?.categoryBitMask)\n")
+                return
+            } else if (contact.bodyB.categoryBitMask == 0x00) {
                 
-                if(contact.bodyA.categoryBitMask == 0x00) {
-                    var node = contact.bodyA.node as PieceCanon
-                    let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
-                    //print("here at A:\(node.player.bitMask)\n")
-                    let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.0000001)
-                    let wait  = SKAction.waitForDuration(waitTime)
-                    let resetMask = SKAction.runBlock({
-                        node.physicsBody?.categoryBitMask = node.player.bitMask
-                        node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-                    })
-                    let sequence = SKAction.sequence([wait, resetMask])
-                    scene.runAction(sequence)
-                    //print("reset at A\n")
-                    //print("here at A:\(node.physicsBody?.collisionBitMask)\n")
-                    //print("here at A:\(node.physicsBody?.categoryBitMask)\n")
-                    return
-                } else if (contact.bodyB.categoryBitMask == 0x00) {
-                    
-                    var node = contact.bodyB.node as PieceCanon
-                    let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
-                    //print("here at B:\(node.player.bitMask)\n")
-                    let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.0000001)
-                    let wait  = SKAction.waitForDuration(waitTime)
-                    let resetMask = SKAction.runBlock({
-                        node.physicsBody?.categoryBitMask = node.player.bitMask
-                        node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-                    })
-                    let sequence = SKAction.sequence([wait, resetMask])
-                    scene.runAction(sequence)
-                    //print("reset at B\n")
-                    //print("here at B:\(node.physicsBody?.collisionBitMask)\n")
-                    //print("here at B:\(node.physicsBody?.categoryBitMask)\n")
-                    return
-                }
+                var node = contact.bodyB.node as PieceCanon
+                let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
+                //print("here at B:\(node.player.bitMask)\n")
+                let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.00000001)
+                let wait  = SKAction.waitForDuration(waitTime)
+                let resetMask = SKAction.runBlock({
+                    node.physicsBody?.categoryBitMask = node.player.bitMask
+                    node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                })
+                let sequence = SKAction.sequence([wait, resetMask])
+                scene.runAction(sequence)
+                //print("reset at B\n")
+                //print("here at B:\(node.physicsBody?.collisionBitMask)\n")
+                //print("here at B:\(node.physicsBody?.categoryBitMask)\n")
+                return
             }
             
             if(contact.bodyA?.categoryBitMask == Piece.BITMASK_BLUE() && contact.bodyB?.categoryBitMask == Piece.BITMASK_RED() ) {
@@ -100,9 +98,9 @@ class CollisionController {
             }
             
             if node1.isContacter {
-                didTwoBallCollision(contacter: node1, contactee: node2)
-            } else {
-                didTwoBallCollision(contacter: node2, contactee: node1)
+                didTwoBallCollision(scene: scene, contacter: node1, contactee: node2)
+            } else if node2.isContacter {
+                didTwoBallCollision(scene: scene, contacter: node2, contactee: node1)
             }
         }
         
