@@ -30,13 +30,13 @@ class Rule {
     class func reforcePawn(force: CGVector ,piece: Piece) -> CGVector{
         let base: CGFloat = abs(force.dx)+abs(force.dy)
         if (piece.player.bitMask == Piece.BITMASK_RED() && force.dy < 0){
-            if(abs(force.dy)>abs(force.dx)){
+            if(abs(force.dy)>=abs(force.dx)){
                 return force
             }
         }
         if (piece.player.bitMask == Piece.BITMASK_BLUE() && force.dy > 0)
         {
-            if(abs(force.dy)>abs(force.dx)){
+            if(abs(force.dy)>=abs(force.dx)){
                 return force
             }
         }
