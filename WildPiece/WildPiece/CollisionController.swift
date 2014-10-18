@@ -14,7 +14,9 @@ class CollisionController {
     
     class func didTwoBallCollision(#contacter: Piece, contactee: Piece) {
         
-        contactee.deduceHealth()
+        if contacter.pieceType != PieceType.King {
+            contactee.deduceHealth()
+        }
         contactee.drawHPRing()
         
         if contacter.healthPoint == 0 {
