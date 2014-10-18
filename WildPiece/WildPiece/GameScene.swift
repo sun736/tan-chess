@@ -360,8 +360,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     // player == PLAYER_NULL indicates a draw
     // update UI here
     func gameDidEnd(player : Player) {
-        println("Game Over!")
         var endScene = EndScene(size: self.size)
+        let winner = SKLabelNode(fontNamed:"Chalkduster")
+        if(player.id == 1){
+            winner.text = "Blue wins!"
+        }else{
+            winner.text = "Red wins!"
+        }
+        winner.fontSize = 25
+        winner.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5)
+        endScene.addChild(winner)
         let transition = SKTransition.crossFadeWithDuration(0.3)
         endScene.scaleMode = SKSceneScaleMode.AspectFill
         self.scene?.view?.presentScene(endScene, transition: transition)
