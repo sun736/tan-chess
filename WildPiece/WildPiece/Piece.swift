@@ -36,7 +36,7 @@ enum PieceType : Printable {
 }
 
 let MAX_PULL_DISTANCE:CGFloat = 75
-let FORCE_FACTOR : CGFloat = 5000.0
+let FORCE_FACTOR : CGFloat = 2000.0
 
 class Piece: SKSpriteNode {
 
