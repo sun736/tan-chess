@@ -20,6 +20,9 @@ protocol LogicDelegate : class {
 }
 
 // MARK: Logic class
+
+let SPEED_LOWER_BOUND : Float = 4.0
+
 class Logic {
     
     enum GameState : Printable {
@@ -127,7 +130,14 @@ class Logic {
             if let scene = self.scene {
                 for piece in scene.pieces {
                     if let body = piece.physicsBody {
-//                        playerFlags |= body.categoryBitMask
+                        let v = hypotf(Float(body.velocity.dx), Float(body.velocity.dy))
+//                        if (v > 0) {
+//                            println(Int(v))
+//                        }
+                        if v < SPEED_LOWER_BOUND {
+                            body.velocity.dx = 0
+                            body.velocity.dy = 0
+                        }
                         isMoving |= (body.velocity.dx != 0) || (body.velocity.dy != 0)
                     }
                 }
