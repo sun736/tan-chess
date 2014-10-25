@@ -5,13 +5,13 @@
 	<key>King</key>
 	<dict>
 		<key>mass</key>
-		<integer>15</integer>
+		<integer>5</integer>
 		<key>damping</key>
-		<integer>15</integer>
+		<integer>5</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>5</integer>
+		<integer>3</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -26,11 +26,11 @@
 		<key>mass</key>
 		<integer>15</integer>
 		<key>damping</key>
-		<integer>14</integer>
+		<integer>5</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>3</integer>
+		<real>2.5</real>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -45,11 +45,11 @@
 		<key>mass</key>
 		<integer>15</integer>
 		<key>damping</key>
-		<integer>10</integer>
+		<integer>5</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>5</integer>
+		<real>7.5</real>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -64,11 +64,11 @@
 		<key>mass</key>
 		<integer>10</integer>
 		<key>damping</key>
-		<integer>8</integer>
+		<integer>5</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>5</integer>
+		<real>7.5</real>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -83,11 +83,11 @@
 		<key>mass</key>
 		<integer>3</integer>
 		<key>damping</key>
-		<integer>10</integer>
+		<real>7.5</real>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>1</integer>
+		<integer>3</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -102,11 +102,11 @@
 		<key>mass</key>
 		<integer>5</integer>
 		<key>damping</key>
-		<integer>15</integer>
+		<integer>5</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<integer>1</integer>
+		<real>1.5</real>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
