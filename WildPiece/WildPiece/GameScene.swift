@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     var possibleTouchNode :SKNode?
     var moveableSet = Array<Piece>()
     var lastMove : (piece : Piece?, step : Int) = (nil, 0)
+    var board: SKShapeNode?
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -199,7 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     // MARK: Set Up Board
     func addBoard() {
         //draw the rectange gameboard
-        Rule.placeBoard(self)
+        Rule.drawBoard(self, borderColor: PLAYER1.color)
         
         //change scene background color to gray color
         scene?.backgroundColor = UIColor.lightGrayColor()
@@ -376,14 +377,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     }
     
     func gameDidWait(player : Player) {
+        // redraw the board with new color
+        Rule.drawBoard(self, borderColor: player.color)
+        
         if let piece = lastMove.piece {
             if piece.player !== player {
                 updateMoveableSet()
             }
         }
-        for piece in moveableSet {
-            piece.flash();
-        }
+        // for piece in moveableSet {
+        //     piece.flash();
+        // }
 
         for piece in self.piecesOfPlayer(player.opponent()) {
             if piece is PieceCanon {

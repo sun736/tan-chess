@@ -157,19 +157,30 @@ class Rule {
        
     }
     
-    class func placeBoard(scene : GameScene) {
+    class func drawBoard(scene : GameScene, borderColor: UIColor) {
         //draw the rectange gameboard
         var yourline = SKShapeNode();
         var pathToDraw = CGPathCreateMutable();
         let marginX: CGFloat = 20;
         let marginY: CGFloat = 40;
+        let sHeight: CGFloat = scene.frame.height;
+        let sWidth: CGFloat = scene.frame.width;
+        
         CGPathMoveToPoint(pathToDraw, nil, marginX, marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, marginX, scene.frame.height-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, scene.frame.width-marginX, scene.frame.height-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, scene.frame.width-marginX, marginY);
+        CGPathAddLineToPoint(pathToDraw, nil, marginX, sHeight-marginY);
+        CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, sHeight-marginY);
+        CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, marginY);
         CGPathAddLineToPoint(pathToDraw, nil, marginX, marginY);
+        CGPathMoveToPoint(pathToDraw, nil, marginX, sHeight/2);
+        CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, sHeight/2);
+        
         yourline.path = pathToDraw;
-        yourline.strokeColor = UIColor.blueColor()
+        yourline.strokeColor = borderColor
+        yourline.lineWidth = 1.5
+        // remove the old one
+        scene.board?.removeFromParent()
+        scene.board = yourline
+        // add the new one
         scene.addChild(yourline)
     }
     
