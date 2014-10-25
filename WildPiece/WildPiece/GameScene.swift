@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     var possibleTouchNode :SKNode?
     var moveableSet = Array<Piece>()
     var lastMove : (piece : Piece?, step : Int) = (nil, 0)
-    var board: SKShapeNode?
+    var board: Board?
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -204,21 +204,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         background.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         background.zPosition = -10.0
         scene?.addChild(background)
-        /*SKTexture *backgroundTexture = [SKTexture textureWithImageNamed:@"MyImage.png"];
-        SKSpriteNode *background = [SKSpriteNode spriteNodeWithTexture:backgroundTexture size:self.view.frame.size];
-        background.position = (CGPoint) {CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame)};
-        [scene addChild:background];*/
         
-        //draw the rectange gameboard
-        Rule.drawBoard(self, borderColor: PLAYER1.color)
-        
-        //change scene background color to gray color
-        //scene?.backgroundColor = UIColor.lightGrayColor()
-        
-        
-        
-        // Now make the edges of the screen a physics object as well
-        //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);
+        let board = Board(width: self.frame.width, height: self.frame.height)
+        self.board = board
+        self.addChild(board)
         
         scene?.physicsBody?.dynamic = false
         
@@ -390,7 +379,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     func gameDidWait(player : Player) {
         // redraw the board with new color
-        Rule.drawBoard(self, borderColor: player.color)
+        if let board = self.board {
+            board.setColor(player.color)
+        }
         
         if let piece = lastMove.piece {
             if piece.player !== player {
