@@ -97,7 +97,7 @@ class Piece: SKSpriteNode {
         
         setCollisionBitMask(player.bitMask)
         
-        drawHPRing()
+        //drawHPRing()
     }
 
     func updateParameter() {

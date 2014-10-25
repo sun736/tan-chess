@@ -199,11 +199,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: Set Up Board
     func addBoard() {
+        
+        let background = SKSpriteNode(imageNamed: "board")
+        background.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        scene?.addChild(background)
+        /*SKTexture *backgroundTexture = [SKTexture textureWithImageNamed:@"MyImage.png"];
+        SKSpriteNode *background = [SKSpriteNode spriteNodeWithTexture:backgroundTexture size:self.view.frame.size];
+        background.position = (CGPoint) {CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame)};
+        [scene addChild:background];*/
+        
         //draw the rectange gameboard
         Rule.drawBoard(self, borderColor: PLAYER1.color)
         
         //change scene background color to gray color
-        scene?.backgroundColor = UIColor.lightGrayColor()
+        //scene?.backgroundColor = UIColor.lightGrayColor()
+        
+        
         
         // Now make the edges of the screen a physics object as well
         //scene?.physicsBody = SKPhysicsBody(edgeLoopFromRect: view.frame);

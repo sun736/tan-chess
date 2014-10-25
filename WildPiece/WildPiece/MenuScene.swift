@@ -33,6 +33,17 @@ class MenuScene: SKScene {
         helpButton.name = "helpButton"
         helpButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
         self.addChild(helpButton)
+
+        /*var piece = Piece.newPiece(PieceType.King, player: PLAYER1);
+        piece.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
+        self.addChild(piece)
+        
+        scene?.physicsBody?.dynamic = false
+        
+        self.physicsWorld.gravity.dy = 0
+        self.physicsBody?.friction = 0.9
+        //self.physicsWorld.contactDelegate = self*/
+
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
