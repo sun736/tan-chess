@@ -51,37 +51,40 @@ class CollisionController {
             var node2 : Piece
             
             if(contact.bodyA.categoryBitMask == 0x00) {
-                var node = contact.bodyA.node as PieceCanon
-                let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
-                //print("here at A:\(node.player.bitMask)\n")
-                let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.00000001)
-                let wait  = SKAction.waitForDuration(waitTime)
+                var canon = contact.bodyA.node as PieceCanon
+                var transPiece = contact.bodyB.node as Piece
+                canon.physicsBody?.categoryBitMask = canon.player.bitMask
+                canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                transPiece.physicsBody?.categoryBitMask = 0x00;
+                transPiece.physicsBody?.collisionBitMask = 0x00;
+                
+                let waitTime : NSTimeInterval = 0.1;
+                let wait = SKAction.waitForDuration(waitTime)
                 let resetMask = SKAction.runBlock({
-                    node.physicsBody?.categoryBitMask = node.player.bitMask
-                    node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                    transPiece.physicsBody?.categoryBitMask = transPiece.player.bitMask
+                    transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE()
                 })
                 let sequence = SKAction.sequence([wait, resetMask])
                 scene.runAction(sequence)
-                //print("reset at A\n")
-                //print("here at A:\(node.physicsBody?.collisionBitMask)\n")
-                //print("here at A:\(node.physicsBody?.categoryBitMask)\n")
+                
                 return
             } else if (contact.bodyB.categoryBitMask == 0x00) {
+                var canon = contact.bodyB.node as PieceCanon
+                var transPiece = contact.bodyA.node as Piece
+                canon.physicsBody?.categoryBitMask = canon.player.bitMask
+                canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                transPiece.physicsBody?.categoryBitMask = 0x00;
+                transPiece.physicsBody?.collisionBitMask = 0x00;
                 
-                var node = contact.bodyB.node as PieceCanon
-                let v = hypotf(Float(node.physicsBody!.velocity.dx), Float(node.physicsBody!.velocity.dy))
-                //print("here at B:\(node.player.bitMask)\n")
-                let waitTime : NSTimeInterval = NSTimeInterval((10000 - v) * 0.00000001)
-                let wait  = SKAction.waitForDuration(waitTime)
+                let waitTime : NSTimeInterval = 0.1;
+                let wait = SKAction.waitForDuration(waitTime)
                 let resetMask = SKAction.runBlock({
-                    node.physicsBody?.categoryBitMask = node.player.bitMask
-                    node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                    transPiece.physicsBody?.categoryBitMask = transPiece.player.bitMask
+                    transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE()
                 })
                 let sequence = SKAction.sequence([wait, resetMask])
                 scene.runAction(sequence)
-                //print("reset at B\n")
-                //print("here at B:\(node.physicsBody?.collisionBitMask)\n")
-                //print("here at B:\(node.physicsBody?.categoryBitMask)\n")
+                
                 return
             }
             

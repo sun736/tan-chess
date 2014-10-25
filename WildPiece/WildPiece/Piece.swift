@@ -149,7 +149,7 @@ class Piece: SKSpriteNode {
         let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
         let fadeOutAct = SKAction.fadeAlphaTo(0.4, duration: fadeOutFadeTime);
         let fadeInAct = SKAction.fadeInWithDuration(fadeOutFadeTime);
-        let sequence = [waitAction, fadeOutAct, fadeInAct];
+        let sequence = [fadeOutAct, fadeInAct];
         self.runAction(SKAction.sequence(sequence));
     }
     

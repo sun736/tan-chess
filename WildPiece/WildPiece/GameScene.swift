@@ -301,7 +301,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     
     // MARK: Contact Delegate
     func didBeginContact(contact: SKPhysicsContact) {
-        print("herereerererer contact\n")
+        //print("herereerererer contact\n")
         CollisionController.handlContact(self, contact: contact)
     }
     
@@ -385,16 +385,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                 updateMoveableSet()
             }
         }
-        // for piece in moveableSet {
-        //     piece.flash();
-        // }
 
+//        for piece in moveableSet {
+//            piece.flash();
+//        }
+        
+        // Canon made a original move, need to reset its mask manually
         for piece in self.piecesOfPlayer(player.opponent()) {
             if piece is PieceCanon {
                 piece.physicsBody?.categoryBitMask = player.opponent().bitMask
                 piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
             }
         }
+        //player.canKill = true;
     }
 
     func gameDidProcess(player : Player) {
