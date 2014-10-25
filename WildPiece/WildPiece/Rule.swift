@@ -182,7 +182,7 @@ class Rule {
             yourline.lineWidth = 1.5
             // add the new one
             scene.board = yourline
-            scene.addChild(yourline)
+            //scene.addChild(yourline)
         }
         
     }

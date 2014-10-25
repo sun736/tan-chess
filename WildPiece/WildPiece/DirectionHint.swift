@@ -57,13 +57,13 @@ class DirectionHint : SKShapeNode{
     func createXCross (x: CGFloat, y: CGFloat) -> CGPathRef{
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, x, y)
-        CGPathAddLineToPoint(path, nil, x+lineLen, y+lineLen)
+        CGPathAddLineToPoint(path, nil, x+lineLen/sqrt(2), y+lineLen/sqrt(2))
         CGPathMoveToPoint(path, nil, x, y)
-        CGPathAddLineToPoint(path, nil, x+lineLen, y-lineLen)
+        CGPathAddLineToPoint(path, nil, x+lineLen/sqrt(2), y-lineLen/sqrt(2))
         CGPathMoveToPoint(path, nil, x, y)
-        CGPathAddLineToPoint(path, nil, x-lineLen, y+lineLen)
+        CGPathAddLineToPoint(path, nil, x-lineLen/sqrt(2), y+lineLen/sqrt(2))
         CGPathMoveToPoint(path, nil, x, y)
-        CGPathAddLineToPoint(path, nil, x-lineLen, y-lineLen)
+        CGPathAddLineToPoint(path, nil, x-lineLen/sqrt(2), y-lineLen/sqrt(2))
         
         return path
     }
