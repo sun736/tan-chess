@@ -158,30 +158,33 @@ class Rule {
     }
     
     class func drawBoard(scene : GameScene, borderColor: UIColor) {
-        //draw the rectange gameboard
-        var yourline = SKShapeNode();
-        var pathToDraw = CGPathCreateMutable();
-        let marginX: CGFloat = 20;
-        let marginY: CGFloat = 40;
-        let sHeight: CGFloat = scene.frame.height;
-        let sWidth: CGFloat = scene.frame.width;
+        if var board = scene.board {
+            board.strokeColor = borderColor
+        } else {
+            //draw the rectange gameboard
+            var yourline = SKShapeNode();
+            var pathToDraw = CGPathCreateMutable();
+            let marginX: CGFloat = 20;
+            let marginY: CGFloat = 40;
+            let sHeight: CGFloat = scene.frame.height;
+            let sWidth: CGFloat = scene.frame.width;
+            
+            CGPathMoveToPoint(pathToDraw, nil, marginX, marginY);
+            CGPathAddLineToPoint(pathToDraw, nil, marginX, sHeight-marginY);
+            CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, sHeight-marginY);
+            CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, marginY);
+            CGPathAddLineToPoint(pathToDraw, nil, marginX, marginY);
+            CGPathMoveToPoint(pathToDraw, nil, marginX, sHeight/2);
+            CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, sHeight/2);
+            
+            yourline.path = pathToDraw;
+            yourline.strokeColor = borderColor
+            yourline.lineWidth = 1.5
+            // add the new one
+            scene.board = yourline
+            scene.addChild(yourline)
+        }
         
-        CGPathMoveToPoint(pathToDraw, nil, marginX, marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, marginX, sHeight-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, sHeight-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, marginX, marginY);
-        CGPathMoveToPoint(pathToDraw, nil, marginX, sHeight/2);
-        CGPathAddLineToPoint(pathToDraw, nil, sWidth-marginX, sHeight/2);
-        
-        yourline.path = pathToDraw;
-        yourline.strokeColor = borderColor
-        yourline.lineWidth = 1.5
-        // remove the old one
-        scene.board?.removeFromParent()
-        scene.board = yourline
-        // add the new one
-        scene.addChild(yourline)
     }
     
     class func checkBoundary(){
