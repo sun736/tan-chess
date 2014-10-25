@@ -129,6 +129,10 @@ class Piece: SKSpriteNode {
         return 0x02
     }
     
+    class func BITMASK_TRANS() -> UInt32 {
+        return 0x00
+    }
+    
     func deduceHealth() {
         self.healthPoint = self.healthPoint - 10
         if(self.healthPoint <= self.maxHealthPoint*6/10)

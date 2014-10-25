@@ -277,8 +277,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         
         //MARK set canon to not collisionable
         if piece is PieceCanon {
-            piece.physicsBody?.collisionBitMask = 0x00
-            piece.physicsBody?.categoryBitMask = 0x00
+            piece.physicsBody?.collisionBitMask = Piece.BITMASK_TRANS()
+            piece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
             //print("find a canon\n")
             //print("\(piece.physicsBody?.categoryBitMask)\n")
             //print("\(piece.physicsBody?.collisionBitMask)\n")

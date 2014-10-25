@@ -50,13 +50,13 @@ class CollisionController {
             var node1 : Piece
             var node2 : Piece
             
-            if(contact.bodyA.categoryBitMask == 0x00) {
+            if(contact.bodyA.categoryBitMask == Piece.BITMASK_TRANS()) {
                 var canon = contact.bodyA.node as PieceCanon
                 var transPiece = contact.bodyB.node as Piece
                 canon.physicsBody?.categoryBitMask = canon.player.bitMask
                 canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-                transPiece.physicsBody?.categoryBitMask = 0x00;
-                transPiece.physicsBody?.collisionBitMask = 0x00;
+                transPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS();
+                transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_TRANS();
                 
                 let waitTime : NSTimeInterval = 0.1;
                 let wait = SKAction.waitForDuration(waitTime)
@@ -68,13 +68,13 @@ class CollisionController {
                 scene.runAction(sequence)
                 
                 return
-            } else if (contact.bodyB.categoryBitMask == 0x00) {
+            } else if (contact.bodyB.categoryBitMask == Piece.BITMASK_TRANS()) {
                 var canon = contact.bodyB.node as PieceCanon
                 var transPiece = contact.bodyA.node as Piece
                 canon.physicsBody?.categoryBitMask = canon.player.bitMask
                 canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-                transPiece.physicsBody?.categoryBitMask = 0x00;
-                transPiece.physicsBody?.collisionBitMask = 0x00;
+                transPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS();
+                transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_TRANS();
                 
                 let waitTime : NSTimeInterval = 0.1;
                 let wait = SKAction.waitForDuration(waitTime)
@@ -115,7 +115,7 @@ class CollisionController {
             var node1 : Piece
             var node2 : Piece
             
-            if(contact.bodyA.categoryBitMask == 0x00) {
+            if(contact.bodyA.categoryBitMask == Piece.BITMASK_TRANS()) {
                 
                 var node = contact.bodyA.node as PieceCanon
                 print("here at A:\(node.player.bitMask)\n")
@@ -125,7 +125,7 @@ class CollisionController {
                 print("here at A:\(node.physicsBody?.collisionBitMask)\n")
                 print("here at A:\(node.physicsBody?.categoryBitMask)\n")
                 return
-            } else if (contact.bodyB.categoryBitMask == 0x00) {
+            } else if (contact.bodyB.categoryBitMask == Piece.BITMASK_TRANS()) {
                 
                 var node = contact.bodyB.node as PieceCanon
                 print("here at B:\(node.player.bitMask)\n")
