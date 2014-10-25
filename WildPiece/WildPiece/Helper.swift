@@ -21,3 +21,24 @@ extension CGVector {
         return CGVectorMake(unit.dx * scaleFactor, unit.dy * scaleFactor)
     }
 }
+
+extension UIImage {
+    func imageWithOverlayColor(color : UIColor) -> UIImage {
+        var rect : CGRect = CGRectMake(0.0, 0.0, self.size.width, self.size.height)
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        
+        self.drawInRect(rect)
+        
+        var context : CGContextRef = UIGraphicsGetCurrentContext()
+        CGContextSetBlendMode(context, kCGBlendModeSourceIn);
+        
+        CGContextSetFillColorWithColor(context, color.CGColor);
+        CGContextFillRect(context, rect);
+        
+        var image : UIImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext()
+        
+        return image;
+    }
+}
