@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 class Arrow: SKShapeNode {
-    let color: UInt = 0x00FFFF
+    let color: UInt = 0xFFFFFF
     let opacity: CGFloat = 1.0
     let tailWidth: CGFloat = 4
     let headWidth: CGFloat = 8
@@ -26,6 +26,7 @@ class Arrow: SKShapeNode {
         self.lineWidth = 2.0
         self.zPosition = 2
         self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)
+        self.fillColor = UIColor.UIColorFromRGB(color, alpha: opacity)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -74,6 +75,9 @@ class Arrow: SKShapeNode {
         var transform: CGAffineTransform = self.transformForStartPoint(startPt, endPoint: endPt, length:  CGFloat(length))
         
         var cgPath: CGMutablePathRef = CGPathCreateMutable()
+        
+        
+
         CGPathAddLines(cgPath, &transform, points, 7)
         //CGPathCloseSubpath(cgPath)
 

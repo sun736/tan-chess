@@ -13,7 +13,7 @@ class Ring: SKShapeNode {
     
     let delta :CGFloat = 6
     let opacity :CGFloat = 1
-    let color: UInt = 0x00FFFF
+    let color: UInt = 0xFFFFFF
     var radius: CGFloat = 0
     
     init(_ location: CGPoint, _ radius: CGFloat) {
@@ -24,7 +24,7 @@ class Ring: SKShapeNode {
         CGPathCloseSubpath(path)
         
         self.path = path
-        self.lineWidth = 2.0
+        self.lineWidth = 5.0
         self.strokeColor = UIColor.UIColorFromRGB(color, alpha: opacity)
         self.position = location
         self.zPosition = 2

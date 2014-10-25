@@ -204,6 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         background.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         background.zPosition = -10.0
         scene?.addChild(background)
+               
         /*SKTexture *backgroundTexture = [SKTexture textureWithImageNamed:@"MyImage.png"];
         SKSpriteNode *background = [SKSpriteNode spriteNodeWithTexture:backgroundTexture size:self.view.frame.size];
         background.position = (CGPoint) {CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame)};
