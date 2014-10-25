@@ -20,6 +20,8 @@ class CollisionController {
         
         if contacter.pieceType != PieceType.King {
             contactee.deduceHealth()
+        } else if contacter.pieceType == PieceType.King && contactee.pieceType == PieceType.King {
+            contactee.deduceHealthToDeath()
         }
         contactee.drawHPRing()
         if contacter.healthPoint == 0 {

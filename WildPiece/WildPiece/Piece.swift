@@ -141,6 +141,10 @@ class Piece: SKSpriteNode {
         }
     }
     
+    func deduceHealthToDeath() {
+        self.healthPoint = self.healthPoint - self.healthPoint
+    }
+    
     func fadeOut() {
         let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
         let fadeAction = SKAction.fadeOutWithDuration(fadeOutFadeTime)
