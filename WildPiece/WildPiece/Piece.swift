@@ -97,7 +97,7 @@ class Piece: SKSpriteNode {
         
         setCollisionBitMask(player.bitMask)
         
-        //drawHPRing()
+        drawHPRing()
     }
 
     func updateParameter() {
@@ -178,10 +178,12 @@ class Piece: SKSpriteNode {
     }
     
     func drawHPRing() {
-        self.removeHPRing()
-        self.hpring = HPRing(location: CGPointMake(0, 0), radius: getRadius(), hp: CGFloat(self.healthPoint), maxHp: CGFloat(self.maxHealthPoint), color: self.color)
-        if let hpring = self.hpring {
-            self.addChild(hpring)
+        if(self.pieceType == PieceType.King) {
+            self.removeHPRing()
+            self.hpring = HPRing(location: CGPointMake(0, 0), radius: getRadius(), hp: CGFloat(self.healthPoint), maxHp: CGFloat(self.maxHealthPoint),  color: self.color)
+            if let hpring = self.hpring {
+                self.addChild(hpring)
+            }
         }
     }
     
