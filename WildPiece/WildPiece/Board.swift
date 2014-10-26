@@ -65,8 +65,8 @@ class Board : SKShapeNode {
         let physicalPath :CGPath = self.createPhysicalPath()
         var body = SKPhysicsBody(edgeChainFromPath : physicalPath)
         body.dynamic = false
-        body.categoryBitMask = 0x04
-        body.collisionBitMask = 0x04
+//        body.categoryBitMask = 0x04
+//        body.collisionBitMask = 0x04
         
         self.physicsBody = body
     }
