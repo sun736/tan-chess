@@ -200,12 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     // MARK: Set Up Board
     func addBoard() {
         
-        let background = SKSpriteNode(imageNamed: "board")
-        background.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        background.zPosition = -10.0
-        scene?.addChild(background)
-        
-        let board = Board(width: self.frame.width, height: self.frame.height)
+        let board = Board(width: self.frame.width, height: self.frame.height, background: "board")
         self.board = board
         self.addChild(board)
         
