@@ -15,21 +15,26 @@ class Board : SKShapeNode {
     let height : CGFloat
     let marginX: CGFloat = 0
     let marginY: CGFloat = 40
+    let background : String?
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(width : CGFloat, height : CGFloat){
+    init(width : CGFloat, height : CGFloat, background : String?){
         self.width = width
         self.height = height
+        self.background = background
         super.init()
-        self.path = self.createVisiblePath()
-        self.physicsBody = self.createPhysicsBody()
-        self.strokeColor = UIColor.whiteColor()
+        self.configureVisibleBorder()
+        self.configurePhysicsBody()
+        self.configureBackground()
     }
     
-    func createVisiblePath() -> CGPath {
+    func configureVisibleBorder() {
+        self.strokeColor = UIColor.whiteColor()
+        self.lineWidth = 2
+        
         var pathToDraw : CGMutablePathRef = CGPathCreateMutable()
         // border
         CGPathMoveToPoint(pathToDraw, nil, marginX, marginY);
@@ -41,7 +46,8 @@ class Board : SKShapeNode {
         // center line
         CGPathMoveToPoint(pathToDraw, nil, 0, self.height);
         CGPathAddLineToPoint(pathToDraw, nil, self.width, self.height);
-        return pathToDraw
+        
+        self.path = pathToDraw
     }
     
     func createPhysicalPath() -> CGPath {
@@ -55,12 +61,23 @@ class Board : SKShapeNode {
         return pathToDraw
     }
     
-    func createPhysicsBody() -> SKPhysicsBody {
+    func configurePhysicsBody() {
         let physicalPath :CGPath = self.createPhysicalPath()
         var body = SKPhysicsBody(edgeChainFromPath : physicalPath)
         body.dynamic = false
+//        body.categoryBitMask = 0x04
+//        body.collisionBitMask = 0x04
         
-        return body
+        self.physicsBody = body
+    }
+    
+    func configureBackground(){
+        if let background = self.background {
+            let backgroundNode = SKSpriteNode(imageNamed: background)
+            backgroundNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+            backgroundNode.zPosition = -10.0
+            self.addChild(backgroundNode)
+        }
     }
     
     func setColor(color : UIColor) {

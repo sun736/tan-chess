@@ -130,7 +130,7 @@ class Piece: SKSpriteNode {
     }
     
     class func BITMASK_TRANS() -> UInt32 {
-        return 0x00
+        return 0x04
     }
     
     func deduceHealth() {

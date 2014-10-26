@@ -11,28 +11,32 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
+    
     override func didMoveToView(view: SKView) {
 
-        var bgImage = SKSpriteNode(imageNamed: "background.jpg")
-        bgImage.position = CGPointMake(self.size.width/2, self.size.height/2)
-        self.addChild(bgImage)
+        var bgImageTop = SKSpriteNode(imageNamed: "background")
+        bgImageTop.position = CGPointMake(self.size.width/2, (self.size.height/2))
+        self.addChild(bgImageTop)
         
-        let gamtTitle = SKLabelNode(fontNamed:"Chalkduster")
-        gamtTitle.text = "Tan Chess";
-        gamtTitle.color = UIColor.blackColor()
-        gamtTitle.fontSize = 30;
-        gamtTitle.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.6);
-        self.addChild(gamtTitle)
+        /*var bgImageBottom = SKSpriteNode(imageNamed: "menuBottom")
+        bgImageBottom.position = CGPointMake(self.size.width/2, (self.size.height/2)*0.5)
+        self.addChild(bgImageBottom)*/
         
         let startButton = SKSpriteNode(imageNamed: "start")
         startButton.name = "startButton"
-        startButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.3);
+        startButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
         self.addChild(startButton)
+        
+        let onlineButton = SKSpriteNode(imageNamed: "online")
+        onlineButton.name = "onlineButton"
+        onlineButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
+        self.addChild(onlineButton)
+
         
         let helpButton = SKSpriteNode(imageNamed: "help")
         helpButton.name = "helpButton"
         helpButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
-        self.addChild(helpButton)
+        //self.addChild(helpButton)
 
         /*var piece = Piece.newPiece(PieceType.King, player: PLAYER1);
         piece.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
@@ -55,14 +59,18 @@ class MenuScene: SKScene {
         if touchedNode.name == "startButton"
         {
             println("start")
+            
             // when start the game, init a new game scene
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+           let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             appDelegate.gameScene = GameScene()
             var gameScene = appDelegate.gameScene
             gameScene?.size = self.size
             gameScene?.scaleMode = SKSceneScaleMode.AspectFill
+
+            
             let transition = SKTransition.crossFadeWithDuration(0.3)
             self.scene?.view?.presentScene(gameScene, transition: transition)
+            
         }else if touchedNode.name == "helpButton"
         {
             println("show help menu")
@@ -71,8 +79,6 @@ class MenuScene: SKScene {
             helpScene.scaleMode = SKSceneScaleMode.AspectFill
             self.scene?.view?.presentScene(helpScene, transition: transition)
         }
-        
     }
-
-
+    
 }
