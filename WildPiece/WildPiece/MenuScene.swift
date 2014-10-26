@@ -66,9 +66,26 @@ class MenuScene: SKScene {
             var gameScene = appDelegate.gameScene
             gameScene?.size = self.size
             gameScene?.scaleMode = SKSceneScaleMode.AspectFill
-
+            let transition = SKTransition.crossFadeWithDuration(0.01)
+            //self.scene?.view?.presentScene(gameScene, transition: transition)
             
-            let transition = SKTransition.crossFadeWithDuration(0.3)
+            //Get the snapshot of the screen
+            var size : CGSize! = self.view?.frame.size
+            var bounds : CGRect! = self.view?.bounds
+            UIGraphicsBeginImageContext(size)
+            self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+            var snapshot = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
+            var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
+            
+            var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
+            var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
+            
+            
+            gameScene?.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
+            
             self.scene?.view?.presentScene(gameScene, transition: transition)
             
         }else if touchedNode.name == "helpButton"

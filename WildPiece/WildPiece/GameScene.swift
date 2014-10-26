@@ -16,6 +16,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     var moveableSet = Array<Piece>()
     var lastMove : (piece : Piece?, step : Int) = (nil, 0)
     var board: Board?
+    var top : SKSpriteNode?
+    var bottom :SKSpriteNode?
+    
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -30,10 +33,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     override func didMoveToView(view: SKView) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyParameters", name: "kShouldApplyParameters", object: nil)
         if(!Logic.sharedInstance.isStarted){
+            top?.runAction(SKAction.moveToY(CGFloat(850), duration: 0.5))
+            bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.5))
             self.startGame()
         }
     }
 
+    /*func startAnimation(top: UIImage)
+    {
+        let top = SKSpriteNode(texture: SKTexture(image: top))
+        top.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
+        self.addChild(top)
+        top.runAction(SKAction.moveToY(CGFloat(500), duration: 0.4))
+    }*/
+    
+    func setTopAndBottomImage(top: UIImage, bottom: UIImage)
+    {
+        self.top = SKSpriteNode(texture: SKTexture(image: top))
+        self.top?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
+        self.top?.zPosition = 10.0
+        self.addChild(self.top!)
+        
+        self.bottom = SKSpriteNode(texture: SKTexture(image: bottom))
+        self.bottom?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.5);
+        self.bottom?.zPosition = 10.0
+        self.addChild(self.bottom!)
+    }
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         for piece in self.pieces {
