@@ -18,7 +18,7 @@ let PLAYER1 = Player(id : 1), PLAYER2 = Player(id : 2)
 let PLAYER_NULL = Player(id : 0)
 
 // player colors
-private let colors = [UIColor.yellowColor(), UIColor.blueColor(), UIColor.redColor()]
+private let colors = [UIColor.yellowColor(), UIColor.UIColorFromRGB(0x0096ff, alpha: 1), UIColor.UIColorFromRGB(0xff5f5f, alpha: 1)]
 
 class Player : Printable {
     
