@@ -35,47 +35,47 @@ class Board : SKShapeNode {
         self.strokeColor = UIColor.whiteColor()
         self.lineWidth = 2
         
-        var pathToDraw : CGMutablePathRef = CGPathCreateMutable()
+        var path : CGMutablePathRef = CGPathCreateMutable()
         // border
-        CGPathMoveToPoint(pathToDraw, nil, marginX, marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, marginX, height-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, width-marginX, height-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, width-marginX, marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, marginX, marginY);
-        
+        CGPathMoveToPoint(path, nil, marginX, marginY)
+        CGPathAddLineToPoint(path, nil, marginX, height-marginY)
+        CGPathAddLineToPoint(path, nil, width-marginX, height-marginY)
+        CGPathAddLineToPoint(path, nil, width-marginX, marginY)
+        CGPathAddLineToPoint(path, nil, marginX, marginY)
+
         // center line
-        CGPathMoveToPoint(pathToDraw, nil, 0, self.height);
-        CGPathAddLineToPoint(pathToDraw, nil, self.width, self.height);
+        CGPathMoveToPoint(path, nil, 0, height / 2)
+        CGPathAddLineToPoint(path, nil, width, height / 2)
         
-        self.path = pathToDraw
+        self.path = path
     }
     
-    func createPhysicalPath() -> CGPath {
-        var pathToDraw : CGMutablePathRef = CGPathCreateMutable()
-        // border
-        CGPathMoveToPoint(pathToDraw, nil, marginX, marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, marginX, height-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, width-marginX, height-marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, width-marginX, marginY);
-        CGPathAddLineToPoint(pathToDraw, nil, marginX, marginY);
-        return pathToDraw
+    func createBorderPath( x : CGFloat) -> CGPath {
+        var path : CGMutablePathRef = CGPathCreateMutable()
+        // one side border
+        CGPathMoveToPoint(path, nil, x, marginY)
+        CGPathAddLineToPoint(path, nil, x, height-marginY)
+        
+        return path
     }
     
     func configurePhysicsBody() {
-        let physicalPath :CGPath = self.createPhysicalPath()
-        var body = SKPhysicsBody(edgeChainFromPath : physicalPath)
-        body.dynamic = false
-//        body.categoryBitMask = 0x04
-//        body.collisionBitMask = 0x04
+        let borderLeft :CGPath = self.createBorderPath(marginX)
+        let borderRight :CGPath = self.createBorderPath(width-marginX)
+        var bodyLeft = SKPhysicsBody(edgeChainFromPath : borderLeft)
+        var bodyRight = SKPhysicsBody(edgeChainFromPath : borderRight)
         
+        var body = SKPhysicsBody(bodies : [bodyLeft, bodyRight])
+        body.dynamic = false
         self.physicsBody = body
     }
     
     func configureBackground(){
         if let background = self.background {
             let backgroundNode = SKSpriteNode(imageNamed: background)
-            backgroundNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-            backgroundNode.zPosition = -10.0
+            println(self.frame)
+            backgroundNode.position = CGPoint(x : width / 2, y : height / 2)
+            backgroundNode.zPosition = -5.0
             self.addChild(backgroundNode)
         }
     }
