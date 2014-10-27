@@ -47,6 +47,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         /* Called before each frame is rendered */
         for piece in self.pieces {
             if Rule.pieceIsOut(self, piece: piece) {
+                println("fadeOut at GameScene")
                 piece.fadeOut()
             }
         }
