@@ -43,38 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
     }
 
-    func handlePinch(recognizer: UIPinchGestureRecognizer) {
-        //println("pinch")
-        if recognizer.state == UIGestureRecognizerState.Ended{
-            println("menuButton")
-            self.pauseGame()
-            var pauseScene = PauseScene(size: self.size)
-            pauseScene.scaleMode = SKSceneScaleMode.AspectFill
-            
-            //Get the snapshot of the screen
-            var size : CGSize! = self.view?.frame.size
-            var bounds : CGRect! = self.view?.bounds
-            if size != nil{
-                UIGraphicsBeginImageContext(size)
-                self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
-                var snapshot = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                
-                
-                //cut the snapshot with top and bottom half
-                var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
-                var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
-                
-                var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
-                var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
-                
-                pauseScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
-            
-                self.scene?.view?.presentScene(pauseScene)
-            }
-        }
-    }
-    /*func startAnimation(top: UIImage)
+        /*func startAnimation(top: UIImage)
     {
         let top = SKSpriteNode(texture: SKTexture(image: top))
         top.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
@@ -197,6 +166,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         possibleTouchNode = nil
     }
     
+    
+    //MARK: Pinch Gesture
+    func handlePinch(recognizer: UIPinchGestureRecognizer) {
+        //println("pinch")
+        if recognizer.state == UIGestureRecognizerState.Ended{
+            println("menuButton")
+           
+            
+            //Get the snapshot of the screen
+            var size : CGSize! = self.view?.frame.size
+            var bounds : CGRect! = self.view?.bounds
+            if size != nil{
+                self.pauseGame()
+                var pauseScene = PauseScene(size: self.size)
+                pauseScene.scaleMode = SKSceneScaleMode.AspectFill
+                UIGraphicsBeginImageContext(size)
+                self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+                var snapshot = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                
+                //cut the snapshot with top and bottom half
+                var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
+                var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
+                
+                var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
+                var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
+                
+                pauseScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
+                
+                self.scene?.view?.presentScene(pauseScene)
+            }
+        }
+    }
+
 
 
     // MARK: State Changes
