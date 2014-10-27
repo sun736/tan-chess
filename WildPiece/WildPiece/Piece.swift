@@ -90,6 +90,7 @@ class Piece: SKSpriteNode {
         self.physicsBody?.linearDamping = linearDamping
         self.physicsBody?.angularDamping = angularDamping
         self.physicsBody?.mass = mass
+        self.physicsBody?.allowsRotation = false
         self.name = "piece"
         self.color = player.color
         
