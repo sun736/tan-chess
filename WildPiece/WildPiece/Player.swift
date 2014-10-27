@@ -19,6 +19,7 @@ let PLAYER_NULL = Player(id : 0)
 
 // player colors
 private let colors = [UIColor.yellowColor(), UIColor.UIColorFromRGB(0x0096ff, alpha: 1), UIColor.UIColorFromRGB(0xff5f5f, alpha: 1)]
+private let themeColors = [UIColor.yellowColor(), UIColor.UIColorFromRGB(0xb5e1ff, alpha: 1), UIColor.UIColorFromRGB(0xffd9d9, alpha: 1)]
 
 class Player : Printable {
     
@@ -28,6 +29,12 @@ class Player : Printable {
     var color : UIColor {
         get {
             return colors[id % 3]
+        }
+    }
+    
+    var themeColor : UIColor {
+        get {
+            return themeColors[id % 3]
         }
     }
     
