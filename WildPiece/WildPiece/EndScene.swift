@@ -12,20 +12,22 @@ import SpriteKit
 class EndScene: SKScene {
     override func didMoveToView(view: SKView) {
         
+        self.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+        
         let gamtTitle = SKLabelNode(fontNamed:"Chalkduster")
         gamtTitle.text = "Game Over"
         gamtTitle.fontSize = 25
         gamtTitle.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.7)
-        self.addChild(gamtTitle)
+        //self.addChild(gamtTitle)
         
-        let restartButton = SKSpriteNode(imageNamed: "restart")
+        let restartButton = SKSpriteNode(imageNamed: "restartButton")
         restartButton.name = "restartButton"
         restartButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
         self.addChild(restartButton)
         
-        let backButton = SKSpriteNode(imageNamed: "backToMenu")
+        let backButton = SKSpriteNode(imageNamed: "menu")
         backButton.name = "backButton"
-        backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.7);
+        backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
         self.addChild(backButton)
         
         

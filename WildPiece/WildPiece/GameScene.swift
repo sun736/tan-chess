@@ -410,14 +410,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // update UI here
     func gameDidEnd(player : Player) {
         var endScene = EndScene(size: self.size)
-        let winner = SKLabelNode(fontNamed:"Chalkduster")
+        let winner = SKLabelNode(fontNamed:"Verdana")
         if(player.id == 1){
-            winner.text = "Blue wins!"
+            winner.text = "Blue Wins!"
         }else{
-            winner.text = "Red wins!"
+            winner.text = "Red Wins!"
         }
-        winner.fontSize = 25
-        winner.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5)
+        winner.fontSize = 35
+        winner.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.6)
         endScene.addChild(winner)
         let transition = SKTransition.crossFadeWithDuration(0.3)
         endScene.scaleMode = SKSceneScaleMode.AspectFill
