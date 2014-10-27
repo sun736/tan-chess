@@ -66,7 +66,6 @@ class MenuScene: SKScene {
             var gameScene = appDelegate.gameScene
             gameScene?.size = self.size
             gameScene?.scaleMode = SKSceneScaleMode.AspectFill
-            let transition = SKTransition.crossFadeWithDuration(0.01)
             //self.scene?.view?.presentScene(gameScene, transition: transition)
             
             //Get the snapshot of the screen
@@ -77,6 +76,7 @@ class MenuScene: SKScene {
             var snapshot = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             
+            //cut the snapshot with top and bottom half
             var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
             var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
             
@@ -86,7 +86,8 @@ class MenuScene: SKScene {
             
             gameScene?.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
             
-            self.scene?.view?.presentScene(gameScene, transition: transition)
+            //present the game scene
+            self.scene?.view?.presentScene(gameScene)
             
         }else if touchedNode.name == "helpButton"
         {
@@ -97,5 +98,7 @@ class MenuScene: SKScene {
             self.scene?.view?.presentScene(helpScene, transition: transition)
         }
     }
+    
+    
     
 }

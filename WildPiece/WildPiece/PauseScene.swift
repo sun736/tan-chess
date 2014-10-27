@@ -10,23 +10,31 @@ import UIKit
 import SpriteKit
 
 class PauseScene: SKScene {
+    
+    var top : SKSpriteNode?
+    var bottom : SKSpriteNode?
+    
     override func didMoveToView(view: SKView) {
         
-        let resumeButton = SKSpriteNode(imageNamed: "resume")
+        self.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+        
+        let resumeButton = SKSpriteNode(imageNamed: "resumeButton")
         resumeButton.name = "resumeButton"
-        resumeButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.3);
+        resumeButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
         self.addChild(resumeButton)
         
-        let restartButton = SKSpriteNode(imageNamed: "restart")
+        let restartButton = SKSpriteNode(imageNamed: "restartButton")
         restartButton.name = "restartButton"
         restartButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.0);
         self.addChild(restartButton)
         
-        let backButton = SKSpriteNode(imageNamed: "backToMenu")
+        let backButton = SKSpriteNode(imageNamed: "menu")
         backButton.name = "backButton"
-        backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.7);
+        backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
         self.addChild(backButton)
 
+        top?.runAction(SKAction.moveToY(CGFloat(600), duration: 0.2))
+        bottom?.runAction(SKAction.moveToY(CGFloat(70), duration: 0.2))
 
     }
     
@@ -61,12 +69,31 @@ class PauseScene: SKScene {
             //if resume the game, change to the old game scene in appdelegate
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var gameScene = appDelegate.gameScene
-            gameScene?.unpauseGame()
-            let transition = SKTransition.crossFadeWithDuration(0.3)
-            self.scene?.view?.presentScene(gameScene, transition: transition)
+           
+            
+            
+            top?.runAction(SKAction.moveToY(CGFloat(CGRectGetMidY(self.frame)*1.5), duration: 0.2))
+            bottom?.runAction(SKAction.moveToY(CGFloat(CGRectGetMidY(self.frame)*0.5), duration: 0.2), completion: { gameScene?.unpauseGame()
+                self.scene?.view?.presentScene(gameScene)})
+            //bottom?.runAction(SKAction.moveToY(CGFloat(CGRectGetMidY(self.frame)*0.5), duration: 0.2))
+            
+           
             
         }
         
+    }
+    
+    func setTopAndBottomImage(top: UIImage, bottom: UIImage)
+    {
+        self.top = SKSpriteNode(texture: SKTexture(image: top))
+        self.top?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
+        self.top?.zPosition = 10.0
+        self.addChild(self.top!)
+        
+        self.bottom = SKSpriteNode(texture: SKTexture(image: bottom))
+        self.bottom?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.5);
+        self.bottom?.zPosition = 10.0
+        self.addChild(self.bottom!)
     }
 
 }
