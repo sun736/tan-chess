@@ -58,7 +58,7 @@ class Logic {
     
     private var state: GameState {
         didSet {
-            println("state: \(state)")
+            //println("state: \(state)")
         }
     }
     

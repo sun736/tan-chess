@@ -79,7 +79,7 @@ class Rule {
     
     class func pieceIsOut(scene : GameScene, piece : Piece) -> Bool {
         //println("x:\(piece.position.x), y:\(piece.position.y)")
-        let marginX: CGFloat = 20;
+        let marginX: CGFloat = 0;
         let marginY: CGFloat = 40;
         if piece.position.x < marginX || piece.position.x > scene.frame.width - marginX {
             return true

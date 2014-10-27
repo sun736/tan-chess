@@ -14,6 +14,8 @@ class CollisionController {
     
     class func didTwoBallCollision(#scene: GameScene, contacter: Piece, contactee: Piece) {
         // only one deduction collision is allowed
+        println(contacter)
+        println(contactee)
         for piece in scene.piecesOfPlayer(contacter.player) {
             piece.isContacter = false;
         }
@@ -55,7 +57,7 @@ class CollisionController {
             if(contact.bodyA.categoryBitMask == Piece.BITMASK_TRANS()) {
                 //println(contact.bodyA.node)
                 //println(contact.bodyB.node)
-                if (contact.bodyA.node is PieceCanon) {
+                if (contact.bodyA.node is PieceCanon && !(contact.bodyB.node is Board)) {
                     var canon = contact.bodyA.node as PieceCanon
                     canon.physicsBody?.categoryBitMask = canon.player.bitMask
                     canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
@@ -78,7 +80,7 @@ class CollisionController {
                 //println(contact.bodyB.node)
                 //println(contact.bodyA.node)
                 
-                if (contact.bodyB.node is PieceCanon) {
+                if (contact.bodyB.node is PieceCanon && !(contact.bodyA.node is Board)) {
                     var canon = contact.bodyB.node as PieceCanon
                     canon.physicsBody?.categoryBitMask = canon.player.bitMask
                     canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
