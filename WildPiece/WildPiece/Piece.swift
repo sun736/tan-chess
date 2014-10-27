@@ -114,7 +114,7 @@ class Piece: SKSpriteNode {
         self.physicsBody?.categoryBitMask = collisionBitMask
         self.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
         self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-        self.physicsBody?.usesPreciseCollisionDetection = true
+        //self.physicsBody?.usesPreciseCollisionDetection = true
     }
     
     func getRadius() -> CGFloat{
