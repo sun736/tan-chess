@@ -54,23 +54,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             //Get the snapshot of the screen
             var size : CGSize! = self.view?.frame.size
             var bounds : CGRect! = self.view?.bounds
-            UIGraphicsBeginImageContext(size)
-            self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
-            var snapshot = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
+            if size != nil{
+                UIGraphicsBeginImageContext(size)
+                self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+                var snapshot = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                
+                
+                //cut the snapshot with top and bottom half
+                var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
+                var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
+                
+                var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
+                var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
+                
+                pauseScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
             
-            
-            
-            //cut the snapshot with top and bottom half
-            var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
-            var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
-            
-            var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
-            var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
-            
-            pauseScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
-            
-            self.scene?.view?.presentScene(pauseScene)
+                self.scene?.view?.presentScene(pauseScene)
+            }
         }
     }
     /*func startAnimation(top: UIImage)
