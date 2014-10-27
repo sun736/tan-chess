@@ -237,7 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: Set Up Board
     func addBoard() {
         
-        let board = Board(width: self.frame.width, length: self.frame.height, marginX : 0, marginY : 40.0)
+        let board = Board(width: self.frame.width, length: self.frame.height, marginY : 40.0)
         self.board = board
         self.addChild(board)
         

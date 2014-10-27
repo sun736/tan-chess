@@ -16,17 +16,16 @@ class Board : SKNode {
     private let background : SKShapeNode
     private let backgroundUp : SKShapeNode
     private let backgroundDown : SKShapeNode
-    private let marginX : CGFloat
+    private let marginX : CGFloat = 0
     private let marginY : CGFloat
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(width : CGFloat, length : CGFloat, marginX : CGFloat, marginY : CGFloat){
+    init(width : CGFloat, length : CGFloat, marginY : CGFloat){
         self.width = width
         self.length = length
-        self.marginX = marginX
         self.marginY = marginY
         self.backgroundUp = Board.createRect(width - marginX * 2, length: CGFloat(ceilf(Float(length/2 - marginY))) )
         self.backgroundDown = Board.createRect(width - marginX * 2, length : CGFloat(ceilf(Float(length/2 - marginY))) )
@@ -84,6 +83,12 @@ class Board : SKNode {
 //        self.strokeColor = color
     }
     
+    func isOut(position : CGPoint) -> Bool {
+        if position.y < marginY || position.y > length - marginY {
+            return true
+        }
+        return false
+    }
     
     
 }
