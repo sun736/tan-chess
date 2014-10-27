@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
     
     var possibleBeginPt: CGPoint?
     var possibleEndPt: CGPoint?
@@ -33,12 +33,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
     override func didMoveToView(view: SKView) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applyParameters", name: "kShouldApplyParameters", object: nil)
         if(!Logic.sharedInstance.isStarted){
+            
+            let pinchGesture = UIPinchGestureRecognizer(target: self, action: Selector("handlePinch:"))
+            pinchGesture.delegate = self
+            self.view?.addGestureRecognizer(pinchGesture)
             top?.runAction(SKAction.moveToY(CGFloat(850), duration: 0.5))
             bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.5))
             self.startGame()
         }
     }
 
+    func handlePinch(recognizer: UIPinchGestureRecognizer) {
+        //println("pinch")
+        if recognizer.state == UIGestureRecognizerState.Ended{
+            println("menuButton")
+            self.pauseGame()
+            var pauseScene = PauseScene(size: self.size)
+            pauseScene.scaleMode = SKSceneScaleMode.AspectFill
+            
+            //Get the snapshot of the screen
+            var size : CGSize! = self.view?.frame.size
+            var bounds : CGRect! = self.view?.bounds
+            UIGraphicsBeginImageContext(size)
+            self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+            var snapshot = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            
+            
+            //cut the snapshot with top and bottom half
+            var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
+            var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
+            
+            var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
+            var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
+            
+            pauseScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
+            
+            self.scene?.view?.presentScene(pauseScene)
+        }
+    }
     /*func startAnimation(top: UIImage)
     {
         let top = SKSpriteNode(texture: SKTexture(image: top))
@@ -88,34 +122,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
                             break
                         }
                     }
-                } else if node.name == "menuButton" {
-                    
-                    println("menuButton")
-                    self.pauseGame()
-                    var pauseScene = PauseScene(size: self.size)
-                    pauseScene.scaleMode = SKSceneScaleMode.AspectFill
-                    
-                    //Get the snapshot of the screen
-                    var size : CGSize! = self.view?.frame.size
-                    var bounds : CGRect! = self.view?.bounds
-                    UIGraphicsBeginImageContext(size)
-                    self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
-                    var snapshot = UIGraphicsGetImageFromCurrentImageContext()
-                    UIGraphicsEndImageContext()
-                    
-                   
-                    
-                    //cut the snapshot with top and bottom half
-                    var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
-                    var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
-                    
-                    var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
-                    var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
-                    
-                    pauseScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
-                    
-                    self.scene?.view?.presentScene(pauseScene)
-                    break
                 }
             }
             break
@@ -189,11 +195,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         possibleEndPt = nil
         possibleTouchNode = nil
     }
+    
+
 
     // MARK: State Changes
     func startGame() {
         addBoard()
-        addButtons()
+        //addButtons()
         Rule.placePieces(self)
         Logic.sharedInstance.start(self)
         updateMoveableSet()
@@ -249,7 +257,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, LogicDelegate {
         let menuButton = SKSpriteNode(imageNamed: "pause")
         menuButton.name = "menuButton"
         menuButton.position = CGPoint(x:CGRectGetMidX(self.frame)*1.8, y:CGRectGetMidY(self.frame)*1.94);
-        self.addChild(menuButton)
+        //self.addChild(menuButton)
     }
     
     func setTopAndBottomImage(top: UIImage, bottom: UIImage)

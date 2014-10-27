@@ -64,9 +64,8 @@ class PauseScene: SKScene {
             gameScene?.restartGame()
             let transition = SKTransition.crossFadeWithDuration(0.3)
             self.scene?.view?.presentScene(gameScene, transition: transition)
-        }else if touchedNode.name == "resumeButton"
-        {
-            //if resume the game, change to the old game scene in appdelegate
+        }else
+        {   //if resume the game, change to the old game scene in appdelegate
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var gameScene = appDelegate.gameScene
            
@@ -76,9 +75,6 @@ class PauseScene: SKScene {
             bottom?.runAction(SKAction.moveToY(CGFloat(CGRectGetMidY(self.frame)*0.5), duration: 0.2), completion: { gameScene?.unpauseGame()
                 self.scene?.view?.presentScene(gameScene)})
             //bottom?.runAction(SKAction.moveToY(CGFloat(CGRectGetMidY(self.frame)*0.5), duration: 0.2))
-            
-           
-            
         }
         
     }
