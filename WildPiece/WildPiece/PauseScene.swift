@@ -82,11 +82,13 @@ class PauseScene: SKScene {
     func setTopAndBottomImage(top: UIImage, bottom: UIImage)
     {
         self.top = SKSpriteNode(texture: SKTexture(image: top))
+        self.top?.size = CGSizeMake(self.frame.size.width, self.frame.size.height/2)
         self.top?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
         self.top?.zPosition = 10.0
         self.addChild(self.top!)
         
         self.bottom = SKSpriteNode(texture: SKTexture(image: bottom))
+        self.bottom?.size = CGSizeMake(self.frame.size.width, self.frame.size.height/2)
         self.bottom?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.5);
         self.bottom?.zPosition = 10.0
         self.addChild(self.bottom!)

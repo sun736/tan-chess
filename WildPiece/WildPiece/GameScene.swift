@@ -42,15 +42,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             self.startGame()
         }
     }
-
-        /*func startAnimation(top: UIImage)
-    {
-        let top = SKSpriteNode(texture: SKTexture(image: top))
-        top.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
-        self.addChild(top)
-        top.runAction(SKAction.moveToY(CGFloat(500), duration: 0.4))
-    }*/
-    
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
@@ -267,11 +258,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func setTopAndBottomImage(top: UIImage, bottom: UIImage)
     {
         self.top = SKSpriteNode(texture: SKTexture(image: top))
+        self.top?.size = CGSizeMake(self.frame.size.width, self.frame.size.height/2)
         self.top?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
         self.top?.zPosition = 10.0
         self.addChild(self.top!)
         
         self.bottom = SKSpriteNode(texture: SKTexture(image: bottom))
+        self.bottom?.size = CGSizeMake(self.frame.size.width, self.frame.size.height/2)
         self.bottom?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.5);
         self.bottom?.zPosition = 10.0
         self.addChild(self.bottom!)
