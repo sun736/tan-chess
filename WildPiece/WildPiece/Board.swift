@@ -28,33 +28,13 @@ class Board : SKNode {
         self.length = length
         self.marginX = marginX
         self.marginY = marginY
-        self.backgroundUp = Board.createRect(width - marginX * 2, length: length/2 - marginY)
-        self.backgroundDown = Board.createRect(width - marginX * 2, length : length/2 - marginY)
+        self.backgroundUp = Board.createRect(width - marginX * 2, length: CGFloat(ceilf(Float(length/2 - marginY))) )
+        self.backgroundDown = Board.createRect(width - marginX * 2, length : CGFloat(ceilf(Float(length/2 - marginY))) )
         self.background = Board.createRect(width, length : length)
         super.init()
-//        self.configureVisibleBorder()
         self.configurePhysicsBody()
         self.configureBackground()
     }
-    
-//    func configureVisibleBorder() {
-//        self.strokeColor = UIColor.whiteColor()
-//        self.lineWidth = 2
-//        
-//        var path : CGMutablePathRef = CGPathCreateMutable()
-//        // border
-//        CGPathMoveToPoint(path, nil, marginX, marginY)
-//        CGPathAddLineToPoint(path, nil, marginX, length-marginY)
-//        CGPathAddLineToPoint(path, nil, width-marginX, length-marginY)
-//        CGPathAddLineToPoint(path, nil, width-marginX, marginY)
-//        CGPathAddLineToPoint(path, nil, marginX, marginY)
-//
-//        // center line
-//        CGPathMoveToPoint(path, nil, 0, length / 2)
-//        CGPathAddLineToPoint(path, nil, width, length / 2)
-//        
-//        self.path = path
-//    }
     
     func createBorderPath( x : CGFloat) -> CGPath {
         var path : CGMutablePathRef = CGPathCreateMutable()
@@ -79,21 +59,22 @@ class Board : SKNode {
     class func createRect(width : CGFloat, length : CGFloat) -> SKShapeNode {
         let size : CGSize = CGSizeMake(width, length)
         var rect = SKShapeNode(rectOfSize: size)
+        rect.lineWidth = 0
         return rect
     }
     
-    func configureBackground(){
+    func configureBackground() {
         self.background.position = CGPoint(x : width / 2, y : length / 2)
         self.background.fillColor = UIColor.whiteColor()
         self.background.zPosition = -10.0
         self.addChild(self.background)
         
-        self.backgroundUp.position = CGPoint(x : width / 2, y : length / 2 + (length - 2 * marginY) / 4 )
+        self.backgroundUp.position = CGPoint(x : width / 2, y : CGFloat(ceilf(Float(length / 2 + (length - 2 * marginY) / 4))) )
         self.backgroundUp.fillColor = PLAYER2.themeColor
         self.backgroundUp.zPosition = -9.0
         self.addChild(self.backgroundUp)
         
-        self.backgroundDown.position = CGPoint(x : width / 2, y : length / 2 -  (length - 2 * marginY) / 4)
+        self.backgroundDown.position = CGPoint(x : width / 2, y : CGFloat(ceilf(Float(length / 2 -  (length - 2 * marginY) / 4))) )
         self.backgroundDown.fillColor = PLAYER1.themeColor
         self.backgroundUp.zPosition = -9.0
         self.addChild(self.backgroundDown)
