@@ -12,15 +12,26 @@ import SpriteKit
 class HelpScene: SKScene {
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Game Help";
-        myLabel.fontSize = 25;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.5);
-        self.addChild(myLabel)
         
-        let backButton = SKSpriteNode(imageNamed: "backbutton")
+        self.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+        
+        let tutorialButton = SKLabelNode(fontNamed:"Verdana")
+        tutorialButton.text = "Tutorial";
+        tutorialButton.fontSize = 25;
+        tutorialButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
+        self.addChild(tutorialButton)
+        
+        let settingButton = SKLabelNode(fontNamed: "Verdana")
+        settingButton.text = "Setting"
+        settingButton.fontSize = 25
+        settingButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
+        self.addChild(settingButton)
+        
+        let backButton = SKLabelNode(fontNamed: "Verdana")
         backButton.name = "backButton"
-        backButton.position = CGPoint(x:CGRectGetMidX(self.frame)*0.2, y:CGRectGetMidY(self.frame)*1.7);
+        backButton.text = "Menu"
+        backButton.fontSize = 25
+        backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
         self.addChild(backButton)
     }
     
@@ -35,7 +46,7 @@ class HelpScene: SKScene {
         {
             println("back to menu")
             var menuScene = MenuScene(size: self.size)
-            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Right, duration: 0.3)
+            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 0.3)
             menuScene.scaleMode = SKSceneScaleMode.AspectFill
             self.scene?.view?.presentScene(menuScene, transition: transition)
         }

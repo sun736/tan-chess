@@ -29,7 +29,12 @@ class MenuScene: SKScene {
         self.addChild(onlineButton)
 
        
-      
+        let moreButton = SKLabelNode(fontNamed:"Verdana")
+        moreButton.name = "more"
+        moreButton.text = "more"
+        moreButton.fontSize = 25
+        moreButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.1)
+        self.addChild(moreButton)
 
     }
     
@@ -72,11 +77,11 @@ class MenuScene: SKScene {
             //present the game scene
             self.scene?.view?.presentScene(gameScene)
             
-        }else if touchedNode.name == "helpButton"
+        }else if touchedNode.name == "more"
         {
             println("show help menu")
             var helpScene = HelpScene(size: self.size)
-            let transition = SKTransition.crossFadeWithDuration(0.3)
+            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
             helpScene.scaleMode = SKSceneScaleMode.AspectFill
             self.scene?.view?.presentScene(helpScene, transition: transition)
         }
