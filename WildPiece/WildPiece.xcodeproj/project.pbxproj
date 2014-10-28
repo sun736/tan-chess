@@ -31,6 +31,12 @@
 		91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BE219D5DF2300E59AB4 /* Piece.swift */; };
 		A23D73B019DF6C7F007383DF /* Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23D73AF19DF6C7F007383DF /* Logic.swift */; };
 		A2581D3A19FC5DAC006FAAA4 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2581D3919FC5DAC006FAAA4 /* Board.swift */; };
+		A28CD1CC1A00469E0093D84D /* PieceKing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1CB1A00469E0093D84D /* PieceKing.swift */; };
+		A28CD1CE1A0047110093D84D /* PiecePawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1CD1A0047110093D84D /* PiecePawn.swift */; };
+		A28CD1D01A0047320093D84D /* PieceElephant.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1CF1A0047320093D84D /* PieceElephant.swift */; };
+		A28CD1D21A0047530093D84D /* PieceRock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1D11A0047530093D84D /* PieceRock.swift */; };
+		A28CD1D41A0047800093D84D /* PieceCanon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1D31A0047800093D84D /* PieceCanon.swift */; };
+		A28CD1D61A00479D0093D84D /* PieceKnight.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1D51A00479D0093D84D /* PieceKnight.swift */; };
 		A2A4401819EF82F700EE2151 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4401719EF82F700EE2151 /* Rule.swift */; };
 		A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C8C93C19E0A8FC00C6B166 /* Player.swift */; };
 		A2CB9CCC19F1BF0C00A053E4 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */; };
@@ -76,6 +82,12 @@
 		91101BE219D5DF2300E59AB4 /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
 		A23D73AF19DF6C7F007383DF /* Logic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logic.swift; sourceTree = "<group>"; };
 		A2581D3919FC5DAC006FAAA4 /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		A28CD1CB1A00469E0093D84D /* PieceKing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceKing.swift; sourceTree = "<group>"; };
+		A28CD1CD1A0047110093D84D /* PiecePawn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PiecePawn.swift; sourceTree = "<group>"; };
+		A28CD1CF1A0047320093D84D /* PieceElephant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceElephant.swift; sourceTree = "<group>"; };
+		A28CD1D11A0047530093D84D /* PieceRock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceRock.swift; sourceTree = "<group>"; };
+		A28CD1D31A0047800093D84D /* PieceCanon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceCanon.swift; sourceTree = "<group>"; };
+		A28CD1D51A00479D0093D84D /* PieceKnight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceKnight.swift; sourceTree = "<group>"; };
 		A2A4401719EF82F700EE2151 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		A2C8C93C19E0A8FC00C6B166 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -135,7 +147,7 @@
 				087B614D19DF1B56009694C6 /* HelpScene.swift */,
 				01B62C0219F1D415005F4883 /* EndScene.swift */,
 				081B805C19DFA5AC00B6C135 /* PauseScene.swift */,
-				91101BE219D5DF2300E59AB4 /* Piece.swift */,
+				A28CD1CA1A0046690093D84D /* Piece */,
 				91101BC419D5DE7000E59AB4 /* GameViewController.swift */,
 				4F290F7119DF77C500D283BE /* HPRing.swift */,
 				A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */,
@@ -176,6 +188,20 @@
 				91101BD719D5DE7100E59AB4 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A28CD1CA1A0046690093D84D /* Piece */ = {
+			isa = PBXGroup;
+			children = (
+				91101BE219D5DF2300E59AB4 /* Piece.swift */,
+				A28CD1CF1A0047320093D84D /* PieceElephant.swift */,
+				A28CD1CD1A0047110093D84D /* PiecePawn.swift */,
+				A28CD1CB1A00469E0093D84D /* PieceKing.swift */,
+				A28CD1D11A0047530093D84D /* PieceRock.swift */,
+				A28CD1D31A0047800093D84D /* PieceCanon.swift */,
+				A28CD1D51A00479D0093D84D /* PieceKnight.swift */,
+			);
+			name = Piece;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,17 +317,23 @@
 				186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */,
 				A2CB9CCC19F1BF0C00A053E4 /* Helper.swift in Sources */,
 				A23D73B019DF6C7F007383DF /* Logic.swift in Sources */,
+				A28CD1D21A0047530093D84D /* PieceRock.swift in Sources */,
 				088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */,
 				A2581D3A19FC5DAC006FAAA4 /* Board.swift in Sources */,
 				1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */,
+				A28CD1D01A0047320093D84D /* PieceElephant.swift in Sources */,
 				186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */,
 				4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */,
 				01B62C0319F1D415005F4883 /* EndScene.swift in Sources */,
 				91101BC519D5DE7000E59AB4 /* GameViewController.swift in Sources */,
 				91101BBF19D5DE7000E59AB4 /* AppDelegate.swift in Sources */,
 				A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */,
+				A28CD1CC1A00469E0093D84D /* PieceKing.swift in Sources */,
+				A28CD1D41A0047800093D84D /* PieceCanon.swift in Sources */,
 				A2A4401819EF82F700EE2151 /* Rule.swift in Sources */,
 				087B614E19DF1B56009694C6 /* HelpScene.swift in Sources */,
+				A28CD1D61A00479D0093D84D /* PieceKnight.swift in Sources */,
+				A28CD1CE1A0047110093D84D /* PiecePawn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
