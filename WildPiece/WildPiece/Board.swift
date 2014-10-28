@@ -53,6 +53,9 @@ class Board : SKNode {
         var body = SKPhysicsBody(bodies : [bodyLeft, bodyRight])
         body.dynamic = false
         self.physicsBody = body
+        self.physicsBody?.categoryBitMask = Board.BITMASK_BOARD()
+        self.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
+        self.physicsBody?.contactTestBitMask = 0x00
     }
     
     class func createRect(width : CGFloat, length : CGFloat) -> SKShapeNode {
@@ -90,5 +93,8 @@ class Board : SKNode {
         return false
     }
     
+    class func BITMASK_BOARD() -> UInt32 {
+        return 0x08
+    }
     
 }

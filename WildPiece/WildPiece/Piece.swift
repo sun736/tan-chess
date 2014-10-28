@@ -113,8 +113,8 @@ class Piece: SKSpriteNode {
     
     func setCollisionBitMask(collisionBitMask: UInt32) {
         self.physicsBody?.categoryBitMask = collisionBitMask
-        self.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-        self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+        self.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
+        self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
         //self.physicsBody?.usesPreciseCollisionDetection = true
     }
     

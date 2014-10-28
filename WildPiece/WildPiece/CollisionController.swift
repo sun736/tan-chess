@@ -56,50 +56,40 @@ class CollisionController {
             var node1 : Piece
             var node2 : Piece
             
-            if(contact.bodyA.categoryBitMask == Piece.BITMASK_TRANS()) {
-                //println(contact.bodyA.node)
-                //println(contact.bodyB.node)
-                if (contact.bodyA.node is PieceCanon && !(contact.bodyB.node is Board)) {
-                    var canon = contact.bodyA.node as PieceCanon
-                    canon.physicsBody?.categoryBitMask = canon.player.bitMask
-                    canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-                    if contact.bodyB.node is Piece {
-                        var transPiece = contact.bodyB.node as Piece
-                        transPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS();
-                        transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_TRANS();
-                        let waitTime : NSTimeInterval = 0.01;
-                        let wait = SKAction.waitForDuration(waitTime)
-                        let resetMask = SKAction.runBlock({
-                            transPiece.physicsBody?.categoryBitMask = transPiece.player.bitMask
-                            transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-                        })
-                        let sequence = SKAction.sequence([wait, resetMask])
-                        scene.runAction(sequence)
-                    }
+            if(contact.bodyA.categoryBitMask == Piece.BITMASK_TRANS() || contact.bodyB.categoryBitMask == Piece.BITMASK_TRANS()) {
+                var transPiece : Piece
+                var regPiece : Piece
+                if (contact.bodyA.categoryBitMask == Piece.BITMASK_TRANS()) {
+                    transPiece = contact.bodyA.node as Piece
+                    regPiece = contact.bodyB.node as Piece
+                } else {
+                    transPiece = contact.bodyB.node as Piece
+                    regPiece = contact.bodyA.node as Piece
                 }
-                return
-            } else if (contact.bodyB.categoryBitMask == Piece.BITMASK_TRANS()) {
-                //println(contact.bodyB.node)
-                //println(contact.bodyA.node)
+                println("transPiece: \(transPiece)")
+                println("regPiece: \(regPiece)")
                 
-                if (contact.bodyB.node is PieceCanon && !(contact.bodyA.node is Board)) {
-                    var canon = contact.bodyB.node as PieceCanon
+                if transPiece is PieceCanon  {
+                    var canon = transPiece as PieceCanon
+                    // set the piece in front of canon to transpatent
+                    regPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
+                    regPiece.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
+                    regPiece.physicsBody?.contactTestBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                    // change canon to a regular piece
                     canon.physicsBody?.categoryBitMask = canon.player.bitMask
-                    canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-                    if contact.bodyA.node is Piece {
-                        var transPiece = contact.bodyA.node as Piece
-                        transPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS();
-                        transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_TRANS();
-                        
-                        let waitTime : NSTimeInterval = 0.01;
-                        let wait = SKAction.waitForDuration(waitTime)
-                        let resetMask = SKAction.runBlock({
-                            transPiece.physicsBody?.categoryBitMask = transPiece.player.bitMask
-                            transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_BLUE()
-                        })
-                        let sequence = SKAction.sequence([wait, resetMask])
-                        scene.runAction(sequence)
-                    }
+                    canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+                    canon.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
+                    
+                    // reset the changed piece in front of canon that has been changed
+                    let waitTime : NSTimeInterval = 0.01;
+                    let wait = SKAction.waitForDuration(waitTime)
+                    let resetMask = SKAction.runBlock({
+                        regPiece.physicsBody?.categoryBitMask = regPiece.player.bitMask
+                        regPiece.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+                        regPiece.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
+                    })
+                    let sequence = SKAction.sequence([wait, resetMask])
+                    scene.runAction(sequence)
                 }
                 return
             }

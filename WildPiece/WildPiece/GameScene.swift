@@ -326,8 +326,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         
         //MARK set canon to not collisionable
         if piece is PieceCanon {
-            piece.physicsBody?.collisionBitMask = Piece.BITMASK_TRANS()
             piece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
+            piece.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
+            piece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE()
             //print("find a canon\n")
             //print("\(piece.physicsBody?.categoryBitMask)\n")
             //print("\(piece.physicsBody?.collisionBitMask)\n")
@@ -447,7 +448,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         for piece in self.piecesOfPlayer(player.opponent()) {
             if piece is PieceCanon {
                 piece.physicsBody?.categoryBitMask = player.opponent().bitMask
-                piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
             }
         }
         //player.canKill = true;
