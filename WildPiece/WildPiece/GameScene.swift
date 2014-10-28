@@ -37,8 +37,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let pinchGesture = UIPinchGestureRecognizer(target: self, action: Selector("handlePinch:"))
             pinchGesture.delegate = self
             self.view?.addGestureRecognizer(pinchGesture)
-            top?.runAction(SKAction.moveToY(CGFloat(850), duration: 0.5))
-            bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.5))
+            top?.runAction(SKAction.moveToY(CGFloat(850), duration: 0.4))
+            bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.4))
             self.startGame()
         }
     }
@@ -414,10 +414,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         let winner = SKLabelNode(fontNamed:"Verdana")
         if(player.id == 1){
             winner.text = "Blue Wins!"
-            endScene.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+            endScene.backgroundColor = UIColor.UIColorFromRGB(0x96d4fb, alpha: 1)
         }else{
             winner.text = "Red Wins!"
-            endScene.backgroundColor = UIColor.UIColorFromRGB(0xffd9d9, alpha: 1)
+            endScene.backgroundColor = UIColor.UIColorFromRGB(0xfb8888, alpha: 1)
         }
         winner.fontSize = 35
         winner.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.6)
