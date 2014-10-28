@@ -12,7 +12,7 @@ import SpriteKit
 class EndScene: SKScene {
     override func didMoveToView(view: SKView) {
         
-        self.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+        //self.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         
         let gamtTitle = SKLabelNode(fontNamed:"Chalkduster")
         gamtTitle.text = "Game Over"

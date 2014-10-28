@@ -18,10 +18,6 @@ class MenuScene: SKScene {
         bgImageTop.position = CGPointMake(self.size.width/2, (self.size.height/2))
         self.addChild(bgImageTop)
         
-        /*var bgImageBottom = SKSpriteNode(imageNamed: "menuBottom")
-        bgImageBottom.position = CGPointMake(self.size.width/2, (self.size.height/2)*0.5)
-        self.addChild(bgImageBottom)*/
-        
         let startButton = SKSpriteNode(imageNamed: "start")
         startButton.name = "startButton"
         startButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
@@ -32,21 +28,8 @@ class MenuScene: SKScene {
         onlineButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
         self.addChild(onlineButton)
 
-        
-        let helpButton = SKSpriteNode(imageNamed: "help")
-        helpButton.name = "helpButton"
-        helpButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
-        //self.addChild(helpButton)
-
-        /*var piece = Piece.newPiece(PieceType.King, player: PLAYER1);
-        piece.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
-        self.addChild(piece)
-        
-        scene?.physicsBody?.dynamic = false
-        
-        self.physicsWorld.gravity.dy = 0
-        self.physicsBody?.friction = 0.9
-        //self.physicsWorld.contactDelegate = self*/
+       
+      
 
     }
     
