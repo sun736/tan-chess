@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		01B62C0319F1D415005F4883 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B62C0219F1D415005F4883 /* EndScene.swift */; };
 		081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081B805C19DFA5AC00B6C135 /* PauseScene.swift */; };
+		08401D501A009A1E006F1834 /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D4F1A009A1E006F1834 /* SettingScene.swift */; };
+		08401D841A00A3D9006F1834 /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D831A00A3D9006F1834 /* TutorialScene.swift */; };
 		087B614E19DF1B56009694C6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087B614D19DF1B56009694C6 /* HelpScene.swift */; };
 		088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */; };
 		1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819134019D7515200BBEDC2 /* WPParameterSet.swift */; };
@@ -56,6 +58,8 @@
 /* Begin PBXFileReference section */
 		01B62C0219F1D415005F4883 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 		081B805C19DFA5AC00B6C135 /* PauseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseScene.swift; sourceTree = "<group>"; };
+		08401D4F1A009A1E006F1834 /* SettingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingScene.swift; sourceTree = "<group>"; };
+		08401D831A00A3D9006F1834 /* TutorialScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
 		087B614D19DF1B56009694C6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		1819134019D7515200BBEDC2 /* WPParameterSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPParameterSet.swift; sourceTree = "<group>"; };
@@ -112,6 +116,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08401D4E1A009954006F1834 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				081B805C19DFA5AC00B6C135 /* PauseScene.swift */,
+				088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */,
+				087B614D19DF1B56009694C6 /* HelpScene.swift */,
+				01B62C0219F1D415005F4883 /* EndScene.swift */,
+				08401D4F1A009A1E006F1834 /* SettingScene.swift */,
+				08401D831A00A3D9006F1834 /* TutorialScene.swift */,
+			);
+			name = Scene;
+			sourceTree = "<group>";
+		};
 		91101BB019D5DE7000E59AB4 = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +150,7 @@
 		91101BBB19D5DE7000E59AB4 /* WildPiece */ = {
 			isa = PBXGroup;
 			children = (
+				08401D4E1A009954006F1834 /* Scene */,
 				A2A4401719EF82F700EE2151 /* Rule.swift */,
 				A2581D3919FC5DAC006FAAA4 /* Board.swift */,
 				A23D73AF19DF6C7F007383DF /* Logic.swift */,
@@ -143,10 +161,6 @@
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
 				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
 				AE82C96919E360C300E6FE0B /* CollisionController.swift */,
-				088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */,
-				087B614D19DF1B56009694C6 /* HelpScene.swift */,
-				01B62C0219F1D415005F4883 /* EndScene.swift */,
-				081B805C19DFA5AC00B6C135 /* PauseScene.swift */,
 				A28CD1CA1A0046690093D84D /* Piece */,
 				91101BC419D5DE7000E59AB4 /* GameViewController.swift */,
 				4F290F7119DF77C500D283BE /* HPRing.swift */,
@@ -307,7 +321,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08401D841A00A3D9006F1834 /* TutorialScene.swift in Sources */,
 				91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */,
+				08401D501A009A1E006F1834 /* SettingScene.swift in Sources */,
 				91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */,
 				4FF31F5B19DE5C2300A0ABB6 /* Arrow.swift in Sources */,
 				4F06ACCB19F1827E0023A0DC /* DirectionHint.swift in Sources */,

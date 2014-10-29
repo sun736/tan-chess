@@ -17,12 +17,14 @@ class HelpScene: SKScene {
         
         let tutorialButton = SKLabelNode(fontNamed:"Verdana")
         tutorialButton.text = "Tutorial";
+        tutorialButton.name = "tutorialButton"
         tutorialButton.fontSize = 25;
         tutorialButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
         self.addChild(tutorialButton)
         
         let settingButton = SKLabelNode(fontNamed: "Verdana")
         settingButton.text = "Setting"
+        settingButton.name = "settingButton"
         settingButton.fontSize = 25
         settingButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
         self.addChild(settingButton)
@@ -49,6 +51,19 @@ class HelpScene: SKScene {
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 0.3)
             menuScene.scaleMode = SKSceneScaleMode.AspectFill
             self.scene?.view?.presentScene(menuScene, transition: transition)
+        } else if touchedNode.name == "settingButton"
+        {
+            var settingScene = SettingScene(size: self.size)
+            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
+            settingScene.scaleMode = SKSceneScaleMode.AspectFill
+            self.scene?.view?.presentScene(settingScene, transition: transition)
+        } else if touchedNode.name == "tutorialButton"
+        {
+            var tutorialScene = TutorialScene(size: self.size)
+            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
+            tutorialScene.scaleMode = SKSceneScaleMode.AspectFill
+            self.scene?.view?.presentScene(tutorialScene, transition: transition)
+
         }
         
     }
