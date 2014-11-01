@@ -317,12 +317,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         var force = piece.forceForPullDistance(distance)
         piece.drawArrow(force)
         piece.drawDirectionHint()
+        piece.drawTrajectory(force)
     }
     
     func pieceDidCancelPull(piece : Piece) {
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        piece.removeTrajectory()
     }
     
     func pieceDidPulled(piece : Piece, distance: CGVector) {
@@ -344,6 +346,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        piece.removeTrajectory()
     }
     
     func pieceDidTaped(piece : Piece) {
@@ -351,6 +354,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        piece.removeTrajectory()
     }
     
     // MARK: Contact Delegate
