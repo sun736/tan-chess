@@ -431,7 +431,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func gameDidWait(player : Player) {
         // redraw the board with new color
         if let board = self.board {
-            board.setColor(player.color)
+            var isUpTurn = player.id != 1
+            board.setTurn(isUpTurn)
         }
         
         if let piece = lastMove.piece {
@@ -449,6 +450,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             if piece is PieceCanon {
                 piece.physicsBody?.categoryBitMask = player.opponent().bitMask
                 piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+                piece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
             }
         }
         //player.canKill = true;
