@@ -5,19 +5,24 @@
 //  Created by Chun-Hao Lin on 11/1/14.
 //  Copyright (c) 2014 Project TC. All rights reserved.
 //
-
+/*
 import Foundation
 import SpriteKit
 
 class Trajectory: SKShapeNode {
+    //var mass: CGFloat
+    //var linearDamping: CGFloat
     
     init(startPoint :CGPoint, endPoint : CGPoint, piece: Piece, player: Player) {
         super.init()
-        let ImageName = getImageName(piece, player: player)
-        let node = SKSpriteNode(imageNamed: ImageName)
+        var nodeColor: UIColor
+        if(player.bitMask == Piece.BITMASK_BLUE()){
+            nodeColor = UIColor(red: 0x1D, green: 0xAB, blue: 0xFC, alpha: 1.0)
+        }else{
+            nodeColor = UIColor(netHex:0xFD7875, alpha: 1.0)
+        }
+        let node = SKSpriteNode(texture: SKTexture!, color: nodeColor, size: 0.5)
         node.position = startPoint
-        node.setScale(0.5)
-        node.alpha = 0.5
         self.addChild(node)
         var action = SKAction.moveTo(endPoint, duration: 0.5)
         node.runAction(action)
@@ -46,4 +51,4 @@ class Trajectory: SKShapeNode {
     }
     
     
-}
+}*/

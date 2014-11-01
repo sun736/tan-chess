@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		016B93A71A05939400107CB8 /* Trajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B93A61A05939400107CB8 /* Trajectory.swift */; };
 		01B62C0319F1D415005F4883 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B62C0219F1D415005F4883 /* EndScene.swift */; };
 		081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081B805C19DFA5AC00B6C135 /* PauseScene.swift */; };
 		08401D501A009A1E006F1834 /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D4F1A009A1E006F1834 /* SettingScene.swift */; };
@@ -60,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		016B93A61A05939400107CB8 /* Trajectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trajectory.swift; sourceTree = "<group>"; };
 		01B62C0219F1D415005F4883 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 		081B805C19DFA5AC00B6C135 /* PauseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseScene.swift; sourceTree = "<group>"; };
 		08401D4F1A009A1E006F1834 /* SettingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingScene.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				08401D4E1A009954006F1834 /* Scene */,
 				08BF6F1C1A0586AB002A5A96 /* Sound */,
 				91101BBC19D5DE7000E59AB4 /* Supporting Files */,
+				016B93A61A05939400107CB8 /* Trajectory.swift */,
 			);
 			path = WildPiece;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */,
 				A2581D3A19FC5DAC006FAAA4 /* Board.swift in Sources */,
 				1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */,
+				016B93A71A05939400107CB8 /* Trajectory.swift in Sources */,
 				A28CD1D01A0047320093D84D /* PieceElephant.swift in Sources */,
 				186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */,
 				4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */,
