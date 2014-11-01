@@ -18,6 +18,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var board: Board?
     var top : SKSpriteNode?
     var bottom :SKSpriteNode?
+    var soundPlayer: Sound?
     
     
     deinit {
@@ -39,6 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             self.view?.addGestureRecognizer(pinchGesture)
             top?.runAction(SKAction.moveToY(CGFloat(850), duration: 0.4))
             bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.4))
+            self.soundPlayer = Sound()
             self.startGame()
         }
     }
@@ -196,6 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
     // MARK: State Changes
     func startGame() {
+        self.soundPlayer?.playBackgroundMusic()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -222,6 +225,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func endGame() {
+        self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.end()
     }
@@ -411,6 +415,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // player == PLAYER_NULL indicates a draw
     // update UI here
     func gameDidEnd(player : Player) {
+        //stop play music
+        self.soundPlayer?.stopBackgroundMusic();
+        
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")
         if(player.id == 1){
