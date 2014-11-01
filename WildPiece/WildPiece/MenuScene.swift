@@ -77,8 +77,9 @@ class MenuScene: SKScene {
             //present the game scene
             self.scene?.view?.presentScene(gameScene)
             
-        }else if touchedNode.name == "more"
-        {
+        } else if touchedNode.name == "onlineButton" {
+            
+        } else if touchedNode.name == "more" {
             println("show help menu")
             var helpScene = HelpScene(size: self.size)
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
