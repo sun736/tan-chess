@@ -82,8 +82,16 @@ class Board : SKNode {
         self.addChild(self.backgroundDown)
     }
     
-    func setColor(color : UIColor) {
-//        self.strokeColor = color
+    func setTurn(isUpTurn : Bool) {
+        let fadeOutAct = SKAction.fadeAlphaTo(0.5, duration: 1.0)
+        let fadeInAct = SKAction.fadeAlphaTo(1.0, duration: 1.0)
+        if isUpTurn {
+            backgroundDown.removeAllActions()
+            backgroundUp.runAction(SKAction.repeatActionForever(SKAction.sequence([fadeOutAct, fadeInAct])))
+        } else {
+            backgroundUp.removeAllActions()
+            backgroundDown.runAction(SKAction.repeatActionForever(SKAction.sequence([fadeOutAct, fadeInAct])))
+        }
     }
     
     func isOut(position : CGPoint) -> Bool {
