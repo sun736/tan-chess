@@ -67,10 +67,10 @@ class MenuScene: SKScene {
         // when start the game, init a new game scene
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         var gameScene = GameScene()
-        gameScene.sceneDelegate = appDelegate.gameScene.sceneDelegate
+        gameScene.sceneDelegate = appDelegate.gameScene?.sceneDelegate
         appDelegate.gameScene = gameScene
-        gameScene?.size = self.size
-        gameScene?.scaleMode = SKSceneScaleMode.AspectFill
+        gameScene.size = self.size
+        gameScene.scaleMode = SKSceneScaleMode.AspectFill
         //self.scene?.view?.presentScene(gameScene, transition: transition)
         
         //Get the snapshot of the screen
@@ -89,7 +89,7 @@ class MenuScene: SKScene {
         var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
         
         
-        gameScene?.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
+        gameScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
         
         //present the game scene
         self.scene?.view?.presentScene(gameScene)

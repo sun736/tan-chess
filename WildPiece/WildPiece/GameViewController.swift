@@ -44,6 +44,8 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         self.appDelegate.mcHandler.setupSession()
         self.appDelegate.mcHandler.advertiseSelf(true)
         
+        appDelegate.gameScene?.sceneDelegate = self
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMenuScene:",
             name: kShouldPresentMenuSceneNotification, object: nil)
         
@@ -75,7 +77,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: "King")
         
         // multipeer connectivity
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MC_DidChangeStateNotification", object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MC_DidChangeStateNotification", object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MC_DidReceiveDataNotification", object: nil)
         

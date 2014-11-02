@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var bottom :SKSpriteNode?
     var soundPlayer: Sound?
     
+    var sceneDelegate: GameSceneDelegate?
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -75,6 +76,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let nodes = self.nodesAtPoint(location)
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
+                    // send test data to peer
+                    //self.sceneDelegate?.sendDataToPeer()
+                    
                     if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
                         let centerPt = piece.position
                         let distance = hypotf(Float(location.x - centerPt.x),
