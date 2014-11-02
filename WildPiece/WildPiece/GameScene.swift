@@ -8,6 +8,10 @@
 
 import SpriteKit
 
+protocol GameSceneDelegate: class {
+    func sendDataToPeer()
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
     
     var possibleBeginPt: CGPoint?

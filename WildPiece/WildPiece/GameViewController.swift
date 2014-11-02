@@ -28,7 +28,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, MCBrowserViewControllerDelegate, MenuSceneDelegate {
+class GameViewController: UIViewController, MCBrowserViewControllerDelegate, MenuSceneDelegate, GameSceneDelegate{
     
     @IBOutlet weak var toolBarContainerView: UIView!
     @IBOutlet weak var switchControl: UISwitch!
@@ -73,6 +73,12 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         self.toolBarContainerView.alpha = 0.0
         
         WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: "King")
+        
+        // multipeer connectivity
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MC_DidChangeStateNotification", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MC_DidReceiveDataNotification", object: nil)
+        
     }
     
     func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
@@ -131,6 +137,36 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             self.presentViewController(appDelegate.mcHandler.browser, animated: true, completion: nil)
         }
     }
+    
+    func sendDataToPeer() {
+        let messageDict = ["field": UIDevice.currentDevice().name]
+        
+        let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        
+        var error:NSError?
+        
+        appDelegate.mcHandler.session.sendData(messageData, toPeers: appDelegate.mcHandler.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
+        
+        if error != nil{
+            println("error: \(error?.localizedDescription)")
+        }
+    }
+    
+    func handleReceivedDataWithNotification(notification:NSNotification){
+        let userInfo = notification.userInfo! as Dictionary
+        let receivedData:NSData = userInfo["data"] as NSData
+        
+        let message = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+        let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
+        let senderDisplayName = senderPeerId.displayName
+        
+        let alert = UIAlertController(title: "WildPiece", message: "\(senderDisplayName) has started a new Game", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
     
     func shouldDisplayOnlineSearch() {
         connectWithPlayer(nil)
