@@ -66,8 +66,9 @@ class MenuScene: SKScene {
         println("start")
         // when start the game, init a new game scene
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        appDelegate.gameScene = GameScene()
-        var gameScene = appDelegate.gameScene
+        var gameScene = GameScene()
+        gameScene.sceneDelegate = appDelegate.gameScene.sceneDelegate
+        appDelegate.gameScene = gameScene
         gameScene?.size = self.size
         gameScene?.scaleMode = SKSceneScaleMode.AspectFill
         //self.scene?.view?.presentScene(gameScene, transition: transition)
