@@ -155,6 +155,18 @@ class Piece: SKSpriteNode {
         self.runAction(SKAction.sequence(sequence))
     }
     
+    func fadeTo() {
+        let fadeOutAct = SKAction.fadeAlphaTo(0.5, duration: fadeOutFadeTime)
+        let sequence = [fadeOutAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+    
+    func cancelFade() {
+        let fadeOutAct = SKAction.fadeAlphaTo(1.0, duration: fadeOutFadeTime)
+        let sequence = [fadeOutAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+    
     func flash() {
         let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
         let fadeOutAct = SKAction.fadeAlphaTo(0.4, duration: fadeOutFadeTime);

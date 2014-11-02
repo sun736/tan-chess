@@ -79,6 +79,7 @@ class CollisionController {
                     canon.physicsBody?.categoryBitMask = canon.player.bitMask
                     canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
                     canon.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
+                    canon.cancelFade()
                     
                     // reset the changed piece in front of canon that has been changed
                     let waitTime : NSTimeInterval = 0.3;
