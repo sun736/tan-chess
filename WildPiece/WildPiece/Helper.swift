@@ -42,3 +42,15 @@ extension UIImage {
         return image;
     }
 }
+
+extension UIColor {
+    func colorWithSaturation( factor : CGFloat ) -> UIColor {
+        var hue : CGFloat = 0
+        var saturation : CGFloat = 0
+        var brightness : CGFloat = 0
+        var alpha : CGFloat = 0
+        self.getHue(&hue, saturation : &saturation, brightness : &brightness, alpha : &alpha)
+        saturation = saturation * factor
+        return UIColor(hue : hue, saturation: saturation, brightness : brightness, alpha : alpha)
+    }
+}

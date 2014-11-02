@@ -117,6 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         if self.pieceShouldPull(piece) {
                             self.pieceDidPulled(piece, distance: distance)
                             Logic.sharedInstance.playerDone()
+                            self.board?.TurnDone()
                         } else {
                             self.pieceDidCancelPull(piece)
                         }
