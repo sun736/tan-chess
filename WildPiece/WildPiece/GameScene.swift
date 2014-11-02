@@ -336,6 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        piece.cancelFade()
         //piece.removeTrajectory()
     }
     
@@ -366,6 +367,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        piece.cancelFade()
         //piece.removeTrajectory()
     }
     
@@ -474,6 +476,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 piece.physicsBody?.categoryBitMask = player.opponent().bitMask
                 piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
                 piece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
+                piece.cancelFade()
             }
         }
         //player.canKill = true;
