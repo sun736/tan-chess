@@ -17,7 +17,7 @@ class Board : SKNode {
     private let backgroundUp : SKShapeNode
     private let backgroundDown : SKShapeNode
     private var colorTimer : NSTimer?
-    private let timeInterval : NSTimeInterval = 1.6
+    private let timeInterval : NSTimeInterval = 1.4
     private let marginX : CGFloat = 0
     private let marginY : CGFloat
     
@@ -86,6 +86,7 @@ class Board : SKNode {
     
     func setTurn(isUpTurn : Bool) {
         self.colorTimer?.invalidate()
+        self.changeColor(isUpTurn)
         self.colorTimer = NSTimer.scheduledTimerWithTimeInterval(timeInterval,
             target: self,
             selector: Selector("startChangeColor:"),
@@ -95,18 +96,21 @@ class Board : SKNode {
     
     func startChangeColor(timer: NSTimer) {
         if let isUpTurn = timer.userInfo as? Bool {
-            let themeColor : UIColor = isUpTurn ? PLAYER2.themeColor : PLAYER1.themeColor
-            let saturationBump: Float = 0.6
-            var saturationUp : SKAction = SKAction.customActionWithDuration(timeInterval, {(node : SKNode!, time : CGFloat) -> Void in
-                if let node = node as? SKShapeNode  {
-                    var changeScale : Float = Float(time / CGFloat(self.timeInterval / 2))
-                    changeScale = (saturationBump / 2.0) - (saturationBump / 2.0) * sin(Float(M_PI) * changeScale + Float(M_PI) / 2)
-                    //                println(changeScale)
-                    node.fillColor = themeColor.colorWithSaturation(1.0 + CGFloat(changeScale))
-                }})
-            let node : SKShapeNode = isUpTurn ? self.backgroundUp : self.backgroundDown
-            node.runAction(saturationUp)
+            self.changeColor(isUpTurn)
         }
+    }
+    
+    func changeColor(isUpTurn : Bool) {
+        let themeColor : UIColor = isUpTurn ? PLAYER2.themeColor : PLAYER1.themeColor
+        let saturationBump: Float = 0.5
+        var saturationUp : SKAction = SKAction.customActionWithDuration(timeInterval, {(node : SKNode!, time : CGFloat) -> Void in
+            if let node = node as? SKShapeNode  {
+                var changeScale : Float = Float(time / CGFloat(self.timeInterval / 2))
+                changeScale = (saturationBump / 2.0) - (saturationBump / 2.0) * sin(Float(M_PI) * changeScale + Float(M_PI) / 2)
+                node.fillColor = themeColor.colorWithSaturation(1.0 + CGFloat(changeScale))
+            }})
+        let node : SKShapeNode = isUpTurn ? self.backgroundUp : self.backgroundDown
+        node.runAction(saturationUp)
     }
     
     func TurnDone() {
