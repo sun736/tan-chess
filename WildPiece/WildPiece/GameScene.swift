@@ -319,6 +319,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         // temporary solution to determine contacter
         CollisionController.setContacter(self, contacter: piece)
         piece.drawRing()
+        if piece is PieceCanon {
+            piece.fadeTo()
+        }
     }
     
     func pieceDidChangePullDistance(piece : Piece, distance: CGVector) {
