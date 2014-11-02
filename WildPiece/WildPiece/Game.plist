@@ -81,13 +81,13 @@
 	<key>Canon</key>
 	<dict>
 		<key>mass</key>
-		<integer>3</integer>
+		<integer>5</integer>
 		<key>damping</key>
-		<real>7.5</real>
+		<real>4.5</real>
 		<key>restitution</key>
-		<real>0.5</real>
+		<real>1.0</real>
 		<key>impulse</key>
-		<integer>3</integer>
+		<real>2.5</real>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
