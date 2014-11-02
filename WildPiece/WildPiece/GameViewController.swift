@@ -8,6 +8,9 @@
 
 import UIKit
 import SpriteKit
+import MultipeerConnectivity
+
+let kShouldPresentMenuSceneNotification = "kShouldPresentMenuSceneNotification"
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -25,13 +28,26 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, MCBrowserViewControllerDelegate, MenuSceneDelegate, GameSceneDelegate{
     
     @IBOutlet weak var toolBarContainerView: UIView!
     @IBOutlet weak var switchControl: UISwitch!
     
+    var appDelegate  : AppDelegate!
+    var menuScene : MenuScene?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        self.appDelegate.mcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
+        self.appDelegate.mcHandler.setupSession()
+        self.appDelegate.mcHandler.advertiseSelf(true)
+        
+        appDelegate.gameScene?.sceneDelegate = self
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMenuScene:",
+            name: kShouldPresentMenuSceneNotification, object: nil)
         
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
@@ -50,8 +66,8 @@ class GameViewController: UIViewController {
             
             //init the gamescene in AppDelegata
             
-            let menuScene = MenuScene(size: scene.size)
-            
+            menuScene = MenuScene(size: scene.size)
+            menuScene?.menuDelegate = self
             skView.presentScene(menuScene)
         }
         
@@ -59,6 +75,31 @@ class GameViewController: UIViewController {
         self.toolBarContainerView.alpha = 0.0
         
         WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: "King")
+        
+        // multipeer connectivity
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MC_DidChangeStateNotification", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MC_DidReceiveDataNotification", object: nil)
+        
+    }
+    
+    func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
+        
+        self.menuScene?.startNewGame()
+        appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
+        appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func presentMenuScene(notification : NSNotification) {
+        var scene = notification.object as? SKScene
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        var gameScene = appDelegate.gameScene
+        gameScene?.endGame()
+        let transition = SKTransition.crossFadeWithDuration(0.3)
+        scene?.view?.presentScene(menuScene, transition: transition)
     }
     
     override func shouldAutorotate() -> Bool {
@@ -88,5 +129,48 @@ class GameViewController: UIViewController {
             self.toolBarContainerView.alpha = CGFloat(targetAlpha)
         })
         NSNotificationCenter.defaultCenter().postNotificationName("kUpdateToolBar", object: nil)
+    }
+    
+    @IBAction func connectWithPlayer(sender: AnyObject?) {
+        if appDelegate.mcHandler.session != nil {
+            appDelegate.mcHandler.setupBrowser()
+            appDelegate.mcHandler.browser.delegate = self
+            
+            self.presentViewController(appDelegate.mcHandler.browser, animated: true, completion: nil)
+        }
+    }
+    
+    func sendDataToPeer() {
+        let messageDict = ["field": UIDevice.currentDevice().name]
+        
+        let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        
+        var error:NSError?
+        
+        appDelegate.mcHandler.session.sendData(messageData, toPeers: appDelegate.mcHandler.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
+        
+        if error != nil{
+            println("error: \(error?.localizedDescription)")
+        }
+    }
+    
+    func handleReceivedDataWithNotification(notification:NSNotification){
+        let userInfo = notification.userInfo! as Dictionary
+        let receivedData:NSData = userInfo["data"] as NSData
+        
+        let message = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+        let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
+        let senderDisplayName = senderPeerId.displayName
+        
+        let alert = UIAlertController(title: "WildPiece", message: "\(senderDisplayName) has started a new Game", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    
+    func shouldDisplayOnlineSearch() {
+        connectWithPlayer(nil)
     }
 }

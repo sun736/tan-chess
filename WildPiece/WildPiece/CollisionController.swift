@@ -81,7 +81,7 @@ class CollisionController {
                     canon.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
                     
                     // reset the changed piece in front of canon that has been changed
-                    let waitTime : NSTimeInterval = 0.01;
+                    let waitTime : NSTimeInterval = 0.3;
                     let wait = SKAction.waitForDuration(waitTime)
                     let resetMask = SKAction.runBlock({
                         regPiece.physicsBody?.categoryBitMask = regPiece.player.bitMask

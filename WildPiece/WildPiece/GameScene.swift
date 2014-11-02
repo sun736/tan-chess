@@ -8,6 +8,10 @@
 
 import SpriteKit
 
+protocol GameSceneDelegate: class {
+    func sendDataToPeer()
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
     
     var possibleBeginPt: CGPoint?
@@ -18,7 +22,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var board: Board?
     var top : SKSpriteNode?
     var bottom :SKSpriteNode?
+    var soundPlayer: Sound?
     
+    var sceneDelegate: GameSceneDelegate?
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -39,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             self.view?.addGestureRecognizer(pinchGesture)
             top?.runAction(SKAction.moveToY(CGFloat(850), duration: 0.4))
             bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.4))
+            self.soundPlayer = Sound()
             self.startGame()
         }
     }
@@ -69,6 +76,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let nodes = self.nodesAtPoint(location)
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
+                    // send test data to peer
+                    //self.sceneDelegate?.sendDataToPeer()
+                    
                     if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
                         let centerPt = piece.position
                         let distance = hypotf(Float(location.x - centerPt.x),
@@ -197,6 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
     // MARK: State Changes
     func startGame() {
+//        self.soundPlayer?.playBackgroundMusic()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -223,6 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func endGame() {
+//        self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.end()
     }
@@ -314,12 +326,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         var force = piece.forceForPullDistance(distance)
         piece.drawArrow(force)
         piece.drawDirectionHint()
+        //piece.drawTrajectory(force)
     }
     
     func pieceDidCancelPull(piece : Piece) {
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        //piece.removeTrajectory()
     }
     
     func pieceDidPulled(piece : Piece, distance: CGVector) {
@@ -341,6 +355,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        //piece.removeTrajectory()
     }
     
     func pieceDidTaped(piece : Piece) {
@@ -348,6 +363,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
+        //piece.removeTrajectory()
     }
     
     // MARK: Contact Delegate
@@ -412,6 +428,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // player == PLAYER_NULL indicates a draw
     // update UI here
     func gameDidEnd(player : Player) {
+        //stop play music
+//        self.soundPlayer?.stopBackgroundMusic();
+        
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")
         if(player.id == 1){

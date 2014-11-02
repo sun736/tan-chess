@@ -63,6 +63,7 @@ class Piece: SKSpriteNode {
     }
     var ring : Ring?
     var arrow: Arrow?
+    //var trajectory: Trajectory?
     var hpring: HPRing?
     var directionHint: DirectionHint?
     // temporary solution to contact
@@ -221,6 +222,19 @@ class Piece: SKSpriteNode {
     func removeArrow() {
         self.arrow?.removeFromParent()
     }
+    
+    /*func drawTrajectory(force: CGVector){
+        self.removeTrajectory()
+        var endPosition = CGPointMake(force.dx/50 + self.position.x, force.dy/50 + self.position.y)
+        let trajectoryNode :Trajectory = Trajectory(startPoint: self.position, endPoint: endPosition, piece: self, player: self.player)
+        self.trajectory = trajectoryNode
+        self.parent?.addChild(trajectoryNode)
+        
+    }
+    
+    func removeTrajectory(){
+        self.trajectory?.removeFromParent()
+    }*/
     
     // calculate a valid force based on piece's limit
     func forceForPullDistance(distance : CGVector) -> CGVector {

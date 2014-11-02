@@ -9,8 +9,13 @@
 import UIKit
 import SpriteKit
 
+protocol MenuSceneDelegate: class {
+    func shouldDisplayOnlineSearch()
+}
+
 class MenuScene: SKScene {
     
+    var menuDelegate : MenuSceneDelegate?
     
     override func didMoveToView(view: SKView) {
 
@@ -44,41 +49,11 @@ class MenuScene: SKScene {
         let location = touches.anyObject()?.locationInNode(self)
         let touchedNode = self.nodeAtPoint(location!)
         
-        if touchedNode.name == "startButton"
-        {
-            println("start")
-            
-            // when start the game, init a new game scene
-           let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            appDelegate.gameScene = GameScene()
-            var gameScene = appDelegate.gameScene
-            gameScene?.size = self.size
-            gameScene?.scaleMode = SKSceneScaleMode.AspectFill
-            //self.scene?.view?.presentScene(gameScene, transition: transition)
-            
-            //Get the snapshot of the screen
-            var size : CGSize! = self.view?.frame.size
-            var bounds : CGRect! = self.view?.bounds
-            UIGraphicsBeginImageContext(size)
-            self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
-            var snapshot = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            //cut the snapshot with top and bottom half
-            var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
-            var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
-            
-            var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
-            var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
-            
-            
-            gameScene?.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
-            
-            //present the game scene
-            self.scene?.view?.presentScene(gameScene)
-            
-        }else if touchedNode.name == "more"
-        {
+        if touchedNode.name == "startButton" {
+            self.startNewGame()
+        } else if touchedNode.name == "onlineButton" {
+            self.menuDelegate?.shouldDisplayOnlineSearch()
+        } else if touchedNode.name == "more" {
             println("show help menu")
             var helpScene = HelpScene(size: self.size)
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
@@ -87,6 +62,37 @@ class MenuScene: SKScene {
         }
     }
     
-    
+    func startNewGame() {
+        println("start")
+        // when start the game, init a new game scene
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        var gameScene = GameScene()
+        gameScene.sceneDelegate = appDelegate.gameScene?.sceneDelegate
+        appDelegate.gameScene = gameScene
+        gameScene.size = self.size
+        gameScene.scaleMode = SKSceneScaleMode.AspectFill
+        //self.scene?.view?.presentScene(gameScene, transition: transition)
+        
+        //Get the snapshot of the screen
+        var size : CGSize! = self.view?.frame.size
+        var bounds : CGRect! = self.view?.bounds
+        UIGraphicsBeginImageContext(size)
+        self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+        var snapshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        //cut the snapshot with top and bottom half
+        var topBounds = CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width, bounds.height/2)
+        var backgroundTop = CGImageCreateWithImageInRect(snapshot.CGImage, topBounds)
+        
+        var bottomBounds = CGRectMake(bounds.origin.x, bounds.origin.y + bounds.height/2, bounds.width, bounds.height/2)
+        var backgroundBottom = CGImageCreateWithImageInRect(snapshot.CGImage, bottomBounds)
+        
+        
+        gameScene.setTopAndBottomImage(UIImage(CGImage: backgroundTop)!,bottom:UIImage(CGImage: backgroundBottom)!)
+        
+        //present the game scene
+        self.scene?.view?.presentScene(gameScene)
+    }
     
 }

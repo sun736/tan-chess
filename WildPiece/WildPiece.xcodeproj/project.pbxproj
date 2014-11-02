@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		016B93A71A05939400107CB8 /* Trajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B93A61A05939400107CB8 /* Trajectory.swift */; };
 		01B62C0319F1D415005F4883 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B62C0219F1D415005F4883 /* EndScene.swift */; };
 		081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081B805C19DFA5AC00B6C135 /* PauseScene.swift */; };
 		08401D501A009A1E006F1834 /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D4F1A009A1E006F1834 /* SettingScene.swift */; };
 		08401D841A00A3D9006F1834 /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D831A00A3D9006F1834 /* TutorialScene.swift */; };
 		087B614E19DF1B56009694C6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087B614D19DF1B56009694C6 /* HelpScene.swift */; };
 		088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */; };
+		08BF6F1B1A0580BA002A5A96 /* collision.wav in Resources */ = {isa = PBXBuildFile; fileRef = 08BF6F1A1A0580BA002A5A96 /* collision.wav */; };
+		08BF6F1E1A0586BB002A5A96 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 08BF6F1D1A0586BB002A5A96 /* backgroundMusic.mp3 */; };
+		08BF6F201A058A46002A5A96 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BF6F1F1A058A46002A5A96 /* Sound.swift */; };
 		1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819134019D7515200BBEDC2 /* WPParameterSet.swift */; };
 		186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186C621319D62AA500FF3952 /* WPSliderView.swift */; };
 		186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186C621519D62BAC00FF3952 /* WPSliderView.xib */; };
@@ -57,12 +61,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		016B93A61A05939400107CB8 /* Trajectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trajectory.swift; sourceTree = "<group>"; };
 		01B62C0219F1D415005F4883 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 		081B805C19DFA5AC00B6C135 /* PauseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseScene.swift; sourceTree = "<group>"; };
 		08401D4F1A009A1E006F1834 /* SettingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingScene.swift; sourceTree = "<group>"; };
 		08401D831A00A3D9006F1834 /* TutorialScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
 		087B614D19DF1B56009694C6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		08BF6F1A1A0580BA002A5A96 /* collision.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = collision.wav; sourceTree = "<group>"; };
+		08BF6F1D1A0586BB002A5A96 /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
+		08BF6F1F1A058A46002A5A96 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		1819134019D7515200BBEDC2 /* WPParameterSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPParameterSet.swift; sourceTree = "<group>"; };
 		186C621319D62AA500FF3952 /* WPSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPSliderView.swift; sourceTree = "<group>"; };
 		186C621519D62BAC00FF3952 /* WPSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WPSliderView.xib; sourceTree = "<group>"; };
@@ -131,6 +139,16 @@
 			name = Scene;
 			sourceTree = "<group>";
 		};
+		08BF6F1C1A0586AB002A5A96 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				08BF6F1A1A0580BA002A5A96 /* collision.wav */,
+				08BF6F1D1A0586BB002A5A96 /* backgroundMusic.mp3 */,
+				08BF6F1F1A058A46002A5A96 /* Sound.swift */,
+			);
+			name = Sound;
+			sourceTree = "<group>";
+		};
 		91101BB019D5DE7000E59AB4 = {
 			isa = PBXGroup;
 			children = (
@@ -152,31 +170,33 @@
 		91101BBB19D5DE7000E59AB4 /* WildPiece */ = {
 			isa = PBXGroup;
 			children = (
-				08401D4E1A009954006F1834 /* Scene */,
-				A2A4401719EF82F700EE2151 /* Rule.swift */,
-				A2581D3919FC5DAC006FAAA4 /* Board.swift */,
-				A23D73AF19DF6C7F007383DF /* Logic.swift */,
-				A2C8C93C19E0A8FC00C6B166 /* Player.swift */,
 				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
-				4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */,
-				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
-				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
+				4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */,
+				A2581D3919FC5DAC006FAAA4 /* Board.swift */,
 				AE82C96919E360C300E6FE0B /* CollisionController.swift */,
-				A28CD1CA1A0046690093D84D /* Piece */,
+				4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */,
+				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
 				91101BC419D5DE7000E59AB4 /* GameViewController.swift */,
-				4F290F7119DF77C500D283BE /* HPRing.swift */,
 				A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */,
-				186C621719D636A800FF3952 /* WPToolBarViewController.swift */,
+				4F290F7119DF77C500D283BE /* HPRing.swift */,
+				A23D73AF19DF6C7F007383DF /* Logic.swift */,
+				4FD0FA5F19FF0CB900126D6B /* MCHandler.swift */,
+				A2C8C93C19E0A8FC00C6B166 /* Player.swift */,
+				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
+				A2A4401719EF82F700EE2151 /* Rule.swift */,
 				1819134019D7515200BBEDC2 /* WPParameterSet.swift */,
 				186C621319D62AA500FF3952 /* WPSliderView.swift */,
-				4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */,
-				186C621519D62BAC00FF3952 /* WPSliderView.xib */,
-				91101BC619D5DE7000E59AB4 /* Main.storyboard */,
+				186C621719D636A800FF3952 /* WPToolBarViewController.swift */,
 				91101BC919D5DE7000E59AB4 /* Images.xcassets */,
+				186C621519D62BAC00FF3952 /* WPSliderView.xib */,
 				91101BCB19D5DE7000E59AB4 /* LaunchScreen.xib */,
+				91101BC619D5DE7000E59AB4 /* Main.storyboard */,
+				A28CD1CA1A0046690093D84D /* Piece */,
+				08401D4E1A009954006F1834 /* Scene */,
+				08BF6F1C1A0586AB002A5A96 /* Sound */,
 				91101BBC19D5DE7000E59AB4 /* Supporting Files */,
-				4FD0FA5F19FF0CB900126D6B /* MCHandler.swift */,
+				016B93A61A05939400107CB8 /* Trajectory.swift */,
 			);
 			path = WildPiece;
 			sourceTree = "<group>";
@@ -302,11 +322,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				18EE802A19DF5FE5009261A3 /* Game.plist in Resources */,
+				08BF6F1E1A0586BB002A5A96 /* backgroundMusic.mp3 in Resources */,
 				91101BCD19D5DE7000E59AB4 /* LaunchScreen.xib in Resources */,
 				91101BCA19D5DE7000E59AB4 /* Images.xcassets in Resources */,
 				186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */,
 				91101BC119D5DE7000E59AB4 /* GameScene.sks in Resources */,
 				91101BC819D5DE7000E59AB4 /* Main.storyboard in Resources */,
+				08BF6F1B1A0580BA002A5A96 /* collision.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08401D841A00A3D9006F1834 /* TutorialScene.swift in Sources */,
+				08BF6F201A058A46002A5A96 /* Sound.swift in Sources */,
 				91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */,
 				08401D501A009A1E006F1834 /* SettingScene.swift in Sources */,
 				91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */,
@@ -341,6 +364,7 @@
 				088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */,
 				A2581D3A19FC5DAC006FAAA4 /* Board.swift in Sources */,
 				1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */,
+				016B93A71A05939400107CB8 /* Trajectory.swift in Sources */,
 				A28CD1D01A0047320093D84D /* PieceElephant.swift in Sources */,
 				186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */,
 				4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */,

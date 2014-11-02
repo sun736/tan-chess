@@ -48,14 +48,7 @@ class PauseScene: SKScene {
         if touchedNode.name == "backButton"
         {
             println("back to menu")
-            let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            var gameScene = appDelegate.gameScene
-            gameScene?.endGame()
-            var menuScene = MenuScene(size: self.size)
-            let transition = SKTransition.crossFadeWithDuration(0.3)
-            menuScene.scaleMode = SKSceneScaleMode.AspectFill
-            self.scene?.view?.presentScene(menuScene, transition: transition)
-            
+            NSNotificationCenter.defaultCenter().postNotificationName(kShouldPresentMenuSceneNotification, object: self, userInfo: nil)
         }else if touchedNode.name == "restartButton"
         {
             println("restart game")
