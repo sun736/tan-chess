@@ -10,6 +10,8 @@ import UIKit
 import SpriteKit
 import MultipeerConnectivity
 
+let kShouldPresentMenuSceneNotification = "kShouldPresentMenuSceneNotification"
+
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
         if let path = NSBundle.mainBundle().pathForResource(file, ofType: "sks") {
@@ -41,6 +43,9 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         self.appDelegate.mcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
         self.appDelegate.mcHandler.setupSession()
         self.appDelegate.mcHandler.advertiseSelf(true)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMenuScene:",
+            name: kShouldPresentMenuSceneNotification, object: nil)
         
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
@@ -78,6 +83,15 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     
     func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
         appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func presentMenuScene(notification : NSNotification) {
+        var scene = notification.object as? SKScene
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        var gameScene = appDelegate.gameScene
+        gameScene?.endGame()
+        let transition = SKTransition.crossFadeWithDuration(0.3)
+        scene?.view?.presentScene(menuScene, transition: transition)
     }
     
     override func shouldAutorotate() -> Bool {

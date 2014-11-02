@@ -198,7 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
     // MARK: State Changes
     func startGame() {
-        self.soundPlayer?.playBackgroundMusic()
+//        self.soundPlayer?.playBackgroundMusic()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -225,7 +225,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func endGame() {
-        self.soundPlayer?.stopBackgroundMusic();
+//        self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.end()
     }
@@ -420,7 +420,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // update UI here
     func gameDidEnd(player : Player) {
         //stop play music
-        self.soundPlayer?.stopBackgroundMusic();
+//        self.soundPlayer?.stopBackgroundMusic();
         
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")
