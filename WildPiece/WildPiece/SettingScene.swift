@@ -15,6 +15,7 @@ class SettingScene: SKScene {
     var audioOn : Bool?
     var musicButton: SKLabelNode?
     var audioButton: SKLabelNode?
+    var userDefaults: NSUserDefaults?
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -28,17 +29,43 @@ class SettingScene: SKScene {
         
         self.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         
-        self.musicOn = true
+        self.userDefaults = NSUserDefaults.standardUserDefaults()
+      
+        if (userDefaults?.valueForKey("musicOn") != nil) {
+            self.musicOn = userDefaults?.valueForKey("musicOn")?.boolValue
+        }
+        else {
+            userDefaults?.setValue(true, forKey: "musicOn")
+            self.musicOn = true
+        }
+        
         self.musicButton = SKLabelNode(fontNamed:"Verdana")
-        self.musicButton?.text = "Music: ON"
+        if self.musicOn == true {
+            self.musicButton?.text = "Music: ON"
+        }else
+        {
+            self.musicButton?.text = "Music: OFF"
+        }
         self.musicButton?.name = "musicButton"
         self.musicButton?.fontSize = 25
         self.musicButton?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2)
         self.addChild(self.musicButton!)
         
-        self.audioOn = true;
+        if (userDefaults?.valueForKey("audioOn") != nil) {
+            self.audioOn = userDefaults?.valueForKey("audioOn")?.boolValue
+        }
+        else {
+            userDefaults?.setValue(true, forKey: "audioOn")
+            self.audioOn = true
+        }
+        
         self.audioButton = SKLabelNode(fontNamed: "Verdana")
-        self.audioButton?.text = "Audio: ON"
+        if self.audioOn == true{
+            self.audioButton?.text = "Audio: ON"
+        }else
+        {
+            self.audioButton?.text = "Audio: OFF"
+        }
         self.audioButton?.name = "audioButton"
         self.audioButton?.fontSize = 25
         self.audioButton?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
@@ -50,6 +77,8 @@ class SettingScene: SKScene {
         backButton.fontSize = 25
         backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
         self.addChild(backButton)
+        
+        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -60,6 +89,9 @@ class SettingScene: SKScene {
         if touchedNode.name == "backButton"
         {
             println("back to menu")
+            
+            self.saveSetting()
+            
             var helpScene = HelpScene(size: self.size)
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 0.3)
             helpScene.scaleMode = SKSceneScaleMode.AspectFill
@@ -86,6 +118,13 @@ class SettingScene: SKScene {
             }
         }
         
+    }
+    
+    func saveSetting(){
+        self.userDefaults?.setValue(self.musicOn, forKey: "musicOn")
+        self.userDefaults?.setValue(self.audioOn, forKey: "audioOn")
+        
+        self.userDefaults?.synchronize()
     }
 
 

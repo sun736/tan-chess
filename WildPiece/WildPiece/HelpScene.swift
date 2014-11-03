@@ -9,7 +9,15 @@
 import UIKit
 import SpriteKit
 
+
+protocol HelpSceneDelegate: class {
+    func shouldDisplayTutorial()
+}
+
 class HelpScene: SKScene {
+    
+    var helpDelegate: HelpSceneDelegate?
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
@@ -59,10 +67,12 @@ class HelpScene: SKScene {
             self.scene?.view?.presentScene(settingScene, transition: transition)
         } else if touchedNode.name == "tutorialButton"
         {
-            var tutorialScene = TutorialScene(size: self.size)
+            /*var tutorialScene = TutorialScene(size: self.size)
             let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
             tutorialScene.scaleMode = SKSceneScaleMode.AspectFill
-            self.scene?.view?.presentScene(tutorialScene, transition: transition)
+            self.scene?.view?.presentScene(tutorialScene, transition: transition)*/
+            //self.helpDelegate?.shouldDisplayTutorial()
+            NSNotificationCenter.defaultCenter().postNotificationName(kShouldPresentTutorialNotification, object: nil)
 
         }
         
