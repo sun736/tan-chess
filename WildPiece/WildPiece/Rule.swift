@@ -131,13 +131,13 @@ class Rule {
         // add pawns
         let leftstartPointX:CGFloat = 44
         let rightendPointX:CGFloat = scene.frame.width - leftstartPointX
-        var lrdiff:CGFloat = (rightendPointX - leftstartPointX)/4
-        for index:Int in 0...4 {
+        var lrdiff:CGFloat = (rightendPointX - leftstartPointX)/2
+        for index:Int in 0...2 {
             addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(leftstartPointX + CGFloat(index)*lrdiff, 200))
         }
         
-        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(leftstartPointX+(lrdiff/2), 150))
-        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(rightendPointX-(lrdiff/2), 150))
+        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(leftstartPointX+(lrdiff/2), 200))
+        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(rightendPointX-(lrdiff/2), 200))
         
         lrdiff = (rightendPointX - leftstartPointX)/4
         addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(leftstartPointX, 100))
