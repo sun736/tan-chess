@@ -191,12 +191,13 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             }
         } else {
             // set player side
-            let fromPeerID: MCPeerID = userInfo["peerID"] as MCPeerID
+            // TODO: everytime restart the game, set whoami to PLAYER_NULL
             if Logic.sharedInstance.whoami == PLAYER_NULL {
-                let selfPeerIDHash: String = String(appDelegate.mcHandler.peerID.hashValue)
-                let fromPeerIDHash: String = String(fromPeerID.hashValue)
-                println("self id hash \(selfPeerIDHash) vs peer id hash \(fromPeerIDHash)")
-                if selfPeerIDHash.isLessThan(fromPeerIDHash) {
+                let peerID: MCPeerID = userInfo["peerID"] as MCPeerID
+                let peerUDID: String = userInfo["UDID"] as String
+                let selfUDID: String = UIDevice.currentDevice().identifierForVendor.UUIDString
+                println("self(\(appDelegate.mcHandler.peerID.displayName)) id \(selfUDID) vs peer(\(peerID.displayName)) id \(peerUDID)")
+                if (selfUDID < peerUDID) || (appDelegate.mcHandler.peerID.displayName < peerID.displayName) {
                     Logic.sharedInstance.whoami = PLAYER1
                     println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER1")
                 } else {
