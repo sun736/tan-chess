@@ -77,8 +77,6 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: "King")
         
         // multipeer connectivity
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MC_DidChangeStateNotification", object: nil)
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MC_DidReceiveDataNotification", object: nil)
         
     }
@@ -87,6 +85,9 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         
         self.menuScene?.startNewGame()
         appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+        // send its peerid to the other device
+        // tell the other device to dismiss browser
+        self.shakeHandWithPeer()
     }
     
     func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
@@ -140,8 +141,8 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         }
     }
     
-    func sendDataToPeer() {
-        let messageDict = ["field": UIDevice.currentDevice().name]
+    func shakeHandWithPeer() {
+        let messageDict = ["nothing": "nothing"]
         
         let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         
@@ -154,19 +155,59 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         }
     }
     
-    func handleReceivedDataWithNotification(notification:NSNotification){
+    func sendDataToPeer(position: CGPoint, distance: CGVector) {
+        let messageDict = ["position": ["x": position.x, "y": position.y], "distance" : ["dx": distance.dx, "dy": distance.dy]]
+        
+        let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        
+        var error:NSError?
+        
+        appDelegate.mcHandler.session.sendData(messageData, toPeers: appDelegate.mcHandler.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
+        
+        if error != nil{
+            println("error: \(error?.localizedDescription)")
+        }
+    }
+    
+    func handleReceivedDataWithNotification(notification: NSNotification){
         let userInfo = notification.userInfo! as Dictionary
         let receivedData:NSData = userInfo["data"] as NSData
         
-        let message = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
-        let senderPeerId:MCPeerID = userInfo["peerID"] as MCPeerID
-        let senderDisplayName = senderPeerId.displayName
-        
-        let alert = UIAlertController(title: "WildPiece", message: "\(senderDisplayName) has started a new Game", preferredStyle: UIAlertControllerStyle.Alert)
-        
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
+        let message: NSDictionary = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
+        let fromPeerID: MCPeerID = userInfo["peerID"] as MCPeerID
+
+        if let position = message["position"] as? NSDictionary {
+            let distance = message["distance"] as NSDictionary
+            let gameScene: GameScene? = self.appDelegate.gameScene
+            
+            let nodes = gameScene?.nodesAtPoint(CGPointMake(CGFloat(position["x"] as Float), CGFloat(position["y"] as Float)))
+            for node in nodes as [SKNode] {
+                if let piece = node as? Piece {
+                    gameScene?.pieceDidPulled(piece, distance: CGVectorMake(distance["dx"] as CGFloat, distance["dy"]  as CGFloat))
+                    Logic.sharedInstance.playerDone()
+                    break
+                }
+            }
+        } else { // only shake hands
+            // set player side
+            if Logic.sharedInstance.whoami == PLAYER_NULL {
+                if appDelegate.mcHandler.peerID.hashValue < fromPeerID.hashValue {
+                    Logic.sharedInstance.whoami = PLAYER1
+                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER1")
+                } else {
+                    Logic.sharedInstance.whoami = PLAYER2
+                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER2")
+                }
+                self.shakeHandWithPeer()
+            }
+            
+            // dismiss the mpc browser if presents
+            let browser = appDelegate.mcHandler.browser
+            if (browser.isViewLoaded() || browser.isBeingPresented()) && (!browser.isBeingDismissed()){
+                appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+                self.menuScene?.startNewGame()
+            }
+        }
     }
 
     

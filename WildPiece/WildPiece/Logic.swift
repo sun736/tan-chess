@@ -58,9 +58,13 @@ class Logic {
     
     private var state: GameState {
         didSet {
-            //println("state: \(state)")
+            println("state: \(state)")
         }
     }
+    
+    var onlineMode: Bool = false
+    
+    var whoami: Player = PLAYER_NULL
     
     private var oldState: GameState?
     
@@ -108,6 +112,7 @@ class Logic {
     
     init() {
         state = .Unstarted
+        onlineMode = false;
     }
     
     class var sharedInstance : Logic {

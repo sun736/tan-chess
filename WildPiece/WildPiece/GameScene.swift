@@ -9,7 +9,7 @@
 import SpriteKit
 
 protocol GameSceneDelegate: class {
-    func sendDataToPeer()
+    func sendDataToPeer(piece: CGPoint, distance: CGVector)
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
@@ -76,8 +76,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let nodes = self.nodesAtPoint(location)
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
-                    // send test data to peer
-                    //self.sceneDelegate?.sendDataToPeer()
                     
                     if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
                         let centerPt = piece.position
@@ -125,6 +123,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         }
                     } else {
                         if self.pieceShouldPull(piece) {
+                            if Logic.sharedInstance.onlineMode {
+                                self.sceneDelegate?.sendDataToPeer(piece.position, distance: distance)
+                            }
                             self.pieceDidPulled(piece, distance: distance)
                             Logic.sharedInstance.playerDone()
                             self.board?.TurnDone()
@@ -307,7 +308,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     // MARK: User Operation Validators
     func pieceShouldPull(piece : Piece) -> Bool {
-        return moveableSet.filter{$0 === piece}.count > 0
+        
+        if Logic.sharedInstance.onlineMode {
+            return Logic.sharedInstance.whoami == piece.player && moveableSet.filter{$0 === piece}.count > 0
+        } else {
+            return moveableSet.filter{$0 === piece}.count > 0
+        }
     }
     
     func pieceShouldTap(piece : Piece) -> Bool {
@@ -352,7 +358,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             //print("\(piece.physicsBody?.categoryBitMask)\n")
             //print("\(piece.physicsBody?.collisionBitMask)\n")
         }
-        
+        CollisionController.setContacter(self, contacter: piece)
         piece.physicsBody?.applyImpulse(force);
         updateLastMove(piece)
 

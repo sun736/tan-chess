@@ -46,7 +46,7 @@ class MCHandler: NSObject, MCSessionDelegate{
     }
     
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
-        let userInfo = ["data": data, "peerID": self.peerID]
+        let userInfo = ["data": data, "peerID": peerID]
         dispatch_async(dispatch_get_main_queue(), {()-> Void in NSNotificationCenter.defaultCenter().postNotificationName("MC_DidReceiveDataNotification", object: nil, userInfo: userInfo)})
     }
     
