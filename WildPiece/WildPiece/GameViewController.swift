@@ -193,16 +193,15 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             // set player side
             let fromPeerID: MCPeerID = userInfo["peerID"] as MCPeerID
             if Logic.sharedInstance.whoami == PLAYER_NULL {
-                let selfPeerID = appDelegate.mcHandler.peerID
-                println("self id hash \(selfPeerID.hashValue) vs peer id hash \(fromPeerID.hashValue)")
-                if String(selfPeerID.hashValue) < String(fromPeerID.hashValue) {
+                let selfPeerIDHash: String = String(appDelegate.mcHandler.peerID.hashValue)
+                let fromPeerIDHash: String = String(fromPeerID.hashValue)
+                println("self id hash \(selfPeerIDHash) vs peer id hash \(fromPeerIDHash)")
+                if selfPeerIDHash.isLessThan(fromPeerIDHash) {
                     Logic.sharedInstance.whoami = PLAYER1
-                    println("I'm(\(selfPeerID.displayName)) set to PLAYER1")
-                    //presentAlert("I'm(\(selfPeerID.displayName)) set to PLAYER1")
+                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER1")
                 } else {
                     Logic.sharedInstance.whoami = PLAYER2
-                    println("I'm(\(selfPeerID.displayName)) set to PLAYER2")
-                    //presentAlert("I'm(\(selfPeerID.displayName)) set to PLAYER2")
+                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER2")
                 }
                 // shake back
                 self.shakeHandWithPeer()
@@ -239,5 +238,25 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+}
+
+extension String {
+
+    func isLessThan(str: String) -> Bool{
+        let size1: Int = Array(self).count
+        let size2: Int = Array(str).count
+        for i in 0...min(size1, size2)-1 {
+            let ch1: Character = Array(self)[i]
+            let ch2: Character = Array(str)[i]
+            
+            if ch1 < ch2 {
+                return true
+            } else if ch2 < ch1 {
+                return false
+            }
+        }
+        
+        return size1 < size2
     }
 }
