@@ -84,12 +84,12 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     }
     
     func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
-        
-        self.menuScene?.startNewGame()
-        appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
         // send its peerid to the other device
         // tell the other device to dismiss browser
         self.shakeHandWithPeer()
+        
+        self.menuScene?.startNewGame()
+        appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
@@ -176,7 +176,6 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         let receivedData:NSData = userInfo["data"] as NSData
         
         let message: NSDictionary = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
-        let fromPeerID: MCPeerID = userInfo["peerID"] as MCPeerID
 
         if let position = message["position"] as? NSDictionary {
             let distance = message["distance"] as NSDictionary
@@ -190,24 +189,35 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
                     break
                 }
             }
-        } else { // only shake hands
+        } else {
             // set player side
+            let fromPeerID: MCPeerID = userInfo["peerID"] as MCPeerID
             if Logic.sharedInstance.whoami == PLAYER_NULL {
-                if appDelegate.mcHandler.peerID.hashValue < fromPeerID.hashValue {
+                let selfPeerID = appDelegate.mcHandler.peerID
+                println("self id hash \(selfPeerID.hashValue) vs peer id hash \(fromPeerID.hashValue)")
+                if String(selfPeerID.hashValue) < String(fromPeerID.hashValue) {
                     Logic.sharedInstance.whoami = PLAYER1
-                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER1")
+                    println("I'm(\(selfPeerID.displayName)) set to PLAYER1")
+                    //presentAlert("I'm(\(selfPeerID.displayName)) set to PLAYER1")
                 } else {
                     Logic.sharedInstance.whoami = PLAYER2
-                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER2")
+                    println("I'm(\(selfPeerID.displayName)) set to PLAYER2")
+                    //presentAlert("I'm(\(selfPeerID.displayName)) set to PLAYER2")
                 }
+                // shake back
                 self.shakeHandWithPeer()
             }
-            
-            // dismiss the mpc browser if presents
+            //dismiss the mpc browser if presents
             let browser = appDelegate.mcHandler.browser
             if (browser.isViewLoaded() || browser.isBeingPresented()) && (!browser.isBeingDismissed()){
+                switch Logic.sharedInstance.getGameState() {
+                case Logic.GameState.Unstarted:
+                    self.menuScene?.startNewGame()
+                default:
+                    break
+                }
+                
                 appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
-                self.menuScene?.startNewGame()
             }
         }
     }
@@ -221,5 +231,13 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         println("present tutorial")
         var tutorialViewController = TutorialViewController()
         self.presentViewController(tutorialViewController, animated: true, completion: nil)
+    }
+    
+    func presentAlert(message: String) {
+        let alert = UIAlertController(title: "WildPiece", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }

@@ -310,7 +310,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func pieceShouldPull(piece : Piece) -> Bool {
         
         if Logic.sharedInstance.onlineMode {
-            return Logic.sharedInstance.whoami == piece.player && moveableSet.filter{$0 === piece}.count > 0
+            return (Logic.sharedInstance.whoami == piece.player) && (moveableSet.filter{$0 === piece}.count > 0)
         } else {
             return moveableSet.filter{$0 === piece}.count > 0
         }

@@ -238,4 +238,7 @@ class Logic {
         scene?.gameDidWait(player)
     }
 
+    func getGameState() -> GameState {
+        return state
+    }
 }

@@ -13,7 +13,7 @@ import SpriteKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var gameScene: GameScene?
+    var gameScene: GameScene? = nil
     var mcHandler: MCHandler = MCHandler()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
