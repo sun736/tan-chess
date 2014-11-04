@@ -10,13 +10,16 @@
 		016B93A71A05939400107CB8 /* Trajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016B93A61A05939400107CB8 /* Trajectory.swift */; };
 		01B62C0319F1D415005F4883 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B62C0219F1D415005F4883 /* EndScene.swift */; };
 		081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081B805C19DFA5AC00B6C135 /* PauseScene.swift */; };
+		0833E9B41A059D500009E596 /* collision2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0833E9B31A059D500009E596 /* collision2.wav */; };
 		08401D501A009A1E006F1834 /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D4F1A009A1E006F1834 /* SettingScene.swift */; };
 		08401D841A00A3D9006F1834 /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D831A00A3D9006F1834 /* TutorialScene.swift */; };
 		087B614E19DF1B56009694C6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087B614D19DF1B56009694C6 /* HelpScene.swift */; };
 		088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */; };
-		08BF6F1B1A0580BA002A5A96 /* collision.wav in Resources */ = {isa = PBXBuildFile; fileRef = 08BF6F1A1A0580BA002A5A96 /* collision.wav */; };
 		08BF6F1E1A0586BB002A5A96 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 08BF6F1D1A0586BB002A5A96 /* backgroundMusic.mp3 */; };
 		08BF6F201A058A46002A5A96 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BF6F1F1A058A46002A5A96 /* Sound.swift */; };
+		08BF6F221A059A08002A5A96 /* collision.wav in Resources */ = {isa = PBXBuildFile; fileRef = 08BF6F211A059A08002A5A96 /* collision.wav */; };
+		08C2BE5F1A08269C00F088BB /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2BE5E1A08269C00F088BB /* TutorialViewController.swift */; };
+		08C2BE611A082C5800F088BB /* TutorialImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2BE601A082C5800F088BB /* TutorialImageViewController.swift */; };
 		1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819134019D7515200BBEDC2 /* WPParameterSet.swift */; };
 		186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186C621319D62AA500FF3952 /* WPSliderView.swift */; };
 		186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186C621519D62BAC00FF3952 /* WPSliderView.xib */; };
@@ -64,13 +67,16 @@
 		016B93A61A05939400107CB8 /* Trajectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trajectory.swift; sourceTree = "<group>"; };
 		01B62C0219F1D415005F4883 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 		081B805C19DFA5AC00B6C135 /* PauseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseScene.swift; sourceTree = "<group>"; };
+		0833E9B31A059D500009E596 /* collision2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = collision2.wav; sourceTree = "<group>"; };
 		08401D4F1A009A1E006F1834 /* SettingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingScene.swift; sourceTree = "<group>"; };
 		08401D831A00A3D9006F1834 /* TutorialScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
 		087B614D19DF1B56009694C6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		088B8C5E19DBB3CB00CBA944 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
-		08BF6F1A1A0580BA002A5A96 /* collision.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = collision.wav; sourceTree = "<group>"; };
 		08BF6F1D1A0586BB002A5A96 /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
 		08BF6F1F1A058A46002A5A96 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		08BF6F211A059A08002A5A96 /* collision.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = collision.wav; sourceTree = "<group>"; };
+		08C2BE5E1A08269C00F088BB /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		08C2BE601A082C5800F088BB /* TutorialImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialImageViewController.swift; sourceTree = "<group>"; };
 		1819134019D7515200BBEDC2 /* WPParameterSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPParameterSet.swift; sourceTree = "<group>"; };
 		186C621319D62AA500FF3952 /* WPSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPSliderView.swift; sourceTree = "<group>"; };
 		186C621519D62BAC00FF3952 /* WPSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WPSliderView.xib; sourceTree = "<group>"; };
@@ -135,6 +141,8 @@
 				01B62C0219F1D415005F4883 /* EndScene.swift */,
 				08401D4F1A009A1E006F1834 /* SettingScene.swift */,
 				08401D831A00A3D9006F1834 /* TutorialScene.swift */,
+				08C2BE5E1A08269C00F088BB /* TutorialViewController.swift */,
+				08C2BE601A082C5800F088BB /* TutorialImageViewController.swift */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -142,7 +150,8 @@
 		08BF6F1C1A0586AB002A5A96 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
-				08BF6F1A1A0580BA002A5A96 /* collision.wav */,
+				08BF6F211A059A08002A5A96 /* collision.wav */,
+				0833E9B31A059D500009E596 /* collision2.wav */,
 				08BF6F1D1A0586BB002A5A96 /* backgroundMusic.mp3 */,
 				08BF6F1F1A058A46002A5A96 /* Sound.swift */,
 			);
@@ -326,9 +335,10 @@
 				91101BCD19D5DE7000E59AB4 /* LaunchScreen.xib in Resources */,
 				91101BCA19D5DE7000E59AB4 /* Images.xcassets in Resources */,
 				186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */,
+				08BF6F221A059A08002A5A96 /* collision.wav in Resources */,
+				0833E9B41A059D500009E596 /* collision2.wav in Resources */,
 				91101BC119D5DE7000E59AB4 /* GameScene.sks in Resources */,
 				91101BC819D5DE7000E59AB4 /* Main.storyboard in Resources */,
-				08BF6F1B1A0580BA002A5A96 /* collision.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +356,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08C2BE611A082C5800F088BB /* TutorialImageViewController.swift in Sources */,
 				08401D841A00A3D9006F1834 /* TutorialScene.swift in Sources */,
 				08BF6F201A058A46002A5A96 /* Sound.swift in Sources */,
 				91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */,
@@ -377,6 +388,7 @@
 				A2A4401819EF82F700EE2151 /* Rule.swift in Sources */,
 				087B614E19DF1B56009694C6 /* HelpScene.swift in Sources */,
 				A28CD1D61A00479D0093D84D /* PieceKnight.swift in Sources */,
+				08C2BE5F1A08269C00F088BB /* TutorialViewController.swift in Sources */,
 				A28CD1CE1A0047110093D84D /* PiecePawn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

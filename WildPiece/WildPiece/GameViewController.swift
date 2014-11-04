@@ -11,6 +11,7 @@ import SpriteKit
 import MultipeerConnectivity
 
 let kShouldPresentMenuSceneNotification = "kShouldPresentMenuSceneNotification"
+let kShouldPresentTutorialNotification = "kShouldPresentTutorialNotification"
 
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
@@ -28,7 +29,7 @@ extension SKNode {
     }
 }
 
-class GameViewController: UIViewController, MCBrowserViewControllerDelegate, MenuSceneDelegate, GameSceneDelegate{
+class GameViewController: UIViewController, MCBrowserViewControllerDelegate, MenuSceneDelegate, HelpSceneDelegate, GameSceneDelegate{
     
     @IBOutlet weak var toolBarContainerView: UIView!
     @IBOutlet weak var switchControl: UISwitch!
@@ -48,7 +49,8 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "presentMenuScene:",
             name: kShouldPresentMenuSceneNotification, object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "shouldDisplayTutorial", name:kShouldPresentTutorialNotification, object: nil);
+
         if let scene = GameScene.unarchiveFromFile("GameScene") as? GameScene {
             // Configure the view.
             let skView = self.view as SKView
@@ -213,5 +215,11 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     
     func shouldDisplayOnlineSearch() {
         connectWithPlayer(nil)
+    }
+    
+    func shouldDisplayTutorial(){
+        println("present tutorial")
+        var tutorialViewController = TutorialViewController()
+        self.presentViewController(tutorialViewController, animated: true, completion: nil)
     }
 }
