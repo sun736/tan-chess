@@ -63,7 +63,7 @@ class Piece: SKSpriteNode {
     }
     var ring : Ring?
     var arrow: Arrow?
-    //var trajectory: Trajectory?
+    var trajectory: SKShapeNode?
     var hpring: HPRing?
     var directionHint: DirectionHint?
     // temporary solution to contact
@@ -235,18 +235,38 @@ class Piece: SKSpriteNode {
         self.arrow?.removeFromParent()
     }
     
-    /*func drawTrajectory(force: CGVector){
+    func drawTrajectory(force: CGVector){
         self.removeTrajectory()
-        var endPosition = CGPointMake(force.dx/50 + self.position.x, force.dy/50 + self.position.y)
-        let trajectoryNode :Trajectory = Trajectory(startPoint: self.position, endPoint: endPosition, piece: self, player: self.player)
-        self.trajectory = trajectoryNode
-        self.parent?.addChild(trajectoryNode)
+        let node = SKShapeNode(circleOfRadius: 8.0)
+        //let nodeColor = (self.player.bitMask == Piece.BITMASK_BLUE() ? UIColor.blueColor() : UIColor.redColor())
+        node.fillColor = self.color
+        node.lineWidth = 0
+        node.position = self.position
+        node.physicsBody = SKPhysicsBody(circleOfRadius:8.0)
+        node.physicsBody?.dynamic = true
+        node.physicsBody?.friction = self.physicsBody!.friction
+        node.physicsBody?.restitution = self.physicsBody!.restitution
+        node.physicsBody?.linearDamping = self.physicsBody!.linearDamping
+        node.physicsBody?.angularDamping = self.physicsBody!.angularDamping
+        node.physicsBody?.mass = self.physicsBody!.mass
+        node.physicsBody?.allowsRotation = false
+        node.physicsBody?.categoryBitMask = 0x00
+        node.physicsBody?.collisionBitMask = 0x00
+        node.physicsBody?.contactTestBitMask = 0x00
         
+        self.trajectory = node
+        self.parent?.addChild(node)
+        let waitAction = SKAction.waitForDuration(3.0)
+        self.runAction(waitAction)
+        //var timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: nil, userInfo: nil, repeats: false)
+        node.physicsBody?.applyImpulse(force)
+        let fadeAction = SKAction.fadeOutWithDuration(1.0)
+        node.runAction(fadeAction)
     }
     
     func removeTrajectory(){
         self.trajectory?.removeFromParent()
-    }*/
+    }
     
     // calculate a valid force based on piece's limit
     func forceForPullDistance(distance : CGVector) -> CGVector {
