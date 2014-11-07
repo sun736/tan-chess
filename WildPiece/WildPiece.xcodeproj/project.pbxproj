@@ -19,6 +19,7 @@
 		08BF6F221A059A08002A5A96 /* collision.wav in Resources */ = {isa = PBXBuildFile; fileRef = 08BF6F211A059A08002A5A96 /* collision.wav */; };
 		08C2BE5F1A08269C00F088BB /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2BE5E1A08269C00F088BB /* TutorialViewController.swift */; };
 		08C2BE611A082C5800F088BB /* TutorialImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2BE601A082C5800F088BB /* TutorialImageViewController.swift */; };
+		180F8F421A0D6DC8001ED878 /* PieceGeneral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180F8F411A0D6DC8001ED878 /* PieceGeneral.swift */; };
 		1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1819134019D7515200BBEDC2 /* WPParameterSet.swift */; };
 		186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186C621319D62AA500FF3952 /* WPSliderView.swift */; };
 		186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186C621519D62BAC00FF3952 /* WPSliderView.xib */; };
@@ -76,6 +77,7 @@
 		08BF6F211A059A08002A5A96 /* collision.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = collision.wav; sourceTree = "<group>"; };
 		08C2BE5E1A08269C00F088BB /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		08C2BE601A082C5800F088BB /* TutorialImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialImageViewController.swift; sourceTree = "<group>"; };
+		180F8F411A0D6DC8001ED878 /* PieceGeneral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceGeneral.swift; sourceTree = "<group>"; };
 		1819134019D7515200BBEDC2 /* WPParameterSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPParameterSet.swift; sourceTree = "<group>"; };
 		186C621319D62AA500FF3952 /* WPSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPSliderView.swift; sourceTree = "<group>"; };
 		186C621519D62BAC00FF3952 /* WPSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WPSliderView.xib; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				A28CD1D11A0047530093D84D /* PieceRock.swift */,
 				A28CD1D31A0047800093D84D /* PieceCanon.swift */,
 				A28CD1D51A00479D0093D84D /* PieceKnight.swift */,
+				180F8F411A0D6DC8001ED878 /* PieceGeneral.swift */,
 			);
 			name = Piece;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				08BF6F201A058A46002A5A96 /* Sound.swift in Sources */,
 				91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */,
 				08401D501A009A1E006F1834 /* SettingScene.swift in Sources */,
+				180F8F421A0D6DC8001ED878 /* PieceGeneral.swift in Sources */,
 				91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */,
 				4FF31F5B19DE5C2300A0ABB6 /* Arrow.swift in Sources */,
 				4F06ACCB19F1827E0023A0DC /* DirectionHint.swift in Sources */,
