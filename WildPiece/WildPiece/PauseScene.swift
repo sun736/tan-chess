@@ -62,8 +62,6 @@ class PauseScene: SKScene {
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             var gameScene = appDelegate.gameScene
            
-            
-            
             top?.runAction(SKAction.moveToY(CGFloat(CGRectGetMidY(self.frame)*1.5), duration: 0.2))
             bottom?.runAction(SKAction.moveToY(CGFloat(CGRectGetMidY(self.frame)*0.5), duration: 0.2), completion: { gameScene?.unpauseGame()
                 self.scene?.view?.presentScene(gameScene)})
