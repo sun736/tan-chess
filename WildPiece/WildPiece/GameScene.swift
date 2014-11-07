@@ -428,7 +428,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             return true
         }
 
-        var (turnChange, pieceChange) = Rule.gameShouldChangeTurn(lastMove)
+        var (turnChange, pieceChange) = Rule.gameShouldChangeTurn(self, lastMove: lastMove)
         if !turnChange && !pieceChange {
             if let piece = lastMove.piece {
                 moveableSet = [piece]

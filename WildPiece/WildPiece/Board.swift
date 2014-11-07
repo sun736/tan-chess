@@ -16,10 +16,13 @@ class Board : SKNode {
     private let background : SKShapeNode
     private let backgroundUp : SKShapeNode
     private let backgroundDown : SKShapeNode
+//    private let restrictedAreaUp : SKShapeNode
+//    private let restrictedAreaDown : SKShapeNode
     private var colorTimer : NSTimer?
     private let timeInterval : NSTimeInterval = 1.4
     private let marginX : CGFloat = 0
     private let marginY : CGFloat
+    private let restrictedAreaHeight : CGFloat = 200
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -122,6 +125,18 @@ class Board : SKNode {
             return true
         }
         return false
+    }
+    
+    func isInRestrictedArea(position : CGPoint, isUpSide : Bool) -> Bool {
+        if isUpSide {
+            println(position.y)
+            println(restrictedAreaHeight)
+            return position.y < restrictedAreaHeight
+        } else {
+            println(position.y)
+            println(length - restrictedAreaHeight)
+            return position.y > length - restrictedAreaHeight
+        }
     }
     
     class func BITMASK_BOARD() -> UInt32 {

@@ -18,8 +18,8 @@ class PieceGeneral : Piece{
     let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
     let c_maxForce: CGFloat = 10000.0
-    let c_bluePic: String = "PawnGeneral_BLUE"
-    let c_redPic: String = "PawnGeneral_RED"
+    let c_bluePic: String = "GeneralPiece_BLUE"
+    let c_redPic: String = "GeneralPiece_RED"
     let c_pieceType : PieceType = .General
     
     init(_ player : Player){
