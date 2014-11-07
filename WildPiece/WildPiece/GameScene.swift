@@ -324,7 +324,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func pieceDidStartPull(piece : Piece) {
         
         // temporary solution to determine contacter
-        CollisionController.setContacter(self, contacter: piece)
+        //CollisionController.setContacter(self, contacter: piece)
         piece.drawRing()
         if piece is PieceCanon {
             piece.fadeTo()
@@ -358,6 +358,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             //print("\(piece.physicsBody?.categoryBitMask)\n")
             //print("\(piece.physicsBody?.collisionBitMask)\n")
         }
+        // if this is the place to set contacter, knight can only achieve kill-move by itself, no team work
         CollisionController.setContacter(self, contacter: piece)
         piece.physicsBody?.applyImpulse(force);
         updateLastMove(piece)
@@ -440,7 +441,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // update UI here
     func gameDidEnd(player : Player) {
         //stop play music
-        self.soundPlayer?.stopBackgroundMusic();
+        self.soundPlayer?.stopBackgroundMusic()
         
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")

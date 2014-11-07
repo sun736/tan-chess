@@ -16,6 +16,7 @@ enum PieceType : Printable {
     case Rook
     case Canon
     case Knight
+    case General
     
     var description : String {
         switch self {
@@ -31,6 +32,8 @@ enum PieceType : Printable {
             return "Canon"
         case .Knight:
             return "Knight"
+        case .General:
+            return "General"
         }
     }
 }
@@ -300,6 +303,8 @@ class Piece: SKSpriteNode {
             return PieceKnight(player)
         case .Canon:
             return PieceCanon(player)
+        case .General:
+            return PieceGeneral(player)
         }
     }
 }

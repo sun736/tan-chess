@@ -200,11 +200,10 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
                 // println("\(selfID.displayName) - \(selfUDID) vs \(peerID.displayName) - \(peerUDID)")
                 if selfUDID < peerUDID {
                     Logic.sharedInstance.whoami = PLAYER1
-                    println("I'm(\(selfID.displayName)) set to PLAYER1")
                 } else {
                     Logic.sharedInstance.whoami = PLAYER2
-                    println("I'm(\(selfID.displayName)) set to PLAYER2")
                 }
+                println("I'm(\(selfID.displayName)) set to \(Logic.sharedInstance.whoami.name)")
                 // shake back
                 self.shakeHandWithPeer()
             }
