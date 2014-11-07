@@ -195,9 +195,9 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             if Logic.sharedInstance.whoami == PLAYER_NULL {
                 let peerID: MCPeerID = userInfo["peerID"] as MCPeerID
                 let peerUDID: String = userInfo["UDID"] as String
-                let selfUDID: String = UIDevice.currentDevice().identifierForVendor.UUIDString
-                println("self(\(appDelegate.mcHandler.peerID.displayName)) id \(selfUDID) vs peer(\(peerID.displayName)) id \(peerUDID)")
-                if (appDelegate.mcHandler.peerID.displayName < peerID.displayName) || (selfUDID < peerUDID) {
+                let selfUDID: String = appDelegate.mcHandler.UDID
+                println("\(appDelegate.mcHandler.peerID.displayName) id \(selfUDID) vs \(peerID.displayName) id \(peerUDID)")
+                if (selfUDID < peerUDID) || (selfUDID == peerUDID && appDelegate.mcHandler.peerID.displayName < peerID.displayName) {
                     Logic.sharedInstance.whoami = PLAYER1
                     println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER1")
                 } else {
