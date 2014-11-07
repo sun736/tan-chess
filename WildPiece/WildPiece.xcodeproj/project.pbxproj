@@ -24,6 +24,7 @@
 		186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186C621519D62BAC00FF3952 /* WPSliderView.xib */; };
 		186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186C621719D636A800FF3952 /* WPToolBarViewController.swift */; };
 		18EE802A19DF5FE5009261A3 /* Game.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18EE802919DF5FE5009261A3 /* Game.plist */; };
+		4F0105FB1A0D737E006B53A7 /* Shield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0105FA1A0D737E006B53A7 /* Shield.swift */; };
 		4F021E4D19DA059D00ACBB30 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F021E4C19DA059D00ACBB30 /* Ring.swift */; };
 		4F06ACCB19F1827E0023A0DC /* DirectionHint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */; };
 		4F290F7219DF77C500D283BE /* HPRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F290F7119DF77C500D283BE /* HPRing.swift */; };
@@ -80,6 +81,7 @@
 		186C621519D62BAC00FF3952 /* WPSliderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WPSliderView.xib; sourceTree = "<group>"; };
 		186C621719D636A800FF3952 /* WPToolBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPToolBarViewController.swift; sourceTree = "<group>"; };
 		18EE802919DF5FE5009261A3 /* Game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Game.plist; sourceTree = "<group>"; };
+		4F0105FA1A0D737E006B53A7 /* Shield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shield.swift; sourceTree = "<group>"; };
 		4F021E4C19DA059D00ACBB30 /* Ring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
 		4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionHint.swift; sourceTree = "<group>"; };
 		4F290F7119DF77C500D283BE /* HPRing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HPRing.swift; sourceTree = "<group>"; };
@@ -156,6 +158,18 @@
 			name = Sound;
 			sourceTree = "<group>";
 		};
+		4F0105F91A0D72C7006B53A7 /* Descriptor */ = {
+			isa = PBXGroup;
+			children = (
+				4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */,
+				4F290F7119DF77C500D283BE /* HPRing.swift */,
+				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
+				4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */,
+				4F0105FA1A0D737E006B53A7 /* Shield.swift */,
+			);
+			name = Descriptor;
+			sourceTree = "<group>";
+		};
 		91101BB019D5DE7000E59AB4 = {
 			isa = PBXGroup;
 			children = (
@@ -179,18 +193,14 @@
 			children = (
 				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
-				4FF31F5A19DE5C2300A0ABB6 /* Arrow.swift */,
 				A2581D3919FC5DAC006FAAA4 /* Board.swift */,
 				AE82C96919E360C300E6FE0B /* CollisionController.swift */,
-				4F06ACCA19F1827E0023A0DC /* DirectionHint.swift */,
 				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
 				91101BC419D5DE7000E59AB4 /* GameViewController.swift */,
 				A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */,
-				4F290F7119DF77C500D283BE /* HPRing.swift */,
 				A23D73AF19DF6C7F007383DF /* Logic.swift */,
 				4FD0FA5F19FF0CB900126D6B /* MCHandler.swift */,
 				A2C8C93C19E0A8FC00C6B166 /* Player.swift */,
-				4F021E4C19DA059D00ACBB30 /* Ring.swift */,
 				A2A4401719EF82F700EE2151 /* Rule.swift */,
 				1819134019D7515200BBEDC2 /* WPParameterSet.swift */,
 				186C621319D62AA500FF3952 /* WPSliderView.swift */,
@@ -199,6 +209,7 @@
 				186C621519D62BAC00FF3952 /* WPSliderView.xib */,
 				91101BCB19D5DE7000E59AB4 /* LaunchScreen.xib */,
 				91101BC619D5DE7000E59AB4 /* Main.storyboard */,
+				4F0105F91A0D72C7006B53A7 /* Descriptor */,
 				A28CD1CA1A0046690093D84D /* Piece */,
 				08401D4E1A009954006F1834 /* Scene */,
 				08BF6F1C1A0586AB002A5A96 /* Sound */,
@@ -379,6 +390,7 @@
 				91101BC519D5DE7000E59AB4 /* GameViewController.swift in Sources */,
 				91101BBF19D5DE7000E59AB4 /* AppDelegate.swift in Sources */,
 				A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */,
+				4F0105FB1A0D737E006B53A7 /* Shield.swift in Sources */,
 				A28CD1CC1A00469E0093D84D /* PieceKing.swift in Sources */,
 				A28CD1D41A0047800093D84D /* PieceCanon.swift in Sources */,
 				A2A4401819EF82F700EE2151 /* Rule.swift in Sources */,

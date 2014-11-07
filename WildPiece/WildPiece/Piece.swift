@@ -61,12 +61,13 @@ class Piece: SKSpriteNode {
             return radius * abs(distanceToForce)
         }
     }
-    var ring : Ring?
-    var arrow: Arrow?
-    var trajectory: SKShapeNode?
-    var hpring: HPRing?
-    var directionHint: DirectionHint?
-    // temporary solution to contact
+    var ring : Ring? = nil
+    var arrow: Arrow? = nil
+    var trajectory: SKShapeNode? = nil
+    var hpring: HPRing? = nil
+    var directionHint: DirectionHint? = nil
+    var shield: Shield? = nil
+
     var isContacter: Bool
 
     let fadeOutWaitTime: NSTimeInterval = 0.1
@@ -136,15 +137,19 @@ class Piece: SKSpriteNode {
     }
     
     func deduceHealth() {
-        self.healthPoint = self.healthPoint - 10
-        if(self.healthPoint <= self.maxHealthPoint*6/10)
-        {
-           // self.texture = SKTexture(imageNamed:"KingCoin_Broken")
+        if self.shield == nil {
+            self.healthPoint = self.healthPoint - 10
+        } else {
+            removeShield()
         }
     }
-    
+
     func deduceHealthToDeath() {
-        self.healthPoint = self.healthPoint - self.healthPoint
+        if self.shield == nil {
+            self.healthPoint = self.healthPoint - self.healthPoint
+        } else {
+            removeShield()
+        }
     }
     
     func fadeOut() {
@@ -189,6 +194,7 @@ class Piece: SKSpriteNode {
     
     func removeDirectionHint() {
         self.directionHint?.removeFromParent()
+        self.directionHint = nil
     }
     
     func drawHPRing() {
@@ -203,10 +209,12 @@ class Piece: SKSpriteNode {
     
     func removeHPRing() {
         self.hpring?.removeFromParent()
+        self.hpring = nil
     }
     
     func removeRing() {
         self.ring?.removeFromParent()
+        self.ring = nil
     }
     
     func drawRing() {
@@ -233,6 +241,20 @@ class Piece: SKSpriteNode {
     
     func removeArrow() {
         self.arrow?.removeFromParent()
+        self.arrow = nil
+    }
+    
+    func drawShield() {
+        self.removeShield()
+        self.shield = Shield(CGPointMake(0, 0), getRadius())
+        if let shield = self.shield {
+            self.addChild(shield)
+        }
+    }
+    
+    func removeShield() {
+        self.shield?.removeFromParent()
+        self.shield = nil
     }
     
     func drawTrajectory(force: CGVector){
