@@ -144,7 +144,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     }
     
     func shakeHandWithPeer() {
-        let messageDict = ["nothing": "nothing"]
+        let messageDict = ["UDID": appDelegate.mcHandler.UDID]
         
         let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         
@@ -194,15 +194,16 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             // TODO: everytime restart the game, set whoami to PLAYER_NULL
             if Logic.sharedInstance.whoami == PLAYER_NULL {
                 let peerID: MCPeerID = userInfo["peerID"] as MCPeerID
-                let peerUDID: String = userInfo["UDID"] as String
+                let selfID: MCPeerID = appDelegate.mcHandler.peerID
+                let peerUDID: String = message["UDID"] as String
                 let selfUDID: String = appDelegate.mcHandler.UDID
-                println("\(appDelegate.mcHandler.peerID.displayName) id \(selfUDID) vs \(peerID.displayName) id \(peerUDID)")
-                if (selfUDID < peerUDID) || (selfUDID == peerUDID && appDelegate.mcHandler.peerID.displayName < peerID.displayName) {
+                // println("\(selfID.displayName) - \(selfUDID) vs \(peerID.displayName) - \(peerUDID)")
+                if selfUDID < peerUDID {
                     Logic.sharedInstance.whoami = PLAYER1
-                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER1")
+                    println("I'm(\(selfID.displayName)) set to PLAYER1")
                 } else {
                     Logic.sharedInstance.whoami = PLAYER2
-                    println("I'm(\(appDelegate.mcHandler.peerID.displayName)) set to PLAYER2")
+                    println("I'm(\(selfID.displayName)) set to PLAYER2")
                 }
                 // shake back
                 self.shakeHandWithPeer()
