@@ -73,7 +73,7 @@ class Piece: SKSpriteNode {
 
     var isContacter: Bool
 
-    let fadeOutWaitTime: NSTimeInterval = 0.1
+    let fadeOutWaitTime: NSTimeInterval = 0.01
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
     init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat, pieceType : PieceType) {

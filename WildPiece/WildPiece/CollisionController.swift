@@ -27,11 +27,10 @@ class CollisionController {
                 contactee.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
                 contactee.physicsBody?.contactTestBitMask = 0x00
             }
-            for piece in scene.piecesOfPlayer(contacter.player) {
-                piece.isContacter = false;
-            }
+            cancelContacter(scene, contacter: contacter)
         } else if contacter.pieceType != PieceType.King && contactee.pieceType == PieceType.King{
             contactee.deduceHealth()
+            cancelContacter(scene, contacter: contacter)
         }else if contacter.pieceType == PieceType.King && contactee.pieceType == PieceType.King {
             contactee.deduceHealthToDeath()
         }
@@ -43,6 +42,12 @@ class CollisionController {
         if contactee.healthPoint == 0 {
             println("fade out at CollisionControler2")
             contactee.fadeOut()
+        }
+    }
+    
+    class func cancelContacter (scene: GameScene, contacter: Piece) {
+        for piece in scene.piecesOfPlayer(contacter.player) {
+            piece.isContacter = false;
         }
     }
     
