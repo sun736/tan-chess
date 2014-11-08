@@ -399,8 +399,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
     func drawTrajactory(timer : NSTimer) {
         if let piece = timer.userInfo as? Piece{
-            if let pf = pullForce {
-                piece.drawTrajectory(pf)
+            if let pullForce = pullForce {
+                piece.drawTrajectory()
+                if let trajectoryNode = piece.trajectory {
+                    self.applyImpulseToWorldObject(trajectoryNode, force : pullForce)
+                }
             }
         }
     }
@@ -595,7 +598,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             force = self.rotateVector(force)
         }
         piece.physicsBody?.applyImpulse(force);
-        
     }
 
     //MARK: show/hide skill button

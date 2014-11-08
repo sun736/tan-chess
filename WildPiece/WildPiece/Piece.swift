@@ -248,7 +248,7 @@ class Piece: SKSpriteNode {
         self.shield = nil
     }
     
-    func drawTrajectory(force: CGVector){
+    func drawTrajectory(){
         self.removeTrajectory()
         let node = SKShapeNode(circleOfRadius: 8.0)
         //let nodeColor = (self.player.bitMask == Piece.BITMASK_BLUE() ? UIColor.blueColor() : UIColor.redColor())
@@ -271,8 +271,6 @@ class Piece: SKSpriteNode {
         self.parent?.addChild(node)
         let waitAction = SKAction.waitForDuration(3.0)
         self.runAction(waitAction)
-        //var timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: nil, userInfo: nil, repeats: false)
-        node.physicsBody?.applyImpulse(force)
         let fadeAction = SKAction.fadeOutWithDuration(1.0)
         node.runAction(fadeAction)
     }
