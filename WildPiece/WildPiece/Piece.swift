@@ -299,55 +299,85 @@ class Piece: SKSpriteNode {
         return percentage >= 0 ? percentage : 0
     }
     
-    //MARK: show & hide skill
+    //MARK: Show & Hide skill
     func showSkill()
     {
         var size = CGSizeMake(40.0, 40.0)
         let rotation = M_PI_4
+        var indicator = 0
+        if self.player.id == 1
+        {
+            indicator = 1
+        }else
+        {
+            indicator = -1
+        }
 
-        self.aimNode = SKSpriteNode(imageNamed: "Aim_BLUE")
+        if indicator == 1
+        {
+            self.aimNode = SKSpriteNode(imageNamed: "Aim_BLUE")
+        }
+        else
+        {
+            self.aimNode = SKSpriteNode(imageNamed: "Aim_RED")
+        }
+        
+        self.aimNode?.name = "Aim"
         self.aimNode?.position = CGPointZero
         self.aimNode?.size = size
         self.aimNode?.zRotation = CGFloat(rotation)
         self.addChild(aimNode!)
         
-        self.forceNode = SKSpriteNode(imageNamed: "Force_BLUE")
+        if indicator == 1
+        {
+            self.forceNode = SKSpriteNode(imageNamed: "Force_BLUE")
+        }else
+        {
+            self.forceNode = SKSpriteNode(imageNamed: "Force_RED")
+        }
         self.forceNode?.position = CGPointZero
         self.forceNode?.size = size
         self.forceNode?.zRotation = CGFloat(rotation)
         self.addChild(forceNode!)
         
-        
-        self.shieldNode = SKSpriteNode(imageNamed: "Shield_BLUE")
+        if indicator == 1
+        {
+            self.shieldNode = SKSpriteNode(imageNamed: "Shield_BLUE")
+        }
+        else
+        {
+            self.shieldNode = SKSpriteNode(imageNamed: "Shield_RED")
+        }
+        self.shieldNode?.name = "Shield"
         self.shieldNode?.position = CGPointZero
         self.shieldNode?.size = size
         self.shieldNode?.zRotation = CGFloat(rotation)
         self.addChild(shieldNode!)
         
-        self.aimNode?.runAction(SKAction.moveToY(CGFloat(43), duration: 0.3))
+        let point1 = CGPointMake(CGFloat( indicator * 43 ), CGFloat(indicator * 20))
+        
+        self.aimNode?.runAction(SKAction.moveToY(CGFloat(43 * indicator), duration: 0.3))
         self.aimNode?.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
-        self.forceNode?.runAction(SKAction.moveTo(CGPointMake(43, 20), duration: 0.3))
+        self.forceNode?.runAction(SKAction.moveTo(CGPointMake(CGFloat( indicator * 43 ), CGFloat(indicator * 20)), duration: 0.3))
         self.forceNode?.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
-        self.shieldNode?.runAction(SKAction.moveTo(CGPointMake(-43, 20), duration: 0.3))
+        self.shieldNode?.runAction(SKAction.moveTo(CGPointMake(CGFloat( indicator * -43 ), CGFloat(indicator * 20)), duration: 0.3))
         self.shieldNode?.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
     }
     
     func hideSkill()
     {
-        //self.aimNode?.runAction(SKAction.moveToY(CGFloat(0), duration: 0.3))
-        //self.aimNode?.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3), completion: {
-          //  self.aimNode?.runAction(SKAction.removeFromParent())
-        //})
-        //self.forceNode?.runAction(SKAction.moveTo(CGPointMake(0, 0), duration: 0.3))
-        //forceNode?.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3) , completion: {forceNode?.removeFromParent()})
-        //shieldNode?.runAction(SKAction.moveTo(CGPointMake(0, 0), duration: 0.3))
-        //shieldNode?.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3),completion: {shieldNode?.removeFromParent()})
         let moveAction = SKAction.moveTo(CGPointZero, duration: 0.3)
         let removeAction = SKAction.removeFromParent()
         let rotateAction = SKAction.rotateToAngle(90.0, duration: 0.3)
         self.aimNode?.runAction(SKAction.sequence([SKAction.group([moveAction,rotateAction]),removeAction]))
         self.forceNode?.runAction(SKAction.sequence([SKAction.group([moveAction,rotateAction]),removeAction]))
         self.shieldNode?.runAction(SKAction.sequence([SKAction.group([moveAction,rotateAction]),removeAction]))
+    }
+
+    func showShield()
+    {
+        self.hideSkill()
+        self.drawShield()
     }
     
     // factory method
