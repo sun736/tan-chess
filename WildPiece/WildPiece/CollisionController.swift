@@ -22,7 +22,7 @@ class CollisionController {
         
         if contacter.pieceType != PieceType.King && contactee.pieceType != PieceType.King{
             contactee.deduceHealthToDeath()
-            if contactee.pieceType != PieceType.King {
+            if contactee.pieceType != PieceType.King && contactee.healthPoint == 0{
                 contactee.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
                 contactee.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
                 contactee.physicsBody?.contactTestBitMask = 0x00
@@ -84,31 +84,34 @@ class CollisionController {
                 println("transPiece: \(transPiece)")
                 println("regPiece: \(regPiece)")
                 
-                if transPiece is PieceCanon  {
-                    var canon = transPiece as PieceCanon
+                //if transPiece is PieceCanon  {
+                //var canon = transPiece as PieceCanon
                     // set the piece in front of canon to transpatent
-                    regPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
-                    regPiece.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
-                    regPiece.physicsBody?.contactTestBitMask = 0x00
-                    regPiece.fadeTo()
-                    // change canon to a regular piece
-                    canon.physicsBody?.categoryBitMask = canon.player.bitMask
-                    canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
-                    canon.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
-                    canon.cancelFade()
-                    
-                    // reset the changed piece in front of canon that has been changed
-                    let waitTime : NSTimeInterval = 0.1;
-                    let wait = SKAction.waitForDuration(waitTime)
-                    let resetMask = SKAction.runBlock({
-                        regPiece.physicsBody?.categoryBitMask = regPiece.player.bitMask
-                        regPiece.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
-                        regPiece.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
-                        regPiece.cancelFade()
-                    })
-                    let sequence = SKAction.sequence([wait, resetMask])
-                    scene.runAction(sequence)
-                }
+                regPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
+                regPiece.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
+                regPiece.physicsBody?.contactTestBitMask = 0x00
+                regPiece.fadeTo()
+                // change canon to a regular piece
+                transPiece.physicsBody?.categoryBitMask = transPiece.player.bitMask
+                transPiece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+                transPiece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
+                transPiece.cancelFade()
+                
+                // reset the changed piece in front of canon that has been changed
+                //let v = hypotf(Float(transPiece.physicsBody!.velocity.dx), Float(transPiece.physicsBody!.velocity.dy))
+                //println("velocity: \(v)")
+                //let waitTime : NSTimeInterval = NSTimeInterval((850 - v) * 0.001)
+                let waitTime : NSTimeInterval = 0.2;
+                let wait = SKAction.waitForDuration(waitTime)
+                let resetMask = SKAction.runBlock({
+                    regPiece.physicsBody?.categoryBitMask = regPiece.player.bitMask
+                    regPiece.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+                    regPiece.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
+                    regPiece.cancelFade()
+                })
+                let sequence = SKAction.sequence([wait, resetMask])
+                scene.runAction(sequence)
+                //}
                 return
             }
             
