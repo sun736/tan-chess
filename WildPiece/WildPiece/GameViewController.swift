@@ -179,7 +179,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             let force = message["force"] as NSDictionary
             let gameScene: GameScene? = self.appDelegate.gameScene
             
-            let nodes = gameScene?.nodesAtPoint(CGPointMake(CGFloat(position["x"] as Float), CGFloat(position["y"] as Float)))
+            let nodes = gameScene?.pieceLayer?.nodesAtPoint(CGPointMake(CGFloat(position["x"] as Float), CGFloat(position["y"] as Float)))
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
                     gameScene?.pieceDidPulled(piece, force: CGVectorMake(force["dx"] as CGFloat, force["dy"]  as CGFloat))

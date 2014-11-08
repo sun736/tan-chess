@@ -148,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                     } else {
                         if self.pieceShouldPull(piece) {
                             if Logic.sharedInstance.onlineMode {
-                                self.sceneDelegate?.sendDataToPeer(opponentLocation(piece.position), force: force)
+                                self.sceneDelegate?.sendDataToPeer(piece.position, force: force)
                             }
                             self.pieceDidPulled(piece, force: force)
                             Logic.sharedInstance.playerDone()
