@@ -70,6 +70,9 @@ class Piece: SKSpriteNode {
     var hpring: HPRing? = nil
     var directionHint: DirectionHint? = nil
     var shield: Shield? = nil
+    var aimNode : SKSpriteNode? = nil;
+    var forceNode : SKSpriteNode? = nil;
+    var shieldNode: SKSpriteNode? = nil;
 
     var isContacter: Bool
 
@@ -298,6 +301,57 @@ class Piece: SKSpriteNode {
         return percentage >= 0 ? percentage : 0
     }
     
+    //MARK: show & hide skill
+    func showSkill()
+    {
+        var size = CGSizeMake(40.0, 40.0)
+        let rotation = M_PI_4
+
+        self.aimNode = SKSpriteNode(imageNamed: "Aim_BLUE")
+        self.aimNode?.position = CGPointZero
+        self.aimNode?.size = size
+        self.aimNode?.zRotation = CGFloat(rotation)
+        self.addChild(aimNode!)
+        
+        self.forceNode = SKSpriteNode(imageNamed: "Force_BLUE")
+        self.forceNode?.position = CGPointZero
+        self.forceNode?.size = size
+        self.forceNode?.zRotation = CGFloat(rotation)
+        self.addChild(forceNode!)
+        
+        
+        self.shieldNode = SKSpriteNode(imageNamed: "Shield_BLUE")
+        self.shieldNode?.position = CGPointZero
+        self.shieldNode?.size = size
+        self.shieldNode?.zRotation = CGFloat(rotation)
+        self.addChild(shieldNode!)
+        
+        self.aimNode?.runAction(SKAction.moveToY(CGFloat(43), duration: 0.3))
+        self.aimNode?.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
+        self.forceNode?.runAction(SKAction.moveTo(CGPointMake(43, 20), duration: 0.3))
+        self.forceNode?.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
+        self.shieldNode?.runAction(SKAction.moveTo(CGPointMake(-43, 20), duration: 0.3))
+        self.shieldNode?.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
+    }
+    
+    func hideSkill()
+    {
+        //self.aimNode?.runAction(SKAction.moveToY(CGFloat(0), duration: 0.3))
+        //self.aimNode?.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3), completion: {
+          //  self.aimNode?.runAction(SKAction.removeFromParent())
+        //})
+        //self.forceNode?.runAction(SKAction.moveTo(CGPointMake(0, 0), duration: 0.3))
+        //forceNode?.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3) , completion: {forceNode?.removeFromParent()})
+        //shieldNode?.runAction(SKAction.moveTo(CGPointMake(0, 0), duration: 0.3))
+        //shieldNode?.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3),completion: {shieldNode?.removeFromParent()})
+        let moveAction = SKAction.moveTo(CGPointZero, duration: 0.3)
+        let removeAction = SKAction.removeFromParent()
+        let rotateAction = SKAction.rotateToAngle(90.0, duration: 0.3)
+        self.aimNode?.runAction(SKAction.sequence([SKAction.group([moveAction,rotateAction]),removeAction]))
+        self.forceNode?.runAction(SKAction.sequence([SKAction.group([moveAction,rotateAction]),removeAction]))
+        self.shieldNode?.runAction(SKAction.sequence([SKAction.group([moveAction,rotateAction]),removeAction]))
+    }
+    
     // factory method
     class func newPiece(pieceType : PieceType, player : Player) -> Piece {
         switch pieceType {
@@ -317,6 +371,7 @@ class Piece: SKSpriteNode {
             return PieceGeneral(player)
         }
     }
+    
 }
 
 extension SKNode {

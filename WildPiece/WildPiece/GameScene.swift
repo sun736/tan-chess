@@ -18,7 +18,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var possibleEndPt: CGPoint?
     var possibleTouchNode :SKNode?
     var moveableSet = Array<Piece>()
-    var skillNodes = Array<SKSpriteNode>()
     var lastMove : (piece : Piece?, step : Int) = (nil, 0)
     var board: Board?
     var top : SKSpriteNode?
@@ -74,11 +73,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: Touch Events
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
-        if self.skillNodes.count > 0 {
-            self.hideSkill()
-        }
-        
-        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             let nodes = self.nodesAtPoint(location)
@@ -100,12 +94,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                                 self.pieceDidStartPull(piece)
                                 break
                             }
+                          
                         }
                     }else if touch.tapCount == 2
                     {
-                        println("double tap");
-                        self.showSkill(piece.position)
-                        
+                        piece.showSkill()
+                        //piece.hideSkill()
                     }
                 }
             }
@@ -530,56 +524,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             moveableSet = []
     }
     
-    //MARK: show/hide skill button
-    func showSkill(point : CGPoint){
-        var size = CGSizeMake(40.0, 40.0)
-        let rotation = M_PI_4
-        
-        var aimNode = SKSpriteNode(imageNamed: "Aim_BLUE")
-        aimNode.position = point
-        aimNode.size = size
-        aimNode.zRotation = CGFloat(rotation)
-        self.addChild(aimNode)
-        
-        var forceNode = SKSpriteNode(imageNamed: "Force_BLUE")
-        forceNode.position = point
-        forceNode.size = size
-        forceNode.zRotation = CGFloat(rotation)
-        self.addChild(forceNode)
-        
-        
-        var shieldNode = SKSpriteNode(imageNamed: "Shield_BLUE")
-        shieldNode.position = point
-        shieldNode.size = size
-        shieldNode.zRotation = CGFloat(rotation)
-        self.addChild(shieldNode)
-        
-        self.skillNodes.append(aimNode)
-        self.skillNodes.append(forceNode)
-        self.skillNodes.append(shieldNode)
-        
-        aimNode.runAction(SKAction.moveToY(CGFloat(point.y+43), duration: 0.3))
-        aimNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
-        forceNode.runAction(SKAction.moveTo(CGPointMake(point.x+43, point.y+20), duration: 0.3))
-        forceNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
-        shieldNode.runAction(SKAction.moveTo(CGPointMake(point.x-43, point.y+20), duration: 0.3))
-        shieldNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
-        
-    }
-    
     func hideSkill(){
-        var aimNode = self.skillNodes[0]
-        var forceNode = self.skillNodes[1]
-        var shieldNode = self.skillNodes[2]
         
-        aimNode.runAction(SKAction.moveToY(CGFloat(aimNode.position.y-43), duration: 0.3))
-        aimNode.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3), completion: {aimNode.removeFromParent()})
-        forceNode.runAction(SKAction.moveTo(CGPointMake(forceNode.position.x-43, forceNode.position.y-20), duration: 0.3))
-        forceNode.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3) , completion: {forceNode.removeFromParent()})
-        shieldNode.runAction(SKAction.moveTo(CGPointMake(shieldNode.position.x+43, shieldNode.position.y-20), duration: 0.3))
-        shieldNode.runAction(SKAction.rotateToAngle(-90.0, duration: 0.3),completion: {shieldNode.removeFromParent()})
         
-        self.skillNodes.removeAll(keepCapacity: false)
 
     }
     
