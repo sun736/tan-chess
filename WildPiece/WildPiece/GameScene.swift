@@ -93,6 +93,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                             let centerPt = piece.position
                             let distance = hypotf(Float(location.x - centerPt.x),
                                 Float(location.y - centerPt.y))
+                            
+                            if Logic.sharedInstance.isWaiting(piece.player) {
+                                Rule.touchDown(self, piece: piece)
+                            }
                             // exact distance comparison
                             if (distance <= Float(piece.radius)) {
                                 

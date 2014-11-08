@@ -91,13 +91,13 @@ class Board : SKNode {
         
         self.restrictedAreaDown.position = CGPoint(x : width / 2, y : CGFloat(ceilf(Float(restrictedAreaHeight / 2 + marginY))) )
         self.restrictedAreaDown.fillColor = UIColor.UIColorFromRGB(0x99FF99, alpha: 0.8)
-        self.restrictedAreaDown.zPosition = 0
+        self.restrictedAreaDown.zPosition = -8.0
         self.addChild(self.restrictedAreaDown)
         self.restrictedAreaDown.alpha = 0
         
         self.restrictedAreaUp.position = CGPoint(x : width / 2, y : CGFloat(ceilf(Float(length - restrictedAreaHeight / 2 - marginY + 1))) )
         self.restrictedAreaUp.fillColor = UIColor.UIColorFromRGB(0x99FF99, alpha: 0.8)
-        self.restrictedAreaUp.zPosition = 0
+        self.restrictedAreaUp.zPosition = -8.0
         self.addChild(self.restrictedAreaUp)
         self.restrictedAreaUp.alpha = 0
     }
