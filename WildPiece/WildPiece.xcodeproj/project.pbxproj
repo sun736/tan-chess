@@ -36,7 +36,7 @@
 		91101BC319D5DE7000E59AB4 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BC219D5DE7000E59AB4 /* GameScene.swift */; };
 		91101BC519D5DE7000E59AB4 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BC419D5DE7000E59AB4 /* GameViewController.swift */; };
 		91101BC819D5DE7000E59AB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91101BC619D5DE7000E59AB4 /* Main.storyboard */; };
-		91101BCA19D5DE7000E59AB4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91101BC919D5DE7000E59AB4 /* Images.xcassets */; };
+		91101BCA19D5DE7000E59AB4 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91101BC919D5DE7000E59AB4 /* images.xcassets */; };
 		91101BCD19D5DE7000E59AB4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91101BCB19D5DE7000E59AB4 /* LaunchScreen.xib */; };
 		91101BD919D5DE7100E59AB4 /* WildPieceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BD819D5DE7100E59AB4 /* WildPieceTests.swift */; };
 		91101BE319D5DF2300E59AB4 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91101BE219D5DF2300E59AB4 /* Piece.swift */; };
@@ -96,7 +96,7 @@
 		91101BC219D5DE7000E59AB4 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		91101BC419D5DE7000E59AB4 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		91101BC719D5DE7000E59AB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		91101BC919D5DE7000E59AB4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		91101BC919D5DE7000E59AB4 /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
 		91101BCC19D5DE7000E59AB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		91101BD219D5DE7100E59AB4 /* WildPieceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WildPieceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91101BD719D5DE7100E59AB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 				1819134019D7515200BBEDC2 /* WPParameterSet.swift */,
 				186C621319D62AA500FF3952 /* WPSliderView.swift */,
 				186C621719D636A800FF3952 /* WPToolBarViewController.swift */,
-				91101BC919D5DE7000E59AB4 /* Images.xcassets */,
+				91101BC919D5DE7000E59AB4 /* images.xcassets */,
 				186C621519D62BAC00FF3952 /* WPSliderView.xib */,
 				91101BCB19D5DE7000E59AB4 /* LaunchScreen.xib */,
 				91101BC619D5DE7000E59AB4 /* Main.storyboard */,
@@ -344,7 +344,7 @@
 				18EE802A19DF5FE5009261A3 /* Game.plist in Resources */,
 				08BF6F1E1A0586BB002A5A96 /* backgroundMusic.mp3 in Resources */,
 				91101BCD19D5DE7000E59AB4 /* LaunchScreen.xib in Resources */,
-				91101BCA19D5DE7000E59AB4 /* Images.xcassets in Resources */,
+				91101BCA19D5DE7000E59AB4 /* images.xcassets in Resources */,
 				186C621619D62BAD00FF3952 /* WPSliderView.xib in Resources */,
 				08BF6F221A059A08002A5A96 /* collision.wav in Resources */,
 				0833E9B41A059D500009E596 /* collision2.wav in Resources */,

@@ -29,7 +29,6 @@ class Sound {
             userDefaults.setValue(true, forKey: "musicOn")
             self.musicOn = true
         }
-
     }
 
     
