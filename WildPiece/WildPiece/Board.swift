@@ -22,7 +22,7 @@ class Board : SKNode {
     private let timeInterval : NSTimeInterval = 1.4
     private let marginX : CGFloat = 0
     private let marginY : CGFloat
-    private let restrictedAreaHeight : CGFloat = 140
+    private let restrictedAreaHeight : CGFloat
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -32,6 +32,7 @@ class Board : SKNode {
         self.width = width
         self.length = length
         self.marginY = marginY
+        self.restrictedAreaHeight = ceil((length - marginY * 2) / 4)
         self.backgroundUp = Board.createRect(width - marginX * 2, length: CGFloat(ceilf(Float(length/2 - marginY))) )
         self.backgroundDown = Board.createRect(width - marginX * 2, length : CGFloat(ceilf(Float(length/2 - marginY))) )
         self.restrictedAreaUp = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
@@ -90,13 +91,13 @@ class Board : SKNode {
         
         self.restrictedAreaDown.position = CGPoint(x : width / 2, y : CGFloat(ceilf(Float(restrictedAreaHeight / 2 + marginY))) )
         self.restrictedAreaDown.fillColor = UIColor.UIColorFromRGB(0x99FF99, alpha: 0.8)
-        self.restrictedAreaDown.zPosition = 0
+        self.restrictedAreaDown.zPosition = -8.0
         self.addChild(self.restrictedAreaDown)
         self.restrictedAreaDown.alpha = 0
         
         self.restrictedAreaUp.position = CGPoint(x : width / 2, y : CGFloat(ceilf(Float(length - restrictedAreaHeight / 2 - marginY + 1))) )
         self.restrictedAreaUp.fillColor = UIColor.UIColorFromRGB(0x99FF99, alpha: 0.8)
-        self.restrictedAreaUp.zPosition = 0
+        self.restrictedAreaUp.zPosition = -8.0
         self.addChild(self.restrictedAreaUp)
         self.restrictedAreaUp.alpha = 0
     }
