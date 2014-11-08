@@ -115,13 +115,13 @@ class Rule {
     class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player) {
         var piece = Piece.newPiece(pieceType, player: player);
         piece.position = location
-        scene.addChild(piece)
+        scene.pieceLayer?.addChild(piece)
     }
     
     // add a piece for each player, with symmetrical position
     class func addPairPieces(scene : GameScene, pieceType : PieceType, location : CGPoint) {
         self.addPiece(scene, pieceType : pieceType, location: location, player: PLAYER1)
-        let opponentLocation = CGPointMake(scene.size.width - location.x, scene.size.height - location.y)
+        let opponentLocation = scene.opponentLocation(location)
         self.addPiece(scene, pieceType : pieceType, location: opponentLocation, player: PLAYER2)
     }
     

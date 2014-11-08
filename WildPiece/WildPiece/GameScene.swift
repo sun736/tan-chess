@@ -9,7 +9,7 @@
 import SpriteKit
 
 protocol GameSceneDelegate: class {
-    func sendDataToPeer(piece: CGPoint, distance: CGVector)
+    func sendDataToPeer(piece: CGPoint, force: CGVector)
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
@@ -23,6 +23,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var top : SKSpriteNode?
     var bottom :SKSpriteNode?
     var soundPlayer: Sound?
+    var pieceLayer : SKNode?
+    var boardLayer : SKNode?
+    var worldLayer : SKNode?
     
     var sceneDelegate: GameSceneDelegate?
     
@@ -72,8 +75,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            let nodes = self.nodesAtPoint(location)
+            let location = touch.locationInNode(self.pieceLayer)
+            let nodes = self.pieceLayer?.nodesAtPoint(location)
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
                     
@@ -101,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
         
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.locationInNode(self.pieceLayer)
             // save end location
             possibleEndPt = location
             break
@@ -111,11 +114,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             if let actualEndPt = possibleEndPt {
                 if let piece = possibleTouchNode as? Piece{
                     let centerPt = piece.position
-                    let force: CGVector = CGVectorMake(centerPt.x - actualEndPt.x, centerPt.y - actualEndPt.y)
-                    let reforce: CGVector = Rule.pieceValidForce(self, piece: piece, force: force)
-                    let distance = CGVectorMake(-reforce.dx, -reforce.dy)
+                    
+                    let distance = CGVectorMake(actualEndPt.x - centerPt.x, actualEndPt.y - centerPt.y)
+                    let rawForce = piece.forceForPullDistance(distance)
+                    let force = redirectForce(piece, force: rawForce)
+//                    println("distance: \(distance.dx), \(distance.dy)")
+//                    println("rawForce: \(rawForce.dx), \(rawForce.dy)")
+//                    println("force: \(force.dx), \(force.dy)")
+                    
                     // do nothing if end point lies within the node border
-                    if (hypotf(Float(distance.dx), Float(distance.dy)) <= Float(piece.radius)) {
+                    if (hypotf(Float(force.dx), Float(force.dy)) <= Float(piece.minForce)) {
                         if self.pieceShouldTap(piece) {
                             self.pieceDidTaped(piece)
                         } else {
@@ -124,9 +132,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                     } else {
                         if self.pieceShouldPull(piece) {
                             if Logic.sharedInstance.onlineMode {
-                                self.sceneDelegate?.sendDataToPeer(piece.position, distance: distance)
+                                self.sceneDelegate?.sendDataToPeer(opponentLocation(piece.position), force: force)
                             }
-                            self.pieceDidPulled(piece, distance: distance)
+                            self.pieceDidPulled(piece, force: force)
                             Logic.sharedInstance.playerDone()
                             self.board?.TurnDone()
                         } else {
@@ -143,17 +151,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.locationInNode(self.pieceLayer)
             // notify the node to draw a force indicator
             if let actualBeginPt = possibleBeginPt {
                 if let piece = possibleTouchNode as? Piece {
                     if self.pieceShouldPull(piece) {
                         let centerPt = piece.position
-                        let force: CGVector = CGVectorMake(centerPt.x - location.x, centerPt.y - location.y)
-                        let reforce: CGVector = Rule.pieceValidForce(self, piece: piece, force: force)
-                        let distance = CGVectorMake(-reforce.dx, -reforce.dy)
                         
-                        self.pieceDidChangePullDistance(piece, distance: distance)
+                        let distance = CGVectorMake(location.x - centerPt.x, location.y - centerPt.y)
+                        let rawForce = piece.forceForPullDistance(distance)
+                        let force = redirectForce(piece, force: rawForce)
+//                        println("centerPt: \(centerPt.x), \(centerPt.y)")
+//                        println("location: \(location.x), \(location.y)")
+//                        println("distance: \(distance.dx), \(distance.dy)")
+//                        println("rawForce: \(rawForce.dx), \(rawForce.dy)")
+//                        println("force: \(force.dx), \(force.dy)")
+                        
+                        self.pieceDidChangePullForce(piece, force: force)
                     }
                 }
             }
@@ -209,6 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: State Changes
     func startGame() {
 //        self.soundPlayer?.playBackgroundMusic()
+        addLayers()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -248,12 +263,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
     }
     
+    // MARK: Set Up Layers
+    func addLayers() {
+        var newWorldLayer = SKNode()
+        newWorldLayer.zPosition = 0
+        if worldIsRotated {
+            newWorldLayer.zRotation = CGFloat(M_PI)
+            newWorldLayer.position = CGPointMake(self.frame.size.width, self.frame.size.height)
+        }
+        addChild(newWorldLayer)
+        self.worldLayer = newWorldLayer
+        
+        var newBoardLayer = SKNode()
+        newBoardLayer.zPosition = 0
+        newWorldLayer.addChild(newBoardLayer)
+        self.boardLayer = newBoardLayer
+
+        var newPieceLayer = SKNode()
+        newPieceLayer.zPosition = 1;
+        newWorldLayer.addChild(newPieceLayer)
+        self.pieceLayer = newPieceLayer
+    }
+    
     // MARK: Set Up Board
     func addBoard() {
         
         let board = Board(width: self.frame.width, length: self.frame.height, marginY : 40.0)
         self.board = board
-        self.addChild(board)
+        self.boardLayer?.addChild(board)
         
         scene?.physicsBody?.dynamic = false
         
@@ -283,6 +320,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         self.bottom?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.5);
         self.bottom?.zPosition = 10.0
         self.addChild(self.bottom!)
+    }
+    
+    var worldIsRotated : Bool {
+        return !Logic.sharedInstance.isAtHome
     }
 
     
@@ -322,7 +363,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     // MARK: Touch Events on Pieces
     func pieceDidStartPull(piece : Piece) {
-        
         // temporary solution to determine contacter
         CollisionController.setContacter(self, contacter: piece)
         piece.drawRing()
@@ -331,8 +371,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
     }
     
-    func pieceDidChangePullDistance(piece : Piece, distance: CGVector) {
-        var force = piece.forceForPullDistance(distance)
+    func pieceDidChangePullForce(piece : Piece, var force: CGVector) {
+//        println("changed force: \(force.dx), \(force.dy)")
         piece.drawArrow(force)
         piece.drawDirectionHint()
         piece.drawTrajectory(force)
@@ -346,9 +386,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeTrajectory()
     }
     
-    func pieceDidPulled(piece : Piece, distance: CGVector) {
-        var force = piece.forceForPullDistance(distance)
-        
+    func pieceDidPulled(piece : Piece, var force: CGVector) {
+//        println("shooting force: \(force.dx), \(force.dy)")
         //MARK set canon to not collisionable
         if piece is PieceCanon {
             piece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
@@ -359,7 +398,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             //print("\(piece.physicsBody?.collisionBitMask)\n")
         }
         CollisionController.setContacter(self, contacter: piece)
-        piece.physicsBody?.applyImpulse(force);
+//        piece.physicsBody?.applyImpulse(force);
+        self.applyImpulseToWorldObject(piece, force : force)
         updateLastMove(piece)
 
         piece.removeRing()
@@ -393,9 +433,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var pieces : [Piece] {
         get {
             var pieces = [Piece]()
-            for node in children {
-                if let piece = node as? Piece {
-                    pieces.append(piece)
+            if let pieceLayer = self.pieceLayer {
+                for node in pieceLayer.children {
+                    if let piece = node as? Piece {
+                        pieces.append(piece)
+                    }
                 }
             }
             return pieces
@@ -405,10 +447,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var piecesOfCurrentUser : [Piece] {
         get {
             var pieces = [Piece]()
-            for node in children {
-                if let piece = node as? Piece {
-                    if Logic.sharedInstance.isWaiting(piece.player) {
-                        pieces.append(piece)
+            if let pieceLayer = self.pieceLayer {
+                for node in pieceLayer.children {
+                    if let piece = node as? Piece {
+                        if Logic.sharedInstance.isWaiting(piece.player) {
+                            pieces.append(piece)
+                        }
                     }
                 }
             }
@@ -422,8 +466,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func gameShouldChangeTurn() -> Bool {
-        var array = children.filter{$0 === self.lastMove.piece}
-        if array.count == 0 {
+        if (pieces.filter{$0 === self.lastMove.piece}).count == 0 {
             return true
         }
 
@@ -490,5 +533,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
     func gameDidProcess(player : Player) {
             moveableSet = []
+    }
+    
+    // MARK: Rotation
+    func opponentLocation(location : CGPoint) -> CGPoint {
+        return CGPointMake(size.width - location.x, size.height - location.y)
+    }
+    
+    func rotateVector(vector : CGVector) -> CGVector {
+        return CGVectorMake(-vector.dx, -vector.dy)
+    }
+    
+    func redirectForce(piece : Piece, var force : CGVector) -> CGVector {
+        return Rule.pieceValidForce(self, piece: piece, force: force)
+    }
+    
+    func applyImpulseToWorldObject(piece : SKNode, var force: CGVector) {
+        if worldIsRotated {
+            force = self.rotateVector(force)
+        }
+        piece.physicsBody?.applyImpulse(force);
+        
     }
 }

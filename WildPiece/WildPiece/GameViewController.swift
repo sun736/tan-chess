@@ -87,8 +87,6 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         // send its peerid to the other device
         // tell the other device to dismiss browser
         self.shakeHandWithPeer()
-        
-        self.menuScene?.startNewGame()
         appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -157,8 +155,8 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         }
     }
     
-    func sendDataToPeer(position: CGPoint, distance: CGVector) {
-        let messageDict = ["position": ["x": position.x, "y": position.y], "distance" : ["dx": distance.dx, "dy": distance.dy]]
+    func sendDataToPeer(position: CGPoint, force: CGVector) {
+        let messageDict = ["position": ["x": position.x, "y": position.y], "force" : ["dx": force.dx, "dy": force.dy]]
         
         let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         
@@ -178,13 +176,13 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         let message: NSDictionary = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
 
         if let position = message["position"] as? NSDictionary {
-            let distance = message["distance"] as NSDictionary
+            let force = message["force"] as NSDictionary
             let gameScene: GameScene? = self.appDelegate.gameScene
             
             let nodes = gameScene?.nodesAtPoint(CGPointMake(CGFloat(position["x"] as Float), CGFloat(position["y"] as Float)))
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
-                    gameScene?.pieceDidPulled(piece, distance: CGVectorMake(distance["dx"] as CGFloat, distance["dy"]  as CGFloat))
+                    gameScene?.pieceDidPulled(piece, force: CGVectorMake(force["dx"] as CGFloat, force["dy"]  as CGFloat))
                     Logic.sharedInstance.playerDone()
                     break
                 }
@@ -197,7 +195,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
                 let selfID: MCPeerID = appDelegate.mcHandler.peerID
                 let peerUDID: String = message["UDID"] as String
                 let selfUDID: String = appDelegate.mcHandler.UDID
-                // println("\(selfID.displayName) - \(selfUDID) vs \(peerID.displayName) - \(peerUDID)")
+                println("\(selfID.displayName) - \(selfUDID) vs \(peerID.displayName) - \(peerUDID)")
                 if selfUDID < peerUDID {
                     Logic.sharedInstance.whoami = PLAYER1
                 } else {
@@ -210,14 +208,12 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             //dismiss the mpc browser if presents
             let browser = appDelegate.mcHandler.browser
             if (browser.isViewLoaded() || browser.isBeingPresented()) && (!browser.isBeingDismissed()){
-                switch Logic.sharedInstance.getGameState() {
-                case Logic.GameState.Unstarted:
-                    self.menuScene?.startNewGame()
-                default:
-                    break
-                }
+                
                 
                 appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+            }
+            if !Logic.sharedInstance.isStarted {
+                self.menuScene?.startNewGame()
             }
         }
     }

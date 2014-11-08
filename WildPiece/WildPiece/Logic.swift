@@ -78,36 +78,36 @@ class Logic {
     }
     
     var isStarted : Bool {
-        get {
-            switch state {
-            case .Unstarted:
-                return false
-            default:
-                return true
-            }
+//        println(state)
+        switch state {
+        case .Unstarted:
+            return false
+        default:
+            return true
         }
     }
     
     var isProcessing : Bool {
-        get {
-            switch state {
-            case .Processing(let player):
-                return true
-            default:
-                return false
-            }
+        switch state {
+        case .Processing(let player):
+            return true
+        default:
+            return false
         }
     }
     
     var isEnded : Bool {
-        get {
-            switch state {
-            case .Ended(let player):
-                return true
-            default:
-                return false
-            }
+        switch state {
+        case .Ended(let player):
+            return true
+        default:
+            return false
         }
+    }
+    
+    var isAtHome : Bool {
+//        println("\(onlineMode), \(whoami)")
+        return !onlineMode || whoami == PLAYER1
     }
     
     init() {
@@ -116,12 +116,10 @@ class Logic {
     }
     
     class var sharedInstance : Logic {
-        get {
-            struct Static {
-                static let instance : Logic = Logic()
-            }
-            return Static.instance
+        struct Static {
+            static let instance : Logic = Logic()
         }
+        return Static.instance
     }
     
     func updateState() {
