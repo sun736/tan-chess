@@ -26,6 +26,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var pieceLayer : SKNode?
     var boardLayer : SKNode?
     var worldLayer : SKNode?
+    var pullForce: CGVector?
+    var trajactoryTimer: NSTimer?
     
     var sceneDelegate: GameSceneDelegate?
     
@@ -84,6 +86,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         let centerPt = piece.position
                         let distance = hypotf(Float(location.x - centerPt.x),
                             Float(location.y - centerPt.y))
+                        if Logic.sharedInstance.isWaiting(piece.player) {
+                            Rule.touchDown(self, piece: piece)
+                        }
                         // exact distance comparison
                         if (distance <= Float(piece.radius)) {
                             
@@ -123,6 +128,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 //                    println("force: \(force.dx), \(force.dy)")
                     
                     // do nothing if end point lies within the node border
+                    if Logic.sharedInstance.isWaiting(piece.player) {
+                        Rule.touchUp(self, piece: piece)
+                    }
                     if (hypotf(Float(force.dx), Float(force.dy)) <= Float(piece.minForce)) {
                         if self.pieceShouldTap(piece) {
                             self.pieceDidTaped(piece)
@@ -176,6 +184,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
         if let piece = possibleTouchNode as? Piece {
+            if Logic.sharedInstance.isWaiting(piece.player) {
+                Rule.touchUp(self, piece: piece)
+            }
             self.pieceDidCancelPull(piece)
         }
         
@@ -222,8 +233,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
     // MARK: State Changes
     func startGame() {
-//        self.soundPlayer?.playBackgroundMusic()
         addLayers()
+        self.soundPlayer?.playBackgroundMusic()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -250,7 +261,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func endGame() {
-//        self.soundPlayer?.stopBackgroundMusic();
+        self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.end()
     }
@@ -364,10 +375,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: Touch Events on Pieces
     func pieceDidStartPull(piece : Piece) {
         // temporary solution to determine contacter
-        CollisionController.setContacter(self, contacter: piece)
+        //CollisionController.setContacter(self, contacter: piece)
         piece.drawRing()
         if piece is PieceCanon {
             piece.fadeTo()
+        }
+        trajactoryTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("drawTrajactory:"), userInfo: piece, repeats: true)
+    }
+
+    func drawTrajactory(timer : NSTimer) {
+        if let piece = timer.userInfo as? Piece{
+            if let pf = pullForce {
+                piece.drawTrajectory(pf)
+            }
         }
     }
     
@@ -375,7 +395,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 //        println("changed force: \(force.dx), \(force.dy)")
         piece.drawArrow(force)
         piece.drawDirectionHint()
-        piece.drawTrajectory(force)
+        pullForce = force
+        //piece.drawTrajectory(force)
     }
     
     func pieceDidCancelPull(piece : Piece) {
@@ -384,6 +405,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeDirectionHint()
         piece.cancelFade()
         piece.removeTrajectory()
+        pullForce = nil
+        trajactoryTimer?.invalidate()
     }
     
     func pieceDidPulled(piece : Piece, var force: CGVector) {
@@ -397,6 +420,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             //print("\(piece.physicsBody?.categoryBitMask)\n")
             //print("\(piece.physicsBody?.collisionBitMask)\n")
         }
+        // if this is the place to set contacter, knight can only achieve kill-move by itself, no team work
         CollisionController.setContacter(self, contacter: piece)
 //        piece.physicsBody?.applyImpulse(force);
         self.applyImpulseToWorldObject(piece, force : force)
@@ -406,6 +430,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeArrow()
         piece.removeDirectionHint()
         piece.removeTrajectory()
+        pullForce = nil
+        trajactoryTimer?.invalidate()
     }
     
     func pieceDidTaped(piece : Piece) {
@@ -415,6 +441,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeDirectionHint()
         piece.cancelFade()
         piece.removeTrajectory()
+        pullForce = nil
+        trajactoryTimer?.invalidate()
     }
     
     // MARK: Contact Delegate
@@ -470,7 +498,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             return true
         }
 
-        var (turnChange, pieceChange) = Rule.gameShouldChangeTurn(lastMove)
+        var (turnChange, pieceChange) = Rule.gameShouldChangeTurn(self, lastMove: lastMove)
         if !turnChange && !pieceChange {
             if let piece = lastMove.piece {
                 moveableSet = [piece]
@@ -483,7 +511,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // update UI here
     func gameDidEnd(player : Player) {
         //stop play music
-//        self.soundPlayer?.stopBackgroundMusic();
+        self.soundPlayer?.stopBackgroundMusic()
         
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")

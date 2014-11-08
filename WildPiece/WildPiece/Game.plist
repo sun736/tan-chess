@@ -15,9 +15,9 @@
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
-		<string>50</string>
+		<string>30</string>
 		<key>maxhealthPoint</key>
-		<string>50</string>
+		<string>30</string>
 		<key>angularDamping</key>
 		<string>7</string>
 	</dict>
@@ -64,11 +64,11 @@
 		<key>mass</key>
 		<integer>10</integer>
 		<key>damping</key>
-		<integer>5</integer>
+		<integer>3</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<real>7.5</real>
+		<integer>5</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -85,7 +85,7 @@
 		<key>damping</key>
 		<real>4.5</real>
 		<key>restitution</key>
-		<real>1.0</real>
+		<real>1</real>
 		<key>impulse</key>
 		<real>2.5</real>
 		<key>radius</key>
@@ -107,6 +107,25 @@
 		<real>0.5</real>
 		<key>impulse</key>
 		<real>1.5</real>
+		<key>radius</key>
+		<string>20</string>
+		<key>healthPoint</key>
+		<string>10</string>
+		<key>maxhealthPoint</key>
+		<string>10</string>
+		<key>angularDamping</key>
+		<string>7</string>
+	</dict>
+	<key>General</key>
+	<dict>
+		<key>mass</key>
+		<integer>15</integer>
+		<key>damping</key>
+		<integer>5</integer>
+		<key>restitution</key>
+		<real>0.5</real>
+		<key>impulse</key>
+		<integer>5</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>

@@ -53,6 +53,10 @@ class Player : Printable {
         return name
     }
     
+    var isUpSide : Bool {
+        return self == PLAYER2
+    }
+    
     class func getPlayer(id : Int) -> Player {
         switch id {
         case 1:

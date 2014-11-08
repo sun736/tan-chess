@@ -1,26 +1,26 @@
 //
-//  PieceKing.swift
+//  PieceGeneral.swift
 //  WildPiece
 //
-//  Created by Kaiqi on 14/10/28.
-//  Copyright (c) 2014年 Project TC. All rights reserved.
+//  Created by Gabriel Yeah on 11/7/14.
+//  Copyright (c) 2014 Project TC. All rights reserved.
 //
 
 import Foundation
 import SpriteKit
 
-class PieceKing : Piece {
+class PieceGeneral : Piece{
     
     let c_radius: CGFloat = 20
-    let c_healthPoint: CGFloat = 30
-    let c_maxhealthPoint: CGFloat = 30
-    let c_mass: CGFloat = 10
-    let c_linearDamping: CGFloat = 5
+    let c_healthPoint: CGFloat = 10
+    let c_maxhealthPoint: CGFloat = 10
+    let c_mass : CGFloat = 16
+    let c_linearDamping : CGFloat = 10
     let c_angularDamping: CGFloat = 7
     let c_maxForce: CGFloat = 10000.0
-    let c_bluePic: String = "KingPiece_BLUE"
-    let c_redPic: String = "KingPiece_RED"
-    let c_pieceType : PieceType = PieceType.King
+    let c_bluePic: String = "GeneralPiece_BLUE"
+    let c_redPic: String = "GeneralPiece_RED"
+    let c_pieceType : PieceType = .General
     
     init(_ player : Player){
         
@@ -28,9 +28,7 @@ class PieceKing : Piece {
         
         super.init(texture: SKTexture(imageNamed: c_imageNamed), radius: c_radius, healthPoint: c_healthPoint, maxHealthPoint : c_maxhealthPoint, player : player, mass: c_mass, linearDamping: c_linearDamping, angularDamping: c_angularDamping, maxForce : c_maxForce, pieceType : c_pieceType)
         
-        
     }
-    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

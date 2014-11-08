@@ -84,6 +84,25 @@ class Rule {
         return false
     }
     
+    class func pawnIsInDistrictedArea(scene : GameScene, piece : Piece) -> Bool {
+        if let board = scene.board {
+            return board.isInRestrictedArea(piece.position, isUpSide: piece.player.isUpSide)
+        }
+        return false;
+    }
+    
+    class func touchDown(scene : GameScene, piece : Piece) {
+        if let piece = piece as? PiecePawn {
+            scene.board?.displayRestrictedArea(piece.position, isUpTurn: piece.player.isUpSide)
+        }
+    }
+    
+    class func touchUp(scene : GameScene, piece : Piece) {
+        if let piece = piece as? PiecePawn {
+            scene.board?.hideRestrictedArea(piece.player.isUpSide)
+        }
+    }
+    
     class func gameIsEnd(scene : GameScene) -> (isEnd : Bool, winner : Player) {
         var winningPlayer : [Player] = [Player]()
         for player in [PLAYER1, PLAYER2] {
@@ -101,10 +120,16 @@ class Rule {
         }
     }
     
-    class func gameShouldChangeTurn(lastMove : (piece :Piece?, step : Int)) -> (turn : Bool, piece : Bool) {
+    class func gameShouldChangeTurn(scene : GameScene, lastMove : (piece :Piece?, step : Int)) -> (turn : Bool, piece : Bool) {
         if let piece = lastMove.piece {
             if piece.pieceType == PieceType.Knight {
                 return (lastMove.step > 1, false)
+            }
+            if piece.pieceType == PieceType.Pawn {
+                if Rule.pawnIsInDistrictedArea(scene, piece: piece) {
+                    Rule.addPiece(scene, pieceType: .General, location: piece.position, player : piece.player)
+                    piece.removeFromParent()
+                }
             }
         }
         

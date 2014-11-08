@@ -37,6 +37,7 @@ class Sound {
     {
         if self.musicOn == true{
             self.audioPlayer = AVAudioPlayer(contentsOfURL: backgroundMusic, error: nil)
+            self.audioPlayer.numberOfLoops = -1;//repeatly play the music
             if self.audioPlayer.prepareToPlay() {
                 println("begin play music")
                 self.audioPlayer.play();

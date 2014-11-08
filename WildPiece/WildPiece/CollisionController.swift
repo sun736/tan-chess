@@ -16,13 +16,22 @@ class CollisionController {
         // only one deduction collision is allowed
         println(contacter)
         println(contactee)
-        for piece in scene.piecesOfPlayer(contacter.player) {
-            piece.isContacter = false;
-        }
+//        for piece in scene.piecesOfPlayer(contacter.player) {
+//            piece.isContacter = false;
+//        }
         
-        if contacter.pieceType != PieceType.King {
+        if contacter.pieceType != PieceType.King && contactee.pieceType != PieceType.King{
+            contactee.deduceHealthToDeath()
+            if contactee.pieceType != PieceType.King {
+                contactee.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
+                contactee.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
+                contactee.physicsBody?.contactTestBitMask = 0x00
+            }
+            cancelContacter(scene, contacter: contacter)
+        } else if contacter.pieceType != PieceType.King && contactee.pieceType == PieceType.King{
             contactee.deduceHealth()
-        } else if contacter.pieceType == PieceType.King && contactee.pieceType == PieceType.King {
+            cancelContacter(scene, contacter: contacter)
+        }else if contacter.pieceType == PieceType.King && contactee.pieceType == PieceType.King {
             contactee.deduceHealthToDeath()
         }
         contactee.drawHPRing()
@@ -33,6 +42,12 @@ class CollisionController {
         if contactee.healthPoint == 0 {
             println("fade out at CollisionControler2")
             contactee.fadeOut()
+        }
+    }
+    
+    class func cancelContacter (scene: GameScene, contacter: Piece) {
+        for piece in scene.piecesOfPlayer(contacter.player) {
+            piece.isContacter = false;
         }
     }
     
@@ -74,7 +89,8 @@ class CollisionController {
                     // set the piece in front of canon to transpatent
                     regPiece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
                     regPiece.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
-                    regPiece.physicsBody?.contactTestBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                    regPiece.physicsBody?.contactTestBitMask = 0x00
+                    regPiece.fadeTo()
                     // change canon to a regular piece
                     canon.physicsBody?.categoryBitMask = canon.player.bitMask
                     canon.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
@@ -82,12 +98,13 @@ class CollisionController {
                     canon.cancelFade()
                     
                     // reset the changed piece in front of canon that has been changed
-                    let waitTime : NSTimeInterval = 0.3;
+                    let waitTime : NSTimeInterval = 0.1;
                     let wait = SKAction.waitForDuration(waitTime)
                     let resetMask = SKAction.runBlock({
                         regPiece.physicsBody?.categoryBitMask = regPiece.player.bitMask
                         regPiece.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
                         regPiece.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
+                        regPiece.cancelFade()
                     })
                     let sequence = SKAction.sequence([wait, resetMask])
                     scene.runAction(sequence)

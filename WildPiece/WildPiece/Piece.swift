@@ -16,6 +16,7 @@ enum PieceType : Printable {
     case Rook
     case Canon
     case Knight
+    case General
     
     var description : String {
         switch self {
@@ -31,6 +32,8 @@ enum PieceType : Printable {
             return "Canon"
         case .Knight:
             return "Knight"
+        case .General:
+            return "General"
         }
     }
 }
@@ -61,15 +64,16 @@ class Piece: SKSpriteNode {
             return radius * abs(distanceToForce)
         }
     }
-    var ring : Ring?
-    var arrow: Arrow?
-    var trajectory: SKShapeNode?
-    var hpring: HPRing?
-    var directionHint: DirectionHint?
-    // temporary solution to contact
+    var ring : Ring? = nil
+    var arrow: Arrow? = nil
+    var trajectory: SKShapeNode? = nil
+    var hpring: HPRing? = nil
+    var directionHint: DirectionHint? = nil
+    var shield: Shield? = nil
+
     var isContacter: Bool
 
-    let fadeOutWaitTime: NSTimeInterval = 0.1
+    let fadeOutWaitTime: NSTimeInterval = 0.01
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
     init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat, pieceType : PieceType) {
@@ -136,43 +140,35 @@ class Piece: SKSpriteNode {
     }
     
     func deduceHealth() {
-        self.healthPoint = self.healthPoint - 10
-        if(self.healthPoint <= self.maxHealthPoint*6/10)
-        {
-           // self.texture = SKTexture(imageNamed:"KingCoin_Broken")
+        if self.shield == nil {
+            self.healthPoint = self.healthPoint - 10
+        } else {
+            removeShield()
+        }
+    }
+
+    func deduceHealthToDeath() {
+        if self.shield == nil {
+            self.healthPoint = self.healthPoint - self.healthPoint
+        } else {
+            removeShield()
         }
     }
     
-    func deduceHealthToDeath() {
-        self.healthPoint = self.healthPoint - self.healthPoint
-    }
-    
     func fadeOut() {
-        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
-        let fadeAction = SKAction.fadeOutWithDuration(fadeOutFadeTime)
-        let removeAction = SKAction.removeFromParent()
-        let sequence = [waitAction, fadeAction, removeAction]
-        self.runAction(SKAction.sequence(sequence))
+        self.fadeOut(fadeOutWaitTime, fadeOutFadeTime: fadeOutFadeTime)
     }
     
     func fadeTo() {
-        let fadeOutAct = SKAction.fadeAlphaTo(0.5, duration: fadeOutFadeTime)
-        let sequence = [fadeOutAct];
-        self.runAction(SKAction.sequence(sequence));
+        self.fadeTo(0.5, fadeOutFadeTime: fadeOutFadeTime)
     }
     
     func cancelFade() {
-        let fadeOutAct = SKAction.fadeAlphaTo(1.0, duration: fadeOutFadeTime)
-        let sequence = [fadeOutAct];
-        self.runAction(SKAction.sequence(sequence));
+        self.cancelFade(fadeOutFadeTime)
     }
     
     func flash() {
-        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
-        let fadeOutAct = SKAction.fadeAlphaTo(0.4, duration: fadeOutFadeTime);
-        let fadeInAct = SKAction.fadeInWithDuration(fadeOutFadeTime);
-        let sequence = [fadeOutAct, fadeInAct];
-        self.runAction(SKAction.sequence(sequence));
+        self.flash(fadeOutWaitTime, fadeOutFadeTime: fadeOutFadeTime)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -189,6 +185,7 @@ class Piece: SKSpriteNode {
     
     func removeDirectionHint() {
         self.directionHint?.removeFromParent()
+        self.directionHint = nil
     }
     
     func drawHPRing() {
@@ -203,10 +200,12 @@ class Piece: SKSpriteNode {
     
     func removeHPRing() {
         self.hpring?.removeFromParent()
+        self.hpring = nil
     }
     
     func removeRing() {
         self.ring?.removeFromParent()
+        self.ring = nil
     }
     
     func drawRing() {
@@ -233,6 +232,20 @@ class Piece: SKSpriteNode {
     
     func removeArrow() {
         self.arrow?.removeFromParent()
+        self.arrow = nil
+    }
+    
+    func drawShield() {
+        self.removeShield()
+        self.shield = Shield(CGPointMake(0, 0), getRadius())
+        if let shield = self.shield {
+            self.addChild(shield)
+        }
+    }
+    
+    func removeShield() {
+        self.shield?.removeFromParent()
+        self.shield = nil
     }
     
     func drawTrajectory(force: CGVector){
@@ -300,7 +313,38 @@ class Piece: SKSpriteNode {
             return PieceKnight(player)
         case .Canon:
             return PieceCanon(player)
+        case .General:
+            return PieceGeneral(player)
         }
     }
 }
 
+extension SKNode {
+    func fadeOut(fadeOutWaitTime : NSTimeInterval, fadeOutFadeTime : NSTimeInterval) {
+        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
+        let fadeAction = SKAction.fadeOutWithDuration(fadeOutFadeTime)
+        let removeAction = SKAction.removeFromParent()
+        let sequence = [waitAction, fadeAction, removeAction]
+        self.runAction(SKAction.sequence(sequence))
+    }
+    
+    func fadeTo(alpha : CGFloat, fadeOutFadeTime : NSTimeInterval) {
+        let fadeOutAct = SKAction.fadeAlphaTo(alpha, duration: fadeOutFadeTime)
+        let sequence = [fadeOutAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+    
+    func cancelFade(fadeOutFadeTime : NSTimeInterval) {
+        let fadeOutAct = SKAction.fadeAlphaTo(1.0, duration: fadeOutFadeTime)
+        let sequence = [fadeOutAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+    
+    func flash(fadeOutWaitTime : NSTimeInterval, fadeOutFadeTime : NSTimeInterval) {
+        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
+        let fadeOutAct = SKAction.fadeAlphaTo(0.4, duration: fadeOutFadeTime);
+        let fadeInAct = SKAction.fadeInWithDuration(fadeOutFadeTime);
+        let sequence = [fadeOutAct, fadeInAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+}
