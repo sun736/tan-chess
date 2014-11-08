@@ -23,6 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var top : SKSpriteNode?
     var bottom :SKSpriteNode?
     var soundPlayer: Sound?
+    var pullForce: CGVector?
+    var trajactoryTimer: NSTimer?
     
     var sceneDelegate: GameSceneDelegate?
     
@@ -338,13 +340,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if piece is PieceCanon {
             piece.fadeTo()
         }
+        trajactoryTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("drawTrajactory:"), userInfo: piece, repeats: true)
+    }
+
+    func drawTrajactory(timer : NSTimer) {
+        if let piece = timer.userInfo as? Piece{
+            if let pf = pullForce {
+                piece.drawTrajectory(pf)
+            }
+        }
     }
     
     func pieceDidChangePullDistance(piece : Piece, distance: CGVector) {
         var force = piece.forceForPullDistance(distance)
         piece.drawArrow(force)
         piece.drawDirectionHint()
-        piece.drawTrajectory(force)
+        pullForce = force
+        //piece.drawTrajectory(force)
     }
     
     func pieceDidCancelPull(piece : Piece) {
@@ -353,6 +365,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeDirectionHint()
         piece.cancelFade()
         piece.removeTrajectory()
+        pullForce = nil
+        trajactoryTimer?.invalidate()
     }
     
     func pieceDidPulled(piece : Piece, distance: CGVector) {
@@ -376,6 +390,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeArrow()
         piece.removeDirectionHint()
         piece.removeTrajectory()
+        pullForce = nil
+        trajactoryTimer?.invalidate()
     }
     
     func pieceDidTaped(piece : Piece) {
@@ -385,6 +401,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeDirectionHint()
         piece.cancelFade()
         piece.removeTrajectory()
+        pullForce = nil
+        trajactoryTimer?.invalidate()
     }
     
     // MARK: Contact Delegate
