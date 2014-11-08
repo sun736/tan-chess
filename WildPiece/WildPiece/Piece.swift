@@ -156,31 +156,19 @@ class Piece: SKSpriteNode {
     }
     
     func fadeOut() {
-        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
-        let fadeAction = SKAction.fadeOutWithDuration(fadeOutFadeTime)
-        let removeAction = SKAction.removeFromParent()
-        let sequence = [waitAction, fadeAction, removeAction]
-        self.runAction(SKAction.sequence(sequence))
+        self.fadeOut(fadeOutWaitTime, fadeOutFadeTime: fadeOutFadeTime)
     }
     
     func fadeTo() {
-        let fadeOutAct = SKAction.fadeAlphaTo(0.5, duration: fadeOutFadeTime)
-        let sequence = [fadeOutAct];
-        self.runAction(SKAction.sequence(sequence));
+        self.fadeTo(0.5, fadeOutFadeTime: fadeOutFadeTime)
     }
     
     func cancelFade() {
-        let fadeOutAct = SKAction.fadeAlphaTo(1.0, duration: fadeOutFadeTime)
-        let sequence = [fadeOutAct];
-        self.runAction(SKAction.sequence(sequence));
+        self.cancelFade(fadeOutFadeTime)
     }
     
     func flash() {
-        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
-        let fadeOutAct = SKAction.fadeAlphaTo(0.4, duration: fadeOutFadeTime);
-        let fadeInAct = SKAction.fadeInWithDuration(fadeOutFadeTime);
-        let sequence = [fadeOutAct, fadeInAct];
-        self.runAction(SKAction.sequence(sequence));
+        self.flash(fadeOutWaitTime, fadeOutFadeTime: fadeOutFadeTime)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -331,3 +319,32 @@ class Piece: SKSpriteNode {
     }
 }
 
+extension SKNode {
+    func fadeOut(fadeOutWaitTime : NSTimeInterval, fadeOutFadeTime : NSTimeInterval) {
+        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
+        let fadeAction = SKAction.fadeOutWithDuration(fadeOutFadeTime)
+        let removeAction = SKAction.removeFromParent()
+        let sequence = [waitAction, fadeAction, removeAction]
+        self.runAction(SKAction.sequence(sequence))
+    }
+    
+    func fadeTo(alpha : CGFloat, fadeOutFadeTime : NSTimeInterval) {
+        let fadeOutAct = SKAction.fadeAlphaTo(alpha, duration: fadeOutFadeTime)
+        let sequence = [fadeOutAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+    
+    func cancelFade(fadeOutFadeTime : NSTimeInterval) {
+        let fadeOutAct = SKAction.fadeAlphaTo(1.0, duration: fadeOutFadeTime)
+        let sequence = [fadeOutAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+    
+    func flash(fadeOutWaitTime : NSTimeInterval, fadeOutFadeTime : NSTimeInterval) {
+        let waitAction = SKAction.waitForDuration(fadeOutWaitTime);
+        let fadeOutAct = SKAction.fadeAlphaTo(0.4, duration: fadeOutFadeTime);
+        let fadeInAct = SKAction.fadeInWithDuration(fadeOutFadeTime);
+        let sequence = [fadeOutAct, fadeInAct];
+        self.runAction(SKAction.sequence(sequence));
+    }
+}

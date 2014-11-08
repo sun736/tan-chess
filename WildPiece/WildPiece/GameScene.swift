@@ -81,6 +81,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         let centerPt = piece.position
                         let distance = hypotf(Float(location.x - centerPt.x),
                             Float(location.y - centerPt.y))
+                        if Logic.sharedInstance.isWaiting(piece.player) {
+                            Rule.touchDown(self, piece: piece)
+                        }
                         // exact distance comparison
                         if (distance <= Float(piece.radius)) {
                             
@@ -115,6 +118,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                     let reforce: CGVector = Rule.pieceValidForce(self, piece: piece, force: force)
                     let distance = CGVectorMake(-reforce.dx, -reforce.dy)
                     // do nothing if end point lies within the node border
+                    if Logic.sharedInstance.isWaiting(piece.player) {
+                        Rule.touchUp(self, piece: piece)
+                    }
                     if (hypotf(Float(distance.dx), Float(distance.dy)) <= Float(piece.radius)) {
                         if self.pieceShouldTap(piece) {
                             self.pieceDidTaped(piece)
@@ -162,6 +168,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
         if let piece = possibleTouchNode as? Piece {
+            if Logic.sharedInstance.isWaiting(piece.player) {
+                Rule.touchUp(self, piece: piece)
+            }
             self.pieceDidCancelPull(piece)
         }
         

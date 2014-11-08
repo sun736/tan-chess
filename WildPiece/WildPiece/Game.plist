@@ -64,11 +64,11 @@
 		<key>mass</key>
 		<integer>10</integer>
 		<key>damping</key>
-		<integer>5</integer>
+		<integer>3</integer>
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<real>7.5</real>
+		<integer>5</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>
@@ -125,7 +125,7 @@
 		<key>restitution</key>
 		<real>0.5</real>
 		<key>impulse</key>
-		<real>2.5</real>
+		<integer>5</integer>
 		<key>radius</key>
 		<string>20</string>
 		<key>healthPoint</key>

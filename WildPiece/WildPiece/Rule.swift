@@ -91,6 +91,18 @@ class Rule {
         return false;
     }
     
+    class func touchDown(scene : GameScene, piece : Piece) {
+        if let piece = piece as? PiecePawn {
+            scene.board?.displayRestrictedArea(piece.position, isUpTurn: piece.player.isUpSide)
+        }
+    }
+    
+    class func touchUp(scene : GameScene, piece : Piece) {
+        if let piece = piece as? PiecePawn {
+            scene.board?.hideRestrictedArea(piece.player.isUpSide)
+        }
+    }
+    
     class func gameIsEnd(scene : GameScene) -> (isEnd : Bool, winner : Player) {
         var winningPlayer : [Player] = [Player]()
         for player in [PLAYER1, PLAYER2] {
