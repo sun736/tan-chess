@@ -22,7 +22,7 @@ class Board : SKNode {
     private let timeInterval : NSTimeInterval = 1.4
     private let marginX : CGFloat = 0
     private let marginY : CGFloat
-    private let restrictedAreaHeight : CGFloat = 140
+    private let restrictedAreaHeight : CGFloat
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -32,6 +32,7 @@ class Board : SKNode {
         self.width = width
         self.length = length
         self.marginY = marginY
+        self.restrictedAreaHeight = ceil((length - marginY * 2) / 4)
         self.backgroundUp = Board.createRect(width - marginX * 2, length: CGFloat(ceilf(Float(length/2 - marginY))) )
         self.backgroundDown = Board.createRect(width - marginX * 2, length : CGFloat(ceilf(Float(length/2 - marginY))) )
         self.restrictedAreaUp = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
