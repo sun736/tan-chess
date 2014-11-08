@@ -182,7 +182,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             let nodes = gameScene?.pieceLayer?.nodesAtPoint(CGPointMake(CGFloat(position["x"] as Float), CGFloat(position["y"] as Float)))
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
-                    gameScene?.pieceDidPulled(piece, force: CGVectorMake(force["dx"] as CGFloat, force["dy"]  as CGFloat))
+                    gameScene?.pullEnded(piece, force: CGVectorMake(force["dx"] as CGFloat, force["dy"]  as CGFloat))
                     Logic.sharedInstance.playerDone()
                     break
                 }

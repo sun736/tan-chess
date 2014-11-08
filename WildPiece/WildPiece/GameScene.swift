@@ -14,9 +14,9 @@ protocol GameSceneDelegate: class {
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
     
-    var possibleBeginPt: CGPoint?
-    var possibleEndPt: CGPoint?
-    var possibleTouchNode :SKNode?
+    var pullBeginPoint: CGPoint?
+    var pullEndPoint: CGPoint?
+    var touchNode :SKNode?
     var currentPiece : Piece?
     var moveableSet = Array<Piece>()
     var lastMove : (piece : Piece?, step : Int) = (nil, 0)
@@ -82,32 +82,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let nodes = self.pieceLayer?.nodesAtPoint(location)
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
-                    if (touch.tapCount == 1){
-                        if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
-                            let centerPt = piece.position
-                            let distance = hypotf(Float(location.x - centerPt.x),
-                                Float(location.y - centerPt.y))
-                            
-                            if Logic.sharedInstance.isWaiting(piece.player) {
-                                Rule.touchDown(self, piece: piece)
-                            }
-                            // exact distance comparison
-                            if (distance <= Float(piece.radius)) {
-                                
-                                possibleBeginPt = location
-                                possibleEndPt = nil
-                                possibleTouchNode = piece
-                                
-                                self.pieceDidStartPull(piece)
-                                break
-                            }
-                          
+                    if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
+                        let centerPt = piece.position
+                        let distance = hypotf(Float(location.x - centerPt.x),
+                            Float(location.y - centerPt.y))
+                        
+                        if Logic.sharedInstance.isWaiting(piece.player) {
+                            Rule.touchDown(self, piece: piece)
                         }
-                    }else if touch.tapCount == 2
-                    {
-                        piece.showSkill()
-                        currentPiece = piece
-                        //piece.hideSkill()
+                        // exact distance comparison
+                        if (distance <= Float(piece.radius)) {
+                            
+                            pullBeginPoint = location
+                            pullEndPoint = nil
+                            touchNode = piece
+                            
+                            self.pullBegan(piece)
+                            break
+                        }
+                      
                     }
                 } else if node.name == "Shield"
                 {
@@ -120,75 +113,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        
+        var doubleTap : Bool = false
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self.pieceLayer)
             // save end location
-            possibleEndPt = location
+            pullEndPoint = location
+            doubleTap = touch.tapCount == 2
             break
         }
         // fire
-        if let actualBeginPt = possibleBeginPt {
-            if let actualEndPt = possibleEndPt {
-                if let piece = possibleTouchNode as? Piece{
+        if let pullBeginPoint = pullBeginPoint {
+            if let pullEndPoint = pullEndPoint {
+                if let piece = touchNode as? Piece{
                     let centerPt = piece.position
                     
-                    let distance = CGVectorMake(actualEndPt.x - centerPt.x, actualEndPt.y - centerPt.y)
+                    let distance = CGVectorMake(pullEndPoint.x - centerPt.x, pullEndPoint.y - centerPt.y)
                     let rawForce = piece.forceForPullDistance(distance)
                     let force = redirectForce(piece, force: rawForce)
-//                    println("distance: \(distance.dx), \(distance.dy)")
-//                    println("rawForce: \(rawForce.dx), \(rawForce.dy)")
-//                    println("force: \(force.dx), \(force.dy)")
                     
                     // do nothing if end point lies within the node border
                     if Logic.sharedInstance.isWaiting(piece.player) {
                         Rule.touchUp(self, piece: piece)
                     }
                     if (hypotf(Float(force.dx), Float(force.dy)) <= Float(piece.minForce)) {
+                        self.pullCancelled(piece)
                         if self.pieceShouldTap(piece) {
-                            self.pieceDidTaped(piece)
-                        } else {
-                            self.pieceDidCancelPull(piece)
+                            self.pieceDidTaped(piece, doubleTap : doubleTap)
                         }
                     } else {
                         if self.pieceShouldPull(piece) {
                             if Logic.sharedInstance.onlineMode {
                                 self.sceneDelegate?.sendDataToPeer(piece.position, force: force)
                             }
-                            self.pieceDidPulled(piece, force: force)
+                            self.pullEnded(piece, force: force)
                             Logic.sharedInstance.playerDone()
                             self.board?.TurnDone()
                         } else {
-                            self.pieceDidCancelPull(piece)
+                            self.pullCancelled(piece)
                         }
                     }
                 }
             }
         }
-        possibleBeginPt = nil
-        possibleEndPt = nil
-        possibleTouchNode = nil
+        pullBeginPoint = nil
+        pullEndPoint = nil
+        touchNode = nil
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self.pieceLayer)
             // notify the node to draw a force indicator
-            if let actualBeginPt = possibleBeginPt {
-                if let piece = possibleTouchNode as? Piece {
+            if let pullBeginPoint = pullBeginPoint {
+                if let piece = touchNode as? Piece {
                     if self.pieceShouldPull(piece) {
                         let centerPt = piece.position
-                        
                         let distance = CGVectorMake(location.x - centerPt.x, location.y - centerPt.y)
                         let rawForce = piece.forceForPullDistance(distance)
                         let force = redirectForce(piece, force: rawForce)
-//                        println("centerPt: \(centerPt.x), \(centerPt.y)")
-//                        println("location: \(location.x), \(location.y)")
-//                        println("distance: \(distance.dx), \(distance.dy)")
-//                        println("rawForce: \(rawForce.dx), \(rawForce.dy)")
-//                        println("force: \(force.dx), \(force.dy)")
-                        
-                        self.pieceDidChangePullForce(piece, force: force)
+                        self.pullMoved(piece, force: force)
                     }
                 }
             }
@@ -196,16 +179,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
-        if let piece = possibleTouchNode as? Piece {
+        if let piece = touchNode as? Piece {
             if Logic.sharedInstance.isWaiting(piece.player) {
                 Rule.touchUp(self, piece: piece)
             }
-            self.pieceDidCancelPull(piece)
+            self.pullCancelled(piece)
         }
         
-        possibleBeginPt = nil
-        possibleEndPt = nil
-        possibleTouchNode = nil
+        pullBeginPoint = nil
+        pullEndPoint = nil
+        touchNode = nil
     }
     
     
@@ -385,8 +368,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         return !Logic.sharedInstance.isProcessing
     }
     
-    // MARK: Touch Events on Pieces
-    func pieceDidStartPull(piece : Piece) {
+    // MARK: Pull on Pieces
+    func pullBegan(piece : Piece) {
         // temporary solution to determine contacter
         //CollisionController.setContacter(self, contacter: piece)
         piece.drawRing()
@@ -395,19 +378,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
         trajactoryTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("drawTrajactory:"), userInfo: piece, repeats: true)
     }
-
-    func drawTrajactory(timer : NSTimer) {
-        if let piece = timer.userInfo as? Piece{
-            if let pullForce = pullForce {
-                piece.drawTrajectory()
-                if let trajectoryNode = piece.trajectory {
-                    self.applyImpulseToWorldObject(trajectoryNode, force : pullForce)
-                }
-            }
-        }
-    }
     
-    func pieceDidChangePullForce(piece : Piece, var force: CGVector) {
+    func pullMoved(piece : Piece, var force: CGVector) {
 //        println("changed force: \(force.dx), \(force.dy)")
         piece.drawArrow(force)
         piece.drawDirectionHint()
@@ -415,7 +387,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         //piece.drawTrajectory(force)
     }
     
-    func pieceDidCancelPull(piece : Piece) {
+    func pullCancelled(piece : Piece) {
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
@@ -425,7 +397,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         trajactoryTimer?.invalidate()
     }
     
-    func pieceDidPulled(piece : Piece, var force: CGVector) {
+    func pullEnded(piece : Piece, var force: CGVector) {
 //        println("shooting force: \(force.dx), \(force.dy)")
         //MARK set canon to not collisionable
         if piece is PieceCanon {
@@ -438,8 +410,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
         // if this is the place to set contacter, knight can only achieve kill-move by itself, no team work
         CollisionController.setContacter(self, contacter: piece)
-//        piece.physicsBody?.applyImpulse(force);
-        self.applyImpulseToWorldObject(piece, force : force)
+        applyImpulseToWorldObject(piece, force : force)
         updateLastMove(piece)
 
         piece.removeRing()
@@ -450,15 +421,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         trajactoryTimer?.invalidate()
     }
     
-    func pieceDidTaped(piece : Piece) {
-        WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType.description);
-        piece.removeRing()
-        piece.removeArrow()
-        piece.removeDirectionHint()
-        piece.cancelFade()
-        piece.removeTrajectory()
-        pullForce = nil
-        trajactoryTimer?.invalidate()
+    // MARK: Tap on Pieces
+    func pieceDidTaped(piece : Piece, doubleTap : Bool) {
+//        println("doubleTap: \(doubleTap)")
+        if doubleTap {
+            piece.showSkill()
+            currentPiece = piece
+            //piece.hideSkill()
+        } else {
+            WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType.description);
+        }
     }
     
     // MARK: Contact Delegate
@@ -598,5 +570,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             force = self.rotateVector(force)
         }
         piece.physicsBody?.applyImpulse(force);
+    }
+    
+    // Mark: piece effect
+    func drawTrajactory(timer : NSTimer) {
+        if let piece = timer.userInfo as? Piece{
+            if let pullForce = pullForce {
+                piece.drawTrajectory()
+                if let trajectoryNode = piece.trajectory {
+                    applyImpulseToWorldObject(trajectoryNode, force : pullForce)
+                }
+            }
+        }
     }
 }
