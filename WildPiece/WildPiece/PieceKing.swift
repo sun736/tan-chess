@@ -12,8 +12,8 @@ import SpriteKit
 class PieceKing : Piece {
     
     let c_radius: CGFloat = 20
-    let c_healthPoint: CGFloat = 50
-    let c_maxhealthPoint: CGFloat = 50
+    let c_healthPoint: CGFloat = 30
+    let c_maxhealthPoint: CGFloat = 30
     let c_mass: CGFloat = 10
     let c_linearDamping: CGFloat = 5
     let c_angularDamping: CGFloat = 7
