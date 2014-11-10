@@ -10,6 +10,7 @@ import SpriteKit
 
 protocol GameSceneDelegate: class {
     func sendDataToPeer(piece: CGPoint, force: CGVector)
+    func endMCSession()
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
@@ -266,7 +267,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func endGame() {
         self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
+        Logic.sharedInstance.whoami = PLAYER_NULL
+        Logic.sharedInstance.onlineMode = false
         Logic.sharedInstance.end()
+        sceneDelegate?.endMCSession()
     }
     
     func updateLastMove(piece : Piece) {
