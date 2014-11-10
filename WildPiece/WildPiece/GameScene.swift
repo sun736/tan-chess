@@ -110,6 +110,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             }
             break
         }
+        
+        if currentPiece != nil{
+            currentPiece?.hideSkill()
+            currentPiece = nil
+        }
+
+       
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
@@ -425,8 +432,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func pieceDidTaped(piece : Piece, doubleTap : Bool) {
 //        println("doubleTap: \(doubleTap)")
         if doubleTap {
-            piece.showSkill()
-            currentPiece = piece
+            if piece != currentPiece
+            {
+                currentPiece?.hideSkill()
+                piece.showSkill()
+                currentPiece = piece
+            }
             //piece.hideSkill()
         } else {
             WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType.description);

@@ -24,6 +24,9 @@ class Board : SKNode {
     private let marginY : CGFloat
     private let restrictedAreaHeight : CGFloat
     
+    //add a skill cool down bar
+    private var blueSkillBar : SKShapeNode
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -38,6 +41,7 @@ class Board : SKNode {
         self.restrictedAreaUp = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
         self.restrictedAreaDown = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
         self.background = Board.createRect(width, length : length)
+        self.blueSkillBar = Board.createRect(5, length: 5);
         super.init()
         self.configurePhysicsBody()
         self.configureBackground()
@@ -100,6 +104,13 @@ class Board : SKNode {
         self.restrictedAreaUp.zPosition = -8.0
         self.addChild(self.restrictedAreaUp)
         self.restrictedAreaUp.alpha = 0
+        
+        self.blueSkillBar.position = CGPointMake(0, 20)
+        self.blueSkillBar.fillColor = UIColor.UIColorFromRGB(0x0096FF, alpha: 1.0)
+        self.addChild(self.blueSkillBar)
+        
+       
+      
     }
     
     func setTurn(isUpTurn : Bool) {
@@ -174,6 +185,19 @@ class Board : SKNode {
     
     class func BITMASK_BOARD() -> UInt32 {
         return 0x08
+    }
+    
+    func increaseSkill(player : Player){
+        //self.blueSkillBar.runAction(SKAction.scaleXBy(5.0, y: 1.0, duration: 0.3))
+        self.blueSkillBar.runAction(SKAction.resizeToWidth(200, height: 5, duration: 0.3))
+        if player.id == 1{
+            println("increase")
+           
+            
+        }else
+        {
+            
+        }
     }
     
 }

@@ -40,6 +40,7 @@ class MenuScene: SKScene {
         moreButton.fontSize = 25
         moreButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.1)
         self.addChild(moreButton)
+        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
