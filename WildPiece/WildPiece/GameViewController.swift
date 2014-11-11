@@ -79,8 +79,8 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: "King")
         
         // multipeer connectivity
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MC_DidReceiveDataNotification", object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedData:", name: "MC_DidReceiveDataNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleStateChange:", name: "MC_DidChangeStateNotification", object: nil)
     }
     
     func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
@@ -169,7 +169,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         }
     }
     
-    func handleReceivedDataWithNotification(notification: NSNotification){
+    func handleReceivedData(notification: NSNotification){
         let userInfo = notification.userInfo! as Dictionary
         let receivedData:NSData = userInfo["data"] as NSData
         
@@ -218,6 +218,19 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         }
     }
 
+    func handleStateChange(notification: NSNotification){
+        let userInfo = notification.userInfo! as Dictionary
+        let state:String = userInfo["state"] as String
+        let peerID: MCPeerID = userInfo["peerID"] as MCPeerID
+        if state == "NotConnected" {
+            presentAlert("\(peerID.displayName) state changed to \(state)")
+            NSNotificationCenter.defaultCenter().postNotificationName(kShouldPresentMenuSceneNotification, object: appDelegate.gameScene, userInfo: nil)
+        }
+    }
+
+    func endMCSession() {
+        appDelegate.mcHandler.session.disconnect()
+    }
     
     func shouldDisplayOnlineSearch() {
         connectWithPlayer(nil)

@@ -50,7 +50,16 @@ class MCHandler: NSObject, MCSessionDelegate {
     }
     
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
-        let userInfo = ["peerID":peerID,"state":state.rawValue]
+        var stateStr: String;
+        switch state {
+        case MCSessionState.NotConnected:
+            stateStr = "NotConnected"
+        case MCSessionState.Connecting:
+            stateStr = "Connecting"
+        case MCSessionState.Connected:
+            stateStr = "Connected"
+        }
+        let userInfo = ["peerID":peerID,"state":stateStr]
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             NSNotificationCenter.defaultCenter().postNotificationName("MC_DidChangeStateNotification", object: nil, userInfo: userInfo)
         })

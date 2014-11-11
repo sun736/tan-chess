@@ -10,6 +10,7 @@ import SpriteKit
 
 protocol GameSceneDelegate: class {
     func sendDataToPeer(piece: CGPoint, force: CGVector)
+    func endMCSession()
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
@@ -110,7 +111,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                     }
                 } else if node.name == "Shield"
                 {
-                    currentPiece?.showShield()
+                    if currentPiece?.player.id == 1
+                    {
+                        if self.board?.skillController.getBlueCD() == 3
+                        {
+                            currentPiece?.drawShield()
+                            var player = currentPiece?.player
+                            self.board?.resetSkillBar(player!)
+                        }
+                    }else
+                    {
+                        if self.board?.skillController.getRedCD() == 3
+                        {
+                            currentPiece?.drawShield()
+                            var player = currentPiece?.player
+                            self.board?.resetSkillBar(player!)
+                        }
+                    }
                 }
 
             }
@@ -272,7 +289,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func endGame() {
         self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
+        Logic.sharedInstance.whoami = PLAYER_NULL
+        Logic.sharedInstance.onlineMode = false
         Logic.sharedInstance.end()
+        sceneDelegate?.endMCSession()
     }
     
     func updateLastMove(piece : Piece) {
