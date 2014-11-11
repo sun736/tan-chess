@@ -137,17 +137,23 @@ class Rule {
     }
     
     // MARK: Add/Remove Pieces
-    class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player) {
+    class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player, name : String? = nil) {
         var piece = Piece.newPiece(pieceType, player: player);
+        if let name = name {
+            piece.name = name
+        }
         piece.position = location
         scene.pieceLayer?.addChild(piece)
+        scene.allPieces.append(piece)
     }
     
     // add a piece for each player, with symmetrical position
-    class func addPairPieces(scene : GameScene, pieceType : PieceType, location : CGPoint) {
-        self.addPiece(scene, pieceType : pieceType, location: location, player: PLAYER1)
+    class func addPairPieces(scene : GameScene, pieceType : PieceType, location : CGPoint, name : String? = nil) {
+        let nameWithPlayer1Name: String? = name == nil ? name : name! + "_\(PLAYER1.name)"
+        var nameWithPlayer2Name: String? = name == nil ? name : name! + "_\(PLAYER2.name)"
+        self.addPiece(scene, pieceType : pieceType, location: location, player: PLAYER1, name: nameWithPlayer1Name)
         let opponentLocation = scene.opponentLocation(location)
-        self.addPiece(scene, pieceType : pieceType, location: opponentLocation, player: PLAYER2)
+        self.addPiece(scene, pieceType : pieceType, location: opponentLocation, player: PLAYER2, name: nameWithPlayer2Name)
     }
     
     class func placePieces(scene : GameScene) {
@@ -158,20 +164,20 @@ class Rule {
         let rightendPointX:CGFloat = scene.frame.width - leftstartPointX
         var lrdiff:CGFloat = (rightendPointX - leftstartPointX)/2
         for index:Int in 0...2 {
-            addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(leftstartPointX + CGFloat(index)*lrdiff, 200))
+            addPairPieces(scene, pieceType : PieceType.Pawn, location: CGPointMake(leftstartPointX + CGFloat(index)*lrdiff, 200), name: "Pawn\(index)")
         }
         
-        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(leftstartPointX+(lrdiff/2), 200))
-        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(rightendPointX-(lrdiff/2), 200))
+        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(leftstartPointX+(lrdiff/2), 200), name: "Canon1")
+        addPairPieces(scene, pieceType : PieceType.Canon, location: CGPointMake(rightendPointX-(lrdiff/2), 200), name: "Canon2")
         
         lrdiff = (rightendPointX - leftstartPointX)/4
-        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(leftstartPointX, 100))
+        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(leftstartPointX, 100), name: "Rook1")
         //addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(leftstartPointX + lrdiff, 100))
-        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(leftstartPointX + lrdiff*1, 100))
-        addPairPieces(scene, pieceType : PieceType.King, location: CGPointMake(leftstartPointX + lrdiff*2, 100))
-        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(leftstartPointX + lrdiff*3, 100))
+        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(leftstartPointX + lrdiff*1, 100), name: "Elephant1")
+        addPairPieces(scene, pieceType : PieceType.King, location: CGPointMake(leftstartPointX + lrdiff*2, 100), name: "King")
+        addPairPieces(scene, pieceType : PieceType.Elephant, location: CGPointMake(leftstartPointX + lrdiff*3, 100), name: "Elephant2")
         //addPairPieces(scene, pieceType : PieceType.Knight, location: CGPointMake(leftstartPointX + lrdiff*5, 100))
-        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(leftstartPointX + lrdiff*4, 100))
+        addPairPieces(scene, pieceType : PieceType.Rook, location: CGPointMake(leftstartPointX + lrdiff*4, 100), name: "Rook2")
        
        
     }
