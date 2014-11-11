@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		01B62C0319F1D415005F4883 /* EndScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B62C0219F1D415005F4883 /* EndScene.swift */; };
 		081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081B805C19DFA5AC00B6C135 /* PauseScene.swift */; };
+		082303C21A117B54006CF2EA /* SkillController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082303C11A117B54006CF2EA /* SkillController.swift */; };
 		0833E9B41A059D500009E596 /* collision2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0833E9B31A059D500009E596 /* collision2.wav */; };
 		08401D501A009A1E006F1834 /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D4F1A009A1E006F1834 /* SettingScene.swift */; };
 		08401D841A00A3D9006F1834 /* TutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08401D831A00A3D9006F1834 /* TutorialScene.swift */; };
@@ -67,6 +68,7 @@
 /* Begin PBXFileReference section */
 		01B62C0219F1D415005F4883 /* EndScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndScene.swift; sourceTree = "<group>"; };
 		081B805C19DFA5AC00B6C135 /* PauseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseScene.swift; sourceTree = "<group>"; };
+		082303C11A117B54006CF2EA /* SkillController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillController.swift; sourceTree = "<group>"; };
 		0833E9B31A059D500009E596 /* collision2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = collision2.wav; sourceTree = "<group>"; };
 		08401D4F1A009A1E006F1834 /* SettingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingScene.swift; sourceTree = "<group>"; };
 		08401D831A00A3D9006F1834 /* TutorialScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialScene.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
 				A2581D3919FC5DAC006FAAA4 /* Board.swift */,
+				082303C11A117B54006CF2EA /* SkillController.swift */,
 				AE82C96919E360C300E6FE0B /* CollisionController.swift */,
 				91101BC219D5DE7000E59AB4 /* GameScene.swift */,
 				91101BC419D5DE7000E59AB4 /* GameViewController.swift */,
@@ -386,6 +389,7 @@
 				4FD0FA6019FF0CB900126D6B /* MCHandler.swift in Sources */,
 				088B8C5F19DBB3CB00CBA944 /* MenuScene.swift in Sources */,
 				A2581D3A19FC5DAC006FAAA4 /* Board.swift in Sources */,
+				082303C21A117B54006CF2EA /* SkillController.swift in Sources */,
 				1819134119D7515200BBEDC2 /* WPParameterSet.swift in Sources */,
 				A28CD1D01A0047320093D84D /* PieceElephant.swift in Sources */,
 				186C621819D636A800FF3952 /* WPToolBarViewController.swift in Sources */,

@@ -105,7 +105,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                     }
                 } else if node.name == "Shield"
                 {
-                    currentPiece?.showShield()
+                    if currentPiece?.player.id == 1
+                    {
+                        if self.board?.skillController.getBlueCD() == 3
+                        {
+                            currentPiece?.drawShield()
+                            var player = currentPiece?.player
+                            self.board?.resetSkillBar(player!)
+                        }
+                    }else
+                    {
+                        if self.board?.skillController.getRedCD() == 3
+                        {
+                            currentPiece?.drawShield()
+                            var player = currentPiece?.player
+                            self.board?.resetSkillBar(player!)
+                        }
+                    }
                 }
 
             }

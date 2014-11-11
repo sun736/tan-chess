@@ -26,6 +26,9 @@ class Board : SKNode {
     
     //add a skill cool down bar
     private var blueSkillBar : SKShapeNode
+    private var redSkillBar : SKShapeNode
+    private var scaleArray = [187.5, 2, 1.5,1.34]
+    var skillController : SkillController
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -41,7 +44,9 @@ class Board : SKNode {
         self.restrictedAreaUp = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
         self.restrictedAreaDown = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
         self.background = Board.createRect(width, length : length)
-        self.blueSkillBar = Board.createRect(5, length: 5);
+        self.blueSkillBar = Board.createRect(1, length: 5)
+        self.redSkillBar = Board.createRect(1, length: 5)
+        self.skillController = SkillController()
         super.init()
         self.configurePhysicsBody()
         self.configureBackground()
@@ -105,12 +110,17 @@ class Board : SKNode {
         self.addChild(self.restrictedAreaUp)
         self.restrictedAreaUp.alpha = 0
         
-        self.blueSkillBar.position = CGPointMake(0, 20)
+        self.blueSkillBar.position = CGPointMake(-1, marginY-2.5)
         self.blueSkillBar.fillColor = UIColor.UIColorFromRGB(0x0096FF, alpha: 1.0)
         self.addChild(self.blueSkillBar)
-        
-       
-      
+        //self.increaseSkill(0)
+        self.redSkillBar.position = CGPointMake(376, length - marginY+2.5);
+
+        //self.redSkillBar.position = CGPointMake(376, (marginY + length + length)/2);
+        println(self.redSkillBar.position)
+        self.redSkillBar.zRotation = CGFloat(M_PI)
+        self.redSkillBar.fillColor = UIColor.UIColorFromRGB(0xFF5E5B, alpha: 1.0)
+        self.addChild(self.redSkillBar)
     }
     
     func setTurn(isUpTurn : Bool) {
@@ -187,16 +197,43 @@ class Board : SKNode {
         return 0x08
     }
     
-    func increaseSkill(player : Player){
-        //self.blueSkillBar.runAction(SKAction.scaleXBy(5.0, y: 1.0, duration: 0.3))
-        self.blueSkillBar.runAction(SKAction.resizeToWidth(200, height: 5, duration: 0.3))
+    func increaseSkill( player: Player ){
         if player.id == 1{
-            println("increase")
-           
+            var index = self.skillController.increaseBlueCD()
+            var scale = self.scaleArray[index]
+            if self.blueSkillBar.xScale < 600
+            {
+                self.blueSkillBar.runAction(SKAction.scaleXBy(CGFloat(scale), y: 1.0, duration: 0.3))
+                println(self.blueSkillBar.xScale)
+            }
             
+        }
+        else
+        {
+            var index = self.skillController.increaseRedCD()
+            //var scale = 0 - self.scaleArray[index]
+            var scale = self.scaleArray[index]
+            if self.redSkillBar.xScale < 600
+            {
+                self.redSkillBar.runAction(SKAction.scaleXBy(CGFloat(scale), y: 1.0, duration: 0.3))
+            }
+        }
+        
+    }
+    
+    
+    
+    
+    func resetSkillBar( player: Player)
+    {
+        if player.id == 1
+        {
+            self.blueSkillBar.runAction(SKAction.scaleXBy(CGFloat(1/562.5), y: 1.0, duration: 0.3))
+            self.skillController.clearBlueCD()
         }else
         {
-            
+            self.redSkillBar.runAction(SKAction.scaleXBy(CGFloat(1/562.5), y: 1.0, duration: 0.3))
+            self.skillController.clearRedCD()
         }
     }
     
