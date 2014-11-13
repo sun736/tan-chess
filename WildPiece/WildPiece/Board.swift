@@ -221,9 +221,6 @@ class Board : SKNode {
         
     }
     
-    
-    
-    
     func resetSkillBar( player: Player)
     {
         if player.id == 1

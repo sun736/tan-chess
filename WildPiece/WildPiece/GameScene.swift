@@ -114,35 +114,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             
         }
         
-        let location = touches.anyObject()?.locationInNode(self)
+        //detect the skill panel touch
+        let location = touches.anyObject()?.locationInNode(self.skillPanel)
         let touchedNode = self.skillPanel?.nodeAtPoint(location!)
         
         if touchedNode?.name == "Shield"
         {
-            println("shield")
-            if currentPiece?.player.id == 1
+            var player = currentPiece?.player
+            if self.board?.skillController.getCD(player!) == 3
             {
-                if self.board?.skillController.getBlueCD() == 3
-                {
-                    currentPiece?.drawShield()
-                    var player = currentPiece?.player
-                    self.board?.resetSkillBar(player!)
-                }
-            }else
-            {
-                if self.board?.skillController.getRedCD() == 3
-                {
-                    currentPiece?.drawShield()
-                    var player = currentPiece?.player
-                    self.board?.resetSkillBar(player!)
-                }
+                currentPiece?.drawShield()
+                self.board?.resetSkillBar(player!)
             }
-        }else if touchedNode?.name == "skillPanel"
+        }else if touchedNode?.name == "Force"
+        {
+            var player = currentPiece?.player
+            if self.board?.skillController.getCD(player!) == 3
+            {
+                currentPiece?.isPowered = true
+                self.board?.resetSkillBar(player!)
+            }
+        }else if touchedNode?.name == "Aim"
+        {
+            var player = currentPiece?.player
+            if self.board?.skillController.getCD(player!) == 3
+            {
+                currentPiece?.shouldDrawTrajectory = true
+                self.board?.resetSkillBar(player!)
+            }
+        }
+        /*if touchedNode?.name == "skillPanel"
         {
             self.skillPanel?.hideSkill()
             currentPiece?.zPosition = 1
             currentPiece = nil
-        }
+        }*/
+        self.skillPanel?.hideSkill()
+        currentPiece?.zPosition = 1
+        currentPiece = nil
         
 
        
@@ -232,7 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func handlePinch(recognizer: UIPinchGestureRecognizer) {
         //println("pinch")
         if recognizer.state == UIGestureRecognizerState.Ended{
-            println("menuButton")
+            println("show pause menu")
            
             
             //Get the snapshot of the screen
@@ -451,11 +460,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         CollisionController.setContacter(self, contacter: piece)
         applyImpulseToWorldObject(piece, force : force)
         updateLastMove(piece)
-
+        
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
         piece.removeTrajectory()
+        piece.removeSkill()
         pullForce = nil
         trajactoryTimer?.invalidate()
     }
@@ -671,7 +681,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         self.skillPanel = SkillPanel(player: (currentPiece?.player)!)
         self.skillPanel?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         self.addChild(self.skillPanel!)
-        currentPiece?.zPosition = 5
+        currentPiece?.zPosition = 4
         //backgroundNode.spreadSkill()
     }
 }

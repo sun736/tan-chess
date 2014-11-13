@@ -54,17 +54,17 @@ class SkillPanel: SKSpriteNode {
         backgroundNode.name = "skillPanel"
         self.addChild(backgroundNode)
         
-        aimNode.name = "aim"
+        aimNode.name = "Aim"
         aimNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         aimNode.zPosition = 5
         self.addChild(aimNode)
         
-        forceNode.name = "force"
+        forceNode.name = "Force"
         forceNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         forceNode.zPosition = 5
         self.addChild(forceNode)
         
-        shieldNode.name = "shield"
+        shieldNode.name = "Shield"
         shieldNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         shieldNode.zPosition = 5
         self.addChild(shieldNode)
