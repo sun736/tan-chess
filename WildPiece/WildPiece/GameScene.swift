@@ -129,10 +129,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if touchedNode?.name == "Force"
         {
             var player = currentPiece?.player
-            if self.board?.skillController.getCD(player!) == 3
+            if self.board?.skillController.getCD(player!) == 1
             {
                 currentPiece?.isPowered = true
+                
+                currentPiece?.runAction(SKAction.sequence([SKAction.waitForDuration(0.3), SKAction.resizeToWidth(60,height:60,duration:0.3),SKAction.resizeToWidth(40,height:40,duration:0.3)]))
                 self.board?.resetSkillBar(player!)
+                
             }
         }else if touchedNode?.name == "Aim"
         {
@@ -680,8 +683,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         //shieldNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))*/
         self.skillPanel = SkillPanel(player: (currentPiece?.player)!)
         self.skillPanel?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        currentPiece?.zPosition = 5
         self.addChild(self.skillPanel!)
-        currentPiece?.zPosition = 4
+        
         //backgroundNode.spreadSkill()
     }
 }

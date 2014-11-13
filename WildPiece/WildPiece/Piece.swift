@@ -295,13 +295,24 @@ class Piece: SKSpriteNode {
     
     // calculate a valid force based on piece's limit
     func forceForPullDistance(distance : CGVector) -> CGVector {
-        var force = CGVectorMake(distance.dx * distanceToForce, distance.dy * distanceToForce)
-        var forceLength = hypotf(Float(force.dx), Float(force.dy))
-        if  forceLength > Float(maxForce) {
-            let scaleFactor = maxForce / CGFloat(forceLength)
-            force = CGVectorMake(force.dx * scaleFactor, force.dy * scaleFactor)
+        if self.isPowered == true{
+            var force = CGVectorMake(distance.dx * distanceToForce * 2, distance.dy * distanceToForce * 2)
+            var forceLength = hypotf(Float(force.dx), Float(force.dy))
+            if  forceLength > Float(maxForce * 2) {
+                let scaleFactor = maxForce * 2 / CGFloat(forceLength)
+                force = CGVectorMake(force.dx * scaleFactor, force.dy * scaleFactor)
+            }
+
+            return force
+        }else{
+            var force = CGVectorMake(distance.dx * distanceToForce, distance.dy * distanceToForce)
+            var forceLength = hypotf(Float(force.dx), Float(force.dy))
+            if  forceLength > Float(maxForce) {
+                let scaleFactor = maxForce / CGFloat(forceLength)
+                force = CGVectorMake(force.dx * scaleFactor, force.dy * scaleFactor)
+            }
+            return force
         }
-        return force
     }
     
     func forcePercentage(force : CGVector) -> CGFloat {
