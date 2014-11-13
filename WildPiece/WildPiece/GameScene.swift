@@ -31,6 +31,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var pullForce: CGVector?
     var trajactoryTimer: NSTimer?
     
+    var skillPanel: SkillPanel?
+    
     var sceneDelegate: GameSceneDelegate?
     
     deinit {
@@ -82,6 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let location = touch.locationInNode(self.pieceLayer)
             let nodes = self.pieceLayer?.nodesAtPoint(location)
             for node in nodes as [SKNode] {
+                
                 if let piece = node as? Piece {
                     if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
                         let centerPt = piece.position
@@ -103,35 +106,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         }
                       
                     }
-                } else if node.name == "Shield"
-                {
-                    if currentPiece?.player.id == 1
-                    {
-                        if self.board?.skillController.getBlueCD() == 3
-                        {
-                            currentPiece?.drawShield()
-                            var player = currentPiece?.player
-                            self.board?.resetSkillBar(player!)
-                        }
-                    }else
-                    {
-                        if self.board?.skillController.getRedCD() == 3
-                        {
-                            currentPiece?.drawShield()
-                            var player = currentPiece?.player
-                            self.board?.resetSkillBar(player!)
-                        }
-                    }
                 }
 
             }
             break
+            
+            
         }
         
-        if currentPiece != nil{
-            currentPiece?.hideSkill()
+        let location = touches.anyObject()?.locationInNode(self)
+        let touchedNode = self.skillPanel?.nodeAtPoint(location!)
+        
+        if touchedNode?.name == "Shield"
+        {
+            println("shield")
+            if currentPiece?.player.id == 1
+            {
+                if self.board?.skillController.getBlueCD() == 3
+                {
+                    currentPiece?.drawShield()
+                    var player = currentPiece?.player
+                    self.board?.resetSkillBar(player!)
+                }
+            }else
+            {
+                if self.board?.skillController.getRedCD() == 3
+                {
+                    currentPiece?.drawShield()
+                    var player = currentPiece?.player
+                    self.board?.resetSkillBar(player!)
+                }
+            }
+        }else if touchedNode?.name == "skillPanel"
+        {
+            self.skillPanel?.hideSkill()
+            currentPiece?.zPosition = 1
             currentPiece = nil
         }
+        
 
        
     }
@@ -454,9 +466,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if doubleTap {
             if piece != currentPiece
             {
-                currentPiece?.hideSkill()
-                piece.showSkill()
+                //currentPiece?.hideSkill()
+                //piece.showSkill()
                 currentPiece = piece
+                self.showSkill()
+                
             }
             //piece.hideSkill()
         } else {
@@ -613,5 +627,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 }
             }
         }
+    }
+    
+    //MARK:show skill bar
+    func showSkill()
+    {
+        /*var indicator = 1
+        let endX1 = CGRectGetMidX(self.frame) + 43.3
+        let endY1 = CGRectGetMidY(self.frame) - 25
+        let endX2 = CGRectGetMidX(self.frame) - 43.3
+        let endY2 = CGRectGetMidY(self.frame) + 50
+        
+        var backgroundNode = SKSpriteNode(imageNamed:"1")
+        backgroundNode.size = self.frame.size
+        backgroundNode.zPosition = 5;
+        backgroundNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        backgroundNode.alpha = 0.5
+        self.addChild(backgroundNode)
+        
+        var aimNode = SKSpriteNode(imageNamed:"Aim_BLUE");
+        aimNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        aimNode.zPosition = 5
+        self.addChild(aimNode)
+
+        var forceNode = SKSpriteNode(imageNamed:"Force_BLUE");
+        forceNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        forceNode.zPosition = 5
+        self.addChild(forceNode)
+        
+        var shieldNode = SKSpriteNode(imageNamed:"Shield_BLUE");
+        shieldNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        shieldNode.zPosition = 5
+        self.addChild(shieldNode)
+        
+        currentPiece?.zPosition = 5
+        
+        aimNode.runAction(SKAction.moveToY(CGFloat(endY2), duration: 0.3))
+        //aimNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
+        forceNode.runAction(SKAction.moveTo(CGPointMake(CGFloat( endX1 ), CGFloat(endY1)), duration: 0.3))
+        //forceNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
+        shieldNode.runAction(SKAction.moveTo(CGPointMake(CGFloat( endX2 ), CGFloat(endY1)), duration: 0.3))
+        //shieldNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))*/
+        self.skillPanel = SkillPanel(player: (currentPiece?.player)!)
+        self.skillPanel?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        self.addChild(self.skillPanel!)
+        currentPiece?.zPosition = 5
+        //backgroundNode.spreadSkill()
     }
 }
