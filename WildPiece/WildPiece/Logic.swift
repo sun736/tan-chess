@@ -68,6 +68,17 @@ class Logic {
     
     private var oldState: GameState?
     
+    var currentPlayer: Player? {
+        switch state {
+        case .Waiting(let player):
+            return player
+        case .Processing(let player):
+            return player
+        default:
+            return nil
+        }
+    }
+    
     func isWaiting(player : Player) -> Bool {
         switch state {
         case .Waiting(let waitingPlayer):
