@@ -33,6 +33,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // all living or died pieces
     var allPieces: [Piece] = [Piece]()
     
+    var skillPanel: SkillPanel?
+    
     var sceneDelegate: GameSceneDelegate?
     
     deinit {
@@ -89,6 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let location = touch.locationInNode(self.pieceLayer)
             let nodes = self.pieceLayer?.nodesAtPoint(location)
             for node in nodes as [SKNode] {
+                
                 if let piece = node as? Piece {
                     if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
                         let centerPt = piece.position
@@ -110,35 +113,57 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         }
                       
                     }
-                } else if node.name == "Shield"
-                {
-                    if currentPiece?.player.id == 1
-                    {
-                        if self.board?.skillController.getBlueCD() == 3
-                        {
-                            currentPiece?.drawShield()
-                            var player = currentPiece?.player
-                            self.board?.resetSkillBar(player!)
-                        }
-                    }else
-                    {
-                        if self.board?.skillController.getRedCD() == 3
-                        {
-                            currentPiece?.drawShield()
-                            var player = currentPiece?.player
-                            self.board?.resetSkillBar(player!)
-                        }
-                    }
                 }
 
             }
             break
+            
+            
         }
         
-        if currentPiece != nil{
-            currentPiece?.hideSkill()
-            currentPiece = nil
+        //detect the skill panel touch
+        let location = touches.anyObject()?.locationInNode(self.skillPanel)
+        let touchedNode = self.skillPanel?.nodeAtPoint(location!)
+        
+        if touchedNode?.name == "Shield"
+        {
+            var player = currentPiece?.player
+            if self.board?.skillController.getCD(player!) == 3
+            {
+                currentPiece?.drawShield()
+                self.board?.resetSkillBar(player!)
+            }
+        }else if touchedNode?.name == "Force"
+        {
+            var player = currentPiece?.player
+            if self.board?.skillController.getCD(player!) == 3
+            {
+                currentPiece?.isPowered = true
+                
+                //currentPiece?.runAction(SKAction.sequence([SKAction.waitForDuration(0.3), SKAction.resizeToWidth(60,height:60,duration:0.3),SKAction.resizeToWidth(40,height:40,duration:0.3)]))
+                currentPiece?.drawPowerRing()
+                self.board?.resetSkillBar(player!)
+                
+            }
+        }else if touchedNode?.name == "Aim"
+        {
+            var player = currentPiece?.player
+            if self.board?.skillController.getCD(player!) == 3
+            {
+                currentPiece?.shouldDrawTrajectory = true
+                self.board?.resetSkillBar(player!)
+            }
         }
+        /*if touchedNode?.name == "skillPanel"
+        {
+            self.skillPanel?.hideSkill()
+            currentPiece?.zPosition = 1
+            currentPiece = nil
+        }*/
+        self.skillPanel?.hideSkill()
+        currentPiece?.zPosition = 1
+        currentPiece = nil
+        
 
        
     }
@@ -227,7 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func handlePinch(recognizer: UIPinchGestureRecognizer) {
         //println("pinch")
         if recognizer.state == UIGestureRecognizerState.Ended{
-            println("menuButton")
+            println("show pause menu")
            
             
             //Get the snapshot of the screen
@@ -259,7 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: State Changes
     func startGame() {
         addLayers()
-        self.soundPlayer?.playBackgroundMusic()
+//        self.soundPlayer?.playBackgroundMusic()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -286,7 +311,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func endGame() {
-        self.soundPlayer?.stopBackgroundMusic();
+//        self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.whoami = PLAYER_NULL
         Logic.sharedInstance.onlineMode = false
@@ -440,11 +465,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         CollisionController.setContacter(self, contacter: piece)
         applyImpulseToWorldObject(piece, force : force)
         updateLastMove(piece)
-
+        
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
         piece.removeTrajectory()
+        piece.removeSkill()
+        piece.removePowerRing()
         pullForce = nil
         trajactoryTimer?.invalidate()
     }
@@ -452,18 +479,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: Tap on Pieces
     func pieceDidTaped(piece : Piece, doubleTap : Bool) {
 //        println("doubleTap: \(doubleTap)")
+        if !shouldShowSkill(piece)
+        {
+            return
+        }
+        
         if doubleTap {
             if piece != currentPiece
             {
-                currentPiece?.hideSkill()
-                piece.showSkill()
+                //currentPiece?.hideSkill()
+                //piece.showSkill()
                 currentPiece = piece
+                self.showSkill()
+                
             }
             //piece.hideSkill()
         } else {
             WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType.description);
         }
     }
+    
     
     // MARK: Contact Delegate
     func didBeginContact(contact: SKPhysicsContact) {
@@ -505,7 +540,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // update UI here
     func gameDidEnd(player : Player) {
         //stop play music
-        self.soundPlayer?.stopBackgroundMusic()
+//        self.soundPlayer?.stopBackgroundMusic()
         
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")
@@ -593,5 +628,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 }
             }
         }
+    }
+    
+    //MARK:show skill bar
+    func showSkill()
+    {
+        self.skillPanel = SkillPanel(player: (currentPiece?.player)!)
+        self.skillPanel?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        currentPiece?.zPosition = 5
+        self.addChild(self.skillPanel!)
+        
+    }
+    
+    func shouldShowSkill(piece: Piece) -> Bool{
+        return self.moveableSet[0].player.id == piece.player.id
     }
 }

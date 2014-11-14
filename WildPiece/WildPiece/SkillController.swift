@@ -30,6 +30,27 @@ class SkillController
         return self.redCD == 3 ?  3 : (self.redCD++) ;
     }
     
+    func getCD(player: Player)->Int
+    {
+        if player.id == 1
+        {
+            return self.blueCD
+        }else
+        {
+            return self.redCD
+        }
+    }
+    
+    func cleanCD(player: Player)
+    {
+        if player.id == 1
+        {
+            self.blueCD = 0
+        }else
+        {
+            self.redCD = 0
+        }
+    }
     
     func getBlueCD() -> Int
     {
