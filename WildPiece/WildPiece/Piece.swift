@@ -79,6 +79,21 @@ class Piece: SKSpriteNode {
     let fadeOutWaitTime: NSTimeInterval = 0.01
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
+    private weak var lastParent: SKNode? = nil
+    var living: Bool {
+        get {
+            lastParent = parent ?? lastParent
+            return parent? != nil
+        }
+        set {
+            if newValue && (parent? == nil) {
+                lastParent?.addChild(self)
+            } else if !newValue && (parent? != nil) {
+                
+            }
+        }
+    }
+    
     init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat, pieceType : PieceType) {
         
         self.isContacter = false

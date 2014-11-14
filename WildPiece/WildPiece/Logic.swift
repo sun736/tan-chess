@@ -68,7 +68,7 @@ class Logic {
     
     private var oldState: GameState?
     
-    func isWaiting(player : Player) -> Bool {
+    func isWaiting(player: Player) -> Bool {
         switch state {
         case .Waiting(let waitingPlayer):
             return waitingPlayer == player
