@@ -129,11 +129,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if touchedNode?.name == "Force"
         {
             var player = currentPiece?.player
-            if self.board?.skillController.getCD(player!) == 1
+            if self.board?.skillController.getCD(player!) == 3
             {
                 currentPiece?.isPowered = true
                 
-                currentPiece?.runAction(SKAction.sequence([SKAction.waitForDuration(0.3), SKAction.resizeToWidth(60,height:60,duration:0.3),SKAction.resizeToWidth(40,height:40,duration:0.3)]))
+                //currentPiece?.runAction(SKAction.sequence([SKAction.waitForDuration(0.3), SKAction.resizeToWidth(60,height:60,duration:0.3),SKAction.resizeToWidth(40,height:40,duration:0.3)]))
+                currentPiece?.drawPowerRing()
                 self.board?.resetSkillBar(player!)
                 
             }
@@ -469,6 +470,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeDirectionHint()
         piece.removeTrajectory()
         piece.removeSkill()
+        piece.removePowerRing()
         pullForce = nil
         trajactoryTimer?.invalidate()
     }

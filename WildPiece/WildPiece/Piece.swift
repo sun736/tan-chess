@@ -70,6 +70,7 @@ class Piece: SKSpriteNode {
     var hpring: HPRing? = nil
     var directionHint: DirectionHint? = nil
     var shield: Shield? = nil
+    var powerRing : SKSpriteNode? = nil
     var isPowered : Bool
     var shouldDrawTrajectory : Bool
 //    var aimNode : SKSpriteNode? = nil;
@@ -253,6 +254,33 @@ class Piece: SKSpriteNode {
     func removeShield() {
         self.shield?.removeFromParent()
         self.shield = nil
+    }
+    
+    func drawPowerRing()
+    {
+        self.powerRing = SKSpriteNode(imageNamed: "BlueRing")
+
+        if self.player.id == 2
+        {
+            self.powerRing?.texture = SKTexture(imageNamed: "RedRing")
+        }
+        
+        powerRing?.zPosition = -1
+        powerRing?.size = self.size
+        self.addChild(powerRing!)
+        var resizeAction = SKAction.resizeToWidth(70, height: 70, duration: 1.2)
+        var origionalSize = SKAction.resizeToWidth(40 , height: 40, duration: 0.0)
+        var fadeAction = SKAction.fadeAlphaTo(0.0, duration: 1.2)
+        var fadeInAction = SKAction.fadeAlphaTo(1.0, duration: 0.0)
+        var group1 = SKAction.group([resizeAction,fadeAction])
+        var group2 = SKAction.group([origionalSize,fadeInAction])
+        var sequence = SKAction.sequence([group1, group2])
+        powerRing?.runAction(SKAction.repeatActionForever(sequence))
+    }
+    
+    func removePowerRing()
+    {
+        self.powerRing?.removeFromParent()
     }
     
     func drawTrajectory(){
