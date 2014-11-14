@@ -30,6 +30,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var worldLayer : SKNode?
     var pullForce: CGVector?
     var trajactoryTimer: NSTimer?
+    // all living or died pieces
+    var allPieces: [Piece] = [Piece]()
     
     var skillPanel: SkillPanel?
     
@@ -42,6 +44,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // get all Piece children belongs to a player
     func piecesOfPlayer(player : Player) -> [Piece] {
         return pieces.filter{$0.player == player}
+    }
+    
+    // get all living pieces in scene
+    var pieces: [Piece] {
+        return allPieces.filter{$0.parent != nil}
     }
     
     // MARK: SpriteKit Calls
@@ -284,8 +291,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
     }
 
-
-
     // MARK: State Changes
     func startGame() {
         addLayers()
@@ -393,18 +398,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         self.addChild(self.bottom!)
     }
     
-    var worldIsRotated : Bool {
-        return !Logic.sharedInstance.isAtHome
-    }
-
-    
     // MARK: Add/Remove Pieces
-    
+
     // remove all pieces
     func removePieces() {
         for piece in pieces {
             piece.removeFromParent()
         }
+        allPieces.removeAll()
     }
     
     func applyParameters() {
@@ -523,35 +524,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     // MARK: Logic Delegate
-    // get all Piece children
-    var pieces : [Piece] {
-        get {
-            var pieces = [Piece]()
-            if let pieceLayer = self.pieceLayer {
-                for node in pieceLayer.children {
-                    if let piece = node as? Piece {
-                        pieces.append(piece)
-                    }
-                }
-            }
-            return pieces
-        }
-    }
     
     var piecesOfCurrentUser : [Piece] {
-        get {
-            var pieces = [Piece]()
-            if let pieceLayer = self.pieceLayer {
-                for node in pieceLayer.children {
-                    if let piece = node as? Piece {
-                        if Logic.sharedInstance.isWaiting(piece.player) {
-                            pieces.append(piece)
-                        }
-                    }
-                }
-            }
-            return pieces
-        }
+        return pieces.filter{Logic.sharedInstance.isWaiting($0.player)}
     }
     
     func updateMoveableSet () {
@@ -631,6 +606,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
 
     // MARK: Rotation
+    
+    var worldIsRotated : Bool {
+        return !Logic.sharedInstance.isAtHome
+    }
+    
     func opponentLocation(location : CGPoint) -> CGPoint {
         return CGPointMake(size.width - location.x, size.height - location.y)
     }
@@ -650,7 +630,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.physicsBody?.applyImpulse(force);
     }
     
-    // Mark: piece effect
+    // MARK: Piece Effect
     func drawTrajactory(timer : NSTimer) {
         if let piece = timer.userInfo as? Piece{
             if let pullForce = pullForce {
