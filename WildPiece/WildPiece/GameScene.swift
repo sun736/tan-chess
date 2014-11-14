@@ -279,7 +279,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: State Changes
     func startGame() {
         addLayers()
-        self.soundPlayer?.playBackgroundMusic()
+//        self.soundPlayer?.playBackgroundMusic()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -306,7 +306,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func endGame() {
-        self.soundPlayer?.stopBackgroundMusic();
+//        self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.whoami = PLAYER_NULL
         Logic.sharedInstance.onlineMode = false
@@ -478,6 +478,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: Tap on Pieces
     func pieceDidTaped(piece : Piece, doubleTap : Bool) {
 //        println("doubleTap: \(doubleTap)")
+        if !shouldShowSkill(piece)
+        {
+            return
+        }
+        
         if doubleTap {
             if piece != currentPiece
             {
@@ -492,6 +497,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             WPParameterSet.sharedInstance.updateCurrentParameterSet(forIdentifier: piece.pieceType.description);
         }
     }
+    
     
     // MARK: Contact Delegate
     func didBeginContact(contact: SKPhysicsContact) {
@@ -559,7 +565,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // update UI here
     func gameDidEnd(player : Player) {
         //stop play music
-        self.soundPlayer?.stopBackgroundMusic()
+//        self.soundPlayer?.stopBackgroundMusic()
         
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")
@@ -647,47 +653,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     //MARK:show skill bar
     func showSkill()
     {
-        /*var indicator = 1
-        let endX1 = CGRectGetMidX(self.frame) + 43.3
-        let endY1 = CGRectGetMidY(self.frame) - 25
-        let endX2 = CGRectGetMidX(self.frame) - 43.3
-        let endY2 = CGRectGetMidY(self.frame) + 50
-        
-        var backgroundNode = SKSpriteNode(imageNamed:"1")
-        backgroundNode.size = self.frame.size
-        backgroundNode.zPosition = 5;
-        backgroundNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        backgroundNode.alpha = 0.5
-        self.addChild(backgroundNode)
-        
-        var aimNode = SKSpriteNode(imageNamed:"Aim_BLUE");
-        aimNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        aimNode.zPosition = 5
-        self.addChild(aimNode)
-
-        var forceNode = SKSpriteNode(imageNamed:"Force_BLUE");
-        forceNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        forceNode.zPosition = 5
-        self.addChild(forceNode)
-        
-        var shieldNode = SKSpriteNode(imageNamed:"Shield_BLUE");
-        shieldNode.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        shieldNode.zPosition = 5
-        self.addChild(shieldNode)
-        
-        currentPiece?.zPosition = 5
-        
-        aimNode.runAction(SKAction.moveToY(CGFloat(endY2), duration: 0.3))
-        //aimNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
-        forceNode.runAction(SKAction.moveTo(CGPointMake(CGFloat( endX1 ), CGFloat(endY1)), duration: 0.3))
-        //forceNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))
-        shieldNode.runAction(SKAction.moveTo(CGPointMake(CGFloat( endX2 ), CGFloat(endY1)), duration: 0.3))
-        //shieldNode.runAction(SKAction.rotateToAngle(0.0, duration: 0.3))*/
         self.skillPanel = SkillPanel(player: (currentPiece?.player)!)
         self.skillPanel?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         currentPiece?.zPosition = 5
         self.addChild(self.skillPanel!)
         
-        //backgroundNode.spreadSkill()
+    }
+    
+    func shouldShowSkill(piece: Piece) -> Bool{
+        return self.moveableSet[0].player.id == piece.player.id
     }
 }
