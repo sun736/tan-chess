@@ -91,6 +91,15 @@ class Logic {
         }
     }
     
+    func isProcessing(player: Player) -> Bool {
+        switch state {
+        case .Processing(let processingPlayer):
+            return processingPlayer == player
+        default:
+            return false
+        }
+    }
+    
     var isStarted : Bool {
 //        println(state)
         switch state {
@@ -122,6 +131,10 @@ class Logic {
     var isAtHome : Bool {
 //        println("\(onlineMode), \(whoami)")
         return !onlineMode || whoami == PLAYER1
+    }
+    
+    var blockProcessing: Bool {
+        return onlineMode && isProcessing(whoami.opponent())
     }
     
     init() {
@@ -160,7 +173,7 @@ class Logic {
                 }
             }
             
-            if !isMoving {
+            if !isMoving && !blockProcessing {
                 if let scene = self.scene {
                     scene.gameDidEndProcess(player)
                     if scene.gameShouldChangeTurn() {
@@ -234,12 +247,16 @@ class Logic {
         }
     }
     
-    func endProcess() {
+    func stopBlockProcessing() {
+        if !blockProcessing {
+            state = GameState.Error("stop block processing when not blocking: \(state)")
+            return
+        }
         switch state {
-        case .Waiting(let player):
+        case .Processing(let player):
             wait(player.opponent())
         default:
-            state = GameState.Error("process done in wrong state: \(state)")
+            state = GameState.Error("stop block processing in wrong state: \(state)")
         }
     }
     

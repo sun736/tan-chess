@@ -492,12 +492,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: Tap on Pieces
     func pieceDidTaped(piece : Piece, doubleTap : Bool) {
 //        println("doubleTap: \(doubleTap)")
-        if !shouldShowSkill(piece)
-        {
-            return
-        }
-        
         if doubleTap {
+            if !shouldShowSkill(piece)
+            {
+                return
+            }
             if piece != currentPiece
             {
                 //currentPiece?.hideSkill()
@@ -602,9 +601,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func gameDidEndProcess(player : Player) {
-        println("gameDidEndProcess: \(player)")
+//        println("gameDidEndProcess: \(player)")
         // update all piece position in peer device
-        if( Logic.sharedInstance.onlineMode) {
+        if( Logic.sharedInstance.onlineMode && (Logic.sharedInstance.whoami == player)) {
             sceneDelegate?.updateAllPiecePosition(allPieces)
         }
     }

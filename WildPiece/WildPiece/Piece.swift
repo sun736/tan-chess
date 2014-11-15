@@ -86,15 +86,19 @@ class Piece: SKSpriteNode {
     private weak var lastParent: SKNode? = nil
     var living: Bool {
         get {
-            lastParent = parent ?? lastParent
             return parent != nil
         }
         set {
             // if is different from current
             if newValue ^ (parent != nil) {
+                println("setting piece.living with newValue: \(newValue)")
                 if newValue {
+                    removeAllActions()
+                    alpha = 1.0
                     lastParent?.addChild(self)
                 } else {
+                    removeAllActions()
+                    alpha = 1.0
                     removeFromParent()
                 }
             }
@@ -183,6 +187,7 @@ class Piece: SKSpriteNode {
     }
     
     func fadeOut() {
+        lastParent = parent
         self.fadeOut(fadeOutWaitTime, fadeOutFadeTime: fadeOutFadeTime)
     }
     

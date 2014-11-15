@@ -208,7 +208,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
                     gameScene?.pullEnded(piece, force: CGVectorMake(force["dx"] as CGFloat, force["dy"]  as CGFloat))
-                    //Logic.sharedInstance.playerDone()
+                    Logic.sharedInstance.playerDone()
                     break
                 }
             }
@@ -246,7 +246,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
                     piece.position.y = position["y"] as CGFloat
                 }
             }
-            Logic.sharedInstance.endProcess()
+            Logic.sharedInstance.stopBlockProcessing()
         } else {
             println("error: wrong exchanged data! \(receivedData)")
         }
