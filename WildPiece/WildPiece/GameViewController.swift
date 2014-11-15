@@ -142,7 +142,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     }
     
     func shakeHandWithPeer() {
-        let messageDict = ["UDID": appDelegate.mcHandler.UDID]
+        let messageDict = ["shakeHands": ["UDID": appDelegate.mcHandler.UDID]]
         
         let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         
@@ -156,7 +156,28 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     }
     
     func sendDataToPeer(position: CGPoint, force: CGVector) {
-        let messageDict = ["position": ["x": position.x, "y": position.y], "force" : ["dx": force.dx, "dy": force.dy]]
+        let messageDict = ["applyForce": ["position": ["x": position.x, "y": position.y], "force" : ["dx": force.dx, "dy": force.dy]]]
+        
+        let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+        
+        var error:NSError?
+        
+        appDelegate.mcHandler.session.sendData(messageData, toPeers: appDelegate.mcHandler.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
+        
+        if error != nil{
+            println("error: \(error?.localizedDescription)")
+        }
+    }
+    
+    func updateAllPiecePosition(pieces: [Piece]) {
+        var positionDict = [String:AnyObject]()
+        
+        for piece in pieces {
+            let data = ["living": piece.living, "position": ["x": piece.position.x, "y": piece.position.y]]
+            positionDict.updateValue(data, forKey: piece.name!)
+        }
+        
+        let messageDict = ["updatePositions": positionDict]
         
         let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         
@@ -170,30 +191,33 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     }
     
     func handleReceivedData(notification: NSNotification){
+        if !Logic.sharedInstance.onlineMode {
+            return
+        }
         let userInfo = notification.userInfo! as Dictionary
         let receivedData:NSData = userInfo["data"] as NSData
         
         let message: NSDictionary = NSJSONSerialization.JSONObjectWithData(receivedData, options: NSJSONReadingOptions.AllowFragments, error: nil) as NSDictionary
 
-        if let position = message["position"] as? NSDictionary {
-            let force = message["force"] as NSDictionary
+        if let action = message["applyForce"] as? NSDictionary {
+            let position = action["position"] as NSDictionary
+            let force = action["force"] as NSDictionary
             let gameScene: GameScene? = self.appDelegate.gameScene
             
             let nodes = gameScene?.pieceLayer?.nodesAtPoint(CGPointMake(CGFloat(position["x"] as Float), CGFloat(position["y"] as Float)))
             for node in nodes as [SKNode] {
                 if let piece = node as? Piece {
                     gameScene?.pullEnded(piece, force: CGVectorMake(force["dx"] as CGFloat, force["dy"]  as CGFloat))
-                    Logic.sharedInstance.playerDone()
+                    //Logic.sharedInstance.playerDone()
                     break
                 }
             }
-        } else {
+        } else if let action = message["shakeHands"] as? NSDictionary {
             // set player side
-            // TODO: everytime restart the game, set whoami to PLAYER_NULL
             if Logic.sharedInstance.whoami == PLAYER_NULL {
                 let peerID: MCPeerID = userInfo["peerID"] as MCPeerID
                 let selfID: MCPeerID = appDelegate.mcHandler.peerID
-                let peerUDID: String = message["UDID"] as String
+                let peerUDID: String = action["UDID"] as String
                 let selfUDID: String = appDelegate.mcHandler.UDID
                 println("\(selfID.displayName) - \(selfUDID) vs \(peerID.displayName) - \(peerUDID)")
                 if selfUDID < peerUDID {
@@ -208,13 +232,23 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             //dismiss the mpc browser if presents
             let browser = appDelegate.mcHandler.browser
             if (browser.isViewLoaded() || browser.isBeingPresented()) && (!browser.isBeingDismissed()){
-                
-                
                 appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
             }
             if !Logic.sharedInstance.isStarted {
                 self.menuScene?.startNewGame()
             }
+        } else if let action = message["updatePositions"] as? NSDictionary {
+            for (name, update) in action {
+                if let piece = appDelegate.gameScene?.childNodeWithName("//" + (name as String)) as? Piece {
+                    piece.living = update["living"] as Bool
+                    let position = update["position"] as NSDictionary
+                    piece.position.x = position["x"] as CGFloat
+                    piece.position.y = position["y"] as CGFloat
+                }
+            }
+            Logic.sharedInstance.endProcess()
+        } else {
+            println("error: wrong exchanged data! \(receivedData)")
         }
     }
 
@@ -248,25 +282,5 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)
-    }
-}
-
-extension String {
-
-    func isLessThan(str: String) -> Bool{
-        let size1: Int = Array(self).count
-        let size2: Int = Array(str).count
-        for i in 0...min(size1, size2)-1 {
-            let ch1: Character = Array(self)[i]
-            let ch2: Character = Array(str)[i]
-            
-            if ch1 < ch2 {
-                return true
-            } else if ch2 < ch1 {
-                return false
-            }
-        }
-        
-        return size1 < size2
     }
 }

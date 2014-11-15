@@ -11,6 +11,7 @@ import SpriteKit
 protocol GameSceneDelegate: class {
     func sendDataToPeer(piece: CGPoint, force: CGVector)
     func endMCSession()
+    func updateAllPiecePosition(pieces: [Piece])
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
@@ -587,8 +588,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
         //player.canKill = true;
     }
-
-    func gameDidProcess(player : Player) {
+    
+    func gameDidEndProcess(player : Player) {
+        println("gameDidEndProcess: \(player)")
+        // update all piece position in peer device
+        if( Logic.sharedInstance.onlineMode) {
+            sceneDelegate?.updateAllPiecePosition(allPieces)
+        }
+    }
+    
+    func gameDidBeginProcess(player : Player) {
             moveableSet = []
     }
 
