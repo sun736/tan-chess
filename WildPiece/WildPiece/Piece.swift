@@ -87,13 +87,16 @@ class Piece: SKSpriteNode {
     var living: Bool {
         get {
             lastParent = parent ?? lastParent
-            return parent? != nil
+            return parent != nil
         }
         set {
-            if newValue && (parent? == nil) {
-                lastParent?.addChild(self)
-            } else if !newValue && (parent? != nil) {
-                
+            // if is different from current
+            if newValue ^ (parent != nil) {
+                if newValue {
+                    lastParent?.addChild(self)
+                } else {
+                    removeFromParent()
+                }
             }
         }
     }
