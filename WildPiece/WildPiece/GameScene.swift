@@ -71,8 +71,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         /* Called before each frame is rendered */
         for piece in self.pieces {
             if Rule.pieceIsOut(self, piece: piece) {
-                println("fadeOut at GameScene")
-                piece.fadeOut()
+                if piece.isFading == false
+                {
+                    piece.isFading = true
+                    println("fadeOut at GameScene")
+                  
+                    if piece.player.id != Logic.sharedInstance.currentPlayer?.id
+                    {
+                        self.board?.increaseSkill(piece.player.opponent())
+                    }
+                    piece.fadeOut()
+                }
             }
         }
         if (!Logic.sharedInstance.isEnded) {
@@ -139,6 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             var player = currentPiece?.player
             if self.board?.skillController.getCD(player!) == 3
             {
+                println("force")
                 currentPiece?.isPowered = true
                 
                 //currentPiece?.runAction(SKAction.sequence([SKAction.waitForDuration(0.3), SKAction.resizeToWidth(60,height:60,duration:0.3),SKAction.resizeToWidth(40,height:40,duration:0.3)]))
@@ -296,6 +306,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func restartGame() {
         removePieces()
         Rule.placePieces(self)
+        self.board?.resetSkillBar(PLAYER1)
+        self.board?.resetSkillBar(PLAYER2)
         Logic.sharedInstance.restart()
         updateMoveableSet()
     }

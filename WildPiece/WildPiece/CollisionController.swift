@@ -37,7 +37,7 @@ class CollisionController {
         contactee.drawHPRing()
         if contacter.healthPoint == 0 {
             println("fade out at CollisionControler1")
-            contacter.fadeOut();
+            //contacter.fadeOut();
         }
         if contactee.healthPoint == 0 {
             println("fade out at CollisionControler2")

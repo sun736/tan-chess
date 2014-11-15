@@ -73,6 +73,7 @@ class Piece: SKSpriteNode {
     var powerRing : SKSpriteNode? = nil
     var isPowered : Bool
     var shouldDrawTrajectory : Bool
+    var isFading : Bool
 //    var aimNode : SKSpriteNode? = nil;
 //    var forceNode : SKSpriteNode? = nil;
 //    var shieldNode: SKSpriteNode? = nil;
@@ -108,6 +109,7 @@ class Piece: SKSpriteNode {
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
         self.maxForceLevel = maxForce
+        self.isFading = false
         
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
