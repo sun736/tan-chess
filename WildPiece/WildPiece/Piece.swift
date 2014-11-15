@@ -83,28 +83,6 @@ class Piece: SKSpriteNode {
     let fadeOutWaitTime: NSTimeInterval = 0.01
     let fadeOutFadeTime: NSTimeInterval = 0.3
     
-    private weak var lastParent: SKNode? = nil
-    var living: Bool {
-        get {
-            return parent != nil
-        }
-        set {
-            // if is different from current
-            if newValue ^ (parent != nil) {
-                println("setting piece.living with newValue: \(newValue)")
-                if newValue {
-                    removeAllActions()
-                    alpha = 1.0
-                    lastParent?.addChild(self)
-                } else {
-                    removeAllActions()
-                    alpha = 1.0
-                    removeFromParent()
-                }
-            }
-        }
-    }
-    
     init(texture: SKTexture, radius: CGFloat, healthPoint: CGFloat, maxHealthPoint: CGFloat, player : Player, mass: CGFloat, linearDamping: CGFloat, angularDamping: CGFloat, maxForce: CGFloat, pieceType : PieceType) {
         
         self.isContacter = false
@@ -460,7 +438,34 @@ class Piece: SKSpriteNode {
 //        self.drawShield()
 //    }
     
-    // factory method
+    // MARK: living state
+    private weak var lastParent: SKNode? = nil
+    var living: Bool {
+        get {
+            return parent != nil
+        }
+        set {
+            // if is different from current
+            if newValue ^ (parent != nil) {
+                println("setting piece.living with newValue: \(newValue)")
+                if newValue {
+                    removeAllActions()
+                    alpha = 1.0
+                    lastParent?.addChild(self)
+                } else {
+                    removeAllActions()
+                    alpha = 1.0
+                    removeFromParent()
+                }
+            }
+        }
+    }
+    
+    func stopMotion() {
+        physicsBody?.velocity = CGVectorMake(0,0);
+    }
+    
+    // MARK: factory method
     class func newPiece(pieceType : PieceType, player : Player) -> Piece {
         switch pieceType {
         case .King:

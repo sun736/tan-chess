@@ -240,6 +240,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         } else if let action = message["updatePositions"] as? NSDictionary {
             for (name, update) in action {
                 if let piece = appDelegate.gameScene?.childNodeWithName("//" + (name as String)) as? Piece {
+                    piece.stopMotion()
                     piece.living = update["living"] as Bool
                     let position = update["position"] as NSDictionary
                     piece.position.x = position["x"] as CGFloat
