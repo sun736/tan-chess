@@ -23,7 +23,8 @@ class Board : SKNode {
     private let marginX : CGFloat = 0
     private let marginY : CGFloat
     private let restrictedAreaHeight : CGFloat
-    
+    private let segment : SKSpriteNode
+    private var indicator : SKSpriteNode
     //add a skill cool down bar
     private var blueSkillBar : SKShapeNode
     private var redSkillBar : SKShapeNode
@@ -47,6 +48,8 @@ class Board : SKNode {
         self.blueSkillBar = Board.createRect(1, length: 5)
         self.redSkillBar = Board.createRect(1, length: 5)
         self.skillController = SkillController()
+        self.segment = SKSpriteNode(imageNamed:"segment")
+        self.indicator = SKSpriteNode(imageNamed:"BlueIndicator")
         super.init()
         self.configurePhysicsBody()
         self.configureBackground()
@@ -116,11 +119,30 @@ class Board : SKNode {
         //self.increaseSkill(0)
         self.redSkillBar.position = CGPointMake(376, length - marginY+2.5);
 
-        //self.redSkillBar.position = CGPointMake(376, (marginY + length + length)/2);
-        println(self.redSkillBar.position)
         self.redSkillBar.zRotation = CGFloat(M_PI)
         self.redSkillBar.fillColor = UIColor.UIColorFromRGB(0xFF5E5B, alpha: 1.0)
         self.addChild(self.redSkillBar)
+        
+        self.segment.position = CGPoint(x:width/2, y:length/2)
+        self.addChild(self.segment)
+        
+        self.indicator.size = CGSizeMake(60,60)
+        self.indicator.position = CGPoint(x:width/2, y:length/2)
+        self.addChild(self.indicator)
+    }
+    
+    func flipTurn(isUpTurn: Bool)
+    {
+        if isUpTurn
+        {
+            self.indicator.runAction(SKAction.scaleYTo(-1,duration:0.6), completion: { self.indicator.texture = SKTexture(imageNamed:"RedIndicator")}
+            )
+        }else
+        {
+            self.indicator.runAction(SKAction.scaleYTo(1,duration:0.6), completion: { self.indicator.texture = SKTexture(imageNamed:"BlueIndicator")}
+            )
+        }
+        
     }
     
     func setTurn(isUpTurn : Bool) {

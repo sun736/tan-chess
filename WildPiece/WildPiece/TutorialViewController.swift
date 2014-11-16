@@ -11,7 +11,7 @@ import UIKit
 class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
 
     var pageViewController: UIPageViewController?
-    var pageImages : Array<String> = ["1.png", "board.png"]
+    var pageImages : Array<String> = ["tutorial1", "tutorial2"]
     var currentIndex : Int = 0
     
     override func viewDidLoad() {
@@ -26,7 +26,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         var imageView: TutorialImageViewController = viewControllerAtIndex(0)!
         let viewControllers: NSArray = [imageView]
         pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
-        pageViewController!.view.frame = CGRectMake(20, 50, 280, 450)
+        pageViewController!.view.frame = CGRectMake(10, 50, 300, 450)
         
         addChildViewController(pageViewController!)
         view.addSubview(pageViewController!.view)

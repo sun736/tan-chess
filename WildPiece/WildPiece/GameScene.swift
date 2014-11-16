@@ -575,7 +575,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         // redraw the board with new color
         if let board = self.board {
             var isUpTurn = player.id != 1
-            board.setTurn(isUpTurn)
+            //board.setTurn(isUpTurn)
+            board.flipTurn(isUpTurn)
         }
         
         if let piece = lastMove.piece {
