@@ -43,6 +43,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    // get a piece with certain name
+    func pieceWithName(name : String) -> Piece? {
+        for piece in allPieces {
+            if piece.name == name {
+                return piece
+            }
+        }
+        return nil
+    }
+    
     // get all Piece children belongs to a player
     func piecesOfPlayer(player : Player) -> [Piece] {
         return pieces.filter{$0.player == player}
@@ -73,17 +83,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         /* Called before each frame is rendered */
         for piece in self.pieces {
             if Rule.pieceIsOut(self, piece: piece) {
-                if piece.isFading == false
+//                println("fadeOut at GameScene")
+                
+                if piece.player.id != Logic.sharedInstance.currentPlayer?.id
                 {
-                    piece.isFading = true
-                    println("fadeOut at GameScene")
-                  
-                    if piece.player.id != Logic.sharedInstance.currentPlayer?.id
-                    {
-                        self.board?.increaseSkill(piece.player.opponent())
-                    }
-                    piece.fadeOut()
+                    self.board?.increaseSkill(piece.player.opponent())
                 }
+                piece.die()
             }
         }
         if (!Logic.sharedInstance.isEnded) {

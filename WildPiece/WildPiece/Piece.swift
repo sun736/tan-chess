@@ -73,7 +73,6 @@ class Piece: SKSpriteNode {
     var powerRing : SKSpriteNode? = nil
     var isPowered : Bool
     var shouldDrawTrajectory : Bool
-    var isFading : Bool
 //    var aimNode : SKSpriteNode? = nil;
 //    var forceNode : SKSpriteNode? = nil;
 //    var shieldNode: SKSpriteNode? = nil;
@@ -94,7 +93,6 @@ class Piece: SKSpriteNode {
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
         self.maxForceLevel = maxForce
-        self.isFading = false
         
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
@@ -164,8 +162,7 @@ class Piece: SKSpriteNode {
         }
     }
     
-    func fadeOut() {
-        lastParent = parent
+    private func fadeOut() {
         self.fadeOut(fadeOutWaitTime, fadeOutFadeTime: fadeOutFadeTime)
     }
     
@@ -458,23 +455,21 @@ class Piece: SKSpriteNode {
 //    }
     
     // MARK: living state
+    private var dead: Bool = false;
     private weak var lastParent: SKNode? = nil
     var living: Bool {
         get {
-            return parent != nil
+            return !dead
         }
         set {
             // if is different from current
-            if newValue ^ (parent != nil) {
-                println("setting piece.living with newValue: \(newValue)")
+//            println("setting living: \(newValue) with old:\(!dead)")
+            if newValue ^ !dead {
+//                println("setting piece.living with newValue: \(newValue)")
                 if newValue {
-                    removeAllActions()
-                    alpha = 1.0
-                    lastParent?.addChild(self)
+                    undie()
                 } else {
-                    removeAllActions()
-                    alpha = 1.0
-                    removeFromParent()
+                    die()
                 }
             }
         }
@@ -482,6 +477,31 @@ class Piece: SKSpriteNode {
     
     func stopMotion() {
         physicsBody?.velocity = CGVectorMake(0,0);
+    }
+    
+    func die() {
+//        println("dying: \(dead)")
+        if dead {
+            return
+        }
+        dead = true
+        removeAllActions()
+        lastParent = parent
+        alpha = 1.0
+        fadeOut()
+    }
+    
+    private func undie() {
+//        println("undying: \(dead), \(lastParent)")
+        if !dead {
+            return
+        }
+        dead = false;
+        removeAllActions()
+        alpha = 1.0
+        if parent == nil {
+            lastParent?.addChild(self)
+        }
     }
     
     // MARK: factory method

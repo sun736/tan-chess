@@ -239,12 +239,15 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             }
         } else if let action = message["updatePositions"] as? NSDictionary {
             for (name, update) in action {
-                if let piece = appDelegate.gameScene?.childNodeWithName("//" + (name as String)) as? Piece {
+                var piece: Piece? = appDelegate.gameScene?.pieceWithName(name as String)
+                if let piece: Piece = piece {
                     piece.stopMotion()
                     piece.living = update["living"] as Bool
                     let position = update["position"] as NSDictionary
                     piece.position.x = position["x"] as CGFloat
                     piece.position.y = position["y"] as CGFloat
+                } else {
+                    println("piece not found in scene: \(name)")
                 }
             }
             Logic.sharedInstance.stopBlockProcessing()
