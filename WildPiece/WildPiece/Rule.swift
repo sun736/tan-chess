@@ -127,7 +127,11 @@ class Rule {
             }
             if piece.pieceType == PieceType.Pawn {
                 if Rule.pawnIsInDistrictedArea(scene, piece: piece) {
-                    Rule.addPiece(scene, pieceType: .General, location: piece.position, player : piece.player)
+                    var general = Rule.addPiece(scene, pieceType: .General, location: piece.position, player : piece.player)
+                    if piece.shield != nil
+                    {
+                        general.drawShield()
+                    }
                     piece.removeFromParent()
                 }
             }
@@ -137,7 +141,7 @@ class Rule {
     }
     
     // MARK: Add/Remove Pieces
-    class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player, name : String? = nil) {
+    class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player, name : String? = nil) -> Piece {
         var piece = Piece.newPiece(pieceType, player: player);
         if let name = name {
             piece.name = name
@@ -145,6 +149,7 @@ class Rule {
         piece.position = location
         scene.pieceLayer?.addChild(piece)
         scene.allPieces.append(piece)
+        return piece
     }
     
     // add a piece for each player, with symmetrical position
