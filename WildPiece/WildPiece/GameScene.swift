@@ -137,47 +137,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         let location = touches.anyObject()?.locationInNode(self.skillPanel)
         let touchedNode = self.skillPanel?.nodeAtPoint(location!)
         
-        if touchedNode?.name == "Shield"
+        let name = touchedNode?.name
+        if name != nil && currentPiece != nil
         {
-            var player = currentPiece?.player
-            if self.board?.skillController.getCD(player!) == 3
-            {
-                currentPiece?.drawShield()
-                self.board?.resetSkillBar(player!)
-            }
-        }else if touchedNode?.name == "Force"
-        {
-            var player = currentPiece?.player
-            if self.board?.skillController.getCD(player!) == 3
-            {
-                println("force")
-                currentPiece?.isPowered = true
-                
-                //currentPiece?.runAction(SKAction.sequence([SKAction.waitForDuration(0.3), SKAction.resizeToWidth(60,height:60,duration:0.3),SKAction.resizeToWidth(40,height:40,duration:0.3)]))
-                currentPiece?.drawPowerRing()
-                self.board?.resetSkillBar(player!)
-                
-            }
-        }else if touchedNode?.name == "Aim"
-        {
-            var player = currentPiece?.player
-            if self.board?.skillController.getCD(player!) == 3
-            {
-                currentPiece?.shouldDrawTrajectory = true
-                self.board?.resetSkillBar(player!)
-            }
+            triggerSKill(currentPiece!, name: name!)
         }
-        /*if touchedNode?.name == "skillPanel"
-        {
-            self.skillPanel?.hideSkill()
-            currentPiece?.zPosition = 1
-            currentPiece = nil
-        }*/
-        self.skillPanel?.hideSkill()
-        currentPiece?.zPosition = 1
-        currentPiece = nil
         
-
+        currentPiece = nil
        
     }
     
@@ -665,6 +631,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     func shouldShowSkill(piece: Piece) -> Bool{
         return self.moveableSet[0].player.id == piece.player.id
+    }
+    
+    //MARK: implementSkill
+    func triggerSKill(piece : Piece, name : String)
+    {
+        if name == "Shield"
+        {
+            var player = piece.player
+            if self.board?.skillController.getCD(player) == 0
+            {
+                piece.drawShield()
+                self.board?.resetSkillBar(player)
+            }
+        }else if name == "Force"
+        {
+            var player = piece.player
+            if self.board?.skillController.getCD(player) == 0
+            {
+                piece.isPowered = true
+                piece.drawPowerRing()
+                self.board?.resetSkillBar(player)
+                
+            }
+        }else if name == "Aim"
+        {
+            var player = piece.player
+            if self.board?.skillController.getCD(player) == 0
+            {
+                piece.shouldDrawTrajectory = true
+                self.board?.resetSkillBar(player)
+            }
+        }
+        self.skillPanel?.hideSkill()
+        piece.zPosition = 1
+       // piece = nil
+
+       
     }
     
     //MARK: Play sound effect
