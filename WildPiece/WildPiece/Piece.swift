@@ -280,6 +280,25 @@ class Piece: SKSpriteNode {
         powerRing?.runAction(SKAction.repeatActionForever(sequence))
     }
     
+    func drawIndicator()
+    {
+        self.powerRing = SKSpriteNode(imageNamed: "BlueRing")
+        
+        if self.player.id == 2
+        {
+            self.powerRing?.texture = SKTexture(imageNamed: "RedRing")
+        }
+        
+        powerRing?.zPosition = -1
+        powerRing?.size = self.size
+        self.addChild(powerRing!)
+        var resizeAction = SKAction.resizeToWidth(70, height: 70, duration: 0.6)
+        var fadeAction = SKAction.fadeAlphaTo(0.0, duration: 0.6)
+        var group1 = SKAction.group([resizeAction,fadeAction])
+        powerRing?.runAction(group1)
+        
+    }
+    
     func removePowerRing()
     {
         self.powerRing?.removeFromParent()

@@ -11,12 +11,15 @@ import UIKit
 class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
 
     var pageViewController: UIPageViewController?
-    var pageImages : Array<String> = ["tutorial1", "tutorial2"]
+    var pageImages : Array<String> = ["tutorial_knight", "tutorial_rook","tutorial_bishop"]
     var currentIndex : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        var width = view.frame.size.width
+        var height = view.frame.size.height
+        
+        
         // Do any additional setup after loading the view.
         self.view.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
         
@@ -26,8 +29,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         var imageView: TutorialImageViewController = viewControllerAtIndex(0)!
         let viewControllers: NSArray = [imageView]
         pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
-        pageViewController!.view.frame = CGRectMake(10, 50, 300, 450)
-        
+        pageViewController!.view.frame = CGRectMake(width*0.1, height*0.07, width*0.8, height*0.86)
         addChildViewController(pageViewController!)
         view.addSubview(pageViewController!.view)
         pageViewController!.didMoveToParentViewController(self)
@@ -36,7 +38,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         let backButton = UIButton()
         backButton.setTitle("Back", forState:.Normal)
         backButton.titleLabel!.font =  UIFont(name: "Verdana", size: 20)
-        backButton.frame = CGRectMake(10, 520, 300, 20)
+        backButton.frame = CGRectMake(width*0.1, height*0.92, width*0.8, width*0.1)
         backButton.addTarget(self, action: "pressBackButton:", forControlEvents: .TouchUpInside)
         //backButton.textColor = UIColor.whiteColor()
         view.addSubview(backButton)

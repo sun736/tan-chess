@@ -586,7 +586,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
 
 //        for piece in moveableSet {
-//            piece.flash();
+//            piece.drawIndicator()
 //        }
         
         // Canon made a original move, need to reset its mask manually
