@@ -29,7 +29,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         var imageView: TutorialImageViewController = viewControllerAtIndex(0)!
         let viewControllers: NSArray = [imageView]
         pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
-        pageViewController!.view.frame = CGRectMake(width*0.1, height*0.07, width*0.8, height*0.86)
+        pageViewController!.view.frame = CGRectMake(0, height*0.07, width, height*0.86)
         addChildViewController(pageViewController!)
         view.addSubview(pageViewController!.view)
         pageViewController!.didMoveToParentViewController(self)

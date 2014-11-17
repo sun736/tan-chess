@@ -19,7 +19,7 @@ class TutorialImageViewController: UIViewController {
         var width = view.frame.size.width
         var height = view.frame.size.height
         //view.backgroundColor = UIColor(patternImage: UIImage(named: imageFile)!)
-        var imageView = UIImageView(frame: CGRectMake(0, 0, width*0.8, height*0.8))
+        var imageView = UIImageView(frame: CGRectMake(width*0.1, 0, width*0.8, height*0.8))
         println(imageView.frame)
         var image = UIImage(named: imageFile)
         imageView.image = image
