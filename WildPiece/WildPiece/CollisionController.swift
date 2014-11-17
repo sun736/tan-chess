@@ -120,7 +120,7 @@ class CollisionController {
             //var effectPlayer = Sound()
             //effectPlayer.playEffect()
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-            appDelegate.gameScene?.runAction(SKAction.playSoundFileNamed("collision2.wav", waitForCompletion: false))
+            appDelegate.gameScene?.playSoundEffect()
             
             if(contact.bodyA?.categoryBitMask == Piece.BITMASK_BLUE() && contact.bodyB?.categoryBitMask == Piece.BITMASK_RED() ) {
                 node1 = contact.bodyA.node as Piece

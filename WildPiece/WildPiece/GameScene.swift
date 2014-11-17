@@ -31,6 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var worldLayer : SKNode?
     var pullForce: CGVector?
     var trajactoryTimer: NSTimer?
+    var soundEffect : SKAction?
     // all living or died pieces
     var allPieces: [Piece] = [Piece]()
     
@@ -63,6 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             top?.runAction(SKAction.moveToY(CGFloat(850), duration: 0.4))
             bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.4))
             self.soundPlayer = Sound()
+            self.soundEffect = SKAction.playSoundFileNamed("collision2.wav", waitForCompletion: false)
             self.startGame()
         }
     }
@@ -663,5 +665,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     func shouldShowSkill(piece: Piece) -> Bool{
         return self.moveableSet[0].player.id == piece.player.id
+    }
+    
+    //MARK: Play sound effect
+    func playSoundEffect()
+    {
+        self.runAction(self.soundEffect)
     }
 }
