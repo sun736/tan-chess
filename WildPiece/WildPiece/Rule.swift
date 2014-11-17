@@ -128,6 +128,7 @@ class Rule {
             if piece.pieceType == PieceType.Pawn {
                 if Rule.pawnIsInDistrictedArea(scene, piece: piece) {
                     var general = Rule.addPiece(scene, pieceType: .General, location: piece.position, player : piece.player)
+                    general.drawIndicator()
                     if piece.shield != nil
                     {
                         general.drawShield()
