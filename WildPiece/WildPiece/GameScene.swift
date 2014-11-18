@@ -12,6 +12,7 @@ protocol GameSceneDelegate: class {
     func sendDataToPeer(piece: CGPoint, force: CGVector)
     func endMCSession()
     func updateAllPiecePosition(pieces: [Piece])
+    func sendSkillToPeer(piece: Piece, skillName: String!)
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
@@ -672,7 +673,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         self.skillPanel?.hideSkill()
         piece.zPosition = 1
        // piece = nil
-
+        
+        if Logic.sharedInstance.onlineMode {
+            // sync between two devices
+            if let currentPlayer = Logic.sharedInstance.currentPlayer{
+                if piece.player == currentPlayer{
+                    sceneDelegate?.sendSkillToPeer(piece, skillName: name)
+                }
+            }
+        }
        
     }
     

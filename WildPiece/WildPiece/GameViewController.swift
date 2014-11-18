@@ -144,20 +144,22 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     func shakeHandWithPeer() {
         let messageDict = ["shakeHands": ["UDID": appDelegate.mcHandler.UDID]]
         
-        let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
-        
-        var error:NSError?
-        
-        appDelegate.mcHandler.session.sendData(messageData, toPeers: appDelegate.mcHandler.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &error)
-        
-        if error != nil{
-            println("error: \(error?.localizedDescription)")
-        }
+        sendMessageDict(messageDict)
     }
     
     func sendDataToPeer(position: CGPoint, force: CGVector) {
         let messageDict = ["applyForce": ["position": ["x": position.x, "y": position.y], "force" : ["dx": force.dx, "dy": force.dy]]]
         
+        sendMessageDict(messageDict)
+    }
+    
+    func sendSkillToPeer(piece: Piece, skillName: String!) {
+        let messageDict = ["applySkill": ["pieceName": piece.name, "skillName": skillName]]
+        
+        sendMessageDict(messageDict)
+    }
+    
+    private func sendMessageDict(messageDict: AnyObject) {
         let messageData = NSJSONSerialization.dataWithJSONObject(messageDict, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         
         var error:NSError?
@@ -251,6 +253,13 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
                 }
             }
             Logic.sharedInstance.stopBlockProcessing()
+        } else if let action = message["applySkill"] as? NSDictionary {
+            let pieceName = action["pieceName"] as String
+            let skillName = action["skillName"] as String
+            
+            if let piece = appDelegate.gameScene?.pieceWithName(pieceName) {
+                appDelegate.gameScene?.triggerSKill(piece, name: skillName)
+            }
         } else {
             println("error: wrong exchanged data! \(receivedData)")
         }
