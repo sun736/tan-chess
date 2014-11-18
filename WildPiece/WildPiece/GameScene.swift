@@ -411,7 +411,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: Pull on Pieces
     func pullBegan(piece : Piece) {
         // temporary solution to determine contacter
-        //CollisionController.setContacter(self, contacter: piece)
+        //CollisionController.setContacters(self, contacter: piece)
         piece.drawRing()
         if piece is PieceCanon {
             piece.fadeTo()
@@ -425,6 +425,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.drawDirectionHint()
         pullForce = force
         //piece.drawTrajectory(force)
+        if piece is PieceCanon {
+            var canon = piece as PieceCanon
+            canon.fadeTo()
+            canon.setTransparentPiece(self, force: force, launch: false);
+        }
     }
     
     func pullCancelled(piece : Piece) {
@@ -439,7 +444,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     func pullEnded(piece : Piece, var force: CGVector) {
 //        println("shooting force: \(force.dx), \(force.dy)")
-        //MARK set canon to not collisionable
+        // MARK: set canon to not collisionable
+        /*
         if piece is PieceCanon {
             piece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
             piece.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
@@ -447,9 +453,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             //print("find a canon\n")
             //print("\(piece.physicsBody?.categoryBitMask)\n")
             //print("\(piece.physicsBody?.collisionBitMask)\n")
+        }*/
+        if piece is PieceCanon {
+            var canon = piece as PieceCanon
+            canon.setTransparentPiece(self, force: force, launch: true);
         }
-        // if this is the place to set contacter, knight can only achieve kill-move by itself, no team work
-        CollisionController.setContacter(self, contacter: piece)
+        if piece.pieceType != PieceType.Canon {
+            CollisionController.setContacters(self, contacter: piece)
+        }
         applyImpulseToWorldObject(piece, force : force)
         updateLastMove(piece)
         
@@ -564,6 +575,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 //        }
         
         // Canon made a original move, need to reset its mask manually
+        
+        CollisionController.cancelTranparent(self)
+        CollisionController.cancelContacter(self, player: player.opponent())
+        /*
         for piece in self.piecesOfPlayer(player.opponent()) {
             if piece is PieceCanon {
                 piece.physicsBody?.categoryBitMask = player.opponent().bitMask
@@ -571,7 +586,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 piece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
                 piece.cancelFade()
             }
-        }
+        }*/
         //player.canKill = true;
     }
     

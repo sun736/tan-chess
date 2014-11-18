@@ -14,11 +14,8 @@ class CollisionController {
     
     class func didTwoBallCollision(#scene: GameScene, contacter: Piece, contactee: Piece) {
         // only one deduction collision is allowed
-        println(contacter)
-        println(contactee)
-//        for piece in scene.piecesOfPlayer(contacter.player) {
-//            piece.isContacter = false;
-//        }
+//        println(contacter)
+//        println(contactee)
         
         if contacter.pieceType != PieceType.King && contactee.pieceType != PieceType.King{
             contactee.deduceHealthToDeath()
@@ -27,10 +24,10 @@ class CollisionController {
                 contactee.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
                 contactee.physicsBody?.contactTestBitMask = 0x00
             }
-            cancelContacter(scene, contacter: contacter)
+            cancelContacter(scene, player: contacter.player)
         } else if contacter.pieceType != PieceType.King && contactee.pieceType == PieceType.King{
             contactee.deduceHealth()
-            cancelContacter(scene, contacter: contacter)
+            cancelContacter(scene, player: contacter.player)
         }else if contacter.pieceType == PieceType.King && contactee.pieceType == PieceType.King {
             contactee.deduceHealthToDeath()
         }
@@ -46,13 +43,20 @@ class CollisionController {
         }
     }
     
-    class func cancelContacter (scene: GameScene, contacter: Piece) {
-        for piece in scene.piecesOfPlayer(contacter.player) {
+    class func cancelContacter (scene: GameScene, player: Player) {
+        for piece in scene.piecesOfPlayer(player) {
             piece.isContacter = false;
         }
     }
     
-    class func setContacter(scene: GameScene, contacter: Piece) {
+    class func setContacter (scene: GameScene, contacter: Piece) {
+        for piece in scene.pieces {
+            piece.isContacter = false;
+        }
+        contacter.isContacter = true;
+    }
+    
+    class func setContacters(scene: GameScene, contacter: Piece) {
         // set all pieces to contactee
         for piece in scene.pieces {
             if piece.physicsBody?.categoryBitMask == contacter.physicsBody?.categoryBitMask {
@@ -66,12 +70,34 @@ class CollisionController {
         
     }
     
+    class func cancelTranparent(scene: GameScene) {
+        for piece in scene.pieces {
+            piece.physicsBody?.categoryBitMask = piece.player.bitMask
+            piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+            piece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
+            piece.cancelFade()
+        }
+    }
+    
+    class func setTransparent(piece: Piece) {
+        piece.physicsBody?.categoryBitMask = Piece.BITMASK_TRANS()
+        piece.physicsBody?.collisionBitMask = Board.BITMASK_BOARD()
+        piece.physicsBody?.contactTestBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
+        piece.fadeTo()
+    }
+    
+    class func cancelAllFade(scene: GameScene) {
+        for piece in scene.pieces {
+            piece.cancelFade()
+        }
+    }
+    
     class func handlContact(scene: GameScene, contact: SKPhysicsContact) {
         
         if (contact.bodyA.node != nil && contact.bodyB.node != nil){
             var node1 : Piece
             var node2 : Piece
-            
+            /*
             if(contact.bodyA.categoryBitMask == Piece.BITMASK_TRANS() || contact.bodyB.categoryBitMask == Piece.BITMASK_TRANS()) {
                 var transPiece : Piece
                 var regPiece : Piece
@@ -82,8 +108,8 @@ class CollisionController {
                     transPiece = contact.bodyB.node as Piece
                     regPiece = contact.bodyA.node as Piece
                 }
-                println("transPiece: \(transPiece)")
-                println("regPiece: \(regPiece)")
+                //println("transPiece: \(transPiece)")
+                //println("regPiece: \(regPiece)")
                 
                 //if transPiece is PieceCanon  {
                 //var canon = transPiece as PieceCanon
@@ -114,7 +140,7 @@ class CollisionController {
                 scene.runAction(sequence)
                 //}
                 return
-            }
+            }*/
             
             //add collision sound here
             //var effectPlayer = Sound()
@@ -131,12 +157,15 @@ class CollisionController {
                 node2 = contact.bodyA.node as Piece
             }
             else{
+                //println("an unhandled collision occurred")
                 return
             }
             
             if node1.isContacter {
+                //println("node1 is contacter: \(node1)")
                 didTwoBallCollision(scene: scene, contacter: node1, contactee: node2)
             } else if node2.isContacter {
+                //println("node2 is contacter: \(node2)")
                 didTwoBallCollision(scene: scene, contacter: node2, contactee: node1)
             }
         }
