@@ -167,7 +167,7 @@ class Piece: SKSpriteNode {
     }
     
     func fadeTo() {
-        self.fadeTo(0.5, fadeOutFadeTime: fadeOutFadeTime)
+        self.fadeTo(0.4, fadeOutFadeTime: fadeOutFadeTime)
     }
     
     func cancelFade() {
