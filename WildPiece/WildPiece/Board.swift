@@ -135,12 +135,12 @@ class Board : SKNode {
     {
         if isUpTurn
         {
-            self.indicator.runAction(SKAction.fadeAlphaTo(0.0,duration:0.3), completion: { self.indicator.texture = SKTexture(imageNamed:"RedIndicator")
+            self.indicator.runAction(SKAction.fadeAlphaTo(0.1,duration:0.3), completion: { self.indicator.texture = SKTexture(imageNamed:"RedIndicator")
                 self.indicator.runAction(SKAction.fadeAlphaTo(1.0,duration:0.3))}
             )
         }else
         {
-            self.indicator.runAction(SKAction.fadeAlphaTo(0.0,duration:0.3), completion: { self.indicator.texture = SKTexture(imageNamed:"BlueIndicator")
+            self.indicator.runAction(SKAction.fadeAlphaTo(0.1,duration:0.3), completion: { self.indicator.texture = SKTexture(imageNamed:"BlueIndicator")
                 self.indicator.runAction(SKAction.fadeAlphaTo(1.0,duration:0.3))}
             )
         }
