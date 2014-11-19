@@ -270,7 +270,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // MARK: State Changes
     func startGame() {
         addLayers()
-//        self.soundPlayer?.playBackgroundMusic()
+        self.soundPlayer?.playBackgroundMusic()
         addBoard()
         //addButtons()
         Rule.placePieces(self)
@@ -281,8 +281,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func restartGame() {
         removePieces()
         Rule.placePieces(self)
-        self.board?.resetSkillBar(PLAYER1)
-        self.board?.resetSkillBar(PLAYER2)
+        self.board?.cleanSkillBar()
         Logic.sharedInstance.restart()
         updateMoveableSet()
     }
@@ -299,7 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func endGame() {
-//        self.soundPlayer?.stopBackgroundMusic();
+        self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.whoami = PLAYER_NULL
         Logic.sharedInstance.onlineMode = false
@@ -538,7 +537,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // update UI here
     func gameDidEnd(player : Player) {
         //stop play music
-//        self.soundPlayer?.stopBackgroundMusic()
+        self.soundPlayer?.stopBackgroundMusic()
         
         var endScene = EndScene(size: self.size)
         let winner = SKLabelNode(fontNamed:"Verdana")

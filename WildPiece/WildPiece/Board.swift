@@ -225,6 +225,7 @@ class Board : SKNode {
         if player.id == 1{
             var index = self.skillController.increaseBlueCD()
             var scale = self.scaleArray[index]
+        
             if self.blueSkillBar.xScale < 600
             {
                 self.blueSkillBar.runAction(SKAction.scaleXBy(CGFloat(scale), y: 1.0, duration: 0.3))
@@ -237,12 +238,21 @@ class Board : SKNode {
             var index = self.skillController.increaseRedCD()
             //var scale = 0 - self.scaleArray[index]
             var scale = self.scaleArray[index]
+            println("/index /scale")
             if self.redSkillBar.xScale < 600
             {
                 self.redSkillBar.runAction(SKAction.scaleXBy(CGFloat(scale), y: 1.0, duration: 0.3))
             }
         }
         
+    }
+    
+    func cleanSkillBar()
+    {
+        self.blueSkillBar.runAction(SKAction.scaleXTo(1.0, y: 1.0, duration: 0.3))
+        self.skillController.clearBlueCD()
+        self.redSkillBar.runAction(SKAction.scaleXTo(1.0, y: 1.0, duration: 0.3))
+        self.skillController.clearRedCD()
     }
     
     func resetSkillBar( player: Player)
