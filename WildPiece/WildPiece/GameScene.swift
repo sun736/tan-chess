@@ -130,14 +130,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                             self.pullBegan(piece)
                             break
                         }
-                      
                     }
                 }
-
             }
             break
-            
-            
         }
         
         //detect the skill panel touch
@@ -276,6 +272,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         Rule.placePieces(self)
         Logic.sharedInstance.start(self)
         updateMoveableSet()
+        configureRotation()
     }
     
     func restartGame() {
@@ -284,6 +281,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         self.board?.cleanSkillBar()
         Logic.sharedInstance.restart()
         updateMoveableSet()
+        configureRotation()
     }
     
     func pauseGame() {
@@ -318,10 +316,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func addLayers() {
         var newWorldLayer = SKNode()
         newWorldLayer.zPosition = 0
-        if worldIsRotated {
-            newWorldLayer.zRotation = CGFloat(M_PI)
-            newWorldLayer.position = CGPointMake(self.frame.size.width, self.frame.size.height)
-        }
         addChild(newWorldLayer)
         self.worldLayer = newWorldLayer
         
@@ -334,6 +328,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         newPieceLayer.zPosition = 1;
         newWorldLayer.addChild(newPieceLayer)
         self.pieceLayer = newPieceLayer
+    }
+    
+    func configureRotation() {
+        if worldIsRotated {
+            worldLayer?.zRotation = CGFloat(M_PI)
+            worldLayer?.position = CGPointMake(self.frame.size.width, self.frame.size.height)
+        } else {
+            worldLayer?.zRotation = 0
+            worldLayer?.position = CGPointMake(self.frame.size.width, self.frame.size.height)
+
+        }
     }
     
     // MARK: Set Up Board
@@ -396,7 +401,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     // MARK: User Operation Validators
     func pieceShouldPull(piece : Piece) -> Bool {
-        
         if Logic.sharedInstance.onlineMode {
             return (Logic.sharedInstance.whoami == piece.player) && (moveableSet.filter{$0 === piece}.count > 0)
         } else {
