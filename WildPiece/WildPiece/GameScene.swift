@@ -336,7 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             worldLayer?.position = CGPointMake(self.frame.size.width, self.frame.size.height)
         } else {
             worldLayer?.zRotation = 0
-            worldLayer?.position = CGPointMake(self.frame.size.width, self.frame.size.height)
+            worldLayer?.position = CGPointMake(0,0)
 
         }
     }
