@@ -11,6 +11,7 @@ import SpriteKit
 
 protocol MenuSceneDelegate: class {
     func shouldDisplayOnlineSearch()
+    func advertiseBluetooth()
 }
 
 class MenuScene: SKScene {
@@ -54,6 +55,7 @@ class MenuScene: SKScene {
             Logic.sharedInstance.onlineMode = false
         } else if touchedNode.name == "onlineButton" {
             self.menuDelegate?.shouldDisplayOnlineSearch()
+            self.menuDelegate?.advertiseBluetooth()
             Logic.sharedInstance.onlineMode = true
         } else if touchedNode.name == "more" {
             println("show help menu")

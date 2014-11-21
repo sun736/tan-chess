@@ -41,9 +41,6 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         super.viewDidLoad()
         
         self.appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        self.appDelegate.mcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
-        self.appDelegate.mcHandler.setupSession()
-        self.appDelegate.mcHandler.advertiseSelf(true)
         
         appDelegate.gameScene?.sceneDelegate = self
         
@@ -87,6 +84,12 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         userDefaults.setValue(true, forKey: "audioOn")
         userDefaults.setValue(true, forKey: "aimOn")
         userDefaults.synchronize()
+    }
+    
+    func advertiseBluetooth() {
+        self.appDelegate.mcHandler.setupPeerWithDisplayName(UIDevice.currentDevice().name)
+        self.appDelegate.mcHandler.setupSession()
+        self.appDelegate.mcHandler.advertiseSelf(true)
     }
     
     func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {
