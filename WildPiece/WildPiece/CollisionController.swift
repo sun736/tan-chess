@@ -39,7 +39,7 @@ class CollisionController {
         if contactee.healthPoint == 0 {
             println("fade out at CollisionControler2")
             contactee.die()
-            scene.board?.increaseSkill(contactee.player.opponent())
+            //scene.board?.increaseSkill(contactee.player.opponent())
         }
     }
     

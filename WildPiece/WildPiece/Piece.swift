@@ -370,7 +370,6 @@ class Piece: SKSpriteNode {
     func removeSkill()
     {
         self.isPowered = false
-        self.shouldDrawTrajectory = false
     }
     
 //    //MARK: Show & Hide skill

@@ -81,6 +81,12 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         // multipeer connectivity
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedData:", name: "MC_DidReceiveDataNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleStateChange:", name: "MC_DidChangeStateNotification", object: nil)
+        
+        var userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue(true, forKey: "musicOn")
+        userDefaults.setValue(true, forKey: "audioOn")
+        userDefaults.setValue(true, forKey: "aimOn")
+        userDefaults.synchronize()
     }
     
     func browserViewControllerDidFinish(browserViewController: MCBrowserViewController!) {

@@ -143,10 +143,12 @@ class Rule {
     
     // MARK: Add/Remove Pieces
     class func addPiece(scene : GameScene, pieceType : PieceType, location : CGPoint, player : Player, name : String? = nil) -> Piece {
+        var userDefaults = NSUserDefaults.standardUserDefaults()
         var piece = Piece.newPiece(pieceType, player: player);
         if let name = name {
             piece.name = name
         }
+        piece.shouldDrawTrajectory = (userDefaults.valueForKey("aimOn")?.boolValue)!
         piece.position = location
         scene.pieceLayer?.addChild(piece)
         scene.allPieces.append(piece)

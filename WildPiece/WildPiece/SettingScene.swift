@@ -13,8 +13,10 @@ class SettingScene: SKScene {
 
     var musicOn : Bool?
     var audioOn : Bool?
+    var aimOn : Bool?
     var musicButton: SKLabelNode?
     var audioButton: SKLabelNode?
+    var aimButton: SKLabelNode?
     var userDefaults: NSUserDefaults?
     
     override init(size: CGSize) {
@@ -68,14 +70,36 @@ class SettingScene: SKScene {
         }
         self.audioButton?.name = "audioButton"
         self.audioButton?.fontSize = 25
-        self.audioButton?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
+        self.audioButton?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         self.addChild(self.audioButton!)
+        
+        if (userDefaults?.valueForKey("aimOn") != nil)
+        {
+            self.aimOn = userDefaults?.valueForKey("aimOn")?.boolValue
+        }else
+        {
+            userDefaults?.setValue(true, forKey: "aimOn")
+            self.aimOn = true
+        }
+        
+        self.aimButton = SKLabelNode (fontNamed: "Verdana")
+        if self.aimOn == true
+        {
+            self.aimButton?.text = "Eagle Mode: ON"
+        }else
+        {
+            self.aimButton?.text = "Eagle Mode: OFF"
+        }
+        self.aimButton?.name = "aimButton"
+        self.aimButton?.fontSize = 25
+        self.aimButton?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8)
+        self.addChild(self.aimButton!)
         
         let backButton = SKLabelNode(fontNamed: "Verdana")
         backButton.name = "backButton"
         backButton.text = "Back"
         backButton.fontSize = 25
-        backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
+        backButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.6)
         self.addChild(backButton)
         
         
@@ -116,6 +140,17 @@ class SettingScene: SKScene {
                 self.audioOn = true
                 self.audioButton?.text = "Audio: ON"
             }
+        }else if touchedNode.name == "aimButton"
+        {
+            if aimOn == true
+            {
+                self.aimOn = false
+                self.aimButton?.text = "Eagle Mode: OFF"
+            }else
+            {
+                self.aimOn = true
+                self.aimButton?.text = "Eagle Mode: ON"
+            }
         }
         
     }
@@ -123,7 +158,7 @@ class SettingScene: SKScene {
     func saveSetting(){
         self.userDefaults?.setValue(self.musicOn, forKey: "musicOn")
         self.userDefaults?.setValue(self.audioOn, forKey: "audioOn")
-        
+        self.userDefaults?.setValue(self.aimOn, forKey: "aimOn")
         self.userDefaults?.synchronize()
     }
 
