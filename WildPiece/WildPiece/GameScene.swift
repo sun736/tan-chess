@@ -646,7 +646,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         self.skillPanel = SkillPanel(player: (currentPiece?.player)!)
         self.skillPanel?.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
         currentPiece?.zPosition = 5
-        self.addChild(self.skillPanel!)
+        self.worldLayer?.addChild(self.skillPanel!)
         
     }
     
