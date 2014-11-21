@@ -72,6 +72,7 @@ class Board : SKNode {
         
         var body = SKPhysicsBody(bodies : [bodyLeft, bodyRight])
         body.dynamic = false
+        body.restitution = 1.0
         self.physicsBody = body
         self.physicsBody?.categoryBitMask = Board.BITMASK_BOARD()
         self.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
