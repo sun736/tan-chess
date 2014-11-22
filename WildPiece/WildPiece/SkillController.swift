@@ -22,12 +22,12 @@ class SkillController
     
     func increaseBlueCD() -> Int
     {
-        return self.blueCD == 3 ?  3 : (self.blueCD++) ;
+        return self.blueCD == 2 ?  2 : (self.blueCD++) ;
     }
     
     func increaseRedCD() -> Int
     {
-        return self.redCD == 3 ?  3 : (self.redCD++) ;
+        return self.redCD == 2 ?  2 : (self.redCD++) ;
     }
     
     func getCD(player: Player)->Int

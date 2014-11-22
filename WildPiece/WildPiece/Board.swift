@@ -26,9 +26,9 @@ class Board : SKNode {
     private let segment : SKSpriteNode
     private var indicator : SKSpriteNode
     //add a skill cool down bar
-    private var blueSkillBar : SKShapeNode
-    private var redSkillBar : SKShapeNode
-    private var scaleArray = [187.5, 2, 1.5,1.34]
+    private var blueSkillBar : SKSpriteNode
+    private var redSkillBar : SKSpriteNode
+    private var scaleArray = [250, 2, 1.5]
     var skillController : SkillController
     
     required init(coder aDecoder: NSCoder) {
@@ -45,8 +45,8 @@ class Board : SKNode {
         self.restrictedAreaUp = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
         self.restrictedAreaDown = Board.createRect(width - marginX * 2, length: restrictedAreaHeight)
         self.background = Board.createRect(width, length : length)
-        self.blueSkillBar = Board.createRect(1, length: 5)
-        self.redSkillBar = Board.createRect(1, length: 5)
+        self.blueSkillBar = SKSpriteNode(imageNamed: "skillBarBlue")
+        self.redSkillBar = SKSpriteNode(imageNamed: "skillBarRed")
         self.skillController = SkillController()
         self.segment = SKSpriteNode(imageNamed:"segment")
         self.indicator = SKSpriteNode(imageNamed:"BlueIndicator")
@@ -115,13 +115,12 @@ class Board : SKNode {
         self.restrictedAreaUp.alpha = 0
         
         self.blueSkillBar.position = CGPointMake(-1, marginY-2.5)
-        self.blueSkillBar.fillColor = UIColor.UIColorFromRGB(0x0096FF, alpha: 1.0)
+        self.blueSkillBar.size = CGSizeMake(1, 5)
         self.addChild(self.blueSkillBar)
         //self.increaseSkill(0)
         self.redSkillBar.position = CGPointMake(376, length - marginY+2.5);
-
+        self.redSkillBar.size = CGSizeMake(1, 5);
         self.redSkillBar.zRotation = CGFloat(M_PI)
-        self.redSkillBar.fillColor = UIColor.UIColorFromRGB(0xFF5E5B, alpha: 1.0)
         self.addChild(self.redSkillBar)
         
         self.segment.position = CGPoint(x:width/2, y:length/2)
@@ -225,34 +224,26 @@ class Board : SKNode {
     func increaseSkill( player: Player ){
         if player.id == 1{
             var index = self.skillController.increaseBlueCD()
-            var scale = self.scaleArray[index]
-        
-            if self.blueSkillBar.xScale < 600
-            {
-                self.blueSkillBar.runAction(SKAction.scaleXBy(CGFloat(scale), y: 1.0, duration: 0.3))
-                println(self.blueSkillBar.xScale)
-            }
+            var newLength  = (Int)(self.length/3)
+            newLength = newLength * (index+1) + 87
+            self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
             
         }
         else
         {
             var index = self.skillController.increaseRedCD()
-            //var scale = 0 - self.scaleArray[index]
-            var scale = self.scaleArray[index]
-            println("/index /scale")
-            if self.redSkillBar.xScale < 600
-            {
-                self.redSkillBar.runAction(SKAction.scaleXBy(CGFloat(scale), y: 1.0, duration: 0.3))
-            }
+            var newLength  = (Int)(self.length/3)
+            newLength = newLength * (index+1) + 87
+            self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
         }
         
     }
     
     func cleanSkillBar()
     {
-        self.blueSkillBar.runAction(SKAction.scaleXTo(1.0, y: 1.0, duration: 0.3))
+        self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
         self.skillController.clearBlueCD()
-        self.redSkillBar.runAction(SKAction.scaleXTo(1.0, y: 1.0, duration: 0.3))
+        self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
         self.skillController.clearRedCD()
     }
     
@@ -260,11 +251,11 @@ class Board : SKNode {
     {
         if player.id == 1
         {
-            self.blueSkillBar.runAction(SKAction.scaleXBy(CGFloat(1/562.5), y: 1.0, duration: 0.3))
+            self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
             self.skillController.clearBlueCD()
         }else
         {
-            self.redSkillBar.runAction(SKAction.scaleXBy(CGFloat(1/562.5), y: 1.0, duration: 0.3))
+            self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
             self.skillController.clearRedCD()
         }
     }

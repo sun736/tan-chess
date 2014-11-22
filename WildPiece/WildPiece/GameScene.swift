@@ -34,6 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     var trajactoryTimer: NSTimer?
     var soundEffect : SKAction?
     // all living or died pieces
+    var shouldPlaySoundEffect : Bool?
     var allPieces: [Piece] = [Piece]()
     
     var skillPanel: SkillPanel?
@@ -76,6 +77,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             bottom?.runAction(SKAction.moveToY(CGFloat(-180), duration: 0.4))
             self.soundPlayer = Sound()
             self.soundEffect = SKAction.playSoundFileNamed("collision2.wav", waitForCompletion: false)
+            var userDefaults = NSUserDefaults.standardUserDefaults()
+            self.shouldPlaySoundEffect = (userDefaults.valueForKey("audioOn")?.boolValue)!
             self.startGame()
         }
     }
@@ -681,7 +684,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if name == "Shield"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 3
+            if self.board?.skillController.getCD(player) == 2
             {
                 piece.drawShield()
                 self.board?.resetSkillBar(player)
@@ -689,7 +692,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Force"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 3
+            if self.board?.skillController.getCD(player) == 2
             {
                 piece.isPowered = true
                 piece.drawPowerRing()
@@ -699,7 +702,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Aim"
         {
 //            var player = piece.player
-//            if self.board?.skillController.getCD(player) == 3
+//            if self.board?.skillController.getCD(player) == 2
 //            {
 //                piece.shouldDrawTrajectory = true
 //                self.board?.resetSkillBar(player)
@@ -723,6 +726,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     //MARK: Play sound effect
     func playSoundEffect()
     {
-        self.runAction(self.soundEffect)
+        if self.shouldPlaySoundEffect == true
+        {
+            self.runAction(self.soundEffect)
+        }
     }
 }

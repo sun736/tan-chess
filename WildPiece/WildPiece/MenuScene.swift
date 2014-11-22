@@ -39,7 +39,7 @@ class MenuScene: SKScene {
         moreButton.name = "more"
         moreButton.text = "more"
         moreButton.fontSize = 25
-        moreButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.1)
+        moreButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.15)
         self.addChild(moreButton)
         
     }

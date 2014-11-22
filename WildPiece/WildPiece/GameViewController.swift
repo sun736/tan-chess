@@ -80,10 +80,13 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleStateChange:", name: "MC_DidChangeStateNotification", object: nil)
         
         var userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setValue(true, forKey: "musicOn")
-        userDefaults.setValue(true, forKey: "audioOn")
-        userDefaults.setValue(true, forKey: "aimOn")
-        userDefaults.synchronize()
+        if userDefaults.valueForKey("audioOn") != nil
+        {
+            userDefaults.setValue(true, forKey: "musicOn")
+            userDefaults.setValue(true, forKey: "audioOn")
+            userDefaults.setValue(true, forKey: "aimOn")
+            userDefaults.synchronize()
+        }
     }
     
     func advertiseBluetooth() {
