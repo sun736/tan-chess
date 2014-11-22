@@ -239,6 +239,20 @@ class Board : SKNode {
         
     }
     
+    func setSkillBar(player: Player, cd: Int)
+    {
+        self.skillController.setCD(player, cd: cd)
+        var newLength  = (Int)(self.length/3)
+        newLength = newLength * (cd+1) + 87
+        if player.id == 1
+        {
+            self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
+        }else
+        {
+            self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
+        }
+    }
+    
     func cleanSkillBar()
     {
         self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))

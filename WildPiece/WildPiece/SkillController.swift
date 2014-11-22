@@ -41,6 +41,18 @@ class SkillController
         }
     }
     
+    func setCD(player: Player, cd: Int)
+    {
+        if player.id == 1
+        {
+            self.blueCD = cd;
+        }
+        else
+        {
+            self.redCD = cd;
+        }
+    }
+    
     func cleanCD(player: Player)
     {
         if player.id == 1
