@@ -635,6 +635,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.physicsBody?.applyImpulse(force);
     }
     
+    func locationInScene(point : CGPoint) -> CGPoint {
+        return worldIsRotated ? opponentLocation(point) : point
+    }
+    
+    func vectorInScene(vector : CGVector) -> CGVector {
+        return worldIsRotated ? rotateVector(vector) : vector
+    }
+    
     // MARK: Piece Effect
     func drawTrajactory(timer : NSTimer) {
         if let piece = timer.userInfo as? Piece{

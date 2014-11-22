@@ -40,12 +40,12 @@ class PieceCanon : Piece{
         var distance : Float = hypotf(Float(arrowEndPosition.x - piece_curr_position.x), Float(arrowEndPosition.y - piece_curr_position.y))
         var shift_dx = 20.0 * Float(force.dy/200) / distance
         var shift_dy = 20.0 * Float(force.dx/200) / distance
-        var ray_1_start = CGPointMake(self.position.x - CGFloat(shift_dx), self.position.y + CGFloat(shift_dy))
-        var ray_1_end = CGPointMake(piece_End_position.x - CGFloat(shift_dx), piece_End_position.y + CGFloat(shift_dy))
-        var ray_2_start = CGPointMake(self.position.x + CGFloat(shift_dx), self.position.y - CGFloat(shift_dy))
-        var ray_2_end = CGPointMake(piece_End_position.x + CGFloat(shift_dx), piece_End_position.y - CGFloat(shift_dy))
-        var ray_3_start = CGPointMake(self.position.x, self.position.y)
-        var ray_3_end = CGPointMake(piece_End_position.x, piece_End_position.y)
+        var ray_1_start = scene.locationInScene(CGPointMake(self.position.x - CGFloat(shift_dx), self.position.y + CGFloat(shift_dy)))
+        var ray_1_end = scene.locationInScene(CGPointMake(piece_End_position.x - CGFloat(shift_dx), piece_End_position.y + CGFloat(shift_dy)))
+        var ray_2_start = scene.locationInScene(CGPointMake(self.position.x + CGFloat(shift_dx), self.position.y - CGFloat(shift_dy)))
+        var ray_2_end = scene.locationInScene(CGPointMake(piece_End_position.x + CGFloat(shift_dx), piece_End_position.y - CGFloat(shift_dy)))
+        var ray_3_start = scene.locationInScene(CGPointMake(self.position.x, self.position.y))
+        var ray_3_end = scene.locationInScene(CGPointMake(piece_End_position.x, piece_End_position.y))
         
 //        println("================")
 //        println("vector dx:\(force.dx), dy:\(force.dy)")
