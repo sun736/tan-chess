@@ -299,9 +299,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         self.soundPlayer?.stopBackgroundMusic();
         self.paused = true
         Logic.sharedInstance.whoami = PLAYER_NULL
+        if Logic.sharedInstance.onlineMode {
+            sceneDelegate?.endMCSession()
+        }
         Logic.sharedInstance.onlineMode = false
         Logic.sharedInstance.end()
-        sceneDelegate?.endMCSession()
     }
     
     func updateLastMove(piece : Piece) {
