@@ -69,7 +69,7 @@ class Piece: SKSpriteNode {
     var trajectory: SKShapeNode? = nil
     var hpring: HPRing? = nil
     var directionHint: DirectionHint? = nil
-    var shield: Shield? = nil
+    var shield: SKSpriteNode? = nil
     var powerRing : SKSpriteNode? = nil
     var isPowered : Bool
     var shouldDrawTrajectory : Bool
@@ -244,10 +244,16 @@ class Piece: SKSpriteNode {
     
     func drawShield() {
         self.removeShield()
-        self.shield = Shield(CGPointMake(0, 0), getRadius())
-        if let shield = self.shield {
-            self.addChild(shield)
-        }
+//        self.shield = Shield(CGPointMake(0, 0), getRadius())
+//        if let shield = self.shield {
+//            self.addChild(shield)
+//        }
+        self.shield = SKSpriteNode(imageNamed:"shield")
+        self.shield?.size = CGSizeMake(CGFloat(50),CGFloat(50))
+        self.addChild(self.shield!)
+        
+        var rotateAction = SKAction.rotateByAngle(CGFloat(1),duration: 0.3)
+        self.shield?.runAction(SKAction.repeatActionForever(rotateAction))
     }
     
     func removeShield() {
