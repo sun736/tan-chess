@@ -54,8 +54,8 @@ class MenuScene: SKScene {
             self.startNewGame()
             Logic.sharedInstance.onlineMode = false
         } else if touchedNode.name == "onlineButton" {
-            self.menuDelegate?.shouldDisplayOnlineSearch()
             self.menuDelegate?.advertiseBluetooth()
+            self.menuDelegate?.shouldDisplayOnlineSearch()
             Logic.sharedInstance.onlineMode = true
         } else if touchedNode.name == "more" {
             println("show help menu")
