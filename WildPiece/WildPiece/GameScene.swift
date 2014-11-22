@@ -437,7 +437,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if piece is PieceCanon {
             var canon = piece as PieceCanon
             canon.fadeTo()
-            canon.setTransparentPiece(self, force: force, launch: false);
+            canon.setTransparentPieceWithInterval(self, force: force, launch: false);
         }
     }
     
@@ -449,6 +449,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeTrajectory()
         pullForce = nil
         trajactoryTimer?.invalidate()
+        if piece is PieceCanon {
+            var canon = piece as PieceCanon
+            canon.cancelTransparentPiece(self)
+        }
     }
     
     func pullEnded(piece : Piece, var force: CGVector) {
@@ -465,7 +469,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }*/
         if piece is PieceCanon {
             var canon = piece as PieceCanon
-            canon.setTransparentPiece(self, force: force, launch: true);
+            canon.setTransparentPieceWithInterval(self, force: force, launch: true);
         }
         if piece.pieceType != PieceType.Canon {
             CollisionController.setContacters(self, contacter: piece)

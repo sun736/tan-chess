@@ -21,6 +21,11 @@ class PieceCanon : Piece{
     let c_bluePic: String = "QueenPiece_BLUE"
     let c_redPic: String = "QueenPiece_RED"
     let c_pieceType : PieceType = PieceType.Canon
+    
+    var lastSetTransTime: NSDate = NSDate()
+    let setTransInterval: NSTimeInterval = 0.4
+    var transTimer: NSTimer?
+    
     init(_ player : Player){
         
         let c_imageNamed = (player.bitMask == Piece.BITMASK_BLUE()) ? c_bluePic : c_redPic
@@ -32,7 +37,18 @@ class PieceCanon : Piece{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTransparentPiece(scene: GameScene, force: CGVector, launch: Bool) {
+    func setTransparentPieceWithInterval(scene: GameScene, force: CGVector, launch: Bool) {
+        let userInfo:[AnyObject] = [scene, Float(force.dx), Float(force.dy), launch]
+        if transTimer != nil {
+            transTimer = NSTimer.scheduledTimerWithTimeInterval(setTransInterval, target: self, selector: Selector("setTransparentPieceWithTimer:"), userInfo: userInfo, repeats: false)
+            return
+        }
+        transTimer = NSTimer.scheduledTimerWithTimeInterval(setTransInterval, target: self, selector: Selector("setTransparentPieceWithTimer:"), userInfo: userInfo, repeats: false)
+
+        setTransparentPiece(scene, force: force, launch: launch)
+    }
+    
+    private func setTransparentPiece(scene: GameScene, force: CGVector, launch: Bool) {
         
         var piece_curr_position = self.position;
         var arrowEndPosition = CGPointMake(force.dx/200 + self.position.x, force.dy/200 + self.position.y)
@@ -121,6 +137,23 @@ class PieceCanon : Piece{
         }
         //println("ray_1_find: \(body1)")
         //println("ray_2_find: \(body2)")
+    }
+    
+    func setTransparentPieceWithTimer(timer: NSTimer) {
+        if let userInfo = timer.userInfo as? [AnyObject] {
+            if userInfo.count == 4 {
+                let gameScene: GameScene = userInfo[0] as GameScene
+                let dx: Float = userInfo[1] as Float
+                let dy: Float = userInfo[2] as Float
+                let launch: Bool = userInfo[3] as Bool
+                setTransparentPiece(gameScene, force: CGVectorMake(CGFloat(dx), CGFloat(dy)), launch: launch)
+            }
+        }
+    }
+    
+    func cancelTransparentPiece(scene: GameScene) {
+        transTimer?.invalidate
+        CollisionController.cancelTranparent(scene)
     }
     
 }
