@@ -25,7 +25,7 @@ class SkillPanel: SKSpriteNode {
        
         if player.id == 2
         {
-            aimNode.texture = SKTexture(imageNamed:"Aim_RED")
+            aimNode.texture = SKTexture(imageNamed:"Explode_RED")
             forceNode.texture = SKTexture(imageNamed:"Force_RED")
             shieldNode.texture = SKTexture(imageNamed:"Shield_RED")
             spreadSkill(-1)
@@ -39,7 +39,7 @@ class SkillPanel: SKSpriteNode {
     override init(texture: SKTexture!, color: UIColor!, size: CGSize)
     {
         backgroundNode = SKSpriteNode(imageNamed:"1")
-        aimNode = SKSpriteNode(imageNamed:"Aim_BLUE");
+        aimNode = SKSpriteNode(imageNamed:"Explode_BLUE");
         forceNode = SKSpriteNode(imageNamed:"Force_BLUE");
         shieldNode = SKSpriteNode(imageNamed:"Shield_BLUE");
 

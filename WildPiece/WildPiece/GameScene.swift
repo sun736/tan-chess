@@ -684,7 +684,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if name == "Shield"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 0
+            if self.board?.skillController.getCD(player) == 2
             {
                 piece.drawShield()
                 self.board?.resetSkillBar(player)
@@ -701,12 +701,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             }
         }else if name == "Aim"
         {
-//            var player = piece.player
-//            if self.board?.skillController.getCD(player) == 2
-//            {
-//                piece.shouldDrawTrajectory = true
-//                self.board?.resetSkillBar(player)
-//            }
+            var player = piece.player
+            if self.board?.skillController.getCD(player) == 0
+            {
+                //piece.shouldDrawTrajectory = true
+                //self.board?.resetSkillBar(player)
+                piece.drawExplode()
+            }
         }
         self.skillPanel?.hideSkill()
         piece.zPosition = 1

@@ -283,6 +283,23 @@ class Piece: SKSpriteNode {
         powerRing?.runAction(SKAction.repeatActionForever(sequence))
     }
     
+    func removePowerRing()
+    {
+        self.powerRing?.removeFromParent()
+    }
+    
+    func drawExplode()
+    {
+        self.powerRing = SKSpriteNode(imageNamed: "RedRing")
+        self.powerRing?.size = self.size
+        self.powerRing?.alpha = 0.7
+        self.addChild(self.powerRing!)
+        var fadeOutAction = SKAction.fadeAlphaTo(0.0, duration: 0.7)
+        var fadeInAction = SKAction.fadeAlphaTo(0.7, duration: 0.7)
+        var sequence = SKAction.sequence([fadeOutAction, fadeInAction])
+        self.powerRing?.runAction(SKAction.repeatActionForever(sequence))
+    }
+    
     func drawIndicator()
     {
         self.powerRing = SKSpriteNode(imageNamed: "BlueRing")
@@ -302,10 +319,7 @@ class Piece: SKSpriteNode {
         
     }
     
-    func removePowerRing()
-    {
-        self.powerRing?.removeFromParent()
-    }
+    
     
     func drawTrajectory(){
         
