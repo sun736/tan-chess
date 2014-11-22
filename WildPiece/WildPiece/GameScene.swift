@@ -245,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 var pauseScene = PauseScene(size: self.size)
                 pauseScene.scaleMode = SKSceneScaleMode.AspectFill
                 UIGraphicsBeginImageContext(size)
-                self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+                self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: false)
                 var snapshot = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
                 
@@ -316,6 +316,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func addLayers() {
         var newWorldLayer = SKNode()
         newWorldLayer.zPosition = 0
+//        var newFrame = newWorldLayer.frame
+//        newFrame.size = self.size
+//        newWorldLayer.frame = newFrame
         addChild(newWorldLayer)
         self.worldLayer = newWorldLayer
         

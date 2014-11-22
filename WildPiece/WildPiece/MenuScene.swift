@@ -81,7 +81,7 @@ class MenuScene: SKScene {
         var size : CGSize! = self.view?.frame.size
         var bounds : CGRect! = self.view?.bounds
         UIGraphicsBeginImageContext(size)
-        self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: true)
+        self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: false)
         var snapshot = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
