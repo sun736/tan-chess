@@ -205,15 +205,12 @@ class Board : SKNode {
         return false
     }
     
-    func isInRestrictedArea(position : CGPoint, isUpSide : Bool) -> Bool {
+    func isInRestrictedArea(piece : Piece) -> Bool {
+        var isUpSide = piece.player.isUpSide
         if isUpSide {
-            println(position.y)
-            println(restrictedAreaHeight)
-            return position.y < restrictedAreaHeight + marginY
+            return piece.position.y < restrictedAreaHeight + marginY
         } else {
-            println(position.y)
-            println(length - restrictedAreaHeight)
-            return position.y > length - restrictedAreaHeight - marginY
+            return piece.position.y > length - restrictedAreaHeight - marginY
         }
     }
     

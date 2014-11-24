@@ -86,7 +86,7 @@ class Rule {
     
     class func pawnIsInDistrictedArea(scene : GameScene, piece : Piece) -> Bool {
         if let board = scene.board {
-            return board.isInRestrictedArea(piece.position, isUpSide: piece.player.isUpSide)
+            return board.isInRestrictedArea(piece)
         }
         return false;
     }
@@ -121,20 +121,22 @@ class Rule {
     }
     
     class func gameShouldChangeTurn(scene : GameScene, lastMove : (piece :Piece?, step : Int)) -> (turn : Bool, piece : Bool) {
-        if let piece = lastMove.piece {
-            if piece.pieceType == PieceType.Knight {
-                return (lastMove.step > 1, false)
-            }
+        for piece in scene.pieces {
             if piece.pieceType == PieceType.Pawn {
                 if Rule.pawnIsInDistrictedArea(scene, piece: piece) {
                     var general = Rule.addPiece(scene, pieceType: .General, location: piece.position, player : piece.player)
                     general.drawIndicator()
-                    if piece.shield != nil
-                    {
+                    if piece.shield != nil {
                         general.drawShield()
                     }
                     piece.removeFromParent()
                 }
+            }
+        }
+        
+        if let piece = lastMove.piece {
+            if piece.pieceType == PieceType.Knight {
+                return (lastMove.step > 1, false)
             }
         }
         
