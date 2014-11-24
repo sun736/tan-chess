@@ -707,11 +707,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Aim"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 0
+            if self.board?.skillController.getCD(player) == 2
             {
                 //piece.shouldDrawTrajectory = true
-                //self.board?.resetSkillBar(player)
+               
                 piece.drawExplode()
+                self.board?.resetSkillBar(player)
                 //CollisionController.setExplosionPiece(piece)
             }            
         }
