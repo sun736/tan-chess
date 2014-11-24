@@ -92,6 +92,12 @@ class CollisionController {
         }
     }
     
+    class func setExplosionPiece(piece: Piece) {
+        piece.physicsBody?.categoryBitMask = Piece.BITMASK_EXPLOSION()
+        piece.physicsBody?.collisionBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE()
+        piece.physicsBody?.contactTestBitMask = 0x00
+    }
+    
     class func handlContact(scene: GameScene, contact: SKPhysicsContact) {
         
         if (contact.bodyA.node != nil && contact.bodyB.node != nil){

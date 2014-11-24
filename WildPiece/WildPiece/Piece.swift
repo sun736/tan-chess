@@ -126,8 +126,53 @@ class Piece: SKSpriteNode {
     func setCollisionBitMask(collisionBitMask: UInt32) {
         self.physicsBody?.categoryBitMask = collisionBitMask
         self.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
-        self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+        self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD() | Piece.BITMASK_EXPLOSION() | Piece.BITMASK_BULLET()
         self.physicsBody?.usesPreciseCollisionDetection = true
+    }
+    
+    func explode(scene: GameScene) {
+        
+        //let nodeColor = (self.player.bitMask == Piece.BITMASK_BLUE() ? UIColor.blueColor() : UIColor.redColor())
+        self.physicsBody?.dynamic = false
+        var forces: [CGVector] = []
+        forces.insert(CGVectorMake(self.position.x + 100, self.position.y), atIndex: 0)
+        forces.insert(CGVectorMake(self.position.x + 100, self.position.y + 100), atIndex: 1)
+        forces.insert(CGVectorMake(self.position.x, self.position.y), atIndex: 2)
+        forces.insert(CGVectorMake(self.position.x - 100, self.position.y + 100), atIndex: 3)
+        forces.insert(CGVectorMake(self.position.x - 100, self.position.y), atIndex: 4)
+        forces.insert(CGVectorMake(self.position.x - 100, self.position.y - 100), atIndex: 5)
+        forces.insert(CGVectorMake(self.position.x, self.position.y - 100), atIndex: 6)
+        forces.insert(CGVectorMake(self.position.x + 100, self.position.y - 100), atIndex: 7)
+        
+        for index in 0...7 {
+            let node = SKShapeNode(circleOfRadius: radius)
+            var body = SKPhysicsBody(circleOfRadius: radius)
+            node.lineWidth = 0
+            node.position = self.position
+            //node.fillColor = self.color
+            node.physicsBody = body
+            node.physicsBody?.dynamic = true
+            node.physicsBody?.friction = self.physicsBody!.friction
+            node.physicsBody?.restitution = self.physicsBody!.restitution
+            node.physicsBody?.linearDamping = self.physicsBody!.linearDamping
+            node.physicsBody?.angularDamping = self.physicsBody!.angularDamping
+            node.physicsBody?.mass = self.physicsBody!.mass
+            node.physicsBody?.allowsRotation = false
+            node.physicsBody?.categoryBitMask = Piece.BITMASK_BULLET()
+            node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+            node.physicsBody?.contactTestBitMask = 0x00
+            self.parent?.addChild(node)
+            scene.applyImpulseToWorldObject(node, force : forces[index])
+            let waitAction = SKAction.waitForDuration(1.0)
+            let removeAction = SKAction.removeFromParent()
+            self.runAction(waitAction)
+            let fadeAction = SKAction.fadeOutWithDuration(1.0)
+            let sequence = SKAction.sequence([fadeAction, removeAction])
+            node.runAction(sequence)
+            //println("\(index) bullet")
+            
+        }
+        self.die();
     }
     
     func getRadius() -> CGFloat{
@@ -144,6 +189,14 @@ class Piece: SKSpriteNode {
     
     class func BITMASK_TRANS() -> UInt32 {
         return 0x04
+    }
+    
+    class func BITMASK_EXPLOSION() -> UInt32 {
+        return 0x08
+    }
+    
+    class func BITMASK_BULLET() -> UInt32 {
+        return 0x16
     }
     
     func deduceHealth() {
