@@ -60,7 +60,8 @@ class MenuScene: SKScene {
         } else if touchedNode.name == "more" {
             println("show help menu")
             var helpScene = HelpScene(size: self.size)
-            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
+//            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
+            let transition = SKTransition.crossFadeWithDuration(0.3)
             helpScene.scaleMode = SKSceneScaleMode.AspectFill
             self.scene?.view?.presentScene(helpScene, transition: transition)
         }
