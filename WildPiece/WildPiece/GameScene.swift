@@ -617,6 +617,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if( Logic.sharedInstance.onlineMode && (Logic.sharedInstance.whoami == player)) {
             sceneDelegate?.updateAllPiecePosition(allPieces)
         }
+        
+        Rule.updatePawnStates(self)
     }
     
     func gameDidBeginProcess(player : Player) {

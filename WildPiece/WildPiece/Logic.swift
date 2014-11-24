@@ -254,6 +254,9 @@ class Logic {
         }
         switch state {
         case .Processing(let player):
+            if let scene = self.scene {
+                scene.gameDidEndProcess(player)
+            }
             wait(player.opponent())
         default:
             state = GameState.Error("stop block processing in wrong state: \(state)")
