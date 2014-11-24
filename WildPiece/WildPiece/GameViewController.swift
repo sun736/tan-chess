@@ -80,7 +80,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleStateChange:", name: "MC_DidChangeStateNotification", object: nil)
         
         var userDefaults = NSUserDefaults.standardUserDefaults()
-        if userDefaults.valueForKey("audioOn") != nil
+        if userDefaults.valueForKey("audioOn") == nil
         {
             userDefaults.setValue(true, forKey: "musicOn")
             userDefaults.setValue(true, forKey: "audioOn")
