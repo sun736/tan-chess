@@ -711,7 +711,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 //piece.shouldDrawTrajectory = true
                 //self.board?.resetSkillBar(player)
                 piece.drawExplode()
-                CollisionController.setExplosionPiece(piece)
+                //CollisionController.setExplosionPiece(piece)
             }            
         }
         self.skillPanel?.hideSkill()
