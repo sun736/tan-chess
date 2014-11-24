@@ -281,6 +281,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func restartGame() {
         removePieces()
         Rule.placePieces(self)
+        self.soundPlayer?.playBackgroundMusic()
         self.board?.cleanSkillBar()
         Logic.sharedInstance.restart()
         updateMoveableSet()
