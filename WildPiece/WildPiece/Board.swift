@@ -222,7 +222,7 @@ class Board : SKNode {
         if player.id == 1{
             var index = self.skillController.increaseBlueCD()
             var newLength  = (Int)(self.length/3)
-            newLength = newLength * (index+1) + 87
+            newLength = (newLength+35) * (index+1)
             self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
             
         }
@@ -230,7 +230,7 @@ class Board : SKNode {
         {
             var index = self.skillController.increaseRedCD()
             var newLength  = (Int)(self.length/3)
-            newLength = newLength * (index+1) + 87
+            newLength = (newLength+35) * (index+1)
             self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
         }
         
@@ -240,7 +240,7 @@ class Board : SKNode {
     {
         self.skillController.setCD(player, cd: cd)
         var newLength  = (Int)(self.length/3)
-        newLength = newLength * (cd+1) + 87
+        newLength = (newLength+35) * (cd+1)
         if player.id == 1
         {
             self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
