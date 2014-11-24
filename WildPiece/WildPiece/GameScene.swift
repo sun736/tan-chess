@@ -586,9 +586,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 updateMoveableSet()
             }
             
-//            if piece.physicsBody?.categoryBitMask == Piece.BITMASK_EXPLOSION() {
-//                piece.explode(self)
-//            }
+            if piece.physicsBody?.categoryBitMask == Piece.BITMASK_EXPLOSION() {
+                piece.explode(self)
+            }
         }
 
 //        for piece in moveableSet {
@@ -707,13 +707,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Aim"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 2
+            if self.board?.skillController.getCD(player) == 0
             {
                 //piece.shouldDrawTrajectory = true
                
                 piece.drawExplode()
                 self.board?.resetSkillBar(player)
-                //CollisionController.setExplosionPiece(piece)
+                CollisionController.setExplosionPiece(piece)
             }            
         }
         self.skillPanel?.hideSkill()
