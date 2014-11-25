@@ -247,7 +247,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             if size != nil{
                 self.pauseGame()
                 var pauseScene = PauseScene(size: self.size)
-                pauseScene.scaleMode = SKSceneScaleMode.AspectFill
+                pauseScene.scaleMode = SKSceneScaleMode.AspectFit
                 UIGraphicsBeginImageContext(size)
                 self.view?.drawViewHierarchyInRect(bounds, afterScreenUpdates: false)
                 var snapshot = UIGraphicsGetImageFromCurrentImageContext()
@@ -570,7 +570,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         winner.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.6)
         endScene.addChild(winner)
         let transition = SKTransition.crossFadeWithDuration(0.3)
-        endScene.scaleMode = SKSceneScaleMode.AspectFill
+        endScene.scaleMode = SKSceneScaleMode.AspectFit
         self.scene?.view?.presentScene(endScene, transition: transition)
     }
     
@@ -665,9 +665,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func drawTrajactory(timer : NSTimer) {
         if let piece = timer.userInfo as? Piece{
             if let pullForce = pullForce {
-                piece.drawTrajectory()
-                if let trajectoryNode = piece.trajectory {
-                    applyImpulseToWorldObject(trajectoryNode, force : pullForce)
+                if (hypotf(Float(pullForce.dx), Float(pullForce.dy)) > Float(piece.minForce)){
+                    piece.drawTrajectory()
+                    if let trajectoryNode = piece.trajectory {
+                        applyImpulseToWorldObject(trajectoryNode, force : pullForce)
+                    }
                 }
             }
         }

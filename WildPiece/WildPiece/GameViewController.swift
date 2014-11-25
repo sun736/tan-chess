@@ -66,6 +66,7 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             //init the gamescene in AppDelegata
             
             menuScene = MenuScene(size: scene.size)
+            menuScene?.scaleMode = SKSceneScaleMode.AspectFit
             menuScene?.menuDelegate = self
             skView.presentScene(menuScene)
         }

@@ -62,7 +62,7 @@ class MenuScene: SKScene {
             var helpScene = HelpScene(size: self.size)
 //            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
             let transition = SKTransition.crossFadeWithDuration(0.3)
-            helpScene.scaleMode = SKSceneScaleMode.AspectFill
+            helpScene.scaleMode = SKSceneScaleMode.AspectFit
             self.scene?.view?.presentScene(helpScene, transition: transition)
         }
     }
@@ -75,7 +75,7 @@ class MenuScene: SKScene {
         gameScene.sceneDelegate = appDelegate.gameScene?.sceneDelegate
         appDelegate.gameScene = gameScene
         gameScene.size = self.size
-        gameScene.scaleMode = SKSceneScaleMode.AspectFill
+        gameScene.scaleMode = SKSceneScaleMode.AspectFit
         //self.scene?.view?.presentScene(gameScene, transition: transition)
         
         //Get the snapshot of the screen

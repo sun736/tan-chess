@@ -58,14 +58,14 @@ class HelpScene: SKScene {
             var menuScene = MenuScene(size: self.size)
 //            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 0.3)
             let transition = SKTransition.crossFadeWithDuration(0.3)
-            menuScene.scaleMode = SKSceneScaleMode.AspectFill
+            menuScene.scaleMode = SKSceneScaleMode.AspectFit
             self.scene?.view?.presentScene(menuScene, transition: transition)
         } else if touchedNode.name == "settingButton"
         {
             var settingScene = SettingScene(size: self.size)
 //            let transition = SKTransition.revealWithDirection(SKTransitionDirection.Up, duration: 0.3)
             let transition = SKTransition.crossFadeWithDuration(0.3)
-            settingScene.scaleMode = SKSceneScaleMode.AspectFill
+            settingScene.scaleMode = SKSceneScaleMode.AspectFit
             self.scene?.view?.presentScene(settingScene, transition: transition)
         } else if touchedNode.name == "tutorialButton"
         {

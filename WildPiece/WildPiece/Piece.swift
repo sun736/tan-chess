@@ -383,7 +383,6 @@ class Piece: SKSpriteNode {
         
         self.removeTrajectory()
         let node = SKShapeNode(circleOfRadius: 20.0)
-        //let nodeColor = (self.player.bitMask == Piece.BITMASK_BLUE() ? UIColor.blueColor() : UIColor.redColor())
         node.alpha = 0.7
         node.fillColor = self.color
         node.lineWidth = 0
@@ -410,6 +409,7 @@ class Piece: SKSpriteNode {
     
     func removeTrajectory(){
         self.trajectory?.removeFromParent()
+        self.trajectory = nil
     }
     
     // calculate a valid force based on piece's limit

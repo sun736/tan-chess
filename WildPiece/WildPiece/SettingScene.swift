@@ -119,7 +119,7 @@ class SettingScene: SKScene {
             var helpScene = HelpScene(size: self.size)
             //let transition = SKTransition.revealWithDirection(SKTransitionDirection.Down, duration: 0.3)
             let transition = SKTransition.crossFadeWithDuration(0.3)
-            helpScene.scaleMode = SKSceneScaleMode.AspectFill
+            helpScene.scaleMode = SKSceneScaleMode.AspectFit
             self.scene?.view?.presentScene(helpScene, transition: transition)
         } else if touchedNode.name == "musicButton"
         {
