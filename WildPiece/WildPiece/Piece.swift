@@ -551,7 +551,7 @@ class Piece: SKSpriteNode {
         physicsBody?.velocity = CGVectorMake(0,0);
     }
     
-    func die() {
+    func die(triggerAction: Bool = true) {
 //        println("dying: \(dead)")
         if dead {
             return
@@ -560,7 +560,11 @@ class Piece: SKSpriteNode {
         removeAllActions()
         lastParent = parent
         alpha = 1.0
-        fadeOut()
+        if triggerAction {
+            fadeOut()
+        } else {
+            removeFromParent()
+        }
     }
     
     private func undie() {

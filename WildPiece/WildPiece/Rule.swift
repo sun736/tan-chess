@@ -130,7 +130,7 @@ class Rule {
                     if piece.shield != nil {
                         general.drawShield()
                     }
-                    piece.removeFromParent()
+                    piece.die(triggerAction: false)
                 }
             }
         }
