@@ -204,6 +204,12 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         }
     }
     
+    func updateCD(player: Player, CD: Int) {
+        let messageDict = ["updateCD": ["playerID": player.id, "CD" : CD]]
+        
+        sendMessageDict(messageDict)
+    }
+    
     func handleReceivedData(notification: NSNotification){
         if !Logic.sharedInstance.onlineMode {
             return
@@ -272,6 +278,11 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
             if let piece = appDelegate.gameScene?.pieceWithName(pieceName) {
                 appDelegate.gameScene?.triggerSKill(piece, name: skillName)
             }
+        } else if let action = message["updateCD"] as? NSDictionary {
+            let playerID = action["playerID"] as Int
+            let CD = action["CD"] as Int
+            
+            appDelegate.gameScene?.board?.skillController.setCD(Player.getPlayer(playerID), cd: CD)
         } else {
             println("error: wrong exchanged data! \(receivedData)")
         }

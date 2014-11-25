@@ -13,6 +13,7 @@ protocol GameSceneDelegate: class {
     func endMCSession()
     func updateAllPiecePosition(pieces: [Piece])
     func sendSkillToPeer(piece: Piece, skillName: String!)
+    func updateCD(player: Player, CD: Int)
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate, LogicDelegate {
@@ -612,10 +613,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func gameDidEndProcess(player : Player) {
-//        println("gameDidEndProcess: \(player)")
+        // println("gameDidEndProcess: \(player)")
         // update all piece position in peer device
         if( Logic.sharedInstance.onlineMode && (Logic.sharedInstance.whoami == player)) {
             sceneDelegate?.updateAllPiecePosition(allPieces)
+            sceneDelegate?.updateCD(player, CD: board!.skillController.getCD(player))
         }
         
         Rule.updatePawnStates(self)
