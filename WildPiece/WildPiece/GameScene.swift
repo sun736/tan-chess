@@ -113,34 +113,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self.pieceLayer)
             let nodes = self.pieceLayer?.nodesAtPoint(location)
+            var nearestPiece: Piece? = nil
+            var minDistanceToNode = CGFloat(FLT_MAX)
             for node in nodes as [SKNode] {
-                
-                if let piece = node as? Piece {
-                    if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
-                        //draw indicator
-                        piece.drawTouchIndicator()
-                        
-                        let centerPt = piece.position
-                        let distance = hypotf(Float(location.x - centerPt.x),
-                            Float(location.y - centerPt.y))
-                        
-                        if Logic.sharedInstance.isWaiting(piece.player) {
-                            Rule.touchDown(self, piece: piece)
-                        }
-                        // exact distance comparison
-                        if (distance <= Float(piece.radius)) {
-                            
-                            pullBeginPoint = location
-                            pullEndPoint = nil
-                            touchNode = piece
-                            
-                            self.pullBegan(piece)
-                            break
+                if let pieceTouchRegion = node as? PieceTouchRegion {
+                    if let piece = pieceTouchRegion.node {
+                        println("Calculating piece distance: \(piece.name)")
+                        let distanceToNode = pieceTouchRegion.distance(location)
+                        if distanceToNode < minDistanceToNode {
+                            minDistanceToNode = distanceToNode
+                            nearestPiece = piece
+                            println("nearestPiece: \(piece.name)")
                         }
                     }
                 }
             }
-            break
+            if let piece = nearestPiece {
+                println("there is a nearestPiece: \(piece.name)")
+                if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
+                    
+                    //draw indicator
+                    piece.drawTouchIndicator()
+                    
+                    let centerPt = piece.position
+                    let distance = hypotf(Float(location.x - centerPt.x),
+                        Float(location.y - centerPt.y))
+                    
+                    if Logic.sharedInstance.isWaiting(piece.player) {
+                        Rule.touchDown(self, piece: piece)
+                    }
+                    // exact distance comparison
+                    if (distance <= Float(piece.radius)) {
+                        
+                        pullBeginPoint = location
+                        pullEndPoint = nil
+                        touchNode = piece
+                        
+                        self.pullBegan(piece)
+                        break
+                    }
+                }
+            }
         }
         
         //detect the skill panel touch
