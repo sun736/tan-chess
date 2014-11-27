@@ -701,7 +701,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if name == "Shield"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 0
+            if self.board?.skillController.getCD(player) == 2
             {
                 piece.drawShield()
                 self.board?.resetSkillBar(player)
