@@ -117,6 +117,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                 
                 if let piece = node as? Piece {
                     if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
+                        //draw indicator
+                        piece.drawTouchIndicator()
+                        
                         let centerPt = piece.position
                         let distance = hypotf(Float(location.x - centerPt.x),
                             Float(location.y - centerPt.y))
@@ -163,12 +166,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             doubleTap = touch.tapCount == 2
             break
         }
+        
         // fire
         if let pullBeginPoint = pullBeginPoint {
             if let pullEndPoint = pullEndPoint {
                 if let piece = touchNode as? Piece{
-                    let centerPt = piece.position
                     
+                    let centerPt = piece.position
                     let distance = CGVectorMake(pullEndPoint.x - centerPt.x, pullEndPoint.y - centerPt.y)
                     let rawForce = piece.forceForPullDistance(distance)
                     let force = redirectForce(piece, force: rawForce)
@@ -184,6 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         }
                     } else {
                         if self.pieceShouldPull(piece) {
+                            piece.removeTouchIndicator(false)
                             if Logic.sharedInstance.onlineMode {
                                 self.sceneDelegate?.sendDataToPeer(piece.position, force: force)
                             }
@@ -452,6 +457,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeDirectionHint()
         piece.cancelFade()
         piece.removeTrajectory()
+        piece.removeTouchIndicator(true)
         pullForce = nil
         trajactoryTimer?.invalidate()
         if piece is PieceCanon {
@@ -695,7 +701,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if name == "Shield"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 2
+            if self.board?.skillController.getCD(player) == 0
             {
                 piece.drawShield()
                 self.board?.resetSkillBar(player)

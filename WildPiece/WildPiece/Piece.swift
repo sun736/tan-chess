@@ -71,8 +71,10 @@ class Piece: SKSpriteNode {
     var directionHint: DirectionHint? = nil
     var shield: SKSpriteNode? = nil
     var powerRing : SKSpriteNode? = nil
+    var indicatorRing : SKSpriteNode? = nil
     var isPowered : Bool
     var shouldDrawTrajectory : Bool
+    
 //    var aimNode : SKSpriteNode? = nil;
 //    var forceNode : SKSpriteNode? = nil;
 //    var shieldNode: SKSpriteNode? = nil;
@@ -295,6 +297,40 @@ class Piece: SKSpriteNode {
         self.arrow = nil
     }
     
+    func drawTouchIndicator()
+    {
+        self.removeTouchIndicator(true)
+        self.indicatorRing = SKSpriteNode(imageNamed: "BlueRing")
+        
+        if self.player.id == 2
+        {
+            self.indicatorRing?.texture = SKTexture(imageNamed: "RedRing")
+        }
+        
+        self.indicatorRing?.zPosition = -1;
+        self.indicatorRing?.size = self.size
+        self.addChild(self.indicatorRing!)
+        
+        var resizeAction = SKAction.resizeToWidth(55, height: 55, duration: 0.3)
+        self.indicatorRing?.runAction(resizeAction)
+    }
+    
+    func removeTouchIndicator(flag: Bool)
+    {
+        if flag
+        {
+           var resizeAction = SKAction.resizeToWidth(40, height: 40, duration: 0.3)
+            self.indicatorRing?.runAction(resizeAction,completion:{
+                self.indicatorRing?.removeFromParent()
+                self.indicatorRing = nil
+            })
+        }else
+        {
+            self.indicatorRing?.removeFromParent()
+            self.indicatorRing = nil
+        }
+    }
+    
     func drawShield() {
         self.removeShield()
 //        self.shield = Shield(CGPointMake(0, 0), getRadius())
@@ -310,8 +346,11 @@ class Piece: SKSpriteNode {
     }
     
     func removeShield() {
-        self.shield?.removeFromParent()
-        self.shield = nil
+        var fadeoutAction = SKAction.fadeAlphaTo(0.0, duration: 0.3)
+        self.shield?.runAction(fadeoutAction,completion:{
+            self.shield?.removeFromParent()
+            self.shield = nil
+        })
     }
     
     func drawPowerRing()
