@@ -41,7 +41,9 @@ enum PieceType : Printable {
 let MAX_PULL_DISTANCE:CGFloat = 75
 let FORCE_FACTOR : CGFloat = 2000.0
 
-class Piece: SKSpriteNode {
+typealias PieceTouchRegion = TouchableRegion
+
+class Piece: SKSpriteNode, Touchable {
 
     var healthPoint : CGFloat
     let maxHealthPoint : CGFloat
@@ -95,6 +97,7 @@ class Piece: SKSpriteNode {
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
         self.maxForceLevel = maxForce
+        self.touchRegion = PieceTouchRegion(radius)
         
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
@@ -113,6 +116,7 @@ class Piece: SKSpriteNode {
         setCollisionBitMask(player.bitMask)
         
         drawHPRing()
+        configureTouchRegion()
     }
 
     func updateParameter() {
@@ -311,7 +315,7 @@ class Piece: SKSpriteNode {
         self.indicatorRing?.size = self.size
         self.addChild(self.indicatorRing!)
         
-        var resizeAction = SKAction.resizeToWidth(55, height: 55, duration: 0.3)
+        var resizeAction = SKAction.resizeToWidth(55, height: 55, duration: 0.1)
         self.indicatorRing?.runAction(resizeAction)
     }
     
@@ -319,7 +323,7 @@ class Piece: SKSpriteNode {
     {
         if flag
         {
-           var resizeAction = SKAction.resizeToWidth(40, height: 40, duration: 0.3)
+           var resizeAction = SKAction.resizeToWidth(40, height: 40, duration: 0.16)
             self.indicatorRing?.runAction(resizeAction,completion:{
                 self.indicatorRing?.removeFromParent()
                 self.indicatorRing = nil
@@ -410,8 +414,6 @@ class Piece: SKSpriteNode {
         powerRing?.runAction(group1)
         
     }
-    
-    
     
     func drawTrajectory(){
         
@@ -617,6 +619,16 @@ class Piece: SKSpriteNode {
         if parent == nil {
             lastParent?.addChild(self)
         }
+    }
+    
+    // MARK: Touch Region
+    var touchRegion: PieceTouchRegion
+    
+    func configureTouchRegion() {
+//        var pieceTouchRegion = PieceTouchRegion(radius)
+        touchRegion.node = self
+//        self.touchRegion = pieceTouchRegion
+        self.addChild(touchRegion)
     }
     
     // MARK: factory method
