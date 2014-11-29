@@ -50,6 +50,7 @@
 		A28CD1D21A0047530093D84D /* PieceRock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1D11A0047530093D84D /* PieceRock.swift */; };
 		A28CD1D41A0047800093D84D /* PieceCanon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1D31A0047800093D84D /* PieceCanon.swift */; };
 		A28CD1D61A00479D0093D84D /* PieceKnight.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28CD1D51A00479D0093D84D /* PieceKnight.swift */; };
+		A29E9EFE1A24429B002EC7B4 /* TouchableRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29E9EFD1A24429B002EC7B4 /* TouchableRegion.swift */; };
 		A2A4401819EF82F700EE2151 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A4401719EF82F700EE2151 /* Rule.swift */; };
 		A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C8C93C19E0A8FC00C6B166 /* Player.swift */; };
 		A2CB9CCC19F1BF0C00A053E4 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */; };
@@ -116,6 +117,7 @@
 		A28CD1D11A0047530093D84D /* PieceRock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceRock.swift; sourceTree = "<group>"; };
 		A28CD1D31A0047800093D84D /* PieceCanon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceCanon.swift; sourceTree = "<group>"; };
 		A28CD1D51A00479D0093D84D /* PieceKnight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceKnight.swift; sourceTree = "<group>"; };
+		A29E9EFD1A24429B002EC7B4 /* TouchableRegion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchableRegion.swift; sourceTree = "<group>"; };
 		A2A4401719EF82F700EE2151 /* Rule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		A2C8C93C19E0A8FC00C6B166 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 		91101BBB19D5DE7000E59AB4 /* WildPiece */ = {
 			isa = PBXGroup;
 			children = (
+				A29E9EFD1A24429B002EC7B4 /* TouchableRegion.swift */,
 				AED31E7B1A2A6C1C007A435E /* MyParticle.sks */,
 				AED31E7C1A2A6C1C007A435E /* spark.png */,
 				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
@@ -400,6 +403,7 @@
 				4F06ACCB19F1827E0023A0DC /* DirectionHint.swift in Sources */,
 				4F290F7219DF77C500D283BE /* HPRing.swift in Sources */,
 				AE82C96A19E360C300E6FE0B /* CollisionController.swift in Sources */,
+				A29E9EFE1A24429B002EC7B4 /* TouchableRegion.swift in Sources */,
 				081B805D19DFA5AC00B6C135 /* PauseScene.swift in Sources */,
 				186C621419D62AA500FF3952 /* WPSliderView.swift in Sources */,
 				A2CB9CCC19F1BF0C00A053E4 /* Helper.swift in Sources */,

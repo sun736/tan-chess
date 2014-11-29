@@ -113,34 +113,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self.pieceLayer)
             let nodes = self.pieceLayer?.nodesAtPoint(location)
+            var nearestPiece: Piece? = nil
+            var minDistanceToNode = CGFloat(FLT_MAX)
             for node in nodes as [SKNode] {
-                
-                if let piece = node as? Piece {
-                    if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
-                        //draw indicator
-                        piece.drawTouchIndicator()
-                        
-                        let centerPt = piece.position
-                        let distance = hypotf(Float(location.x - centerPt.x),
-                            Float(location.y - centerPt.y))
-                        
-                        if Logic.sharedInstance.isWaiting(piece.player) {
-                            Rule.touchDown(self, piece: piece)
-                        }
-                        // exact distance comparison
-                        if (distance <= Float(piece.radius)) {
-                            
-                            pullBeginPoint = location
-                            pullEndPoint = nil
-                            touchNode = piece
-                            
-                            self.pullBegan(piece)
-                            break
+                if let pieceTouchRegion = node as? PieceTouchRegion {
+                    if let piece = pieceTouchRegion.node {
+                        println("Calculating piece distance: \(piece.name)")
+                        let distanceToNode = pieceTouchRegion.distance(location)
+                        if distanceToNode < minDistanceToNode {
+                            minDistanceToNode = distanceToNode
+                            nearestPiece = piece
+                            println("nearestPiece: \(piece.name)")
                         }
                     }
                 }
             }
-            break
+            if let piece = nearestPiece {
+                println("there is a nearestPiece: \(piece.name)")
+                if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
+                    let centerPt = piece.position
+                    let distance = hypot(location.x - centerPt.x, location.y - centerPt.y)
+                    
+                    if Logic.sharedInstance.isWaiting(piece.player) {
+                        Rule.touchDown(self, piece: piece)
+                    }
+                    // exact distance comparison
+                    if (distance <= piece.touchRadius) {
+                        
+                        pullBeginPoint = location
+                        pullEndPoint = nil
+                        touchNode = piece
+                        
+                        self.pullBegan(piece)
+                        break
+                    }
+                }
+            }
         }
         
         //detect the skill panel touch
@@ -181,14 +189,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                     if Logic.sharedInstance.isWaiting(piece.player) {
                         Rule.touchUp(self, piece: piece)
                     }
-                    if (hypotf(Float(force.dx), Float(force.dy)) <= Float(piece.minForce)) {
+                    if (hypot(force.dx, force.dy) <= piece.minForce) {
                         self.pullCancelled(piece)
                         if self.pieceShouldTap(piece) {
                             self.pieceDidTaped(piece, doubleTap : doubleTap)
                         }
                     } else {
                         if self.pieceShouldPull(piece) {
-                            piece.removeTouchIndicator(false)
                             if Logic.sharedInstance.onlineMode {
                                 self.sceneDelegate?.sendDataToPeer(piece.position, force: force)
                             }
@@ -218,7 +225,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                         let distance = CGVectorMake(location.x - centerPt.x, location.y - centerPt.y)
                         let rawForce = piece.forceForPullDistance(distance)
                         let force = redirectForce(piece, force: rawForce)
-                        self.pullMoved(piece, force: force)
+                        self.pullMoved(piece, force: force, distance: distance)
                     }
                 }
             }
@@ -432,16 +439,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         // temporary solution to determine contacter
         //CollisionController.setContacters(self, contacter: piece)
         piece.drawRing()
+        piece.drawTouchIndicator()
         if piece is PieceCanon {
             piece.fadeTo()
         }
         trajactoryTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("drawTrajactory:"), userInfo: piece, repeats: true)
     }
     
-    func pullMoved(piece : Piece, var force: CGVector) {
+    func pullMoved(piece : Piece, var force: CGVector, var distance: CGVector) {
 //        println("changed force: \(force.dx), \(force.dy)")
         piece.drawArrow(force)
         piece.drawDirectionHint()
+        if (hypot(distance.dx, distance.dy) > piece.touchRadius) {
+            piece.removeTouchIndicator(true)
+        } else {
+            piece.drawTouchIndicator()
+        }
         pullForce = force
         //piece.drawTrajectory(force)
         if piece is PieceCanon {
@@ -494,6 +507,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         piece.removeTrajectory()
         piece.removeSkill()
         piece.removePowerRing()
+        piece.removeTouchIndicator(false)
         pullForce = nil
         trajactoryTimer?.invalidate()
     }

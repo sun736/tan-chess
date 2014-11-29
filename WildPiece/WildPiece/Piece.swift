@@ -38,31 +38,28 @@ enum PieceType : Printable {
     }
 }
 
-let MAX_PULL_DISTANCE:CGFloat = 75
+let MAX_PULL_DISTANCE:CGFloat = 85.0
 let FORCE_FACTOR : CGFloat = 2000.0
 
-class Piece: SKSpriteNode {
+typealias PieceTouchRegion = TouchableRegion
+
+class Piece: SKSpriteNode, Touchable {
 
     var healthPoint : CGFloat
     let maxHealthPoint : CGFloat
     let radius : CGFloat
     var maxForce : CGFloat {
-        get {
-            return maxForceLevel * FORCE_FACTOR
-        }
+        return maxForceLevel * FORCE_FACTOR
     }
     var maxForceLevel : CGFloat
     let player : Player
     let pieceType : PieceType
     var distanceToForce : CGFloat {
-        get {
-            return -(maxForce / MAX_PULL_DISTANCE)
-        }
+        return -(maxForce / MAX_PULL_DISTANCE)
     }
     var minForce : CGFloat {
-        get {
-            return radius * abs(distanceToForce)
-        }
+        // println("regionRadius: \(touchRegion.regionRadius)")
+        return touchRegion.regionRadius * abs(distanceToForce)
     }
     var ring : Ring? = nil
     var arrow: Arrow? = nil
@@ -95,6 +92,7 @@ class Piece: SKSpriteNode {
         self.maxHealthPoint = maxHealthPoint
         self.radius = radius
         self.maxForceLevel = maxForce
+        self.touchRegion = PieceTouchRegion(radius)
         
         super.init(texture: texture, color: nil,size: CGSizeMake(radius*2, radius*2))
         
@@ -113,6 +111,7 @@ class Piece: SKSpriteNode {
         setCollisionBitMask(player.bitMask)
         
         drawHPRing()
+        configureTouchRegion()
     }
 
     func updateParameter() {
@@ -297,35 +296,40 @@ class Piece: SKSpriteNode {
         self.arrow = nil
     }
     
-    func drawTouchIndicator()
-    {
-        self.removeTouchIndicator(true)
-        self.indicatorRing = SKSpriteNode(imageNamed: "BlueRing")
-        
-        if self.player.id == 2
-        {
-            self.indicatorRing?.texture = SKTexture(imageNamed: "RedRing")
+    func drawTouchIndicator() {
+        if indicatorRing == nil {
+            var ring = SKSpriteNode(imageNamed: player == PLAYER1 ? "BlueRing" : "RedRing")
+            ring.zPosition = -1
+            ring.size = self.size
+            addChild(ring)
+            indicatorRing = ring
         }
-        
-        self.indicatorRing?.zPosition = -1;
-        self.indicatorRing?.size = self.size
-        self.addChild(self.indicatorRing!)
-        
-        var resizeAction = SKAction.resizeToWidth(55, height: 55, duration: 0.3)
-        self.indicatorRing?.runAction(resizeAction)
+        if indicatorRing?.actionForKey("draw") != nil {
+            return
+        }
+        indicatorRing?.removeAllActions()
+        let expendAction = SKAction.resizeToWidth(2 * touchRadius, height: 2 * touchRadius, duration: 0.1)
+        indicatorRing?.runAction(expendAction, withKey: "draw")
     }
     
-    func removeTouchIndicator(flag: Bool)
+    func removeTouchIndicator(animated: Bool)
     {
-        if flag
-        {
-           var resizeAction = SKAction.resizeToWidth(40, height: 40, duration: 0.3)
-            self.indicatorRing?.runAction(resizeAction,completion:{
+        if indicatorRing == nil {
+            return
+        }
+        if animated {
+            if indicatorRing?.actionForKey("remove") != nil {
+                return
+            }
+            let resizeAction = SKAction.resizeToWidth(2 * radius, height: 2 * radius, duration: 0.16)
+            let completionAction = SKAction.runBlock({
                 self.indicatorRing?.removeFromParent()
                 self.indicatorRing = nil
             })
-        }else
-        {
+            let sequence = SKAction.sequence([resizeAction, completionAction])
+            indicatorRing?.removeAllActions()
+            indicatorRing?.runAction(sequence, withKey: "remove")
+        } else {
             self.indicatorRing?.removeFromParent()
             self.indicatorRing = nil
         }
@@ -410,8 +414,6 @@ class Piece: SKSpriteNode {
         powerRing?.runAction(group1)
         
     }
-    
-    
     
     func drawTrajectory(){
         
@@ -617,6 +619,19 @@ class Piece: SKSpriteNode {
         if parent == nil {
             lastParent?.addChild(self)
         }
+    }
+    
+    // MARK: Touch Region
+    var touchRegion: PieceTouchRegion
+    var touchRadius: CGFloat {
+        return touchRegion.regionRadius
+    }
+    
+    func configureTouchRegion() {
+//        var pieceTouchRegion = PieceTouchRegion(radius)
+        touchRegion.node = self
+//        self.touchRegion = pieceTouchRegion
+        self.addChild(touchRegion)
     }
     
     // MARK: factory method
