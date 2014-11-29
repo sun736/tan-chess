@@ -34,7 +34,7 @@ class TouchableRegion: SKShapeNode {
         CGPathCloseSubpath(path)
         
         self.path = path
-        self.lineWidth = 1.0
+        self.lineWidth = 0.0
         self.strokeColor = UIColor.whiteColor()
         self.position = CGPointMake(0, 0)
         self.zPosition = 1
