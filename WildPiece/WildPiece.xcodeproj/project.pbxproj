@@ -54,6 +54,8 @@
 		A2C8C93D19E0A8FC00C6B166 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C8C93C19E0A8FC00C6B166 /* Player.swift */; };
 		A2CB9CCC19F1BF0C00A053E4 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */; };
 		AE82C96A19E360C300E6FE0B /* CollisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE82C96919E360C300E6FE0B /* CollisionController.swift */; };
+		AED31E7D1A2A6C1C007A435E /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = AED31E7B1A2A6C1C007A435E /* MyParticle.sks */; };
+		AED31E7E1A2A6C1C007A435E /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = AED31E7C1A2A6C1C007A435E /* spark.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +120,8 @@
 		A2C8C93C19E0A8FC00C6B166 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		A2CB9CCB19F1BF0C00A053E4 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		AE82C96919E360C300E6FE0B /* CollisionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollisionController.swift; sourceTree = "<group>"; };
+		AED31E7B1A2A6C1C007A435E /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		AED31E7C1A2A6C1C007A435E /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +210,8 @@
 		91101BBB19D5DE7000E59AB4 /* WildPiece */ = {
 			isa = PBXGroup;
 			children = (
+				AED31E7B1A2A6C1C007A435E /* MyParticle.sks */,
+				AED31E7C1A2A6C1C007A435E /* spark.png */,
 				91101BC019D5DE7000E59AB4 /* GameScene.sks */,
 				91101BBE19D5DE7000E59AB4 /* AppDelegate.swift */,
 				A2581D3919FC5DAC006FAAA4 /* Board.swift */,
@@ -355,6 +361,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AED31E7E1A2A6C1C007A435E /* spark.png in Resources */,
 				18EE802A19DF5FE5009261A3 /* Game.plist in Resources */,
 				08BF6F1E1A0586BB002A5A96 /* backgroundMusic.mp3 in Resources */,
 				91101BCD19D5DE7000E59AB4 /* LaunchScreen.xib in Resources */,
@@ -364,6 +371,7 @@
 				0833E9B41A059D500009E596 /* collision2.wav in Resources */,
 				91101BC119D5DE7000E59AB4 /* GameScene.sks in Resources */,
 				91101BC819D5DE7000E59AB4 /* Main.storyboard in Resources */,
+				AED31E7D1A2A6C1C007A435E /* MyParticle.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
