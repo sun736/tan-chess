@@ -43,6 +43,8 @@ let FORCE_FACTOR : CGFloat = 2000.0
 
 class Piece: SKSpriteNode {
 
+    
+    let kExplosionForce : CGFloat = 1500.0
     var healthPoint : CGFloat
     let maxHealthPoint : CGFloat
     let radius : CGFloat
@@ -134,47 +136,62 @@ class Piece: SKSpriteNode {
     
     func explode(scene: GameScene) {
         
-        //let nodeColor = (self.player.bitMask == Piece.BITMASK_BLUE() ? UIColor.blueColor() : UIColor.redColor())
-        self.physicsBody?.dynamic = false
-        var forces: [CGVector] = []
-        forces.insert(CGVectorMake(self.position.x + 100, self.position.y), atIndex: 0)
-        forces.insert(CGVectorMake(self.position.x + 100, self.position.y + 100), atIndex: 1)
-        forces.insert(CGVectorMake(self.position.x, self.position.y), atIndex: 2)
-        forces.insert(CGVectorMake(self.position.x - 100, self.position.y + 100), atIndex: 3)
-        forces.insert(CGVectorMake(self.position.x - 100, self.position.y), atIndex: 4)
-        forces.insert(CGVectorMake(self.position.x - 100, self.position.y - 100), atIndex: 5)
-        forces.insert(CGVectorMake(self.position.x, self.position.y - 100), atIndex: 6)
-        forces.insert(CGVectorMake(self.position.x + 100, self.position.y - 100), atIndex: 7)
+        self.showExplosionAnimation()
         
-        for index in 0...7 {
-            let node = SKShapeNode(circleOfRadius: radius)
-            var body = SKPhysicsBody(circleOfRadius: radius)
-            node.lineWidth = 0
-            node.position = self.position
-            //node.fillColor = self.color
-            node.physicsBody = body
-            node.physicsBody?.dynamic = true
-            node.physicsBody?.friction = self.physicsBody!.friction
-            node.physicsBody?.restitution = self.physicsBody!.restitution
-            node.physicsBody?.linearDamping = self.physicsBody!.linearDamping
-            node.physicsBody?.angularDamping = self.physicsBody!.angularDamping
-            node.physicsBody?.mass = self.physicsBody!.mass
-            node.physicsBody?.allowsRotation = false
-            node.physicsBody?.categoryBitMask = Piece.BITMASK_BULLET()
-            node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
-            node.physicsBody?.contactTestBitMask = 0x00
-            self.parent?.addChild(node)
-            scene.applyImpulseToWorldObject(node, force : forces[index])
-            let waitAction = SKAction.waitForDuration(1.0)
-            let removeAction = SKAction.removeFromParent()
-            self.runAction(waitAction)
-            let fadeAction = SKAction.fadeOutWithDuration(1.0)
-            let sequence = SKAction.sequence([fadeAction, removeAction])
-            node.runAction(sequence)
-            //println("\(index) bullet")
+        self.runAction(SKAction.fadeAlphaTo(0, duration: 0.7))
+        
+        self.physicsBody?.dynamic = false
+
+        dispatch_after(dispatch_time_t(0.3), dispatch_get_main_queue()) { () -> Void in
+            //let nodeColor = (self.player.bitMask == Piece.BITMASK_BLUE() ? UIColor.blueColor() : UIColor.redColor())
+            var forces: [CGVector] = []
+            forces.insert(CGVectorMake(self.position.x + self.kExplosionForce, self.position.y), atIndex: 0)
+            forces.insert(CGVectorMake(self.position.x + self.kExplosionForce, self.position.y + self.kExplosionForce), atIndex: 1)
+            forces.insert(CGVectorMake(self.position.x, self.position.y), atIndex: 2)
+            forces.insert(CGVectorMake(self.position.x - self.kExplosionForce, self.position.y + self.kExplosionForce), atIndex: 3)
+            forces.insert(CGVectorMake(self.position.x - self.kExplosionForce, self.position.y), atIndex: 4)
+            forces.insert(CGVectorMake(self.position.x - self.kExplosionForce, self.position.y - self.kExplosionForce), atIndex: 5)
+            forces.insert(CGVectorMake(self.position.x, self.position.y - self.kExplosionForce), atIndex: 6)
+            forces.insert(CGVectorMake(self.position.x + self.kExplosionForce, self.position.y - self.kExplosionForce), atIndex: 7)
             
+            for index in 0...7 {
+                let node = SKShapeNode(circleOfRadius: self.radius)
+                var body = SKPhysicsBody(circleOfRadius: self.radius)
+                node.lineWidth = 0
+                node.position = self.position
+                //node.fillColor = self.color
+                node.physicsBody = body
+                node.physicsBody?.dynamic = true
+                node.physicsBody?.friction = self.physicsBody!.friction
+                node.physicsBody?.restitution = self.physicsBody!.restitution
+                node.physicsBody?.linearDamping = self.physicsBody!.linearDamping
+                node.physicsBody?.angularDamping = self.physicsBody!.angularDamping
+                node.physicsBody?.mass = self.physicsBody!.mass
+                node.physicsBody?.allowsRotation = false
+                node.physicsBody?.categoryBitMask = Piece.BITMASK_BULLET()
+                node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
+                node.physicsBody?.contactTestBitMask = 0x00
+                self.parent?.addChild(node)
+                scene.applyImpulseToWorldObject(node, force : forces[index])
+                let waitAction = SKAction.waitForDuration(1.0)
+                let removeAction = SKAction.removeFromParent()
+                self.runAction(waitAction)
+                let fadeAction = SKAction.fadeOutWithDuration(1.0)
+                let sequence = SKAction.sequence([fadeAction, removeAction])
+                node.runAction(sequence)
+                //println("\(index) bullet")
+            }
+            self.die(triggerAction: true)
         }
-        self.die();
+    }
+    
+    func showExplosionAnimation() {
+        var filePath = NSBundle.mainBundle().pathForResource("MyParticle", ofType: "sks")
+        var emitterNode = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath!) as SKEmitterNode
+//        emitterNode.setParticleColor(self.player.themeColor)
+//        self.addChild(emitterNode)
+        emitterNode.position = self.position
+        self.scene?.addChild(emitterNode)
     }
     
     func getRadius() -> CGFloat{

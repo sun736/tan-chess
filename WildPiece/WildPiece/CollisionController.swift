@@ -94,7 +94,7 @@ class CollisionController {
     
     class func setExplosionPiece(piece: Piece) {
         piece.physicsBody?.categoryBitMask = Piece.BITMASK_EXPLOSION()
-        piece.physicsBody?.collisionBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE()
+        piece.physicsBody?.collisionBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Board.BITMASK_BOARD()
         piece.physicsBody?.contactTestBitMask = 0x00
     }
     
