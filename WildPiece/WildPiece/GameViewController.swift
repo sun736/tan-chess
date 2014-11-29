@@ -100,11 +100,11 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         // send its peerid to the other device
         // tell the other device to dismiss browser
         self.shakeHandWithPeer()
-        appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+        appDelegate.mcHandler.browserController.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func browserViewControllerWasCancelled(browserViewController: MCBrowserViewController!) {
-        appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+        appDelegate.mcHandler.browserController.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func presentMenuScene(notification : NSNotification) {
@@ -148,9 +148,9 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
     @IBAction func connectWithPlayer(sender: AnyObject?) {
         if appDelegate.mcHandler.session != nil {
             appDelegate.mcHandler.setupBrowser()
-            appDelegate.mcHandler.browser.delegate = self
+            appDelegate.mcHandler.browserController.delegate = self
             
-            self.presentViewController(appDelegate.mcHandler.browser, animated: true, completion: nil)
+            self.presentViewController(appDelegate.mcHandler.browserController, animated: true, completion: nil)
         }
     }
     
@@ -251,9 +251,9 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
                 self.shakeHandWithPeer()
             }
             //dismiss the mpc browser if presents
-            let browser = appDelegate.mcHandler.browser
+            let browser = appDelegate.mcHandler.browserController
             if (browser.isViewLoaded() || browser.isBeingPresented()) && (!browser.isBeingDismissed()){
-                appDelegate.mcHandler.browser.dismissViewControllerAnimated(true, completion: nil)
+                appDelegate.mcHandler.browserController.dismissViewControllerAnimated(true, completion: nil)
             }
             if !Logic.sharedInstance.isStarted {
                 self.menuScene?.startNewGame()
@@ -295,7 +295,11 @@ class GameViewController: UIViewController, MCBrowserViewControllerDelegate, Men
         let peerID: MCPeerID = userInfo["peerID"] as MCPeerID
         if state == "NotConnected" {
             presentAlert("\(peerID.displayName) state changed to \(state)")
-            NSNotificationCenter.defaultCenter().postNotificationName(kShouldPresentMenuSceneNotification, object: appDelegate.gameScene, userInfo: nil)
+
+            if Logic.sharedInstance.isStarted {
+                appDelegate.mcHandler.connectToPeer(peerID)
+            }
+            //NSNotificationCenter.defaultCenter().postNotificationName(kShouldPresentMenuSceneNotification, object: appDelegate.gameScene, userInfo: nil)
         }
     }
 
