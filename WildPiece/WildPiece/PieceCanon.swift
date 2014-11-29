@@ -38,8 +38,14 @@ class PieceCanon : Piece{
     }
     
     func setTransparentPieceWithInterval(scene: GameScene, force: CGVector, launch: Bool) {
+        if launch {
+            transTimer?.invalidate()
+            setTransparentPiece(scene, force: force, launch: launch)
+            return
+        }
+        
         let userInfo:[AnyObject] = [scene, Float(force.dx), Float(force.dy), launch]
-        if !launch && transTimer != nil {
+        if transTimer != nil {
             transTimer = NSTimer.scheduledTimerWithTimeInterval(setTransInterval, target: self, selector: Selector("setTransparentPieceWithTimer:"), userInfo: userInfo, repeats: false)
             return
         }
