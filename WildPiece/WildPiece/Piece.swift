@@ -170,7 +170,6 @@ class Piece: SKSpriteNode, Touchable {
                 node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
                 node.physicsBody?.contactTestBitMask = 0x00
                 self.parent?.addChild(node)
-                println(force.dy)
                 let waitAction = SKAction.waitForDuration(1.0)
                 let removeAction = SKAction.removeFromParent()
                 self.runAction(waitAction)
@@ -202,7 +201,7 @@ class Piece: SKSpriteNode, Touchable {
         emitterNode.numParticlesToEmit = 150
         emitterNode.particleSpeed = 100
         emitterNode.position = self.position
-        self.scene?.addChild(emitterNode)
+        self.parent?.addChild(emitterNode)
     }
     
     func getRadius() -> CGFloat{
