@@ -720,7 +720,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if name == "Shield"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) <= kKillsNeededToTriggerSkill
+            if self.board?.skillController.getCD(player) == kKillsNeededToTriggerSkill
             {
                 piece.drawCircle(true)
                 self.board?.resetSkillBar(player)
@@ -728,7 +728,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Force"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) <= kKillsNeededToTriggerSkill
+            if self.board?.skillController.getCD(player) == kKillsNeededToTriggerSkill
             {
                 piece.isPowered = true
                 piece.drawPowerRing()
@@ -738,7 +738,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Aim"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) <= kKillsNeededToTriggerSkill
+            if self.board?.skillController.getCD(player) == kKillsNeededToTriggerSkill
             {
                 //piece.shouldDrawTrajectory = true
                 piece.drawCircle(false)
