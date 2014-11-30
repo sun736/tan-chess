@@ -63,7 +63,7 @@ class PieceCanon : Piece{
         setTransparentPiece(scene, force: force, launch: launch)
     }
     
-    private func setTransparentPiece(scene: GameScene, force: CGVector, launch: Bool) {
+    func setTransparentPiece(scene: GameScene, force: CGVector, launch: Bool) {
         // println("setTransparentPiece, \(NSDate()), \(force.dx), \(force.dy)")
         var piece_curr_position = self.position;
         var arrowEndPosition = CGPointMake(force.dx/200 + self.position.x, force.dy/200 + self.position.y)
@@ -95,7 +95,8 @@ class PieceCanon : Piece{
         var body1 = scene.physicsWorld.bodyAlongRayStart(ray_1_start, end: ray_1_end)
         var body2 = scene.physicsWorld.bodyAlongRayStart(ray_2_start, end: ray_2_end)
         var body3 = scene.physicsWorld.bodyAlongRayStart(ray_3_start, end: ray_3_end)
-        CollisionController.cancelAllFade(scene)
+        //CollisionController.cancelAllFade(scene)
+        CollisionController.cancelAllTrans(scene)
         if body1 != nil || body2 != nil{
             var distance_1 : Float = Float.infinity
             var distance_2 : Float = Float.infinity
@@ -113,38 +114,40 @@ class PieceCanon : Piece{
                 //CollisionController.cancelTranparent(scene)
                 if distance_1 < distance_2 {
                     if piece1?.name == piece3?.name{
+                        CollisionController.setTransparent(scene, piece: piece1!)
                         if launch {
-                            CollisionController.setTransparent(piece1!)
+                            //CollisionController.setTransparent(piece1!)
                             CollisionController.setContacter(scene, contacter: self)
                         } else {
-                            
-                            piece1?.fadeTo()
+                            //piece1?.fadeTo()
                         }
                     }
                 } else if distance_2 < distance_1 {
                     if piece2?.name == piece3?.name {
+                        CollisionController.setTransparent(scene, piece: piece2!)
                         if launch {
-                            CollisionController.setTransparent(piece2!)
+                            //CollisionController.setTransparent(piece2!)
                             CollisionController.setContacter(scene, contacter: self)
                         } else {
-                            piece2?.fadeTo()
+                            //piece2?.fadeTo()
                         }
                     }
                 } else if distance_1 == distance_2 {
                     if piece3?.name == piece1?.name {
+                        CollisionController.setTransparent(scene, piece: piece1!)
                         if launch {
-                            CollisionController.setTransparent(piece1!)
+                            //CollisionController.setTransparent(piece1!)
                             CollisionController.setContacter(scene, contacter: self)
                         } else {
-                            piece1?.fadeTo()
+                            //piece1?.fadeTo()
                         }
-                    }
-                    if piece3?.name == piece2?.name {
+                    } else if piece3?.name == piece2?.name {
+                        CollisionController.setTransparent(scene, piece: piece2!)
                         if launch {
-                            CollisionController.setTransparent(piece2!)
+                            //CollisionController.setTransparent(piece2!)
                             CollisionController.setContacter(scene, contacter: self)
                         } else {
-                            piece2?.fadeTo()
+                            //piece2?.fadeTo()
                         }
                     }
                 }

@@ -215,7 +215,7 @@ class Board : SKNode {
     }
     
     class func BITMASK_BOARD() -> UInt32 {
-        return 0x01 << 5
+        return 0x20
     }
     
     func increaseSkill( player: Player ){

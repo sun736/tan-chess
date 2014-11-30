@@ -9,7 +9,6 @@
 import Foundation
 import SpriteKit
 
-
 class CollisionController {
     
     class func didTwoBallCollision(#scene: GameScene, contacter: Piece, contactee: Piece) {
@@ -73,10 +72,22 @@ class CollisionController {
     class func cancelTranparent(scene: GameScene) {
         for piece in scene.pieces {
             piece.physicsBody?.categoryBitMask = piece.player.bitMask
-            piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD()
+            piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_EXPLOSION() | Piece.BITMASK_BULLET() | Board.BITMASK_BOARD()
             piece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
             piece.cancelFade()
         }
+    }
+    
+    class func cancelTransparent(piece: Piece) {
+        piece.physicsBody?.categoryBitMask = piece.player.bitMask
+        piece.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_EXPLOSION() | Piece.BITMASK_BULLET() | Board.BITMASK_BOARD()
+        piece.physicsBody?.contactTestBitMask = Piece.BITMASK_RED() | Piece.BITMASK_BLUE() | Piece.BITMASK_TRANS()
+        piece.cancelFade()
+    }
+    
+    class func setTransparent(scene: GameScene, piece: Piece) {
+        setTransparent(piece)
+        scene.transPieces.append(piece)
     }
     
     class func setTransparent(piece: Piece) {
@@ -90,6 +101,13 @@ class CollisionController {
         for piece in scene.pieces {
             piece.cancelFade()
         }
+    }
+    
+    class func cancelAllTrans(scene: GameScene) {
+        for piece in scene.transPieces {
+            cancelTransparent(piece)
+        }
+        scene.transPieces.removeAll(keepCapacity: true)
     }
     
     class func setExplosionPiece(piece: Piece) {
@@ -153,6 +171,11 @@ class CollisionController {
             //effectPlayer.playEffect()
             let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
             appDelegate.gameScene?.playSoundEffect()
+
+            println("node1 category: node1:  \(toBinary(contact.bodyA?.categoryBitMask))")
+            println("node1 bitmask: node1:  \(toBinary(contact.bodyA?.collisionBitMask))")
+            println("node2 category: node2: \(toBinary(contact.bodyB?.categoryBitMask))")
+            println("node2 bitmask: node2: \(toBinary(contact.bodyB?.collisionBitMask))")
             
             if(contact.bodyA?.categoryBitMask == Piece.BITMASK_BLUE() && contact.bodyB?.categoryBitMask == Piece.BITMASK_RED() ) {
                 node1 = contact.bodyA.node as Piece
@@ -208,4 +231,20 @@ class CollisionController {
         }
     }
     
+    class func toBinary(val: UInt32?) -> String {
+        var res = ""
+        
+        var v:UInt32? = val
+        if nil != v {
+            while(v > 0) {
+                if v!%2 == 1 {
+                    res = "1" + res
+                } else {
+                    res = "0" + res
+                }
+                v = v!/2
+            }
+        }
+        return res
+    }
 }

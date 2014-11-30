@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-let kKillsNeededToTriggerSkill = 2
+let kKillsNeededToTriggerSkill = 0
 
 protocol GameSceneDelegate: class {
     func sendDataToPeer(piece: CGPoint, force: CGVector)
@@ -39,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // all living or died pieces
     var shouldPlaySoundEffect : Bool?
     var allPieces: [Piece] = [Piece]()
+    var transPieces: [Piece] = [Piece]()
     
     var skillPanel: SkillPanel?
     
@@ -472,7 +473,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         trajactoryTimer?.invalidate()
         if piece is PieceCanon {
             let canon = piece as PieceCanon
-            canon.cancelTransparentPiece(self)
+            //canon.cancelTransparentPiece(self)
+            //canon.cancelTransparentPiece(self)
+            CollisionController.cancelTransparent(piece)
+            CollisionController.cancelAllTrans(self)
+            piece.cancelFade()
         }
     }
     
@@ -613,6 +618,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             if piece.physicsBody?.categoryBitMask == Piece.BITMASK_EXPLOSION() {
                 piece.explode(self)
             }
+            
         }
 
 //        for piece in moveableSet {
@@ -621,7 +627,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         
         // Canon made a original move, need to reset its mask manually
         
-        CollisionController.cancelTranparent(self)
+        //CollisionController.cancelTranparent(self)
+        CollisionController.cancelAllTrans(self)
         CollisionController.cancelContacter(self, player: player.opponent())
         /*
         for piece in self.piecesOfPlayer(player.opponent()) {

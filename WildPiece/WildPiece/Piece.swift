@@ -46,7 +46,7 @@ typealias PieceTouchRegion = TouchableRegion
 class Piece: SKSpriteNode, Touchable {
 
     
-    let kExplosionForce : CGFloat = 500.0
+    let kExplosionForce : CGFloat = 1500.0
     var healthPoint : CGFloat
     let maxHealthPoint : CGFloat
     let radius : CGFloat
@@ -129,7 +129,8 @@ class Piece: SKSpriteNode, Touchable {
     func setCollisionBitMask(collisionBitMask: UInt32) {
         self.physicsBody?.categoryBitMask = collisionBitMask
         self.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
-        self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Board.BITMASK_BOARD() | Piece.BITMASK_EXPLOSION() | Piece.BITMASK_BULLET()
+        self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_EXPLOSION() | Piece.BITMASK_BULLET() | Board.BITMASK_BOARD()
+        println("bit: \(CollisionController.toBinary(self.physicsBody?.collisionBitMask))")
         self.physicsBody?.usesPreciseCollisionDetection = true
     }
     
@@ -154,7 +155,6 @@ class Piece: SKSpriteNode, Touchable {
             forces.append(CGVectorMake(0, -forceVal1))
             forces.append(CGVectorMake(forceVal2, -forceVal2))
             
-            self.physicsBody?.categoryBitMask = Piece.BITMASK_BULLET()
             for force in forces {
                 let node = SKShapeNode(circleOfRadius: self.radius)
                 var body = SKPhysicsBody(circleOfRadius: self.radius)
