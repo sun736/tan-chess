@@ -161,27 +161,25 @@ class Piece: SKSpriteNode {
                 var body = SKPhysicsBody(circleOfRadius: self.radius)
                 node.lineWidth = 0
                 node.position = self.position
-//                node.fillColor = self.color
                 node.physicsBody = body
                 node.physicsBody?.dynamic = true
-//                node.physicsBody?.friction = self.physicsBody!.friction
-//                node.physicsBody?.restitution = self.physicsBody!.restitution
                 node.physicsBody?.linearDamping = 0.5
-//                node.physicsBody?.angularDamping = self.physicsBody!.angularDamping
                 node.physicsBody?.mass = self.physicsBody!.mass
                 node.physicsBody?.allowsRotation = false
                 node.physicsBody?.categoryBitMask = Piece.BITMASK_BULLET()
                 node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
                 node.physicsBody?.contactTestBitMask = 0x00
                 self.parent?.addChild(node)
-//                scene.applyImpulseToWorldObject(node, force : forces[index])
-                node.physicsBody?.applyImpulse(force)
+//                node.physicsBody?.applyImpulse(force)
                 let waitAction = SKAction.waitForDuration(1.0)
                 let removeAction = SKAction.removeFromParent()
                 self.runAction(waitAction)
                 let fadeAction = SKAction.fadeOutWithDuration(1.0)
                 let sequence = SKAction.sequence([fadeAction, removeAction])
                 node.runAction(sequence)
+                self.scene.applyImpulseToWorldObject(node, force: forces[index])
+//                scene.applyImpulseToWorldObject(node, force : forces[index])
+
                 //println("\(index) bullet")
             }
             self.die(triggerAction: true)
