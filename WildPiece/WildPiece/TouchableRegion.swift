@@ -13,7 +13,7 @@ protocol Touchable: class {
     var position: CGPoint {get}
 }
 
-let RADIUS_EXTENSION: CGFloat = 10.0
+let RADIUS_EXTENSION: CGFloat = 20.0
 
 class TouchableRegion: SKShapeNode {
     

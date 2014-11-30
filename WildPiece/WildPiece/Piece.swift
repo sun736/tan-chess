@@ -324,6 +324,10 @@ class Piece: SKSpriteNode, Touchable {
         self.arrow = nil
     }
     
+    var touchIndicatorRadius: CGFloat {
+        return radius + 10.0
+    }
+    
     func drawTouchIndicator() {
         if indicatorRing == nil {
             var ring = SKSpriteNode(imageNamed: player == PLAYER1 ? "BlueRing" : "RedRing")
@@ -336,7 +340,7 @@ class Piece: SKSpriteNode, Touchable {
             return
         }
         indicatorRing?.removeAllActions()
-        let expendAction = SKAction.resizeToWidth(2 * touchRadius, height: 2 * touchRadius, duration: 0.1)
+        let expendAction = SKAction.resizeToWidth(2 * touchIndicatorRadius, height: 2 * touchIndicatorRadius, duration: 0.1)
         indicatorRing?.runAction(expendAction, withKey: "draw")
     }
     
