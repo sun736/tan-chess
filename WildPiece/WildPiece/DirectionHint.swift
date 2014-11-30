@@ -18,6 +18,7 @@ class DirectionHint : SKShapeNode{
         self.path = createHintForType(location, piece: piece)
         self.lineWidth = 1
         self.strokeColor = lineColor
+        self.alpha = 0.5
     }
 
     required init?(coder aDecoder: NSCoder) {
