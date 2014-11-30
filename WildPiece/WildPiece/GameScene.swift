@@ -423,6 +423,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     func pieceShouldTap(piece : Piece) -> Bool {
         return !Logic.sharedInstance.isProcessing
+//        return Logic.sharedInstance.isWaiting(piece.player) ||
+//            (Logic.sharedInstance.onlineMode &&
+//                Logic.sharedInstance.whoami == piece.player &&
+//                Logic.sharedInstance.isWaiting(piece.player.opponent()))
     }
     
     // MARK: Pull on Pieces
@@ -436,9 +440,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         
         piece.drawRing()
         piece.drawTouchIndicator()
-        if piece is PieceCanon {
-            piece.fadeTo()
-        }
         trajactoryTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("drawTrajactory:"), userInfo: piece, repeats: true)
     }
     
@@ -454,8 +455,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         pullForce = force
         //piece.drawTrajectory(force)
         if piece is PieceCanon {
-            var canon = piece as PieceCanon
-            canon.fadeTo()
+            let canon = piece as PieceCanon
             canon.setTransparentPieceWithInterval(self, force: force, launch: false);
         }
     }
@@ -473,7 +473,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         pullForce = nil
         trajactoryTimer?.invalidate()
         if piece is PieceCanon {
-            var canon = piece as PieceCanon
+            let canon = piece as PieceCanon
             canon.cancelTransparentPiece(self)
         }
     }
