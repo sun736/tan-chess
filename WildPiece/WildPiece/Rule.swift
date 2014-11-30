@@ -128,7 +128,7 @@ class Rule {
                     general.drawIndicator()
                     general.name = piece.name! + "_general"
                     if piece.shield != nil {
-                        general.drawShield()
+                        general.drawCircle(true)
                     }
                     piece.die(triggerAction: false)
                 }
@@ -143,7 +143,7 @@ class Rule {
                     var general = Rule.addPiece(scene, pieceType: .General, location: piece.position, player : piece.player)
                     general.drawIndicator()
                     if piece.shield != nil {
-                        general.drawShield()
+                        general.drawCircle(true)
                     }
                     piece.removeFromParent()
                 }

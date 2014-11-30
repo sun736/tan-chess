@@ -717,7 +717,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             var player = piece.player
             if self.board?.skillController.getCD(player) == 2
             {
-                piece.drawShield()
+                piece.drawCircle(true)
                 self.board?.resetSkillBar(player)
             }
         }else if name == "Force"
@@ -733,11 +733,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Aim"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) == 2
+            if self.board?.skillController.getCD(player) == 0
             {
                 //piece.shouldDrawTrajectory = true
-               
-                piece.drawExplode()
+                piece.drawCircle(false)
                 self.board?.resetSkillBar(player)
                 CollisionController.setExplosionPiece(piece)
             }            

@@ -20,19 +20,19 @@ class MenuScene: SKScene {
     
     override func didMoveToView(view: SKView) {
 
-        var bgImageTop = SKSpriteNode(imageNamed: "background")
-        bgImageTop.position = CGPointMake(self.size.width/2, (self.size.height/2))
-        self.addChild(bgImageTop)
+        self.backgroundColor = UIColor(red: 150.0/255.0, green: 212.0/255.0, blue: 251.0/255.0, alpha: 1.0)
+        
+        self.removeAllChildren()
         
         let startButton = SKSpriteNode(imageNamed: "start")
         startButton.name = "startButton"
         startButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*1.2);
-        self.addChild(startButton)
+        
         
         let onlineButton = SKSpriteNode(imageNamed: "online")
         onlineButton.name = "onlineButton"
         onlineButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.8);
-        self.addChild(onlineButton)
+        
 
        
         let moreButton = SKLabelNode(fontNamed:"Verdana")
@@ -40,7 +40,16 @@ class MenuScene: SKScene {
         moreButton.text = "more"
         moreButton.fontSize = 25
         moreButton.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame)*0.15)
-        self.addChild(moreButton)
+        
+        
+        let title = SKSpriteNode(imageNamed: "title")
+        title.position = CGPointMake(self.size.width/2, (self.size.height/2))
+        self.addChild(title)
+        title.runAction(SKAction.moveToY((CGRectGetMidY(self.frame)*1.6), duration: 0.6),completion: {
+            self.addChild(startButton)
+            self.addChild(onlineButton)
+            self.addChild(moreButton)
+        })
         
     }
     

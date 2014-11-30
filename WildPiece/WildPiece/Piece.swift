@@ -204,7 +204,7 @@ class Piece: SKSpriteNode, Touchable {
         if self.shield == nil {
             self.healthPoint = self.healthPoint - 10
         } else {
-            removeShield()
+            removeCircle()
         }
     }
 
@@ -212,7 +212,7 @@ class Piece: SKSpriteNode, Touchable {
         if self.shield == nil {
             self.healthPoint = self.healthPoint - self.healthPoint
         } else {
-            removeShield()
+            removeCircle()
         }
     }
     
@@ -335,13 +335,17 @@ class Piece: SKSpriteNode, Touchable {
         }
     }
     
-    func drawShield() {
-        self.removeShield()
+    func drawCircle(flag : Bool) {
+        self.removeCircle()
 //        self.shield = Shield(CGPointMake(0, 0), getRadius())
 //        if let shield = self.shield {
 //            self.addChild(shield)
 //        }
         self.shield = SKSpriteNode(imageNamed:"shield")
+        if !flag
+        {
+            self.shield?.texture = SKTexture(imageNamed: "bomb")
+        }
         self.shield?.size = CGSizeMake(CGFloat(50),CGFloat(50))
         self.addChild(self.shield!)
         
@@ -349,7 +353,7 @@ class Piece: SKSpriteNode, Touchable {
         self.shield?.runAction(SKAction.repeatActionForever(rotateAction))
     }
     
-    func removeShield() {
+    func removeCircle() {
         var fadeoutAction = SKAction.fadeAlphaTo(0.0, duration: 0.3)
         self.shield?.runAction(fadeoutAction,completion:{
             self.shield?.removeFromParent()
