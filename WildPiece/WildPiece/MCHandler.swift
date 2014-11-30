@@ -14,7 +14,7 @@ class MCHandler: NSObject, MCSessionDelegate {
     
     var peerID:MCPeerID!
     var session:MCSession!
-    var browser:MCBrowserViewController!
+    var browserController:MCBrowserViewController!
     var advertiser:MCAdvertiserAssistant? = nil
     var UDID: String! {
         get {
@@ -24,6 +24,8 @@ class MCHandler: NSObject, MCSessionDelegate {
             return NSUserDefaults.standardUserDefaults().stringForKey("UDID")
         }
     }
+    
+    let serviceType:String = "Flick-Chess"
     
     func setupPeerWithDisplayName(displayName: String) {
         peerID = MCPeerID(displayName: displayName)
@@ -35,13 +37,18 @@ class MCHandler: NSObject, MCSessionDelegate {
     }
     
     func setupBrowser() {
-        browser = MCBrowserViewController(serviceType: "my-game", session: session)
-        
+        browserController = MCBrowserViewController(serviceType: serviceType, session: session)
+    }
+    
+    func connectToPeer(connectPeerID: MCPeerID) {
+        if self.peerID.displayName > connectPeerID.displayName {
+            browserController.browser.invitePeer(connectPeerID, toSession: self.session, withContext: nil, timeout: 10)
+        }
     }
     
     func advertiseSelf(advertise:Bool){
         if advertise {
-            advertiser = MCAdvertiserAssistant(serviceType: "my-game", discoveryInfo: nil, session: session)
+            advertiser = MCAdvertiserAssistant(serviceType: serviceType, discoveryInfo: nil, session: session)
             advertiser?.start()
         } else {
             advertiser?.stop()
@@ -75,6 +82,9 @@ class MCHandler: NSObject, MCSessionDelegate {
         
     }
     
+    func session(session: MCSession!, didReceiveCertificate certificate: [AnyObject]!, fromPeer peerID: MCPeerID!, certificateHandler: ((Bool) -> Void)!) {
+        certificateHandler(true)
+    }
     
     func session(session: MCSession!, didFinishReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, atURL localURL: NSURL!, withError error: NSError!) {
         

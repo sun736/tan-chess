@@ -22,9 +22,10 @@ class PieceCanon : Piece{
     let c_redPic: String = "QueenPiece_RED"
     let c_pieceType : PieceType = PieceType.Canon
     
-    var lastSetTransTime: NSDate = NSDate()
     let setTransInterval: NSTimeInterval = 0.4
     var transTimer: NSTimer?
+    var gameScene: GameScene?
+    var force: CGVector?
     
     init(_ player : Player){
         
@@ -38,18 +39,32 @@ class PieceCanon : Piece{
     }
     
     func setTransparentPieceWithInterval(scene: GameScene, force: CGVector, launch: Bool) {
-        let userInfo:[AnyObject] = [scene, Float(force.dx), Float(force.dy), launch]
-        if !launch && transTimer != nil {
-            transTimer = NSTimer.scheduledTimerWithTimeInterval(setTransInterval, target: self, selector: Selector("setTransparentPieceWithTimer:"), userInfo: userInfo, repeats: false)
+        // println("setTransparentPieceWithInterval: \(launch)")
+        // if is fired
+        if launch {
+            transTimer?.invalidate()
+            transTimer = nil
+            setTransparentPiece(scene, force: force, launch: true)
             return
         }
-        transTimer = NSTimer.scheduledTimerWithTimeInterval(setTransInterval, target: self, selector: Selector("setTransparentPieceWithTimer:"), userInfo: userInfo, repeats: false)
+        
+        // if has set recently
+        if transTimer != nil {
+            self.gameScene = scene
+            self.force = force
+            return
+        }
+        
+        // if not set recently
+        self.gameScene = scene
+        self.force = force
+        transTimer = NSTimer.scheduledTimerWithTimeInterval(setTransInterval, target: self, selector: Selector("setTransparentPieceWithTimer:"), userInfo: nil, repeats: false)
 
         setTransparentPiece(scene, force: force, launch: launch)
     }
     
     private func setTransparentPiece(scene: GameScene, force: CGVector, launch: Bool) {
-        
+        // println("setTransparentPiece, \(NSDate()), \(force.dx), \(force.dy)")
         var piece_curr_position = self.position;
         var arrowEndPosition = CGPointMake(force.dx/200 + self.position.x, force.dy/200 + self.position.y)
         var piece_End_position = CGPointMake(force.dx/25 + self.position.x, force.dy/25 + self.position.y)
@@ -140,20 +155,19 @@ class PieceCanon : Piece{
     }
     
     func setTransparentPieceWithTimer(timer: NSTimer) {
-        if let userInfo = timer.userInfo as? [AnyObject] {
-            if userInfo.count == 4 {
-                let gameScene: GameScene = userInfo[0] as GameScene
-                let dx: Float = userInfo[1] as Float
-                let dy: Float = userInfo[2] as Float
-                let launch: Bool = userInfo[3] as Bool
-                setTransparentPiece(gameScene, force: CGVectorMake(CGFloat(dx), CGFloat(dy)), launch: launch)
+        transTimer = nil
+        if let gameScene = gameScene {
+            if let force = force {
+                // println("set transparent with timer")
+                setTransparentPiece(gameScene, force: force, launch: false)
             }
         }
     }
     
     func cancelTransparentPiece(scene: GameScene) {
         transTimer?.invalidate
-//        CollisionController.cancelTranparent(scene)
+        transTimer = nil
+        CollisionController.cancelTranparent(scene)
     }
     
 }
