@@ -395,9 +395,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
 
     // remove all pieces
     func removePieces() {
-        for piece in pieces {
-            piece.removeFromParent()
-        }
+        pieceLayer?.removeAllChildren()
         allPieces.removeAll()
     }
     
