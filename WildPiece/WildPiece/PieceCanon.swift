@@ -111,7 +111,6 @@ class PieceCanon : Piece{
                 distance_2 = hypotf(Float(piece2.position.x - self.position.x), Float(piece2.position.y - self.position.y))
             }
             if distance_1 != Float.infinity || distance_2 != Float.infinity {
-                //CollisionController.cancelTranparent(scene)
                 if distance_1 < distance_2 {
                     if piece1?.name == piece3?.name{
                         CollisionController.setTransparent(scene, piece: piece1!)
@@ -170,7 +169,7 @@ class PieceCanon : Piece{
     func cancelTransparentPiece(scene: GameScene) {
         transTimer?.invalidate
         transTimer = nil
-        CollisionController.cancelTranparent(scene)
+        //CollisionController.cancelTranparent(scene)
     }
     
 }

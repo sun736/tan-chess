@@ -130,7 +130,7 @@ class Piece: SKSpriteNode, Touchable {
         self.physicsBody?.categoryBitMask = collisionBitMask
         self.physicsBody?.contactTestBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
         self.physicsBody?.collisionBitMask =  Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_EXPLOSION() | Piece.BITMASK_BULLET() | Board.BITMASK_BOARD()
-        println("bit: \(CollisionController.toBinary(self.physicsBody?.collisionBitMask))")
+        //println("bit: \(CollisionController.toBinary(self.physicsBody?.collisionBitMask))")
         self.physicsBody?.usesPreciseCollisionDetection = true
     }
     

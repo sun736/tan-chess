@@ -475,9 +475,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             let canon = piece as PieceCanon
             //canon.cancelTransparentPiece(self)
             //canon.cancelTransparentPiece(self)
-            CollisionController.cancelTransparent(piece)
+            //CollisionController.cancelTransparent(piece)
             CollisionController.cancelAllTrans(self)
-            piece.cancelFade()
         }
     }
     
