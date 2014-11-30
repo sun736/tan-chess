@@ -118,25 +118,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             for node in nodes as [SKNode] {
                 if let pieceTouchRegion = node as? PieceTouchRegion {
                     if let piece = pieceTouchRegion.node {
-                        println("Calculating piece distance: \(piece.name)")
+                        // println("Calculating piece distance: \(piece.name)")
                         let distanceToNode = pieceTouchRegion.distance(location)
                         if distanceToNode < minDistanceToNode {
                             minDistanceToNode = distanceToNode
                             nearestPiece = piece
-                            println("nearestPiece: \(piece.name)")
+                            // println("nearestPiece: \(piece.name)")
                         }
                     }
                 }
             }
             if let piece = nearestPiece {
-                println("there is a nearestPiece: \(piece.name)")
+                // println("there is a nearestPiece: \(piece.name)")
                 if (self.pieceShouldTap(piece) || self.pieceShouldPull(piece)) {
                     let centerPt = piece.position
                     let distance = hypot(location.x - centerPt.x, location.y - centerPt.y)
-                    
-                    if Logic.sharedInstance.isWaiting(piece.player) {
-                        Rule.touchDown(self, piece: piece)
-                    }
                     // exact distance comparison
                     if (distance <= piece.touchRadius) {
                         
@@ -185,10 +181,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
                     let rawForce = piece.forceForPullDistance(distance)
                     let force = redirectForce(piece, force: rawForce)
                     
-                    // do nothing if end point lies within the node border
-                    if Logic.sharedInstance.isWaiting(piece.player) {
-                        Rule.touchUp(self, piece: piece)
-                    }
                     if (hypot(force.dx, force.dy) <= piece.minForce) {
                         self.pullCancelled(piece)
                         if self.pieceShouldTap(piece) {
@@ -234,9 +226,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     
     override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!) {
         if let piece = touchNode as? Piece {
-            if Logic.sharedInstance.isWaiting(piece.player) {
-                Rule.touchUp(self, piece: piece)
-            }
             self.pullCancelled(piece)
         }
         
@@ -438,6 +427,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func pullBegan(piece : Piece) {
         // temporary solution to determine contacter
         //CollisionController.setContacters(self, contacter: piece)
+        
+        if Logic.sharedInstance.isWaiting(piece.player) {
+            Rule.touchDown(self, piece: piece)
+        }
+        
         piece.drawRing()
         piece.drawTouchIndicator()
         if piece is PieceCanon {
@@ -465,6 +459,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     }
     
     func pullCancelled(piece : Piece) {
+        if Logic.sharedInstance.isWaiting(piece.player) {
+            Rule.touchUp(self, piece: piece)
+        }
         piece.removeRing()
         piece.removeArrow()
         piece.removeDirectionHint()
@@ -491,6 +488,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             //print("\(piece.physicsBody?.categoryBitMask)\n")
             //print("\(piece.physicsBody?.collisionBitMask)\n")
         }*/
+        
+        // do nothing if end point lies within the node border
+        if Logic.sharedInstance.isWaiting(piece.player) {
+            Rule.touchUp(self, piece: piece)
+        }
+        
         if piece is PieceCanon {
             var canon = piece as PieceCanon
             canon.setTransparentPieceWithInterval(self, force: force, launch: true);
