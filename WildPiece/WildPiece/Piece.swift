@@ -142,7 +142,6 @@ class Piece: SKSpriteNode, Touchable {
         self.physicsBody?.dynamic = false
 
         dispatch_after(dispatch_time_t(0.3), dispatch_get_main_queue()) { () -> Void in
-            //let nodeColor = (self.player.bitMask == Piece.BITMASK_BLUE() ? UIColor.blueColor() : UIColor.redColor())
             var forces: [CGVector] = []
             let forceVal1 = self.kExplosionForce
             let forceVal2 = self.kExplosionForce/sqrt(2.0)
@@ -155,10 +154,12 @@ class Piece: SKSpriteNode, Touchable {
             forces.append(CGVectorMake(0, -forceVal1))
             forces.append(CGVectorMake(forceVal2, -forceVal2))
             
+            self.physicsBody?.categoryBitMask = Piece.BITMASK_BULLET()
             for force in forces {
                 let node = SKShapeNode(circleOfRadius: self.radius)
                 var body = SKPhysicsBody(circleOfRadius: self.radius)
                 node.lineWidth = 0
+//                node.fillColor = self.color
                 node.position = self.position
                 node.physicsBody = body
                 node.physicsBody?.dynamic = true
@@ -169,17 +170,14 @@ class Piece: SKSpriteNode, Touchable {
                 node.physicsBody?.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED()
                 node.physicsBody?.contactTestBitMask = 0x00
                 self.parent?.addChild(node)
-//                node.physicsBody?.applyImpulse(force)
+                println(force.dy)
                 let waitAction = SKAction.waitForDuration(1.0)
                 let removeAction = SKAction.removeFromParent()
                 self.runAction(waitAction)
                 let fadeAction = SKAction.fadeOutWithDuration(1.0)
                 let sequence = SKAction.sequence([fadeAction, removeAction])
                 node.runAction(sequence)
-                self.scene.applyImpulseToWorldObject(node, force: forces[index])
-//                scene.applyImpulseToWorldObject(node, force : forces[index])
-
-                //println("\(index) bullet")
+                scene.applyImpulseToWorldObject(node, force : force)
             }
             self.die(triggerAction: true)
         }
