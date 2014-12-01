@@ -79,6 +79,16 @@ class Board : SKNode {
         self.physicsBody?.contactTestBitMask = 0x00
     }
     
+    func createPhysicBody(width : CGFloat) -> SKPhysicsBody
+    {
+        var body = SKPhysicsBody(rectangleOfSize: CGSizeMake(width, 5))
+        body.dynamic = false
+        body.categoryBitMask = Board.BITMASK_BOARD()
+        body.collisionBitMask = Piece.BITMASK_BLUE() | Piece.BITMASK_RED() | Piece.BITMASK_TRANS()
+        body.contactTestBitMask = 0x00
+        return body
+    }
+    
     class func createRect(width : CGFloat, length : CGFloat) -> SKShapeNode {
         let size : CGSize = CGSizeMake(width, length)
         var rect = SKShapeNode(rectOfSize: size)
@@ -116,10 +126,12 @@ class Board : SKNode {
         
         self.blueSkillBar.position = CGPointMake(-1, marginY-2.5)
         self.blueSkillBar.size = CGSizeMake(1, 5)
+        self.blueSkillBar.physicsBody = createPhysicBody(1)
         self.addChild(self.blueSkillBar)
         //self.increaseSkill(0)
         self.redSkillBar.position = CGPointMake(376, length - marginY+2.5);
         self.redSkillBar.size = CGSizeMake(1, 5);
+        self.redSkillBar.physicsBody = createPhysicBody(1)
         self.redSkillBar.zRotation = CGFloat(M_PI)
         self.addChild(self.redSkillBar)
         
@@ -224,7 +236,7 @@ class Board : SKNode {
             var newLength  = (Int)(self.length/3)
             newLength = (newLength+35) * (index+1)
             self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
-            
+            self.blueSkillBar.physicsBody = createPhysicBody(CGFloat(newLength))
         }
         else
         {
@@ -232,6 +244,7 @@ class Board : SKNode {
             var newLength  = (Int)(self.length/3)
             newLength = (newLength+35) * (index+1)
             self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
+            self.redSkillBar.physicsBody = createPhysicBody(CGFloat(newLength))
         }
         
     }
@@ -244,9 +257,11 @@ class Board : SKNode {
         if player.id == 1
         {
             self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
+            self.blueSkillBar.physicsBody = createPhysicBody(CGFloat(newLength))
         }else
         {
             self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(newLength), duration: 0.3))
+            self.redSkillBar.physicsBody = createPhysicBody(CGFloat(newLength))
         }
     }
     
