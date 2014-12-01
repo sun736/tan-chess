@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-let kKillsNeededToTriggerSkill = 0
+let kKillsNeededToTriggerSkill = 2
 
 protocol GameSceneDelegate: class {
     func sendDataToPeer(piece: CGPoint, force: CGVector)
