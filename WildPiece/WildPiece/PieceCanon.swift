@@ -64,7 +64,7 @@ class PieceCanon : Piece{
     }
     
     private func setTransparentPiece(scene: GameScene, force: CGVector, launch: Bool) {
-        // println("setTransparentPiece, \(NSDate()), \(force.dx), \(force.dy)")
+        // println("setTransparentPiece, \(NSDate()), \(force.dx), \(force.dy), \(launch)")
         var piece_curr_position = self.position;
         var arrowEndPosition = CGPointMake(force.dx/200 + self.position.x, force.dy/200 + self.position.y)
         var piece_End_position = CGPointMake(force.dx/25 + self.position.x, force.dy/25 + self.position.y)
@@ -92,63 +92,49 @@ class PieceCanon : Piece{
 //            piece.cancelFade()
 //        }
         
-        let piece1 = scene.firstPieceAlongRay(ray_1_start, end: ray_1_end)
-        let piece2 = scene.firstPieceAlongRay(ray_2_start, end: ray_2_end)
-        let piece3 = scene.firstPieceAlongRay(ray_3_start, end: ray_3_end)
         CollisionController.cancelAllFade(scene)
-        if piece1 != nil || piece2 != nil{
-            var distance_1 : Float = Float.infinity
-            var distance_2 : Float = Float.infinity
-            var distance_3 : Float = Float.infinity
-            if let piece1 = piece1 {
-                distance_1 = hypotf(Float(piece1.position.x - self.position.x), Float(piece1.position.y - self.position.y))
-            }
-            if let piece2 = piece2 {
-                distance_2 = hypotf(Float(piece2.position.x - self.position.x), Float(piece2.position.y - self.position.y))
-            }
-            if distance_1 != Float.infinity || distance_2 != Float.infinity {
-                //CollisionController.cancelTranparent(scene)
-                if distance_1 < distance_2 {
-                    if piece1?.name == piece3?.name{
-                        if launch {
-                            CollisionController.setTransparent(piece1!)
-                            CollisionController.setContacter(scene, contacter: self)
-                        } else {
-                            
-                            piece1?.fadeTo()
-                        }
-                    }
-                } else if distance_2 < distance_1 {
-                    if piece2?.name == piece3?.name {
-                        if launch {
-                            CollisionController.setTransparent(piece2!)
-                            CollisionController.setContacter(scene, contacter: self)
-                        } else {
-                            piece2?.fadeTo()
-                        }
-                    }
-                } else if distance_1 == distance_2 {
-                    if piece3?.name == piece1?.name {
-                        if launch {
-                            CollisionController.setTransparent(piece1!)
-                            CollisionController.setContacter(scene, contacter: self)
-                        } else {
-                            piece1?.fadeTo()
-                        }
-                    }
-                    if piece3?.name == piece2?.name {
-                        if launch {
-                            CollisionController.setTransparent(piece2!)
-                            CollisionController.setContacter(scene, contacter: self)
-                        } else {
-                            piece2?.fadeTo()
-                        }
-                    }
-                }
+        
+        let pieceLeft = scene.firstPieceAlongRay(ray_1_start, end: ray_1_end, except: self)
+        let pieceRight = scene.firstPieceAlongRay(ray_2_start, end: ray_2_end, except: self)
+        let pieceMid = scene.firstPieceAlongRay(ray_3_start, end: ray_3_end, except: self)
+        
+        let target = aimedPiece(pieceLeft, pieceRight: pieceRight, pieceMid: pieceMid)
+        if let target = target {
+            if launch {
+                CollisionController.setTransparent(target)
+                CollisionController.setContacter(scene, contacter: self)
+            } else {
+                target.fadeTo()
             }
         }
-        //println("ray_1_find: \(body1)")
-        //println("ray_2_find: \(body2)")
+    }
+    
+    func aimedPiece(pieceLeft: Piece?, pieceRight: Piece?, pieceMid: Piece?) -> Piece? {
+        // no two consecutive rays find a piece
+        if pieceMid == nil || (pieceLeft == nil && pieceRight == nil) {
+            return nil
+        }
+        // distance from canon to left and right piece
+        var dist_L = CGFloat(FLT_MAX)
+        var dist_R = CGFloat(FLT_MAX)
+        if let pieceLeft = pieceLeft {
+            dist_L = hypot(pieceLeft.position.x - self.position.x,
+                pieceLeft.position.y - self.position.y)
+        }
+        if let pieceRight = pieceRight {
+            dist_R = hypot(pieceRight.position.x - self.position.x,
+                pieceRight.position.y - self.position.y)
+        }
+        // target is the piece also returned by mid ray
+        // and must be closer than the other candidate
+        if (pieceLeft === pieceMid) && (dist_L <= dist_R) {
+            return pieceLeft
+        }
+        if (pieceRight === pieceMid) && (dist_R <= dist_L) {
+            return pieceRight
+        }
+        // println("no target:\(pieceLeft), \(pieceRight), \(pieceMid)")
+        return nil
     }
     
     func setTransparentPieceWithTimer(timer: NSTimer) {

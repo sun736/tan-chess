@@ -771,13 +771,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }
     }
     
-    func firstPieceAlongRay(start: CGPoint, end: CGPoint) -> Piece? {
-//        physicsWorld.bodyAlongRayStart(ray_1_start, end: ray_1_end)
+    func firstPieceAlongRay(start: CGPoint, end: CGPoint, except: Piece? = nil) -> Piece? {
         var target: Piece? = nil
         physicsWorld.enumerateBodiesAlongRayStart(start, end: end) { (body: SKPhysicsBody!, point: CGPoint, normal: CGVector, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
             if let piece = body.node as? Piece {
-                target = piece
-                stop.memory = true
+                if piece !== except {
+                    target = piece
+                    stop.memory = true
+                }
             }
         }
         return target
