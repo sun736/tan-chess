@@ -39,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     // all living or died pieces
     var shouldPlaySoundEffect : Bool?
     var allPieces: [Piece] = [Piece]()
+    var transPieces: [Piece] = [Piece]()
     
     var skillPanel: SkillPanel?
     
@@ -472,7 +473,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         trajactoryTimer?.invalidate()
         if piece is PieceCanon {
             let canon = piece as PieceCanon
-            canon.cancelTransparentPiece(self)
+            //canon.cancelTransparentPiece(self)
+            //canon.cancelTransparentPiece(self)
+            //CollisionController.cancelTransparent(piece)
+            CollisionController.cancelAllTrans(self)
         }
     }
     
@@ -613,6 +617,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
             if piece.physicsBody?.categoryBitMask == Piece.BITMASK_EXPLOSION() {
                 piece.explode(self)
             }
+            
         }
 
 //        for piece in moveableSet {
@@ -621,7 +626,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         
         // Canon made a original move, need to reset its mask manually
         
-        CollisionController.cancelTranparent(self)
+        //CollisionController.cancelTranparent(self)
+        CollisionController.cancelAllTrans(self)
         CollisionController.cancelContacter(self, player: player.opponent())
         /*
         for piece in self.piecesOfPlayer(player.opponent()) {
@@ -721,7 +727,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         if name == "Shield"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) <= kKillsNeededToTriggerSkill
+            if self.board?.skillController.getCD(player) == kKillsNeededToTriggerSkill
             {
                 piece.drawCircle(true)
                 self.board?.resetSkillBar(player)
@@ -729,7 +735,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Force"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) <= kKillsNeededToTriggerSkill
+            if self.board?.skillController.getCD(player) == kKillsNeededToTriggerSkill
             {
                 piece.isPowered = true
                 piece.drawPowerRing()
@@ -739,7 +745,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         }else if name == "Aim"
         {
             var player = piece.player
-            if self.board?.skillController.getCD(player) <= kKillsNeededToTriggerSkill
+            if self.board?.skillController.getCD(player) == kKillsNeededToTriggerSkill
             {
                 //piece.shouldDrawTrajectory = true
                 piece.drawCircle(false)

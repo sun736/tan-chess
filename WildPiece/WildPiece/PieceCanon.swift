@@ -88,10 +88,6 @@ class PieceCanon : Piece{
 //        println("ray_2_end\(ray_2_end)")
 //        println("================")
         
-//        for piece in scene.pieces {
-//            piece.cancelFade()
-//        }
-        
         CollisionController.cancelAllFade(scene)
         
         let pieceLeft = scene.firstPieceAlongRay(ray_1_start, end: ray_1_end, except: self)
@@ -100,11 +96,9 @@ class PieceCanon : Piece{
         
         let target = aimedPiece(pieceLeft, pieceRight: pieceRight, pieceMid: pieceMid)
         if let target = target {
+            CollisionController.setTransparent(scene, piece: target)
             if launch {
-                CollisionController.setTransparent(target)
                 CollisionController.setContacter(scene, contacter: self)
-            } else {
-                target.fadeTo()
             }
         }
     }
@@ -150,7 +144,7 @@ class PieceCanon : Piece{
     func cancelTransparentPiece(scene: GameScene) {
         transTimer?.invalidate
         transTimer = nil
-        CollisionController.cancelTranparent(scene)
+        //CollisionController.cancelTranparent(scene)
     }
     
 }
