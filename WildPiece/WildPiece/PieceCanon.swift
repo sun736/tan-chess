@@ -92,17 +92,14 @@ class PieceCanon : Piece{
 //            piece.cancelFade()
 //        }
         
-        var body1 = scene.physicsWorld.bodyAlongRayStart(ray_1_start, end: ray_1_end)
-        var body2 = scene.physicsWorld.bodyAlongRayStart(ray_2_start, end: ray_2_end)
-        var body3 = scene.physicsWorld.bodyAlongRayStart(ray_3_start, end: ray_3_end)
+        let piece1 = scene.firstPieceAlongRay(ray_1_start, end: ray_1_end)
+        let piece2 = scene.firstPieceAlongRay(ray_2_start, end: ray_2_end)
+        let piece3 = scene.firstPieceAlongRay(ray_3_start, end: ray_3_end)
         CollisionController.cancelAllFade(scene)
-        if body1 != nil || body2 != nil{
+        if piece1 != nil || piece2 != nil{
             var distance_1 : Float = Float.infinity
             var distance_2 : Float = Float.infinity
             var distance_3 : Float = Float.infinity
-            var piece1 : Piece? = body1?.node as? Piece
-            var piece2 : Piece? = body2?.node as? Piece
-            var piece3 : Piece? = body3?.node as? Piece
             if let piece1 = piece1 {
                 distance_1 = hypotf(Float(piece1.position.x - self.position.x), Float(piece1.position.y - self.position.y))
             }

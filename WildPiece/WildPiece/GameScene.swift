@@ -649,7 +649,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
     func gameDidBeginProcess(player : Player) {
             moveableSet = []
     }
-
+    
+    func gameIsBlocked(blockKeys: [String]) {
+        
+    }
 
     // MARK: Rotation
     
@@ -766,5 +769,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate,
         {
             self.runAction(self.soundEffect)
         }
+    }
+    
+    func firstPieceAlongRay(start: CGPoint, end: CGPoint) -> Piece? {
+//        physicsWorld.bodyAlongRayStart(ray_1_start, end: ray_1_end)
+        var target: Piece? = nil
+        physicsWorld.enumerateBodiesAlongRayStart(start, end: end) { (body: SKPhysicsBody!, point: CGPoint, normal: CGVector, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+            if let piece = body.node as? Piece {
+                target = piece
+                stop.memory = true
+            }
+        }
+        return target
     }
 }
