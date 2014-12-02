@@ -268,8 +268,10 @@ class Board : SKNode {
     func cleanSkillBar()
     {
         self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
+        self.blueSkillBar.physicsBody = createPhysicBody(CGFloat(1))
         self.skillController.clearBlueCD()
         self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
+        self.redSkillBar.physicsBody = createPhysicBody(CGFloat(1))
         self.skillController.clearRedCD()
     }
     
@@ -278,10 +280,12 @@ class Board : SKNode {
         if player.id == 1
         {
             self.blueSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
+            self.blueSkillBar.physicsBody = createPhysicBody(CGFloat(1))
             self.skillController.clearBlueCD()
         }else
         {
             self.redSkillBar.runAction(SKAction.resizeToWidth(CGFloat(1), duration: 0.3))
+            self.redSkillBar.physicsBody = createPhysicBody(CGFloat(1))
             self.skillController.clearRedCD()
         }
     }
